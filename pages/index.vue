@@ -10,8 +10,7 @@
   export default {
     components: {},
     created() {
-
-    }
+      this.$underscore.each([123,234],(key,value,list)=>console.log(key,value,list))}
   }
 </script>
 
