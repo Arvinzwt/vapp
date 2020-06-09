@@ -1,18 +1,18 @@
 <template>
-    <div class="container">
-
-    </div>
+  <div class="container">
+    <el-button>
+      <span class="iconfont icon-alipay"></span>
+    </el-button>
+  </div>
 </template>
 
 <script>
-    import Logo from '~/components/Logo.vue'
+  export default {
+    components: {},
+    created() {
 
-    export default {
-        auth: false,
-        components: {
-            Logo
-        }
     }
+  }
 </script>
 
 <style lang="scss">

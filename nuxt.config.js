@@ -1,73 +1,78 @@
 module.exports = {
-    mode: 'universal',
-    /*
-    ** Headers of the page
-    */
-    head: {
-        title: process.env.npm_package_name || '',
-        meta: [
-            {charset: 'utf-8'},
-            {name:'http-equiv',content:'X-UA-Compatible'},
-            {name:'content',content:'IE=Edge'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
-        ],
-        link: [
-            {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
-        ]
-    },
-    /*
-    ** Customize the progress-bar color
-    */
-    loading: {color: '#fff'},
-    /*
-    ** Global CSS
-    */
-    css: [
-        'element-ui/lib/theme-chalk/index.css',
-        '@/assets/css/main.scss',
+  mode: 'universal',
+  /*
+  ** Headers of the page
+  */
+  head: {
+    title: '精锐在线-CRM',
+    meta: [
+      {charset: 'utf-8'},
+      {name: 'http-equiv', content: 'X-UA-Compatible'},
+      {name: 'content', content: 'IE=Edge'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: process.env.npm_package_description || ''}
     ],
-    /*
-    ** Plugins to load before mounting the App
-    */
-    plugins: [
-        '@/plugins/element-ui',
-        '~/plugins/axios',
-        '~/plugins/utils.js',
-    ],
-    /*
-    ** Nuxt.js dev-modules
-    */
-    buildModules: [],
-    /*
-    ** Nuxt.js modules
-    */
-    modules: [
-        // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios',
-    ],
+    link: [
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+    ]
+  },
+  /*
+  ** Customize the progress-bar color
+  */
+  loading: {color: '#fff'},
+  /*
+  ** Global CSS
+  */
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    '@/assets/css/main.scss',
+  ],
+  /*
+  ** Plugins to load before mounting the App
+  */
+  plugins: [
+    '@/plugins/element-ui',
+    '~/plugins/axios',
+    '~/plugins/utils.js',
+  ],
+  /*
+  ** Nuxt.js dev-modules
+  */
+  buildModules: [],
+  /*
+  ** Nuxt.js modules
+  */
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+  ],
 
+  /*
+  ** Axios module configuration
+  ** See https://axios.nuxtjs.org/options
+  */
+  axios: {},
+  /*
+  ** Build configuration
+  */
+  build: {
+    transpile: [/^element-ui/],
     /*
-    ** Axios module configuration
-    ** See https://axios.nuxtjs.org/options
+    ** You can extend webpack config here
     */
-    axios: {
+    extend(config, ctx) {
+    }
+  },
 
-    },
-    /*
-    ** Build configuration
+
+  server: {
+    port: 3333, // default: 3000
+    host: 'localhost', // default: localhost,
+  },
+
+
+  /*
+   ** 中间件配置
     */
-    build: {
-        transpile: [/^element-ui/],
-        /*
-        ** You can extend webpack config here
-        */
-        extend(config, ctx) {
-        }
-    },
-
-    server: {
-        port: 3333, // default: 3000
-        host: 'localhost', // default: localhost,
-    },
+  router: {}
 }
