@@ -1,12 +1,9 @@
 <template>
-    <el-header class="crm-header" height="40px">
+    <el-header class="crm-header c-color_blue" height="40px">
         <div class="crm-header_left">
-            <div v-if="isShow" class="crm-header_item" @click="onBack">
-                <i class="icon el-icon-arrow-left"></i>
-                <span class="txt">返回</span>
-            </div>
+            {{currentDate}}
         </div>
-        <div class="crm-header_right color-blue">
+        <div class="crm-header_right ">
             <el-badge class="crm-header_item" :value="0">
                 <i class="icon el-icon-date"></i>
             </el-badge>
@@ -25,26 +22,17 @@
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         name: "Header",
         data() {
             return {
-                isShow: false
+                currentDate: '',
             }
         },
-
-        watch: {
-            $route(now, old) {     //监控路由变换，控制返回按钮的显示-首页不显示回退按钮
-                this.isShow = !(now.path === "/");
-            }
-        },
-        methods: {
-            /**
-             *@desc 回退至上一页
-             */
-            onBack() {
-                this.$router.back(-1)
-            }
+        created() {
+            this.currentDate = moment(new Date()).format('YYYY年MM月DD');
         }
     }
 </script>
@@ -55,7 +43,6 @@
         align-items: center;
         justify-content: space-between;
         background: #fff;
-        font-size: 14px;
 
         .crm-header_left, .crm-header_right {
             display: flex;
@@ -71,6 +58,7 @@
             display: flex;
             align-items: center;
             margin-right: 30px;
+            font-size: 12px;
         }
 
         .crm-header_user {

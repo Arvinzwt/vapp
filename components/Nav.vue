@@ -9,7 +9,7 @@
             default-active="/">
             <el-submenu v-for="(mItem,index) in menu" :key="index" :index="index+'-'">
                 <template slot="title">
-                    <i :class="mItem.icon"></i>
+                    <!--<i :class="mItem.icon"></i>-->
                     <span>{{mItem.name}}</span>
                 </template>
                 <el-menu-item v-for="(mList,ind) in mItem.item" :key="index+'-'+ind" :index="mList.path">
@@ -34,18 +34,18 @@
                                 name: "leads管理",
                                 path: "/"
                             },
-                            {
-                                name: "试听列表",
-                                path: "/leads/auditionList",
-                            },
-                            {
-                                name: "诺访记录",
-                                path: "/leads/novoRecord",
-                            },
-                            {
-                                name: "配额设置",
-                                path: "/leads/quotaSettings",
-                            }
+                            // {
+                            //     name: "试听列表",
+                            //     path: "/leads/auditionList",
+                            // },
+                            // {
+                            //     name: "诺访记录",
+                            //     path: "/leads/novoRecord",
+                            // },
+                            // {
+                            //     name: "配额设置",
+                            //     path: "/leads/quotaSettings",
+                            // }
                         ]
                     }
                 ]
@@ -55,7 +55,6 @@
 </script>
 
 <style lang="scss">
-
     .crm-nav {
         background: #488ff1;
         color: #ffff;
@@ -81,6 +80,10 @@
             .el-menu-item.is-active {
                 color: #fff;
                 background: #76aeff !important;
+            }
+
+            .el-menu-item {
+                font-size: 12px;
             }
         }
     }
