@@ -1,7 +1,7 @@
 {
-  "name": "vapp",
+  "name": "crm-web",
   "version": "1.0.0",
-  "description": "My awe-inspiring Nuxt.js project",
+  "description": "",
   "author": "",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
     "express": "^4.16.4",
+    "moment": "^2.26.0",
     "nuxt": "^2.0.0",
     "underscore": "^1.10.2"
   },

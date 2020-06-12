@@ -1,0 +1,58 @@
+$basicFontSize: 12px;
+$gray: #f5f5f5;
+$blue: #4994F2;
+
+
+body, html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #606266;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+}
+
+body {
+    font-size: $basicFontSize;
+    -webkit-font-smoothing: antialiased;
+    font-family: arial, sans-serif;
+}
+
+//公用设置
+.c-font_basic {
+    font-size: $basicFontSize;
+}
+
+.c-color_blue {
+    color: $blue;
+}
+
+
+//布局设置
+.crm {
+    //公用menu组件
+    .crm-nav {
+        border: 1px solid green;
+    }
+
+    //设定内容块最小宽度
+    .crm-container {
+        min-width: 800px;
+
+        //公用头部组件
+        .crm-header {
+            border: 1px solid red;
+        }
+
+        //默认layout调整
+        .crm-main {
+            padding-top: 0;
+        }
+
+        //空白layout调整
+        .crm-main-blankness {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+}

@@ -16,10 +16,12 @@ module.exports = {
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
+
   /*
   ** Customize the progress-bar color
   */
   loading: {color: '#fff'},
+
   /*
   ** Global CSS
   */
@@ -27,18 +29,21 @@ module.exports = {
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/css/main.scss',
   ],
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '@/plugins/element-ui',
     '~/plugins/axios',
-    '~/plugins/underscore.js',
+    '~/plugins/utils.js',
   ],
+
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [],
+
   /*
   ** Nuxt.js modules
   */
@@ -52,6 +57,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {},
+
   /*
   ** Build configuration
   */
@@ -64,15 +70,12 @@ module.exports = {
     }
   },
 
-
+  /*
+   ** Define server access host and port
+   */
   server: {
     port: 3000, // default: 3000
     host: 'localhost', // default: localhost,
   },
 
-
-  /*
-   ** 中间件配置
-    */
-  router: {}
-}
+};

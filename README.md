@@ -1,6 +1,6 @@
-# vapp
+# crm-web
 
-> My awe-inspiring Nuxt.js project
+> a crm project
 
 ## Build Setup
 
