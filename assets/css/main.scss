@@ -31,21 +31,22 @@ body {
 .crm {
     //公用menu组件
     .crm-nav {
-        border: 1px solid green;
+        //border: 1px solid green;
     }
 
     //设定内容块最小宽度
     .crm-container {
-        min-width: 800px;
+        min-width: 1100px;
 
         //公用头部组件
         .crm-header {
-            border: 1px solid red;
+            //border: 1px solid red;
         }
 
         //默认layout调整
         .crm-main {
             padding-top: 0;
+            //border: 1px solid blue;
         }
 
         //空白layout调整
@@ -55,4 +56,78 @@ body {
         }
     }
 
+    /*筛选框*/
+    .crm-filter-box {
+        background-color: #fafafa;
+        border-radius: 4px;
+        padding: 15px 15px 0;
+
+        /*标题*/
+        .crm-filter-title {
+            padding-bottom: 13px;
+            font-size: 14px;
+            font-weight: bolder;
+            color: #333;
+        }
+
+        /*表单*/
+        .crm-filter-form {
+            //修改字体大小
+            .el-form-item__label, .el-select-dropdown__item {
+                font-size: $basicFontSize;
+            }
+
+            //调整间距
+            .el-form-item {
+                margin-bottom: 15px;
+            }
+
+            .el-date-editor--daterange.el-input__inner {
+                width: 100%;
+            }
+
+            .el-select {
+                width: 100%;
+            }
+
+        }
+    }
+
+    /*table*/
+    .crm-table {
+        /*border: 1px solid red;*/
+        width: 100%;
+        border-left: 1px solid #EBEEF5;
+        border-top: 1px solid #EBEEF5;
+
+        .crm-table_cell {
+
+        }
+
+        .crm-table_header {
+            font-size: 12px;
+            color: #333;
+            font-weight: bolder;
+            background-color: #fafafa;
+        }
+    }
+
+    /*分页信息*/
+    .crm-pagination-wrapper {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+
+        .el-pagination button, .el-pagination span:not([class*=suffix]) {
+            /*font-size: 12px;*/
+        }
+    }
+
+
+}
+
+//下拉框字体修改
+.el-select-dropdown__item {
+    font-size: $basicFontSize;
 }
