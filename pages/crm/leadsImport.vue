@@ -10,7 +10,6 @@
                 size="mini"
                 label-width="70px"
                 :model="paramMap"
-                :rules="rules"
                 label-position="left">
 
                 <el-row :gutter="18">
