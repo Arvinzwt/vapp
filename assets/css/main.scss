@@ -73,21 +73,26 @@ body {
         /*表单*/
         .crm-filter-form {
             //修改字体大小
-            .el-form-item__label, .el-select-dropdown__item {
+            .el-form-item__label,
+            .el-form-item__content,
+            .el-select-dropdown__item,
+            .el-checkbox__label,
+            .el-checkbox__inner {
                 font-size: $basicFontSize;
+                font-weight: normal;
             }
+
+            .el-date-editor--daterange.el-input__inner,
+            .el-select,
+            .el-date-editor.el-input,
+            .el-cascader {
+                width: 100%;
+            }
+
 
             //调整间距
             .el-form-item {
                 margin-bottom: 15px;
-            }
-
-            .el-date-editor--daterange.el-input__inner {
-                width: 100%;
-            }
-
-            .el-select {
-                width: 100%;
             }
 
         }

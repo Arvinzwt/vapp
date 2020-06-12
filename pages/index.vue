@@ -264,11 +264,8 @@
                     leadsStatus: [],//leads状态
                     chargePersonId: [],//负责人id
                     channelIds: [],//渠道id
-                    recentTime: '',//最近跟进
                     recentTimeDate: [],//最近跟进
-                    nextTime: '',//下次联系
                     nextTimeDate: [],//下次联系
-                    createTime: '',//创建时间
                     createTimeDate: [],//创建时间
                     gradeId: '',//年级
                     name: '',//姓名
