@@ -42,10 +42,10 @@
                                 name: "诺访记录",
                                 path: "/crm/novoRecord",
                             },
-                            // {
-                            //     name: "配额设置",
-                            //     path: "/crm/quotaSettings",
-                            // }
+                            {
+                                name: "配额设置",
+                                path: "/crm/quotaSettings",
+                            }
                         ]
                     }
                 ]

@@ -268,7 +268,6 @@
                     </el-timeline>
                 </el-tab-pane>
             </el-tabs>
-
         </div>
     </el-main>
 </template>
@@ -381,38 +380,6 @@
                 height: 20px;
                 background: transparent;
                 margin-left: 20px;
-            }
-        }
-
-        .crm-tabs {
-            .el-tabs--card > .el-tabs__header {
-                border: none;
-            }
-
-            .el-tabs--card > .el-tabs__header .el-tabs__nav {
-                border: 1px solid transparent;
-            }
-
-            .el-tabs--card > .el-tabs__header .el-tabs__item {
-                border: 1px solid transparent;
-                font-size: 11px;
-            }
-
-            .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
-                background-color: #fafafa;
-            }
-
-            .el-tabs__header {
-                margin-bottom: 0;
-            }
-
-            .el-tabs__content {
-                background-color: #fafafa;
-                padding-top: 15px;
-            }
-
-            .el-timeline {
-                font-size: 11px;
             }
         }
     }
