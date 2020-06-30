@@ -1,5 +1,5 @@
 export default ({store, $axios, app}, inject) => {
-    //初始进入拿localStorage，放入vuex
+    //加载时填充userInfo
     if (process.client) {
         let userInfo = localStorage.getItem("userInfo");
         if(userInfo){

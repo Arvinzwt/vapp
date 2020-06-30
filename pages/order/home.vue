@@ -1,21 +1,12 @@
 <template>
-    <el-main>
-        
+    <el-main >
+        order
     </el-main>
 </template>
 
 <script>
     export default {
         name: "home",
-        data() {
-            return {}
-        },
-        created() {
-        },
-        mounted() {
-        },
-        destroyed() {
-        },
         methods: {}
     }
 </script>

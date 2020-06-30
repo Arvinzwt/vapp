@@ -1,22 +1,13 @@
 <template>
     <el-main>
-        
+        goods
     </el-main>
 </template>
 
 <script>
     export default {
         name: "home",
-        data() {
-            return {}
-        },
-        created() {
-        },
-        mounted() {
-        },
-        destroyed() {
-        },
-        methods: {}
+        methods: {},
     }
 </script>
 

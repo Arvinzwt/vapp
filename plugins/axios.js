@@ -1,4 +1,8 @@
-// Doc: http://www.axios-js.com/zh-cn/docs/nuxtjs-axios.html
+/**
+ * @description: axios
+ * @docs: http://www.axios-js.com/zh-cn/docs/nuxtjs-axios.html
+ */
+import config from '@/config/api';
 
 export default ({store, $axios, app}, inject) => {
     const api = {
@@ -50,7 +54,6 @@ export default ({store, $axios, app}, inject) => {
          *@return [promise] url
          */
         async getUrl(url1, url2) {
-            let config = store.state.api;
             return config[url1][url2];
         },
 
@@ -72,7 +75,7 @@ export default ({store, $axios, app}, inject) => {
             }).then(response => {
                 return response.data;
             }).catch(error => {
-                return error; //执行reject()
+                return Promise.reject(error); //执行reject()
             })
         }
     };
@@ -84,4 +87,6 @@ export default ({store, $axios, app}, inject) => {
     inject('get', async (url1, rul2, data) => {
         return api.request('GET', url1, rul2, data);
     });
+
+
 };

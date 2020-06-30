@@ -1,13 +1,7 @@
-/**
- * @pluginsName: $dic
- * @description: 字典处理
- * @updateRemark:
- * @version: v1.0
- */
 
 export default ({store, $axios, app}, inject) => {
     // 初始化拉取字典数据
-    store.dispatch('dictionary/setDictionary');
+    // store.dispatch('dictionary/setDictionary');
 
     inject('dic', {
         /**

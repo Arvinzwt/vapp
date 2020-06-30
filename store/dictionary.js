@@ -10,6 +10,8 @@ export const actions = {
         return this.$post('common', 'dic', {}).then(res => {
             commit('saveDictionary', res.data);
             return res.data;
+        }).catch(error=>{
+            console.log(error)
         });
     }
 };
