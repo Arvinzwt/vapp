@@ -1,6 +1,6 @@
-# crm-web
+# manageV2
 
-> a crm project
+> My prime Nuxt.js project
 
 ## Build Setup
 

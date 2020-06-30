@@ -1,0 +1,20 @@
+[
+  {
+    "name": "goods-home",
+    "path": "/goods/home",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/goods/home.vue",
+    "chunkName": "pages/goods/home"
+  },
+  {
+    "name": "order-home",
+    "path": "/order/home",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/order/home.vue",
+    "chunkName": "pages/order/home"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/index.vue",
+    "chunkName": "pages/index"
+  }
+]

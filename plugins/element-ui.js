@@ -1,5 +1,4 @@
-// Doc: https://element.eleme.cn/#/zh-CN/component/installation
-
+// Docs：https://element.eleme.cn/#/zh-CN
 import Vue from 'vue'
 import Element from 'element-ui'
 

@@ -3,13 +3,8 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _eb427a48 = () => interopDefault(import('../pages/login.vue' /* webpackChunkName: "pages/login" */))
-const _b3750d0e = () => interopDefault(import('../pages/crm/auditionList.vue' /* webpackChunkName: "pages/crm/auditionList" */))
-const _5aec9610 = () => interopDefault(import('../pages/crm/leadsAdd.vue' /* webpackChunkName: "pages/crm/leadsAdd" */))
-const _a34d61ac = () => interopDefault(import('../pages/crm/leadsFollow.vue' /* webpackChunkName: "pages/crm/leadsFollow" */))
-const _b44f25c4 = () => interopDefault(import('../pages/crm/leadsImport.vue' /* webpackChunkName: "pages/crm/leadsImport" */))
-const _2047bb99 = () => interopDefault(import('../pages/crm/novoRecord.vue' /* webpackChunkName: "pages/crm/novoRecord" */))
-const _59779abd = () => interopDefault(import('../pages/crm/quotaSettings.vue' /* webpackChunkName: "pages/crm/quotaSettings" */))
+const _30ffee15 = () => interopDefault(import('../pages/goods/home.vue' /* webpackChunkName: "pages/goods/home" */))
+const _5770751d = () => interopDefault(import('../pages/order/home.vue' /* webpackChunkName: "pages/order/home" */))
 const _7e91c076 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -29,33 +24,13 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
-    path: "/login",
-    component: _eb427a48,
-    name: "login"
+    path: "/goods/home",
+    component: _30ffee15,
+    name: "goods-home"
   }, {
-    path: "/crm/auditionList",
-    component: _b3750d0e,
-    name: "crm-auditionList"
-  }, {
-    path: "/crm/leadsAdd",
-    component: _5aec9610,
-    name: "crm-leadsAdd"
-  }, {
-    path: "/crm/leadsFollow",
-    component: _a34d61ac,
-    name: "crm-leadsFollow"
-  }, {
-    path: "/crm/leadsImport",
-    component: _b44f25c4,
-    name: "crm-leadsImport"
-  }, {
-    path: "/crm/novoRecord",
-    component: _2047bb99,
-    name: "crm-novoRecord"
-  }, {
-    path: "/crm/quotaSettings",
-    component: _59779abd,
-    name: "crm-quotaSettings"
+    path: "/order/home",
+    component: _5770751d,
+    name: "order-home"
   }, {
     path: "/",
     component: _7e91c076,
