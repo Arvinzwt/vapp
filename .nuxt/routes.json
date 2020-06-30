@@ -3,18 +3,21 @@
     "name": "goods-home",
     "path": "/goods/home",
     "component": "/usr/local/var/www/JavaScript/vapp/pages/goods/home.vue",
-    "chunkName": "pages/goods/home"
+    "chunkName": "pages/goods/home",
+    "_name": "_30ffee15"
   },
   {
     "name": "order-home",
     "path": "/order/home",
     "component": "/usr/local/var/www/JavaScript/vapp/pages/order/home.vue",
-    "chunkName": "pages/order/home"
+    "chunkName": "pages/order/home",
+    "_name": "_5770751d"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/usr/local/var/www/JavaScript/vapp/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_7e91c076"
   }
 ]

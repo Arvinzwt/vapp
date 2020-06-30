@@ -35,7 +35,8 @@ module.exports = {
     ** Global CSS
     */
     css: [
-        'element-ui/lib/theme-chalk/index.css'
+        'element-ui/lib/theme-chalk/index.css',
+        '@/source/css/common.scss'
     ],
 
     /*
@@ -43,8 +44,10 @@ module.exports = {
     */
     plugins: [
         '@/plugins/element-ui',
+        '@/plugins/axios',
         '@/plugins/utils',
         '@/plugins/dictionary',
+        '@/plugins/auth',
     ],
 
     /*
@@ -76,5 +79,9 @@ module.exports = {
         */
         extend(config, ctx) {
         }
+    },
+
+    dir:{
+        assets: 'source',
     }
 };

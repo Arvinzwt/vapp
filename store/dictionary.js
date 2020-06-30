@@ -1,5 +1,5 @@
 export const state = () => ({
-    brand:{}
+    brand: {}
 });
 
 export const actions = {
@@ -7,8 +7,9 @@ export const actions = {
      *@desc 请求字典数据
      */
     setDictionary({commit}) {
-        return this.$axios.$post('http://localhost:3332/api', {}).then(res => {
-            return commit('saveDictionary', res.data);
+        return this.$post('common', 'dic', {}).then(res => {
+            commit('saveDictionary', res.data);
+            return res.data;
         });
     }
 };
@@ -20,7 +21,7 @@ export const mutations = {
      *@param dictionary [Object] 字典
      */
     saveDictionary(state, dictionary) {
-        Object.assign(state,dictionary)
+        Object.assign(state, dictionary)
     },
 };
 

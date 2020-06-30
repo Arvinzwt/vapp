@@ -6,16 +6,6 @@
 
 <script>
     export default {
-        name: "blank",
-        data() {
-            return {}
-        },
-        created() {
-        },
-        mounted() {
-        },
-        destroyed() {
-        },
         methods: {}
     }
 </script>

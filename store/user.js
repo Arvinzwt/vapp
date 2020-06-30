@@ -1,16 +1,14 @@
 export const state = () => ({
-    userMsg1: '',
-    userMsg2: '',
+    name: '',
+    id: '',
 });
 
 export const mutations = {
-
+    saveUserInfo(state, userInfo) {
+        Object.assign(state,userInfo)
+    },
 };
 
-export const actions = {
+export const actions = {};
 
-};
-
-export const getters = {
-
-};
+export const getters = {};
