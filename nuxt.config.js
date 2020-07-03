@@ -29,14 +29,18 @@ module.exports = {
     /*
     ** Customize the progress-bar color
     */
-    loading: {color: '#fff'},
+    loading: {
+        color: '#4994F2',
+        // failedColor:'',
+        // height:'5px',
+    },
 
     /*
     ** Global CSS
     */
     css: [
         'element-ui/lib/theme-chalk/index.css',
-        '@/source/css/common.scss'
+        '@/assets/css/common.scss'
     ],
 
     /*
@@ -44,10 +48,9 @@ module.exports = {
     */
     plugins: [
         '@/plugins/element-ui',
-        '@/plugins/axios',
         '@/plugins/utils',
-        '@/plugins/dictionary',
-        '@/plugins/auth',
+        '@/plugins/axios',
+        '@/plugins/initialize',
     ],
 
     /*
@@ -67,7 +70,9 @@ module.exports = {
     ** Axios module configuration
     ** See https://axios.nuxtjs.org/options
     */
-    axios: {},
+    axios: {
+        // progress: true,
+    },
 
     /*
     ** Build configuration
@@ -78,10 +83,18 @@ module.exports = {
         ** You can extend webpack config here
         */
         extend(config, ctx) {
-        }
+        },
+
+        extractCSS: {
+            allChunks: true
+        },
     },
 
-    dir:{
-        assets: 'source',
-    }
+    /*
+     ** Define server access host and port
+     */
+    server: {
+        port: 3000, // default: 3000
+        host: 'localhost', // default: localhost,
+    },
 };

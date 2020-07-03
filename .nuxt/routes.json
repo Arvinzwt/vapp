@@ -1,23 +1,72 @@
 [
   {
-    "name": "goods-home",
-    "path": "/goods/home",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/goods/home.vue",
-    "chunkName": "pages/goods/home",
-    "_name": "_30ffee15"
+    "name": "demo",
+    "path": "/demo",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/demo.vue",
+    "chunkName": "pages/demo",
+    "_name": "_56bd5342"
   },
   {
-    "name": "order-home",
-    "path": "/order/home",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/order/home.vue",
-    "chunkName": "pages/order/home",
-    "_name": "_5770751d"
+    "name": "goods-home",
+    "path": "/goods/home",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/goods/home.vue",
+    "chunkName": "pages/goods/home",
+    "_name": "_7e48f4d2"
+  },
+  {
+    "name": "order-invoiceDetail",
+    "path": "/order/invoiceDetail",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/invoiceDetail.vue",
+    "chunkName": "pages/order/invoiceDetail",
+    "_name": "_1351d5ce"
+  },
+  {
+    "name": "order-invoiceManage",
+    "path": "/order/invoiceManage",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/invoiceManage.vue",
+    "chunkName": "pages/order/invoiceManage",
+    "_name": "_347c9e3c"
+  },
+  {
+    "name": "order-orderCreate",
+    "path": "/order/orderCreate",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/orderCreate.vue",
+    "chunkName": "pages/order/orderCreate",
+    "_name": "_524c95da"
+  },
+  {
+    "name": "order-orderDetail",
+    "path": "/order/orderDetail",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/orderDetail.vue",
+    "chunkName": "pages/order/orderDetail",
+    "_name": "_7a294aa2"
+  },
+  {
+    "name": "order-orderManage",
+    "path": "/order/orderManage",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/orderManage.vue",
+    "chunkName": "pages/order/orderManage",
+    "_name": "_d549947a"
+  },
+  {
+    "name": "order-payManage",
+    "path": "/order/payManage",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/payManage.vue",
+    "chunkName": "pages/order/payManage",
+    "_name": "_c0dea6c6"
+  },
+  {
+    "name": "order-refundManage",
+    "path": "/order/refundManage",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/order/refundManage.vue",
+    "chunkName": "pages/order/refundManage",
+    "_name": "_eb1cc086"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/index.vue",
+    "component": "/usr/local/var/www/Workspace/manageV2/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_7e91c076"
+    "_name": "_23f75f03"
   }
 ]

@@ -1,0 +1,231 @@
+$basicFontSize: 12px;
+$gray: #f5f5f5;
+$blue: #4994F2;
+
+body, html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #606266;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+}
+
+body {
+    font-size: $basicFontSize;
+    -webkit-font-smoothing: antialiased;
+    font-family: arial, sans-serif;
+}
+
+//公用设置
+.font-basic {
+    font-size: $basicFontSize;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+.color-blue {
+    color: $blue;
+}
+
+.bg-gray {
+    background-color: $gray;
+}
+
+.t-right {
+    text-align: right;
+}
+
+//翻页动画
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.5s;
+}
+
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}
+
+//布局设置
+.jr {
+    //公用menu组件
+    .jr-nav {
+        //border: 1px solid green;
+    }
+
+    //设定内容块最小宽度
+    .jr-container {
+        min-width: 1100px;
+
+        //公用头部组件
+        .jr-header {
+            //border: 1px solid red;
+        }
+
+        //默认layout调整
+        .jr-main {
+            padding-top: 0;
+            //border: 1px solid blue;
+        }
+
+        //空白layout调整
+        .jr-main-blankness {
+            margin: 0;
+            padding: 0;
+        }
+
+        //滚动模块调整
+        .jr-scroll{
+            overflow: auto;
+            padding: 0;
+            height: calc(100vh - 90px);
+        }
+    }
+
+    /*筛选框*/
+    .jr-filter-box {
+        background-color: #fafafa;
+        border-radius: 4px;
+        padding: 15px 15px 0;
+
+        /*标题*/
+        .jr-filter-title {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 13px;
+            font-size: 14px;
+            font-weight: bolder;
+            color: #333;
+
+            .jr-filter-title_btn {
+                font-weight: normal;
+                font-size: 12px;
+                display: flex;
+
+                .jr-filter-title_item {
+                    font-size: 16px;
+                    margin-left: 15px;
+                    cursor: pointer;
+
+                    .icon {
+                        font-size: 12px;
+                    }
+
+                    .txt {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+
+        /*表单*/
+        .jr-filter-form {
+            //修改字体大小
+            .el-form-item__label,
+            .el-form-item__content,
+            .el-select-dropdown__item,
+            .el-checkbox__label,
+            .el-radio__label,
+            .el-checkbox__inner,
+            .el-input__inner,
+            .el-cascader-node__label {
+                font-size: $basicFontSize;
+                font-weight: normal;
+            }
+
+            .el-date-editor--daterange.el-input__inner,
+            .el-select,
+            .el-date-editor.el-input,
+            .el-cascader {
+                width: 100%;
+            }
+
+            .el-input__inner {
+                //height: 28px !important;
+            }
+
+            .el-cascader__search-input::placeholder {
+                font-size: $basicFontSize;
+            }
+
+
+            //调整间距
+            .el-form-item {
+                margin-bottom: 15px;
+            }
+
+        }
+    }
+
+    /*table*/
+    .jr-table {
+        /*border: 1px solid red;*/
+        width: 100%;
+        border-left: 1px solid #EBEEF5;
+        border-top: 1px solid #EBEEF5;
+        border-right: 1px solid #EBEEF5;
+        margin-top: 20px;
+
+        .jr-table_cell {
+
+        }
+
+        .jr-table_header {
+            font-size: $basicFontSize;
+            color: #333;
+            font-weight: bolder;
+            background-color: #fafafa;
+        }
+    }
+
+    /*分页信息*/
+    .jr-pagination-wrapper {
+        padding: 20px 10px;
+        display: flex;
+        justify-content: flex-end;
+
+        .el-pagination button, .el-pagination span:not([class*=suffix]) {
+            /*font-size: 12px;*/
+        }
+    }
+
+    //tabs
+    .jr-tabs {
+        .el-tabs--card > .el-tabs__header {
+            border: none;
+        }
+
+        .el-tabs--card > .el-tabs__header .el-tabs__nav {
+            border: 1px solid transparent;
+        }
+
+        .el-tabs--card > .el-tabs__header .el-tabs__item {
+            border: 1px solid transparent;
+            font-size: 11px;
+        }
+
+        .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+            background-color: #fafafa;
+        }
+
+        .el-tabs__header {
+            margin-bottom: 0;
+        }
+
+        .el-tabs__content {
+            background-color: #fafafa;
+            padding-top: 15px;
+        }
+
+        .el-timeline {
+            font-size: 11px;
+        }
+    }
+}
+
+//下拉框字体修改
+.el-select-dropdown__item, .el-cascader-node__label {
+    font-size: $basicFontSize;
+}

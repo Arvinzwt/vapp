@@ -1,15 +1,7 @@
 <template>
-    <el-main>
-        
-    </el-main>
+    <el-container class="jr">
+        <el-container class="jr-container">
+            <nuxt class="jr-main-blankness"/>
+        </el-container>
+    </el-container>
 </template>
-
-<script>
-    export default {
-        methods: {}
-    }
-</script>
-
-<style scoped>
-
-</style>
