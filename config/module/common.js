@@ -8,12 +8,12 @@ class Api extends base {
 
     //菜单
     getMenu(data) {
-        return this.get('/mgr-api/v1/admin/menus', data);
+        return this.post('/mgr-api/v1/admin/menus', data);
     }
 
     //字典
-    getDictionary(data) {
-        return this.get('/mgr-api/v1/basic/dics');
+    getDicInfo() {
+        return this.post('/mgr-api/v1/basic/dics');
     }
 }
 

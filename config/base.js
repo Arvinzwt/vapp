@@ -3,18 +3,7 @@ import {Message} from "element-ui";
 
 export default class base {
     constructor() {
-        this.init();
-    }
-
-    /**
-     *@desc 初始化axios配置
-     */
-    async init() {
-        let baseURL = await this._getBaseURL();
-        let token = await this._getToken();
-
-        axios.defaults.baseURL = baseURL;//配置baseURL
-        axios.defaults.headers.common['Authorization'] = token;//添加token
+        this.setBaseURL();
     }
 
     /**
@@ -22,7 +11,7 @@ export default class base {
      *@desc 判定baseUrl
      *@return promise [promise] baseUrl
      */
-    async _getBaseURL() {
+    async setBaseURL() {
         let baseURL = '//mgr-api-dev.jronline.com/';
 
         if (process.client) {
@@ -39,7 +28,8 @@ export default class base {
                 baseURL = "//mgr-api-test.jronline.com/";
             }
         }
-        return baseURL;
+
+        axios.defaults.baseURL = baseURL;//配置baseURL
     }
 
     /**
@@ -47,16 +37,14 @@ export default class base {
      *@desc 拉取token
      *@return promise [promise] token
      */
-    async _getToken() {
-        let token = '';
+    async setToken() {
         if (!axios.defaults.headers.common['Authorization'] && process.client) {
             let userInfo = localStorage.getItem("userInfo");
 
             if (userInfo) {
-                token = (JSON.parse(userInfo)).token;
+                axios.defaults.headers.common['Authorization'] = (JSON.parse(userInfo)).token;
             }
         }
-        return token;
     }
 
     /**
@@ -74,6 +62,8 @@ export default class base {
      *@return promise [promise]
      */
     async request(method, url, data = {}, {isLoading = true, isAllParams = false, isPrompt = true, isToken = true} = {}) {
+        await this.setToken();
+
         return axios({
             method,
             url,
@@ -82,7 +72,9 @@ export default class base {
             let code = response.data.code;//获取状态码
 
             if (code === 401) {
-
+                global.$nuxt.$router.push({
+                    path: '/'
+                })
             }
 
             if (code !== 200) {
@@ -95,6 +87,13 @@ export default class base {
 
             return response.data.data;
         }).catch(error => {
+            let errorMsg = error.message;
+
+            if (error.data) {
+                errorMsg = error.data.msg
+            }
+
+            Message.error(errorMsg);
             return Promise.reject(error); //执行reject()
         })
     }

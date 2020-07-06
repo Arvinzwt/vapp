@@ -19,8 +19,6 @@ export default ({store, $axios, redirect}) => {
             if (userInfo) { //如果有，则添加token和vux数据同步
                 let user = JSON.parse(userInfo);
                 store.commit('userInfo/saveUserInfo', user);//提交
-            } else {
-                redirect('/')
             }
         }
 
@@ -28,14 +26,22 @@ export default ({store, $axios, redirect}) => {
          * @description: 拉取本地存储字典信息
          */
         setDicInfo() {
-
+            let dicInfo = localStorage.getItem('dicInfo'); // 拉取本地存储
+            if (dicInfo) { //如果有，则添加token和vux数据同步
+                let dic = JSON.parse(dicInfo);
+                store.commit('dicInfo/saveDicInfo', dic);//提交
+            }
         }
 
         /**
          * @description: 拉取本地存储的菜单信息
          */
         setMenuInfo() {
-
+            let MenuInfo = localStorage.getItem('menuInfo'); // 拉取本地存储
+            if (MenuInfo) { //如果有，则添加token和vux数据同步
+                let menu = JSON.parse(MenuInfo);
+                store.commit('menuInfo/saveMenuInfo', menu);//提交
+            }
         }
     }
 

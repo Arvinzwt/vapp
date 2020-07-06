@@ -108,24 +108,25 @@
                             hrcode: this.loginForm.account,
                             password: this.loginForm.password,
                         }).then(userInfo => {
-                            this.setAccount();//本地存储用户账户名
                             return this.$store.dispatch('userInfo/setUserInfo', userInfo);//存储用户信息
                         }).then(userInfo => {
-                            return api.getDictionary()//拉取字典
+                            return api.getDicInfo()//拉取字典
                         }).then(dicList => {
-                            return this.$store.dispatch('dictionary/setDictionary', dicList);//存储字典信息
+                            return this.$store.dispatch('dicInfo/setDicInfo', dicList);//存储字典信息
                         }).then(dicList => {
                             return api.getMenu();//拉取菜单信息
                         }).then(menuInfo => {
                             return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
                         }).then(menuInfo => {
-                            // this.$router.push({
-                            //     path: '/testBank/titleUpload'
-                            // })
-                        }).catch(err => {
-                            console.log(err);
-                        })
+                            this.setAccount();//本地存储用户账户名
 
+                            this.$router.push({
+                                path: '/demo'
+                            })
+                        }).catch(err => {
+                            console.log(err,'err');
+
+                        })
 
                     } else {
                         return false

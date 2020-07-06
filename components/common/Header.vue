@@ -28,9 +28,6 @@
                 currentDate: '',
             }
         },
-        computed: {
-
-        },
         created() {
             this.currentDate = moment(new Date()).format('YYYY年MM月DD日 周E');
         },
@@ -40,7 +37,11 @@
              */
             onUserListClick(command) {
                 if (command === 'h') {
-
+                    this.$store.dispatch('loginOut').then(res => {
+                        this.$router.push({
+                            path: '/'
+                        })
+                    });
                 }
             }
         }
