@@ -3,7 +3,7 @@
         <div class="wrapper">
             <div class="title">
                 <img alt="title_logo" src="/images/login_logo.png" height="30" width="138"/>
-                <span class="title_p">MANAGE cloud platform</span>
+                <span class="title_p">TESTBANK cloud platform</span>
             </div>
 
             <!--登录-->
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import api from '@/config/module/common';
+    import api from '@/config/module/common'
 
     export default {
         layout: 'blank',
@@ -79,7 +79,7 @@
              *@desc 拉取本地存储的用户信息
              */
             getAccount() {
-                let account = localStorage.getItem('usm');
+                let account = localStorage.getItem('testAccount');
                 if (account) {//如果已经存储
                     this.loginForm.account = account;//填充账户
                     this.loginForm.isRemember = true;//填充rememberMe
@@ -89,45 +89,52 @@
             /**
              *@desc 本地存储的用户信息
              */
-            setAccount() {
+            async setAccount() {
                 if (this.loginForm.isRemember) {//如果记住账号
                     localStorage.setItem('testAccount', this.loginForm.account);//存储账户名称
                 } else {
                     localStorage.removeItem('testAccount')//移除存储信息
                 }
+                return true;
             },
 
             /**
              *@desc 立即登录
              */
+            // submitLoginForm() {
+            //     this.$refs['ruleForm'].validate((valid) => {
+            //         if (valid) {//如果验证通过
+            //             api.login({
+            //                 userLoginName: this.loginForm.account,
+            //                 userPasswd: this.loginForm.password,
+            //                 token: '',
+            //                 type: 0,
+            //             }).then(userInfo => {
+            //                 return this.$store.dispatch('userInfo/setUserInfo', userInfo)
+            //             }).then(userInfo => {
+            //                 return api.getMenu();//拉取菜单信息
+            //             }).then(menuInfo => {
+            //                 return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
+            //             }).then(menuInfo => {
+            //                 return this.setAccount();
+            //             }).then(() => {
+            //                 this.$r.go('0-1');
+            //             });
+            //         } else {
+            //             return false
+            //         }
+            //     })
+            // }
             submitLoginForm() {
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {//如果验证通过
-                        //登录
-                        api.login({
-                            hrcode: this.loginForm.account,
-                            password: this.loginForm.password,
-                        }).then(userInfo => {
-                            return this.$store.dispatch('userInfo/setUserInfo', userInfo);//存储用户信息
-                        }).then(userInfo => {
-                            return api.getDicInfo()//拉取字典
-                        }).then(dicList => {
-                            return this.$store.dispatch('dicInfo/setDicInfo', dicList);//存储字典信息
-                        }).then(dicList => {
-                            return api.getMenu();//拉取菜单信息
-                        }).then(menuInfo => {
+                        return api.getMenu().then(menuInfo => {
                             return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
                         }).then(menuInfo => {
-                            this.setAccount();//本地存储用户账户名
-
-                            this.$router.push({
-                                path: '/demo'
-                            })
-                        }).catch(err => {
-                            console.log(err,'err');
-
-                        })
-
+                            return this.setAccount();
+                        }).then(() => {
+                            this.$r.go('0-1');
+                        });
                     } else {
                         return false
                     }
@@ -145,7 +152,6 @@
         align-items: center;
         justify-content: center;
 
-
         .title {
             display: flex;
             align-items: center;
@@ -158,7 +164,6 @@
         }
 
         .card {
-
             .left {
                 width: 20vw;
                 height: 20vw;;
@@ -169,16 +174,15 @@
             }
 
             .right {
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 width: 20vw;
                 height: 20vw;;
                 min-width: 420px;
                 min-height: 420px;
                 background: url("/images/login_bg2.png") no-repeat right top;
                 background-size: 18%;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
 
             .right_wrapper {

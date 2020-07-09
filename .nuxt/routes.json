@@ -1,0 +1,114 @@
+[
+  {
+    "name": "demo",
+    "path": "/demo",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/demo.vue",
+    "chunkName": "pages/demo",
+    "_name": "_32817240"
+  },
+  {
+    "name": "paperManage-AllExam",
+    "path": "/paperManage/AllExam",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/AllExam.vue",
+    "chunkName": "pages/paperManage/AllExam",
+    "_name": "_45eca6f5"
+  },
+  {
+    "name": "paperManage-EditTest",
+    "path": "/paperManage/EditTest",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/EditTest.vue",
+    "chunkName": "pages/paperManage/EditTest",
+    "_name": "_de3aa212"
+  },
+  {
+    "name": "paperManage-EditTopic",
+    "path": "/paperManage/EditTopic",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/EditTopic.vue",
+    "chunkName": "pages/paperManage/EditTopic",
+    "_name": "_28ddcdcc"
+  },
+  {
+    "name": "paperManage-ExamDraft",
+    "path": "/paperManage/ExamDraft",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/ExamDraft.vue",
+    "chunkName": "pages/paperManage/ExamDraft",
+    "_name": "_05fa7a17"
+  },
+  {
+    "name": "paperManage-ImportTest",
+    "path": "/paperManage/ImportTest",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/ImportTest.vue",
+    "chunkName": "pages/paperManage/ImportTest",
+    "_name": "_32c74cd2"
+  },
+  {
+    "name": "paperManage-PreviewTest",
+    "path": "/paperManage/PreviewTest",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/PreviewTest.vue",
+    "chunkName": "pages/paperManage/PreviewTest",
+    "_name": "_29a362e2"
+  },
+  {
+    "name": "paperManage-UnauditExam",
+    "path": "/paperManage/UnauditExam",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/UnauditExam.vue",
+    "chunkName": "pages/paperManage/UnauditExam",
+    "_name": "_46ee5ab6"
+  },
+  {
+    "name": "testBank-draftEdit",
+    "path": "/testBank/draftEdit",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/draftEdit.vue",
+    "chunkName": "pages/testBank/draftEdit",
+    "_name": "_533ab887"
+  },
+  {
+    "name": "testBank-myDraft",
+    "path": "/testBank/myDraft",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/myDraft.vue",
+    "chunkName": "pages/testBank/myDraft",
+    "_name": "_6fd4e091"
+  },
+  {
+    "name": "testBank-myTopic",
+    "path": "/testBank/myTopic",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/myTopic.vue",
+    "chunkName": "pages/testBank/myTopic",
+    "_name": "_cbb685c2"
+  },
+  {
+    "name": "testBank-resolveFile",
+    "path": "/testBank/resolveFile",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/resolveFile.vue",
+    "chunkName": "pages/testBank/resolveFile",
+    "_name": "_ec456978"
+  },
+  {
+    "name": "testBank-titleEdit",
+    "path": "/testBank/titleEdit",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleEdit.vue",
+    "chunkName": "pages/testBank/titleEdit",
+    "_name": "_0cdbba3e"
+  },
+  {
+    "name": "testBank-titleSearch",
+    "path": "/testBank/titleSearch",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleSearch.vue",
+    "chunkName": "pages/testBank/titleSearch",
+    "_name": "_34570848"
+  },
+  {
+    "name": "testBank-titleUpload",
+    "path": "/testBank/titleUpload",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleUpload.vue",
+    "chunkName": "pages/testBank/titleUpload",
+    "_name": "_01b04fb5"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/usr/local/var/www/JavaScript/vapp/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_7e91c076"
+  }
+]

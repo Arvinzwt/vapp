@@ -12,7 +12,8 @@ export default class base {
      *@return promise [promise] baseUrl
      */
     async setBaseURL() {
-        let baseURL = '//mgr-api-dev.jronline.com/';
+        // let baseURL = '//mgr-api-dev.jronline.com/';
+        let baseURL = 'http://t-testbank.onesmart.org/TestBank2';
 
         if (process.client) {
             if (location.href.indexOf('crm.jronline.com') !== -1) {//pro
@@ -28,7 +29,6 @@ export default class base {
                 baseURL = "//mgr-api-test.jronline.com/";
             }
         }
-
         axios.defaults.baseURL = baseURL;//配置baseURL
     }
 
@@ -42,7 +42,7 @@ export default class base {
             let userInfo = localStorage.getItem("userInfo");
 
             if (userInfo) {
-                axios.defaults.headers.common['Authorization'] = (JSON.parse(userInfo)).token;
+                axios.defaults.headers.common['Authorization'] = (JSON.parse(userInfo)).token;//添加token
             }
         }
     }
@@ -62,7 +62,7 @@ export default class base {
      *@return promise [promise]
      */
     async request(method, url, data = {}, {isLoading = true, isAllParams = false, isPrompt = true, isToken = true} = {}) {
-        await this.setToken();
+        await this.setToken();//设置token
 
         return axios({
             method,
@@ -71,10 +71,8 @@ export default class base {
         }).then(response => {
             let code = response.data.code;//获取状态码
 
-            if (code === 401) {
-                global.$nuxt.$router.push({
-                    path: '/'
-                })
+            if (code === 403) {
+                return global.$nuxt.$store.dispatch('loginOut');
             }
 
             if (code !== 200) {

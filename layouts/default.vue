@@ -4,17 +4,15 @@
         <el-container class="jr-container" direction="vertical">
             <Header class="jr-header"></Header>
             <TopMenu class="jr-topMenu"></TopMenu>
-            <div class="jr-scroll">
-                <nuxt class="jr-main"/>
-            </div>
+            <nuxt class="jr-main"/>
         </el-container>
     </el-container>
 </template>
 
 <script>
-    import Nav from '~/components/common/Nav.vue'
-    import Header from '~/components/common/Header.vue'
-    import TopMenu from '~/components/common/TopMenu.vue'
+    import Nav from '~/components/Nav.vue'
+    import Header from '~/components/Header.vue'
+    import TopMenu from '~/components/TopMenu.vue'
 
     export default {
         components: {

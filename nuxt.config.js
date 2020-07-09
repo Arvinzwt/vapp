@@ -3,7 +3,7 @@ module.exports = {
     ** Nuxt rendering mode
     ** See https://nuxtjs.org/api/configuration-mode
     */
-    mode: 'spa',
+    mode: 'universal',
 
     /*
     ** Nuxt Telemetry Module
@@ -23,17 +23,18 @@ module.exports = {
         ],
         link: [
             {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+        ],
+        script: [
+            {src: '/libs/ckeditor4/ckeditor.js'},
+            {src: '/libs/ckeditor4/samples/js/sample.js'},
+            {src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'},
         ]
     },
 
     /*
     ** Customize the progress-bar color
     */
-    loading: {
-        color: '#4994F2',
-        // failedColor:'',
-        // height:'5px',
-    },
+    loading: {color: '#4994F2'},
 
     /*
     ** Global CSS
@@ -49,7 +50,6 @@ module.exports = {
     plugins: [
         '@/plugins/element-ui',
         '@/plugins/utils',
-        '@/plugins/axios',
         '@/plugins/initialize',
     ],
 
@@ -70,9 +70,7 @@ module.exports = {
     ** Axios module configuration
     ** See https://axios.nuxtjs.org/options
     */
-    axios: {
-        // progress: true,
-    },
+    axios: {},
 
     /*
     ** Build configuration

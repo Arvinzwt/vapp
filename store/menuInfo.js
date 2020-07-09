@@ -1,4 +1,9 @@
-export const state = () => ({});
+import fa from "element-ui/src/locale/lang/fa";
+
+export const state = () => ({
+    active: '',
+    list: []
+});
 
 export const mutations = {
     saveMenuInfo(state, menuInfo) {
@@ -17,5 +22,5 @@ export const actions = {
 export const getters = {
     getMenuInfo(state) {
         return state;
-    }
+    },
 };

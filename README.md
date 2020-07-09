@@ -1,6 +1,6 @@
-# manageV2
+# testBank
 
-> My prime Nuxt.js project
+> My amazing Nuxt.js project
 
 ## Build Setup
 
