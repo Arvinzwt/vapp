@@ -77,7 +77,7 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '试卷草稿箱',
-                            path: '/paperManage/ExamDraft',
+                            path: '/paperManage/examDraft',
                             query: {},
                         },
                         {
@@ -85,7 +85,7 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '待审核试卷库',
-                            path: '/paperManage/UnauditExam',
+                            path: '/paperManage/unauditedExam',
                             query: {},
                         },
                         {
@@ -93,37 +93,33 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '全部试卷',
-                            path: '/paperManage/AllExam',
+                            path: '/paperManage/allExam',
                             query: {},
-                        }, {
+                        },
+                        {
                             code: '1-4',
                             show: false,
                             isTopMenu: false,
                             name: '导入试卷',
-                            path: '/paperManage/ImportTest',
+                            path: '/paperManage/importTest',
                             query: {},
-                        }, {
+                        },
+                        {
                             code: '1-5',
-                            show: false,
+                            show: true,
                             isTopMenu: false,
                             name: '试卷编辑',
-                            path: '/paperManage/EditTest',
+                            path: '/paperManage/editTest',
                             query: {},
-                        }, {
+                        },
+                        {
                             code: '1-6',
-                            show: false,
+                            show: true,
                             isTopMenu: false,
                             name: '试卷预览',
-                            path: '/paperManage/PreviewTest',
+                            path: '/paperManage/previewTest',
                             query: {},
-                        }, {
-                            code: '1-7',
-                            show: false,
-                            isTopMenu: false,
-                            name: '题目编辑',
-                            path: '/paperManage/EditTopic',
-                            query: {},
-                        }
+                        },
                     ]
 
                 }
