@@ -15,8 +15,12 @@ a {
     margin-right: 15px;
 }
 
-.font-basic {
-    font-size: $basicFontSize;
+.mar-t-15 {
+    margin-bottom: 15px;
+}
+
+.mar-l-15 {
+    margin-left: 15px;
 }
 
 .t-right {
@@ -33,6 +37,10 @@ a {
 
 .bg-gray {
     background-color: $gray;
+}
+
+.font-basic {
+    font-size: $basicFontSize;
 }
 
 .jr {
@@ -64,21 +72,6 @@ a {
             margin-bottom: 15px;
         }
 
-    }
-
-    .search-box {
-        display: flex;
-
-        .el-button {
-            margin-left: 15px;
-        }
-    }
-
-    //一级标题
-    .jr-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
 
     //二级菜单
@@ -129,8 +122,27 @@ a {
 
     }
 
+    //小箭头
+    .el-icon-arrow-up {
+        margin-left: 0;
+    }
 }
 
-.el-icon-arrow-down{
-    margin-left: 5px;
+.knowledge-wrap{
+    .knowledge-wrap-left{
+        margin: 5px 0;
+    }
+
+    .knowledge-wrap-item{
+        display: flex;
+        align-items: center;
+    }
+
+    .knowledge-wrap-right{
+        margin-left: 20px;
+
+        .jr-tag-item {
+            margin-right: 20px;
+        }
+    }
 }

@@ -2,113 +2,134 @@
   {
     "name": "demo",
     "path": "/demo",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/demo.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/demo.vue",
     "chunkName": "pages/demo",
-    "_name": "_32817240"
+    "_name": "_34a29f16"
+  },
+  {
+    "name": "paperManage-AllEditTest",
+    "path": "/paperManage/AllEditTest",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/AllEditTest.vue",
+    "chunkName": "pages/paperManage/AllEditTest",
+    "_name": "_52958286"
+  },
+  {
+    "name": "paperManage-AllEditTopic",
+    "path": "/paperManage/AllEditTopic",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/AllEditTopic.vue",
+    "chunkName": "pages/paperManage/AllEditTopic",
+    "_name": "_60108214"
   },
   {
     "name": "paperManage-AllExam",
     "path": "/paperManage/AllExam",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/AllExam.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/AllExam.vue",
     "chunkName": "pages/paperManage/AllExam",
-    "_name": "_45eca6f5"
+    "_name": "_3a0e9820"
+  },
+  {
+    "name": "paperManage-AuditEditTest",
+    "path": "/paperManage/AuditEditTest",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/AuditEditTest.vue",
+    "chunkName": "pages/paperManage/AuditEditTest",
+    "_name": "_30ed2012"
+  },
+  {
+    "name": "paperManage-AuditEditTopic",
+    "path": "/paperManage/AuditEditTopic",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/AuditEditTopic.vue",
+    "chunkName": "pages/paperManage/AuditEditTopic",
+    "_name": "_69c2781a"
   },
   {
     "name": "paperManage-EditTest",
     "path": "/paperManage/EditTest",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/EditTest.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/EditTest.vue",
     "chunkName": "pages/paperManage/EditTest",
-    "_name": "_de3aa212"
+    "_name": "_20fee32c"
   },
   {
     "name": "paperManage-EditTopic",
     "path": "/paperManage/EditTopic",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/EditTopic.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/EditTopic.vue",
     "chunkName": "pages/paperManage/EditTopic",
-    "_name": "_28ddcdcc"
+    "_name": "_5efb6b85"
   },
   {
     "name": "paperManage-ExamDraft",
     "path": "/paperManage/ExamDraft",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/ExamDraft.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/ExamDraft.vue",
     "chunkName": "pages/paperManage/ExamDraft",
-    "_name": "_05fa7a17"
+    "_name": "_7964cc82"
   },
   {
     "name": "paperManage-ImportTest",
     "path": "/paperManage/ImportTest",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/ImportTest.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/ImportTest.vue",
     "chunkName": "pages/paperManage/ImportTest",
-    "_name": "_32c74cd2"
+    "_name": "_2ca747c7"
   },
   {
     "name": "paperManage-PreviewTest",
     "path": "/paperManage/PreviewTest",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/PreviewTest.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/PreviewTest.vue",
     "chunkName": "pages/paperManage/PreviewTest",
-    "_name": "_29a362e2"
+    "_name": "_2d4db23a"
   },
   {
     "name": "paperManage-UnauditExam",
     "path": "/paperManage/UnauditExam",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/paperManage/UnauditExam.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/UnauditExam.vue",
     "chunkName": "pages/paperManage/UnauditExam",
-    "_name": "_46ee5ab6"
-  },
-  {
-    "name": "testBank-draftEdit",
-    "path": "/testBank/draftEdit",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/draftEdit.vue",
-    "chunkName": "pages/testBank/draftEdit",
-    "_name": "_533ab887"
+    "_name": "_ede4833e"
   },
   {
     "name": "testBank-myDraft",
     "path": "/testBank/myDraft",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/myDraft.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/myDraft.vue",
     "chunkName": "pages/testBank/myDraft",
-    "_name": "_6fd4e091"
+    "_name": "_37951174"
   },
   {
     "name": "testBank-myTopic",
     "path": "/testBank/myTopic",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/myTopic.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/myTopic.vue",
     "chunkName": "pages/testBank/myTopic",
-    "_name": "_cbb685c2"
+    "_name": "_0e8553d4"
   },
   {
-    "name": "testBank-resolveFile",
-    "path": "/testBank/resolveFile",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/resolveFile.vue",
-    "chunkName": "pages/testBank/resolveFile",
-    "_name": "_ec456978"
+    "name": "testBank-topicDetect",
+    "path": "/testBank/topicDetect",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/topicDetect.vue",
+    "chunkName": "pages/testBank/topicDetect",
+    "_name": "_7c99c5a3"
   },
   {
-    "name": "testBank-titleEdit",
-    "path": "/testBank/titleEdit",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleEdit.vue",
-    "chunkName": "pages/testBank/titleEdit",
-    "_name": "_0cdbba3e"
+    "name": "testBank-topicEdit",
+    "path": "/testBank/topicEdit",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/topicEdit.vue",
+    "chunkName": "pages/testBank/topicEdit",
+    "_name": "_7eb948ec"
   },
   {
-    "name": "testBank-titleSearch",
-    "path": "/testBank/titleSearch",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleSearch.vue",
-    "chunkName": "pages/testBank/titleSearch",
-    "_name": "_34570848"
+    "name": "testBank-topicModify",
+    "path": "/testBank/topicModify",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/topicModify.vue",
+    "chunkName": "pages/testBank/topicModify",
+    "_name": "_38c6343a"
   },
   {
-    "name": "testBank-titleUpload",
-    "path": "/testBank/titleUpload",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/testBank/titleUpload.vue",
-    "chunkName": "pages/testBank/titleUpload",
-    "_name": "_01b04fb5"
+    "name": "testBank-topicUpload",
+    "path": "/testBank/topicUpload",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/testBank/topicUpload.vue",
+    "chunkName": "pages/testBank/topicUpload",
+    "_name": "_3bd663fe"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/usr/local/var/www/JavaScript/vapp/pages/index.vue",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_7e91c076"
+    "_name": "_7331a830"
   }
 ]

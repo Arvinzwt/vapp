@@ -5,7 +5,7 @@
             <el-dropdown class="jr-header_item" @command="handleCommand">
                 <div class="color-blue">
                     <i class="icon el-icon-user-solid"></i>
-                    <span class="txt">{{userInfo.real_name}}</span>
+                    <span class="txt">{{userInfo.userRealName}}</span>
                     <i class="el-icon-arrow-down"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown">

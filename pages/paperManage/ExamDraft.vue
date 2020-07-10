@@ -72,6 +72,17 @@
             </el-table-column>
           </el-table>
         </div>
+        <div class="page">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[20, 40, 60, 80]"
+            :page-size="20"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400">
+          </el-pagination>
+        </div>
         <div class="modal">
           <el-dialog title="试卷基础信息编辑" :visible.sync="dialogFormVisible">
                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" label-position="left" size="mini">
@@ -136,7 +147,7 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="试卷名称" prop="name" class="special">
-                  <el-input v-model="ruleForm.name"></el-input>
+                  <el-input v-model="ruleForm.name" style="width: 172px"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button @click="resetForm('ruleForm')">取消</el-button>
@@ -183,7 +194,7 @@
               </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogPaperVisible = false">关 闭</el-button>
+              <el-button @click="dialogPaperVisible = false" size="mini">关 闭</el-button>
             </span>
           </el-dialog>
         </div>
@@ -234,10 +245,17 @@
                 name: '王小虎',
               }],
               knowledgeData: [],
-              abilityData: [] 
+              abilityData: [],
+              currentPage: 1
             }
         },
         methods: {
+          handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+          },
+          handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+          },
           submitForm(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
@@ -345,6 +363,18 @@
     background: #fafafa;
     .el-table th, .el-table tr {
       background: #F5F5F5 !important;
+    }
+  }
+  .page {
+    margin-top: 20px;
+  }
+  .modal {
+    padding-bottom: 32px;
+      .el-radio__input {
+      display: none;
+    }
+    .el-radio__label, .el-form-item__label {
+      font-size: 12px;
     }
   }
 }

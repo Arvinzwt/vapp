@@ -1,7 +1,7 @@
 <template>
-    <el-main class="jr-testBank-myTopic">
+    <el-main class="jr-testBank-topicModify">
         <!--title-->
-        <Title>我的题目</Title>
+        <Title>题目修改</Title>
 
         <!--筛选-->
         <el-form
@@ -104,7 +104,6 @@
         <div class="wrap">
             <TopicList></TopicList>
         </div>
-
     </el-main>
 </template>
 
@@ -113,15 +112,17 @@
     import KnowledgeTree from '~/components/testBank/KnowledgeTree.vue'
     import TopicList from '~/components/testBank/TopicList.vue'
     import Title from '~/components/testBank/Title.vue'
+
     import api from '@/config/module/testBank'
 
     export default {
-        name: "myTopic",
+        name: "topicModify",
         components: {
             linkGroup,
             KnowledgeTree,
             TopicList,
             Title,
+
         },
         data() {
             return {
@@ -167,7 +168,8 @@
 
 <style lang="scss">
     @import "@/assets/css/testBank.scss";
-    .jr-testBank-myTopic{
+
+    .jr-testBank-topicModify{
         .flex-box {
             display: flex;
         }
@@ -181,5 +183,4 @@
             margin-top: 50px;
         }
     }
-
 </style>

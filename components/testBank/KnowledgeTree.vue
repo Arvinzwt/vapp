@@ -1,4 +1,5 @@
 <template>
+    <!--选择知识点-->
     <el-main class="jr-KnowledgeTree">
         <el-button :disabled="disabled"
                    size="mini"
@@ -6,7 +7,6 @@
                    @click="openDialog">
             <slot></slot>
         </el-button>
-
 
         <!--选择知识树弹窗-->
         <el-dialog
@@ -58,9 +58,15 @@
             </el-form>
 
             <div class="search-box mar-b-15">
-                <el-input placeholder="请输入搜索知识点内容" v-model="paramMap.search" size="mini"/>
-                <el-button size="mini" @click="searchTree" type="primary">搜索</el-button>
-                <el-button size="mini" @click="clearTree" type="">重置</el-button>
+                <el-row :gutter="18">
+                    <el-col :span="18">
+                        <el-input placeholder="请输入搜索知识点内容" v-model="paramMap.search" size="mini"/>
+                    </el-col>
+                    <el-col :span="6" class="t-right">
+                        <el-button size="mini" @click="searchTree" type="primary">搜索</el-button>
+                        <el-button size="mini" @click="clearTree" type="">重置</el-button>
+                    </el-col>
+                </el-row>
             </div>
 
             <div class="cr-tree">
@@ -86,7 +92,7 @@
 
 <script>
     import linkGroup from '~/components/testBank/LinkGroup.vue'
-    import api from '@/config/module/common'
+    import api from '@/config/module/testBank'
 
     export default {
         name: "KnowledgeTree",
@@ -226,7 +232,7 @@
              */
             async termChange() {
                 this.$emit('update', []);//重置树数据
-                this.options.knowledgeList = await api.loadTrees();
+                this.options.knowledgeList = await api.getParameterInfo({paramCode: 'Knowledge', status: 1});
             },
 
             /**
@@ -244,7 +250,7 @@
              *@desc 地区修改时
              */
             async areaChange() {
-                this.options.knowledgeList = await api.loadTrees();
+                this.options.knowledgeList = await api.getParameterInfo({paramCode: 'Knowledge', status: 1});
             },
 
             /**

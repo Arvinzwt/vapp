@@ -7,7 +7,6 @@
             class="jr-nav_menu"
             background-color="#488ff1"
             :default-active="menuInfo.active"
-            :default-openeds="['0']"
             text-color="#fff">
             <el-submenu v-for="mItem in menuInfo.list"
                         :key="mItem.code"

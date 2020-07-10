@@ -4,6 +4,16 @@
         <div class="header">
           试卷编辑
         </div>
+        <div class="test-name">
+          <div class="title">
+            2019年北京市石景山区中考物理二模试卷
+          </div>
+          <div class="type">
+            单项选择题（2分×15=30分）（题号：1000674559）
+          </div>
+          <el-button plain size="mini" type="primary" @click="editTitle">编辑</el-button>
+        </div>
+        <div class="line"></div>
         <div class="content">
           <div class="title-input">
             <el-input v-model="input" placeholder="请输入内容" style="width: 280px" size="mini"></el-input>
@@ -218,15 +228,26 @@
             <el-button type="primary" @click="confirmTag('tagForm')" size="mini">确 定</el-button>
           </div>
         </el-dialog>
+        <el-dialog
+          title="编辑试卷文本"
+          :visible.sync="titleVisible"
+        >
+            <div id="editor"></div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="titleVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="titleVisible = false" size="mini">确 定</el-button>
+          </span>
+        </el-dialog>
       </div>
     </el-main>
 </template>
 
 <script>
     export default {
-        name: "EditTest",
+        name: "AuditEditTest",
         data() {
             return {
+              timer: null,
               input: '',
               scoreVisible: false,
               knowdgeVisible: false,
@@ -279,7 +300,8 @@
                 {name: '王小虎'},
               ],
               abilityTags: [],
-              currentPage: 1
+              currentPage: 1,
+              titleVisible: false,
             }
         },
         
@@ -289,6 +311,12 @@
           }
         },
         methods: {
+          editTitle() {
+            this.titleVisible = true
+            this.timer = setTimeout(() => {
+              ckeditorInit()
+            })
+          },
           handleSearch(formName) {
             this.$refs[formName].validate((valid) => {
               if (valid) {
@@ -309,7 +337,7 @@
             console.log(`当前页: ${val}`);
           },
           editTopic() {
-            this.$r.go('1-7')
+            this.$r.go('1-9')
           },
           handleType(type) {
             this.knowdgeVisible = true
@@ -420,13 +448,39 @@
         },
         created() {
         },
+        beforeDestroy() {
+          clearTimeout(this.timer)
+        }
     }
 </script>
 
 <style lang="scss">
  .edit-test {
    padding-top: 10px;
-   
+   .test-name {
+     text-align: center;
+     background:rgba(250,250,250,1);
+     padding-bottom: 16px;
+     .title {
+       font-size:25px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        padding-top: 22px;
+     }
+     .type {
+       font-size:14px;
+        font-family:Microsoft YaHei;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        line-height:40px;
+        display: inline-block;
+     }
+   }
+   .line {
+     height: 1px;
+     background:rgba(229,229,229,1);
+   }
    .header {
      color: #333;
      font-size: 25px;

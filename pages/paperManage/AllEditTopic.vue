@@ -99,7 +99,7 @@
 
 <script>
 export default {
-  name: 'EditTopic',
+  name: 'AllEditTopic',
   data () {
     return {
       topicForm: {
