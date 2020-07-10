@@ -9,27 +9,27 @@
             size="mini"
             label-width="70px"
             label-position="left">
-            <el-form-item label="类型">
-                <linkGroup class="linkGroup1" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
-            </el-form-item>
+            <!-- <el-form-item label="类型">
+                 <linkGroup class="linkGroup1" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+             </el-form-item>-->
             <el-form-item label="学科">
                 <linkGroup class="linkGroup2" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
             </el-form-item>
-            <el-form-item label="版本">
-                <linkGroup class="linkGroup3" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
-            </el-form-item>
-            <el-form-item label="年级">
-                <linkGroup class="linkGroup4" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
-            </el-form-item>
-            <el-form-item label="学期">
-                <linkGroup class="linkGroup5" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
-            </el-form-item>
+            <!-- <el-form-item label="版本">
+                 <linkGroup class="linkGroup3" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+             </el-form-item>
+             <el-form-item label="年级">
+                 <linkGroup class="linkGroup4" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+             </el-form-item>
+             <el-form-item label="学期">
+                 <linkGroup class="linkGroup5" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+             </el-form-item>-->
             <el-form-item label="状态">
-                <linkGroup class="linkGroup6" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+                <linkGroup class="linkGroup6" v-model="paramMap.status" :options="options.subjectList"></linkGroup>
             </el-form-item>
 
             <el-form-item label="知识点">
-                <div class="knowledge-wrap">
+                <!--<div class="knowledge-wrap">
                     <div class="knowledge-wrap-item">
                         <div class="knowledge-wrap-left">
                             <KnowledgeTree v-model="paramMap.knowledgeIds">
@@ -44,7 +44,44 @@
                             </div>
                         </div>
                     </div>
+                </div>-->
+                <div class="knowledge-wrap">
+                    <div class="knowledge-wrap-item">
+                        <div class="knowledge-wrap-left">
+                            <KnowledgeTree v-model="paramMap.knowledgeIds1">同步
+                            </KnowledgeTree>
+                        </div>
+                        <div class="knowledge-wrap-right jr-tag">
+                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds1"
+                                 :key="item.knowledgeId">
+                                <span>{{item.name}}</span>
+                                <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="knowledge-wrap-item">
+                        <div class="knowledge-wrap-left">
+                            <KnowledgeTree v-model="paramMap.knowledgeIds2"
+                                           :type="2">专题
+                            </KnowledgeTree>
+                        </div>
+                        <div class="knowledge-wrap-right jr-tag">
+                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds2" :key="item.name">
+                                <span>{{item.name}}</span>
+                                <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </el-form-item>
+
+            <el-form-item label-width="0">
+                <el-link type="primary" class="font-basic" @click="filterShow=!filterShow">
+                    <span>高级筛选</span>
+                    <span v-show="!filterShow" class="icon el-icon-arrow-down"></span>
+                    <span v-show="filterShow" class="el-icon-arrow-up"></span>
+                </el-link>
             </el-form-item>
 
             <div v-show="filterShow">
@@ -93,7 +130,7 @@
             <el-form-item label="">
                 <div class="flex-box">
                     <div class="wid-300">
-                        <el-input></el-input>
+                        <el-input placeholder="题目编号/题干内容" v-model="paramMap.keyWorld"></el-input>
                     </div>
                     <el-button type="primary">搜索</el-button>
                 </div>
@@ -128,8 +165,11 @@
                 filterShow: false,
                 paramMap: {
                     subjectId: '',
+                    status: '',
                     time: [],
-                    knowledgeIds: [],
+                    keyWorld: '',
+                    knowledgeIds1: [],
+                    knowledgeIds2: [],
                 },
                 options: {
                     subjectList: [
@@ -167,7 +207,7 @@
 
 <style lang="scss">
     @import "@/assets/css/testBank.scss";
-    .jr-testBank-myTopic{
+    .jr-testBank-myTopic {
         .flex-box {
             display: flex;
         }
@@ -177,7 +217,7 @@
             margin-right: 20px;
         }
 
-        .wrap{
+        .wrap {
             margin-top: 50px;
         }
     }

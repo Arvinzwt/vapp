@@ -14,7 +14,8 @@
             <div class="knowledge-wrap mar-l-15 mar-b-15">
                 <div class="knowledge-wrap-item">
                     <div class="knowledge-wrap-left">
-                        <KnowledgeTree v-model="paramMap.knowledgeIds1">同步</KnowledgeTree>
+                        <KnowledgeTree v-model="paramMap.knowledgeIds1" :disabled="type==='1'">同步
+                        </KnowledgeTree>
                     </div>
                     <div class="knowledge-wrap-right jr-tag">
                         <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds1"
@@ -27,7 +28,7 @@
 
                 <div class="knowledge-wrap-item">
                     <div class="knowledge-wrap-left">
-                        <KnowledgeTree v-model="paramMap.knowledgeIds2" :type="2">专题
+                        <KnowledgeTree v-model="paramMap.knowledgeIds2" :type="2" :disabled="type==='1'">专题
                         </KnowledgeTree>
                     </div>
                     <div class="knowledge-wrap-right jr-tag">
@@ -66,14 +67,18 @@
         },
         data() {
             return {
-                paramMap:{
-                    knowledgeIds1:[],
-                    knowledgeIds2:[],
+                type: 2,
+                paramMap: {
+                    knowledgeIds1: [],
+                    knowledgeIds2: [],
                 }
             }
         },
+        created() {
+            this.type = this.$route.query.type ? this.$route.query.type : 2;
+        },
         methods: {
-            removeKnowledge(){
+            removeKnowledge() {
 
             }
         }

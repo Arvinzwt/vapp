@@ -43,6 +43,10 @@ a {
     font-size: $basicFontSize;
 }
 
+.color-red {
+    color: #F2545A;
+}
+
 .jr {
     /*筛选框*/
     .jr-filter-form {
@@ -103,6 +107,10 @@ a {
         align-items: center;
         flex-wrap: wrap;
 
+        &.hover {
+            cursor: pointer;
+        }
+
         .jr-tag-item {
             display: flex;
             align-items: center;
@@ -118,6 +126,11 @@ a {
                 cursor: pointer;
                 margin-left: 5px;
             }
+
+            &.active {
+                background-color: #DFEDFF;
+                color: #4994F2;
+            }
         }
 
     }
@@ -128,17 +141,17 @@ a {
     }
 }
 
-.knowledge-wrap{
-    .knowledge-wrap-left{
+.knowledge-wrap {
+    .knowledge-wrap-left {
         margin: 5px 0;
     }
 
-    .knowledge-wrap-item{
+    .knowledge-wrap-item {
         display: flex;
         align-items: center;
     }
 
-    .knowledge-wrap-right{
+    .knowledge-wrap-right {
         margin-left: 20px;
 
         .jr-tag-item {

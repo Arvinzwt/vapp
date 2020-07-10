@@ -19,11 +19,19 @@
             label-width="70px"
             label-position="left">
             <el-form-item label="学科">
-                <linkGroup class="linkGroup1" v-model="paramMap.subjectId" :options="options.subjectList"></linkGroup>
+                <linkGroup class="linkGroup1"
+                           v-model="paramMap.subjectId"
+                           :options="options.subjectList"
+                           @change="topMsgChange"
+                ></linkGroup>
             </el-form-item>
 
             <el-form-item label="学段">
-                <linkGroup class="linkGroup2" v-model="paramMap.phaseId" :options="options.phaseList"></linkGroup>
+                <linkGroup class="linkGroup2"
+                           v-model="paramMap.phaseId"
+                           :options="options.phaseList"
+                           @change="topMsgChange"
+                ></linkGroup>
             </el-form-item>
 
             <el-form-item label="是否启用" v-if="currentPage==='0-2'">
@@ -238,6 +246,14 @@
         destroyed() {
         },
         methods: {
+            topMsgChange() {
+                this.onlineParamMap.knowledgeIds1 = [];
+                this.onlineParamMap.knowledgeIds2 = [];
+                this.docParamMap.knowledgeIds1 = [];
+                this.docParamMap.knowledgeIds2 = [];
+                this.docParamMap.file = [];
+            },
+
             /**
              *@desc 文档上传-上传-文件超出个数
              */

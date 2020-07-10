@@ -10,10 +10,10 @@
             label-width="70px"
             label-position="left">
             <el-form-item label="检测域">
-                <el-input type="textarea" :rows="3"></el-input>
+                <el-input type="textarea" class="color-red" v-model="paramMap.value1" :rows="3"></el-input>
             </el-form-item>
             <el-form-item label="解析域">
-                <el-input type="textarea" :rows="3"></el-input>
+                <el-input type="textarea" class="color-red" v-model="paramMap.value2" :rows="3"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -38,7 +38,12 @@
             Title,
         },
         data() {
-            return {}
+            return {
+                paramMap:{
+                    value1:'检测结果正常',
+                    value2:'检测结果正常',
+                }
+            }
         },
         created() {
         },
@@ -56,4 +61,9 @@
 
 <style lang="scss">
     @import "@/assets/css/testBank.scss";
+    .color-red{
+        .el-textarea__inner{
+            color: #F2545A;
+        }
+    }
 </style>
