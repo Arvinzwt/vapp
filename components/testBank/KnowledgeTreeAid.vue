@@ -50,17 +50,17 @@
                 <el-form-item label="版本">
                     <linkGroup class="linkGroup3" @change="changeSyncOptionData($event,1)"
                                v-model="model.versionId"
-                               :options="options.versionList"></linkGroup>
+                               :options="model.options.versionList"></linkGroup>
                 </el-form-item>
                 <el-form-item label="年级">
                     <linkGroup class="linkGroup4" @change="changeSyncOptionData($event,2)"
                                v-model="model.gradeId"
-                               :options="options.gradeList"></linkGroup>
+                               :options="model.options.gradeList"></linkGroup>
                 </el-form-item>
                 <el-form-item label="学期">
                     <linkGroup class="linkGroup5" @change="changeSyncOptionData($event,3)"
                                v-model="model.termId"
-                               :options="options.termList"></linkGroup>
+                               :options="model.options.termList"></linkGroup>
                 </el-form-item>
             </el-form>
             <div class="search-box mar-b-15">
@@ -79,7 +79,7 @@
                 show-checkbox
                 node-key="knowledgeId"
                 ref="syncDialog"
-                :data="options.syncKnowledgeList"
+                :data="model.options.syncKnowledgeList"
                 :check-strictly="true"
                 :filter-node-method="onDialogFilterNode"
                 :props="dialogProps">
@@ -109,13 +109,13 @@
                 <el-form-item label="学段">
                     <linkGroup class="linkGroup6" v-model="model.phaseId"
                                @change="changeSpecOptionData($event,1)"
-                               :options="options.phaseList"></linkGroup>
+                               :options="model.options.phaseList"></linkGroup>
                 </el-form-item>
 
                 <el-form-item label="地区">
                     <linkGroup class="linkGroup7" v-model="model.areaId"
                                @change="changeSpecOptionData($event,2)"
-                               :options="options.areaList"></linkGroup>
+                               :options="model.options.areaList"></linkGroup>
                 </el-form-item>
             </el-form>
             <div class="search-box mar-b-15">
@@ -134,7 +134,7 @@
                 show-checkbox
                 node-key="knowledgeId"
                 ref="specDialog"
-                :data="options.specKnowledgeList"
+                :data="model.options.specKnowledgeList"
                 :check-strictly="true"
                 :filter-node-method="onDialogFilterNode"
                 :props="dialogProps">
@@ -153,7 +153,7 @@
     import api from '@/config/module/testBank'
 
     export default {
-        name: "KnowledgeTree",
+        name: "KnowledgeAid",
         components: {
             linkGroup,
         },
@@ -183,15 +183,15 @@
                 },
 
                 //选项列表
-                options: {
-                    phaseList: [],//学段
-                    areaList: [],//地区
-                    versionList: [],//版本
-                    gradeList: [],//年级
-                    termList: [],//学期
-                    specKnowledgeList: [],//知识点
-                    syncKnowledgeList: [],//知识点
-                },
+                // options: {
+                //     phaseList: [],//学段
+                //     areaList: [],//地区
+                //     versionList: [],//版本
+                //     gradeList: [],//年级
+                //     termList: [],//学期
+                //     specKnowledgeList: [],//知识点
+                //     syncKnowledgeList: [],//知识点
+                // },
             }
         },
 
@@ -231,7 +231,7 @@
              *@desc 重置所有所有列表
              */
             resetMsg() {
-                Object.assign(this.options, {
+                Object.assign(this.model.options, {
                     areaList: [],//地区
                     gradeList: [],//年级
                     termList: [],//学期
@@ -252,12 +252,21 @@
                 this.model.syncBtnHidden = this.model.syncBtnHidden || false;//地区
                 this.model.specBtnHidden = this.model.specBtnHidden || false;//地区
                 this.model.status = this.model.status || 1;//地区
+                this.model.options = this.model.options || {
+                    phaseList: [],//学段
+                    areaList: [],//地区
+                    versionList: [],//版本
+                    gradeList: [],//年级
+                    termList: [],//学期
+                    specKnowledgeList: [],//知识点
+                    syncKnowledgeList: [],//知识点
+                };//地区
 
                 // 拉取 版本/学段列表
-                this.options.versionList = (await api.getParameterInfoByCode({
+                this.model.options.versionList = (await api.getParameterInfoByCode({
                     paramCode: 'Version', status: this.model.status
                 })) || [];
-                this.options.phaseList = (await api.getParameterInfoByCode({
+                this.model.options.phaseList = (await api.getParameterInfoByCode({
                     paramCode: 'Phase', status: this.model.status
                 })) || [];
             },
@@ -295,28 +304,28 @@
                         this.model.termId = '';//清空学期选中信息
                         // this.$refs['syncDialog'].setCheckedKeys([]);//重置树选中
 
-                        this.options.gradeList = (await api.getKnowledgeGrades({//重置年级列表
+                        this.model.options.gradeList = (await api.getKnowledgeGrades({//重置年级列表
                             subjectId: this.model.c_subjectId,
                             versionId: this.model.versionId,
                             status: this.model.status
                         })) || [];
 
-                        this.options.termList = [];//清空学期
-                        this.options.syncKnowledgeList = [];//清空同步树列表
+                        this.model.options.termList = [];//清空学期
+                        this.model.options.syncKnowledgeList = [];//清空同步树列表
 
                         break;
                     case 2:     //年级修改
                         this.model.termId = ''; //清空学期选中信息
                         // this.$refs['syncDialog'].setCheckedKeys([]);//重置树选中
 
-                        this.options.termList = (await api.getParameterInfoByCode({//重置年级列表
+                        this.model.options.termList = (await api.getParameterInfoByCode({//重置年级列表
                             paramCode: 'Term', status: this.model.status
                         })) || [];//重置学期列表
-                        this.options.syncKnowledgeList = []; //清空同步树列表
+                        this.model.options.syncKnowledgeList = []; //清空同步树列表
                         break;
                     case 3:     //学期修改
                         // this.$refs['syncDialog'].setCheckedKeys([]);//重置树选中
-                        this.options.syncKnowledgeList = (await api.getKnowledgesByParams({
+                        this.model.options.syncKnowledgeList = (await api.getKnowledgesByParams({
                             topic: 1,
                             subjectId: this.model.c_subjectId,
                             versionId: this.model.versionId,
@@ -325,6 +334,8 @@
                         })) || [];//重置同步树列表
                         break;
                 }
+
+                this.syncInformation();
             },
 
             /**
@@ -339,17 +350,17 @@
                         this.model.areaId = '';//清空选中信息
                         // this.$refs['specDialog'].setCheckedKeys([]);//重置树选中
 
-                        this.options.areaList = (await api.getKnowledgeAreas({//重置地区列表
+                        this.model.options.areaList = (await api.getKnowledgeAreas({//重置地区列表
                             subjectId: this.model.c_subjectId,
                             phaseId: this.model.phaseId,
                             status: this.model.status
                         })) || [];
-                        this.options.specKnowledgeList = [];//清空专题树列表
+                        this.model.options.specKnowledgeList = [];//清空专题树列表
                         break;
                     case 2:     //地区修改
                         //清空专题树选中信息 重置专题树列表
                         // this.$refs['specDialog'].setCheckedKeys([]);//重置树选中
-                        this.options.specKnowledgeList = (await api.getKnowledgesByParams({
+                        this.model.options.specKnowledgeList = (await api.getKnowledgesByParams({
                             topic: 2,
                             subjectId: this.model.c_subjectId,
                             phaseId: this.model.phaseId,
@@ -357,6 +368,7 @@
                         })) || [];//重置同步树列表
                         break;
                 }
+                this.syncInformation();
             },
 
             /**
@@ -391,17 +403,27 @@
                 let ids = this.$refs[dialogName].getCheckedNodes();//树选中数据
 
                 if (ids.length > 0) {
-                    let model = dialogName === 'syncDialog' ? Object.assign(this.model, {
+                    dialogName === 'syncDialog' ? Object.assign(this.model, {
                         syncIds: ids
                     }) : Object.assign(this.model, {
                         specIds: ids
                     });
-                    this.$emit('update', model);//重置树数据
-                    this.$emit('change', model);//重置树数据
+                    // if(){
+
+                    // }
+                    this.syncInformation(dialogName);
                     this.closeDialog();
                 } else {
                     this.$message.error('请选择知识点');
                 }
+            },
+
+            /**
+             *@desc 同步信息
+             */
+            syncInformation(dialogName) {
+                this.$emit('update', this.model);//重置树数据
+                this.$emit('change', this.model);//重置树数据
             },
 
             /**

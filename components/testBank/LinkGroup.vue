@@ -2,6 +2,7 @@
     <!--列表-->
     <div class="jr-link-group">
         <el-link
+            v-if="options.length>0"
             class="jr-link"
             v-for="item in options"
             :key="item.parameterId"
@@ -11,6 +12,7 @@
             @click="handleClick(item)">
             {{item.parameterValue}}
         </el-link>
+        <span v-if="options.length===0" class="color-gray">暂无数据</span>
     </div>
 </template>
 
@@ -51,6 +53,14 @@
     .jr-link-group {
         .jr-link {
             margin-right: 18px;
+        }
+
+        .color-gray {
+            color: #9F9F9F;
+        }
+
+        .el-link.is-disabled {
+            color: #9F9F9F;
         }
     }
 </style>

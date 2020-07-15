@@ -11,34 +11,7 @@
         <!--所属知识点-->
         <div>
             <h3 class="jr-subtitle">所属知识点</h3>
-            <div class="knowledge-wrap mar-l-15 mar-b-15">
-                <div class="knowledge-wrap-item">
-                    <div class="knowledge-wrap-left">
-                        <KnowledgeTree v-model="paramMap.knowledgeIds1" :disabled="type==='1'">同步
-                        </KnowledgeTree>
-                    </div>
-                    <div class="knowledge-wrap-right jr-tag">
-                        <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds1"
-                             :key="item.knowledgeId">
-                            <span>{{item.name}}</span>
-                            <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="knowledge-wrap-item">
-                    <div class="knowledge-wrap-left">
-                        <KnowledgeTree v-model="paramMap.knowledgeIds2" :type="2" :disabled="type==='1'">专题
-                        </KnowledgeTree>
-                    </div>
-                    <div class="knowledge-wrap-right jr-tag">
-                        <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds2" :key="item.name">
-                            <span>{{item.name}}</span>
-                            <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <KnowledgeTree v-model="paramMap.knowledgeIds"></KnowledgeTree>
         </div>
 
         <!--题型-->
@@ -69,8 +42,10 @@
             return {
                 type: 2,
                 paramMap: {
-                    knowledgeIds1: [],
-                    knowledgeIds2: [],
+                    knowledgeIds: {
+                        syncIds: [],
+                        specIds: [],
+                    },
                 }
             }
         },

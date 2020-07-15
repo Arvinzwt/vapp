@@ -77,7 +77,7 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '试卷草稿箱',
-                            path: '/paperManage/ExamDraft',
+                            path: '/paperManage/paperDraft',
                             query: {},
                         },
                         {
@@ -85,7 +85,7 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '待审核试卷库',
-                            path: '/paperManage/UnauditExam',
+                            path: '/paperManage/paperReview',
                             query: {},
                         },
                         {
@@ -93,21 +93,21 @@ class Api extends base {
                             show: true,
                             isTopMenu: false,
                             name: '全部试卷',
-                            path: '/paperManage/AllExam',
+                            path: '/paperManage/paperAll',
                             query: {},
                         }, {
                             code: '1-4',
                             show: false,
                             isTopMenu: false,
                             name: '导入试卷',
-                            path: '/paperManage/ImportTest',
+                            path: '/paperManage/paperImport',
                             query: {},
                         }, {
                             code: '1-5',
                             show: false,
                             isTopMenu: false,
                             name: '试卷编辑',
-                            path: '/paperManage/EditTest',
+                            path: '/paperManage/paperEdit',
                             query: {},
                         }, {
                             code: '1-6',
@@ -123,7 +123,7 @@ class Api extends base {
                             name: '题目编辑',
                             path: '/paperManage/EditTopic',
                             query: {},
-                        }
+                        },
                     ]
 
                 }

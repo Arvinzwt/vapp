@@ -70,6 +70,41 @@
     "_name": "_2ca747c7"
   },
   {
+    "name": "paperManage-paperAll",
+    "path": "/paperManage/paperAll",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperAll.vue",
+    "chunkName": "pages/paperManage/paperAll",
+    "_name": "_5ac76d45"
+  },
+  {
+    "name": "paperManage-paperDraft",
+    "path": "/paperManage/paperDraft",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperDraft.vue",
+    "chunkName": "pages/paperManage/paperDraft",
+    "_name": "_0c243a45"
+  },
+  {
+    "name": "paperManage-paperEdit",
+    "path": "/paperManage/paperEdit",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperEdit.vue",
+    "chunkName": "pages/paperManage/paperEdit",
+    "_name": "_15d778d4"
+  },
+  {
+    "name": "paperManage-paperImport",
+    "path": "/paperManage/paperImport",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperImport.vue",
+    "chunkName": "pages/paperManage/paperImport",
+    "_name": "_4b15d6b1"
+  },
+  {
+    "name": "paperManage-paperReview",
+    "path": "/paperManage/paperReview",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperReview.vue",
+    "chunkName": "pages/paperManage/paperReview",
+    "_name": "_5b6448e4"
+  },
+  {
     "name": "paperManage-PreviewTest",
     "path": "/paperManage/PreviewTest",
     "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/PreviewTest.vue",

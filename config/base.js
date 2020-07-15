@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Message} from "element-ui";
+import {Message, Loading} from "element-ui";
 
 export default class base {
     constructor() {
@@ -13,19 +13,20 @@ export default class base {
      */
     async setBaseURL() {
         // let baseURL = '//mgr-api-dev.jronline.com/';
-        let baseURL = 'http://t-testbank.onesmart.org/TestBank2';
+        // let baseURL = 'http://t-testbank.onesmart.org/TestBank2';
+        let baseURL = 'http://question-test.jronline.com';
 
         if (process.client) {
-            if (location.href.indexOf('crm.jronline.com') !== -1) {//pro
+            if (location.host.indexOf('crm.jronline.com') !== -1) {//pro
                 baseURL = "//mgr-api.jronline.com/";
 
-            } else if (location.href.indexOf('dev') > -1) { //dev
+            } else if (location.host.indexOf('dev') > -1) { //dev
                 baseURL = "//mgr-api-dev.jronline.com/";
 
-            } else if (location.href.indexOf('uat') > -1) { //uat
+            } else if (location.host.indexOf('uat') > -1) { //uat
                 baseURL = "//mgr-api-uat.jronline.com/";
 
-            } else if (location.href.indexOf('test') > -1) { //test
+            } else if (location.host.indexOf('test') > -1) { //test
                 baseURL = "//mgr-api-test.jronline.com/";
             }
         }
@@ -64,18 +65,27 @@ export default class base {
     async request(method, url, data = {}, {isLoading = true, isAllParams = false, isPrompt = true, isToken = true} = {}) {
         await this.setToken();//设置token
 
+        let loadingInstance = Loading.service({
+            lock: true,
+            text: 'Loading...',
+            background: 'rgba(255, 255, 255, 0.7)',
+            spinner: 'el-icon-loading',
+            customClass: 'crm-loading'
+        });
+
         return axios({
             method,
             url,
             ...data,
         }).then(response => {
+            loadingInstance.close(); //关闭loading
             let code = response.data.code;//获取状态码
 
             if (code === 403) {
                 return global.$nuxt.$store.dispatch('loginOut');
             }
 
-            if (code !== 200) {
+            if (code !== 0) {
                 return Promise.reject(response); //执行reject()
             }
 
@@ -85,6 +95,7 @@ export default class base {
 
             return response.data.data;
         }).catch(error => {
+            loadingInstance.close(); //关闭loading
             let errorMsg = error.message;
 
             if (error.data) {
@@ -110,5 +121,21 @@ export default class base {
      */
     get(url, data, config) {
         return this.request('GET', url, {params: data}, config)
+    }
+
+    demo(url, data, config) {
+        return axios({
+            method: 'POST',
+            url: 'http://10.252.29.91:8032/api/Index/getFile',
+            // url: 'http://10.252.28.84:13117/testpaper/fileAnalysis',
+            data,
+            headers: {
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
+        }).then(response => {
+            return response.data.data;
+        }).catch(error => {
+
+        })
     }
 }

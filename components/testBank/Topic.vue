@@ -1,227 +1,236 @@
 <template>
-<!--单个题目编辑/修改-->
-    <el-main>
+    <!--单个题目编辑/修改-->
+    <div class="jr-topic">
         <el-form
+            :model="paramMap"
+            :rules="rules"
+            ref="ruleForm"
             class="jr-filter-form box"
             size="mini"
             label-width="70px"
             label-position="left">
-            <el-form-item label="题型">
-                <el-radio-group v-model="paramMap.qTypeId">
-                    <el-radio :label="3">备选项</el-radio>
-                    <el-radio :label="6">备选项</el-radio>
-                    <el-radio :label="9">备选项</el-radio>
+            <el-form-item label="题型" prop="qType">
+                <el-radio-group v-model="paramMap.qType.value" @change="selectTypeHandle">
+                    <el-radio v-for="item in paramMap.qType.options" :key="item.typeId" :label="item.typeId">
+                        {{item.typeName}}
+                    </el-radio>
                 </el-radio-group>
             </el-form-item>
 
-            <el-row :gutter="18">
-                <el-col :span="6">
-                    <el-form-item label="年份">
-                        <el-date-picker
-                            v-model="paramMap.yearId"
-                            type="date"
-                            format="yyyy"
-                            placeholder="请选择">
-                        </el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="来源">
-                        <el-select v-model="paramMap.sourceId" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.sourceList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="省份">
-                        <el-select v-model="paramMap.provinceId" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.provinceList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
+            <div v-for="(item,ind) in paramMap.itemList" :key="item.tagName">
+                <el-form-item
+                    :label="item.tagName"
+                    :rules="getRule(item)"
+                    :prop="`itemList[${ind}].value`">
+                    <!--有限值-->
+                    <div v-if="item.tagType===1">
+                        <linkGroup v-model="item.value" :options="item.options"></linkGroup>
+                    </div>
 
-                <el-col :span="6">
-                    <el-form-item label="城市">
-                        <el-select v-model="paramMap.cityId" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.cityList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+                    <!--普通文本-->
+                    <div v-if="item.tagType===4" class="wid-300">
+                        <el-input v-model="item.value" placeholder="请输入"
+                                  :type="item.parameterCode === 'questionScore'?'number':''"></el-input>
+                    </div>
 
-            <el-row :gutter="18">
-                <el-col :span="6">
-                    <el-form-item label="类别">
-                        <el-select v-model="paramMap.categoryId" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.categoryList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
+                    <!--复杂文本-->
+                    <div v-if="(item.tagType===2||item.tagType===3)">
+                        <div :id="item.fId"></div>
+                    </div>
+                </el-form-item>
+            </div>
 
-                <el-col :span="6">
-                    <el-form-item label="难度">
-                        <el-select v-model="paramMap.difficultyId" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.difficultyList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <el-form-item label="题干">
-                <!--<el-input v-model="paramMap.content"/>-->
-                <div id="editor"></div>
-            </el-form-item>
-
-            <el-form-item label="选项A">
-                <!--<el-input v-model="paramMap.optionA"/>-->
-                <div id="editor2"></div>
-            </el-form-item>
-            <el-form-item label="选项B">
-                <!--<el-input v-model="paramMap.optionB"/>-->
-                <div id="editor3"></div>
-            </el-form-item>
-            <el-form-item label="选项C">
-                <!--<el-input v-model="paramMap.optionC"/>-->
-                <div id="editor4"></div>
-            </el-form-item>
-            <el-form-item label="选项D">
-                <!--<el-input v-model="paramMap.optionD"/>-->
-                <div id="editor5"></div>
-            </el-form-item>
-            <el-form-item label="答案">
-                <!--<el-input v-model="paramMap.answer"/>-->
-                <div id="editor6"></div>
-            </el-form-item>
-            <el-form-item label="解答">
-                <!--<el-input v-model="paramMap.reply"/>-->
-                <div id="editor7"></div>
-            </el-form-item>
-            <el-form-item label="分析">
-                <!--<el-input v-model="paramMap.analyse"/>-->
-                <div id="editor8"></div>
-            </el-form-item>
-            <el-form-item label="点评">
-                <!--<el-input v-model="paramMap.appraise"/>-->
-                <div id="editor9"></div>
-            </el-form-item>
-
-            <el-row :gutter="18">
-                <el-col :span="6">
-
-                    <el-form-item label="排列">
-                        <el-select v-model="paramMap.itemRule" placeholder="请选择">
-                            <el-option
-                                v-for="item in options.itemRuleList"
-                                :key="item.parameterId"
-                                :label="item.parameterValue"
-                                :value="item.parameterId">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                    <el-form-item label="分值">
-                        <el-input v-model="paramMap.questionScore" type="number"/>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <el-form-item label="">
+            <el-form-item label="" v-if="paramMap.itemList.length>0">
                 <el-button type="primary" @click="saveOnlineTest">保存</el-button>
             </el-form-item>
         </el-form>
-    </el-main>
+    </div>
 </template>
 
 <script>
+    import api from '@/config/module/testBank'
+    import linkGroup from '~/components/testBank/LinkGroup.vue'
+
+
     export default {
         name: "Topic",
+        components: {
+            linkGroup,
+        },
         data() {
             return {
-                //参数
                 paramMap: {
-                    status: 0,//1-启用，2-不启用
-                    knowledgeIds1: [],//知识树id
-                    knowledgeIds2: [],//知识树id
-
-                    qTypeId: '',//题型
-                    yearId: '',//年份
-                    categoryId: '',//题型类别
-                    sourceId: '',//来源
-                    provinceId: '',//省份
-                    cityId: '',//城市
-                    difficultyId: '',//难度
-                    content: '',//题目内容
-                    optionA: '',//选择题A
-                    optionB: '',//选择题B
-                    optionC: '',//选择题C
-                    optionD: '',//选择题D
-                    appraise: '',//评估
-                    answer: '',//答案
-                    analyse: '',//分析
-                    reply: '',//解答
-                    questionScore: '',//分值
-                    itemRule: '',//排放顺序
+                    qType: {
+                        value: '',
+                        options: [],//题型
+                    },
+                    itemList: [],//题目列表
                 },
 
-                options:{
-                    qTypeList: [],//题型
-                    categoryList: [],//题型类别
-                    sourceList: [],//来源
-                    provinceList: [],//省份
-                    cityList: [],//城市
-                    difficultyList: [],//难度
-                    itemRuleList: [],//排序
+                //校验规则
+                rules: {
+                    // rul: {
+                    // required(val) {
+                    //     console.log(val);
+                    //     return true
+                    // },
+                    // validator: (rule, value, callback) => {
+                    //     if (/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(value)) {
+                    //         callback();
+                    //     } else {
+                    //         callback(new Error('请输入正确的满减条件'));
+                    //     }
+                    // },
+
+                    // }
+                    // rul: {
+                    //     validator(rule, value, callback, source, options) {
+                    //         // console.log(rule)
+                    //         // console.log(value)
+                    //         // console.log(callback)
+                    //         // console.log(source)
+                    //         console.log(options)
+                    //
+                    //         // test if email address already exists in a database
+                    //         // and add a validation error to the errors array if it does
+                    //         // return errors;
+                    //     }
+                    // }
+                },
+            }
+        },
+        props: {
+            param: {
+                type: Object,
+                default: {
+                    topicId: '',//id
+                    subjectId: '',//学科
+                    phaseId: '',//学段
                 }
             }
         },
-        created() {
-        },
         mounted() {
-            ckeditorInit();
-            CKEDITOR.replace('editor2');
-            CKEDITOR.replace('editor3');
-            CKEDITOR.replace('editor4');
-            CKEDITOR.replace('editor5');
-            CKEDITOR.replace('editor6');
-            CKEDITOR.replace('editor7');
-            CKEDITOR.replace('editor8');
-            CKEDITOR.replace('editor9');
+            this.initHandle();
+            this.getQuestionType();//拉取题型列表
         },
 
         methods: {
-            saveOnlineTest(){
+            /**
+             *@desc 初始化处理
+             */
+            initHandle() {
+                // ckeditorInit();
+                // CKEDITOR.replace('editor2');
+                // CKEDITOR.replace('editor3');
+                // CKEDITOR.replace('editor4');
+                // CKEDITOR.replace('editor5');
+                // CKEDITOR.replace('editor6');
+                // CKEDITOR.replace('editor7');
+                // CKEDITOR.replace('editor8');
+                // CKEDITOR.replace('editor9');
+            },
 
+            /**
+             *@desc 拉取题型列表
+             */
+            async getQuestionType() {
+                this.paramMap.qType.options = (await api.getQuestionType({
+                    subjectId: this.param.subjectId,
+                    phaseId: this.param.phaseId,
+                })) || [];
+            },
+
+            /**
+             *@desc 选择题型时-拉取题目内容
+             */
+            selectTypeHandle(val) {
+                api.getItemByTypeId({
+                    typeId: val
+                }).then(res => {
+                    res = res || {};//兼容处理
+                    let itemList = [];//刷新后的题目内容
+                    res.itemList = res.itemList || [];//兼容处理
+
+                    //先去掉富文本框
+                    // this.itemList.forEach((item, index) => {
+                    //     if (item.tagType === 3 || item.tagType === 2) {
+                    //         CKEDITOR.remove(item.fId);
+                    //     }
+                    // });
+
+                    //循环请求到的数据，添加结构
+                    res.itemList.map(async (item, index) => {
+                        let obj = {
+                            ...item,
+                            value: '',//值
+                            options: [],//选项
+                            fId: `editor${index}`,//富文本id
+                        };
+
+                        if (item.tagType === 1) {//如果是selected 填充选项
+                            obj.options = await (api.getParameterInfoByCode({
+                                paramCode: item.parameterCode, status: 1
+                            })) || [];
+                        }
+
+                        itemList.push(obj);
+                    });
+
+                    //赋值
+                    this.paramMap.itemList = itemList;
+
+                    //生成富文本
+                    this.$nextTick(() => {
+                        this.paramMap.itemList.forEach((item, index) => {
+                            if (item.tagType === 3 || item.tagType === 2) {
+                                if (!CKEDITOR.instances[item.fId]) {//如果之前未生成，生成一次
+                                    CKEDITOR.replace(item.fId);
+                                }
+                            }
+                        });
+                    })
+                })
+            },
+
+            /**
+             *@desc 题目表单验证规则
+             */
+            getRule(item) {
+                return {
+                    required: item.mandatory,
+                    message: `请输入${item.tagName}内容`,
+                }
+            },
+
+            /**
+             *@desc 提交数据时
+             */
+            saveOnlineTest() {
+                // CKEDITOR.instances.editor.setData('<p>测试数据</p>');
+                this.$refs['ruleForm'].validate((valid) => {
+                    if (valid) {//如果验证通过
+                        api.insertOne({
+                            // subjectId: this.paramMap.subjectId,
+                            // phaseId: this.paramMap.phaseId,
+                            // knowledgeIds: this.docParamMap.knowledgeIds.syncIds.concat(this.docParamMap.knowledgeIds.specIds),
+                            // ...this.detectParam.questions,
+                        }).then(res => {
+                            this.$emit('change');
+                            this.$message.success('导入成功');
+                        })
+                    } else {
+                        return false
+                    }
+                })
             }
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .jr-topic {
+        .wid-300 {
+            width: 300px;
+        }
+    }
 </style>

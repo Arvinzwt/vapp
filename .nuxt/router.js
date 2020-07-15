@@ -13,6 +13,11 @@ const _20fee32c = () => interopDefault(import('../pages/paperManage/EditTest.vue
 const _5efb6b85 = () => interopDefault(import('../pages/paperManage/EditTopic.vue' /* webpackChunkName: "pages/paperManage/EditTopic" */))
 const _7964cc82 = () => interopDefault(import('../pages/paperManage/ExamDraft.vue' /* webpackChunkName: "pages/paperManage/ExamDraft" */))
 const _2ca747c7 = () => interopDefault(import('../pages/paperManage/ImportTest.vue' /* webpackChunkName: "pages/paperManage/ImportTest" */))
+const _5ac76d45 = () => interopDefault(import('../pages/paperManage/paperAll.vue' /* webpackChunkName: "pages/paperManage/paperAll" */))
+const _0c243a45 = () => interopDefault(import('../pages/paperManage/paperDraft.vue' /* webpackChunkName: "pages/paperManage/paperDraft" */))
+const _15d778d4 = () => interopDefault(import('../pages/paperManage/paperEdit.vue' /* webpackChunkName: "pages/paperManage/paperEdit" */))
+const _4b15d6b1 = () => interopDefault(import('../pages/paperManage/paperImport.vue' /* webpackChunkName: "pages/paperManage/paperImport" */))
+const _5b6448e4 = () => interopDefault(import('../pages/paperManage/paperReview.vue' /* webpackChunkName: "pages/paperManage/paperReview" */))
 const _2d4db23a = () => interopDefault(import('../pages/paperManage/PreviewTest.vue' /* webpackChunkName: "pages/paperManage/PreviewTest" */))
 const _ede4833e = () => interopDefault(import('../pages/paperManage/UnauditExam.vue' /* webpackChunkName: "pages/paperManage/UnauditExam" */))
 const _37951174 = () => interopDefault(import('../pages/testBank/myDraft.vue' /* webpackChunkName: "pages/testBank/myDraft" */))
@@ -79,6 +84,26 @@ export const routerOptions = {
     path: "/paperManage/ImportTest",
     component: _2ca747c7,
     name: "paperManage-ImportTest"
+  }, {
+    path: "/paperManage/paperAll",
+    component: _5ac76d45,
+    name: "paperManage-paperAll"
+  }, {
+    path: "/paperManage/paperDraft",
+    component: _0c243a45,
+    name: "paperManage-paperDraft"
+  }, {
+    path: "/paperManage/paperEdit",
+    component: _15d778d4,
+    name: "paperManage-paperEdit"
+  }, {
+    path: "/paperManage/paperImport",
+    component: _4b15d6b1,
+    name: "paperManage-paperImport"
+  }, {
+    path: "/paperManage/paperReview",
+    component: _5b6448e4,
+    name: "paperManage-paperReview"
   }, {
     path: "/paperManage/PreviewTest",
     component: _2d4db23a,

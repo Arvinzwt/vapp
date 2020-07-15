@@ -11,7 +11,7 @@
 
         <!--题目列表-->
         <div class="draft-main">
-            <div class="draft-main-item" v-for="item in list" :key="item.questionId">
+            <div class="draft-main-item" v-for="item in topicData" :key="item.questionId">
 
                 <!--题目状态栏-->
                 <div class="draft-main-head">
@@ -59,136 +59,136 @@
         <pagination v-model="pagesInfo" @change="pageChange"></pagination>
 
         <!--更换题型弹窗-->
-        <el-dialog
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
-            :show-close="false"
-            modal
-            :title="dialog.type===1?'题型变更':'打标签'"
-            :visible.sync="dialog.show">
+<!--        <el-dialog-->
+<!--            :close-on-click-modal="false"-->
+<!--            :close-on-press-escape="false"-->
+<!--            :show-close="false"-->
+<!--            modal-->
+<!--            :title="dialog.type===1?'题型变更':'打标签'"-->
+<!--            :visible.sync="dialog.show">-->
 
-            <el-form
-                class="jr-filter-form"
-                size="mini"
-                label-width="90px"
-                label-position="left">
+<!--            <el-form-->
+<!--                class="jr-filter-form"-->
+<!--                size="mini"-->
+<!--                label-width="90px"-->
+<!--                label-position="left">-->
 
-                <el-form-item label="学科">学科1</el-form-item>
+<!--                <el-form-item label="学科">学科1</el-form-item>-->
 
-                <div v-if="dialog.type===1">
-                    <el-form-item label="学段">学段1</el-form-item>
-                    <el-form-item label="题型">
-                        <el-radio v-model="dialog.form.typeId" label="1">题型1</el-radio>
-                        <el-radio v-model="dialog.form.typeId" label="2">题型2</el-radio>
-                    </el-form-item>
-                </div>
+<!--                <div v-if="dialog.type===1">-->
+<!--                    <el-form-item label="学段">学段1</el-form-item>-->
+<!--                    <el-form-item label="题型">-->
+<!--                        <el-radio v-model="dialog.form.typeId" label="1">题型1</el-radio>-->
+<!--                        <el-radio v-model="dialog.form.typeId" label="2">题型2</el-radio>-->
+<!--                    </el-form-item>-->
+<!--                </div>-->
 
-                <div v-if="dialog.type===2">
-                    <el-form-item label="题型">题型1</el-form-item>
+<!--                <div v-if="dialog.type===2">-->
+<!--                    <el-form-item label="题型">题型1</el-form-item>-->
 
-                    <el-form-item label="所属知识点">
-                        <div class="knowledge-wrap mar-l-15 mar-b-15">
-                            <!--同步-->
-                            <div class="knowledge-wrap-item">
-                                <div class="knowledge-wrap-left">
-                                    <KnowledgeTree v-model="dialog.form.knowledgeIds1">同步
-                                    </KnowledgeTree>
-                                </div>
-                                <div class="knowledge-wrap-right jr-tag">
-                                    <div class="jr-tag-item" v-for="item in dialog.form.knowledgeIds1"
-                                         :key="item.knowledgeId">
-                                        <span>{{item.name}}</span>
-                                        <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>
-                                    </div>
-                                </div>
-                            </div>
+<!--                    <el-form-item label="所属知识点">-->
+<!--                        <div class="knowledge-wrap mar-l-15 mar-b-15">-->
+<!--                            &lt;!&ndash;同步&ndash;&gt;-->
+<!--                            <div class="knowledge-wrap-item">-->
+<!--                                <div class="knowledge-wrap-left">-->
+<!--                                    <KnowledgeTree v-model="dialog.form.knowledgeIds1">同步-->
+<!--                                    </KnowledgeTree>-->
+<!--                                </div>-->
+<!--                                <div class="knowledge-wrap-right jr-tag">-->
+<!--                                    <div class="jr-tag-item" v-for="item in dialog.form.knowledgeIds1"-->
+<!--                                         :key="item.knowledgeId">-->
+<!--                                        <span>{{item.name}}</span>-->
+<!--                                        <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
 
-                            <!--专题-->
-                            <div class="knowledge-wrap-item">
-                                <div class="knowledge-wrap-left">
-                                    <KnowledgeTree v-model="dialog.form.knowledgeIds2" :type="2">专题
-                                    </KnowledgeTree>
-                                </div>
-                                <div class="knowledge-wrap-right jr-tag">
-                                    <div class="jr-tag-item" v-for="item in dialog.form.knowledgeIds2" :key="item.name">
-                                        <span>{{item.name}}</span>
-                                        <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-form-item>
+<!--                            &lt;!&ndash;专题&ndash;&gt;-->
+<!--                            <div class="knowledge-wrap-item">-->
+<!--                                <div class="knowledge-wrap-left">-->
+<!--                                    <KnowledgeTree v-model="dialog.form.knowledgeIds2" :type="2">专题-->
+<!--                                    </KnowledgeTree>-->
+<!--                                </div>-->
+<!--                                <div class="knowledge-wrap-right jr-tag">-->
+<!--                                    <div class="jr-tag-item" v-for="item in dialog.form.knowledgeIds2" :key="item.name">-->
+<!--                                        <span>{{item.name}}</span>-->
+<!--                                        <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </el-form-item>-->
 
-                    <el-row :gutter="18">
-                        <el-col :span="12">
-                            <el-form-item label="年份">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="来源">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="18">
-                        <el-col :span="12">
-                            <el-form-item label="省份">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="城市">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="18">
-                        <el-col :span="12">
-                            <el-form-item label="类别">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="难度">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="18">
-                        <el-col :span="12">
-                            <el-form-item label="排列">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="分支">
-                                <el-input></el-input>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
+<!--                    <el-row :gutter="18">-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="年份">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="来源">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
+<!--                    <el-row :gutter="18">-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="省份">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="城市">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
+<!--                    <el-row :gutter="18">-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="类别">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="难度">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
+<!--                    <el-row :gutter="18">-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="排列">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                        <el-col :span="12">-->
+<!--                            <el-form-item label="分支">-->
+<!--                                <el-input></el-input>-->
+<!--                            </el-form-item>-->
+<!--                        </el-col>-->
+<!--                    </el-row>-->
 
-                    <el-form-item label="备注">
-                        <el-input type="textarea"></el-input>
-                    </el-form-item>
+<!--                    <el-form-item label="备注">-->
+<!--                        <el-input type="textarea"></el-input>-->
+<!--                    </el-form-item>-->
 
-                    <el-form-item label="能力">
-                        <div class="jr-tag hover">
-                            <div class="jr-tag-item mar-r-15 active">问题解决</div>
-                            <div class="jr-tag-item mar-r-15">空间观念</div>
-                            <div class="jr-tag-item mar-r-15">基本运算</div>
-                        </div>
-                    </el-form-item>
-                </div>
+<!--                    <el-form-item label="能力">-->
+<!--                        <div class="jr-tag hover">-->
+<!--                            <div class="jr-tag-item mar-r-15 active">问题解决</div>-->
+<!--                            <div class="jr-tag-item mar-r-15">空间观念</div>-->
+<!--                            <div class="jr-tag-item mar-r-15">基本运算</div>-->
+<!--                        </div>-->
+<!--                    </el-form-item>-->
+<!--                </div>-->
 
-            </el-form>
-            <!--<div>注意！选择题或多选题更改为其他题型时，选项会被清空!!! 刷新页面后生效</div>-->
-            <div slot="footer" class="dialog-footer">
-                <el-button size="mini" @click="closeDialog">取 消</el-button>
-                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
-            </div>
+<!--            </el-form>-->
+<!--            &lt;!&ndash;<div>注意！选择题或多选题更改为其他题型时，选项会被清空!!! 刷新页面后生效</div>&ndash;&gt;-->
+<!--            <div slot="footer" class="dialog-footer">-->
+<!--                <el-button size="mini" @click="closeDialog">取 消</el-button>-->
+<!--                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>-->
+<!--            </div>-->
 
-        </el-dialog>
+<!--        </el-dialog>-->
 
     </el-main>
 </template>
@@ -216,7 +216,7 @@
                     totalNum: 0,//总条数
                 },
 
-                list: [
+                topicData: [
                     {
                         "questionId": 1000658580,
                         "questionUuid": "620e9175-657f-4a9c-9b2f-9459a757f93c",

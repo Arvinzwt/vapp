@@ -104,29 +104,31 @@
             submitLoginForm() {
                 this.$refs['ruleForm'].validate((valid) => {
                     if (valid) {//如果验证通过
-                        // api.login({
-                        //     userLoginName: this.loginForm.account,
-                        //     userPasswd: this.loginForm.password,
-                        //     token: '',
-                        //     type: 0,
-                        // }).then(userInfo => {
-                        //     return this.$store.dispatch('userInfo/setUserInfo', userInfo)
-                        // }).then(userInfo => {
-                        //     return api.getMenu();//拉取菜单信息
-                        // }).then(menuInfo => {
-                        //     return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
-                        // }).then(menuInfo => {
-                        //     return this.setAccount();
-                        // }).then(() => {
-                        //     this.$r.go('0-1');
-                        // });
-                        api.getMenu().then(menuInfo => {
+                        api.login({
+                            userLoginName: this.loginForm.account,
+                            userPasswd: this.loginForm.password,
+                            token: '',
+                            type: 0,
+                        }).then(userInfo => {
+                            return this.$store.dispatch('userInfo/setUserInfo', userInfo)
+                        }).then(userInfo => {
+                            return api.getMenu();//拉取菜单信息
+                        }).then(menuInfo => {
                             return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
                         }).then(menuInfo => {
                             return this.setAccount();
                         }).then(() => {
                             this.$r.go('0-1');
+                        }).catch(err => {
                         });
+
+                        // api.getMenu().then(menuInfo => {
+                        //     return this.$store.dispatch('menuInfo/setMenuInfo', menuInfo);//存储菜单信息
+                        // }).then(menuInfo => {
+                        //     return this.setAccount();
+                        // }).then(() => {
+                        //     this.$r.go('0-1');
+                        // })
                     } else {
                         return false
                     }

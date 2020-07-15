@@ -45,35 +45,37 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="knowledge-wrap">
-                    <div class="knowledge-wrap-item">
-                        <div class="knowledge-wrap-left">
-                            <KnowledgeTree v-model="paramMap.knowledgeIds1">同步
-                            </KnowledgeTree>
-                        </div>
-                        <div class="knowledge-wrap-right jr-tag">
-                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds1"
-                                 :key="item.knowledgeId">
-                                <span>{{item.name}}</span>
-                                <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>
-                            </div>
-                        </div>
-                    </div>
+                <KnowledgeTree v-model="paramMap.knowledgeIds"></KnowledgeTree>
 
-                    <div class="knowledge-wrap-item">
-                        <div class="knowledge-wrap-left">
-                            <KnowledgeTree v-model="paramMap.knowledgeIds2"
-                                           :type="2">专题
-                            </KnowledgeTree>
-                        </div>
-                        <div class="knowledge-wrap-right jr-tag">
-                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds2" :key="item.name">
-                                <span>{{item.name}}</span>
-                                <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="knowledge-wrap">-->
+<!--                    <div class="knowledge-wrap-item">-->
+<!--                        <div class="knowledge-wrap-left">-->
+<!--                            <KnowledgeTree v-model="paramMap.knowledgeIds1">同步-->
+<!--                            </KnowledgeTree>-->
+<!--                        </div>-->
+<!--                        <div class="knowledge-wrap-right jr-tag">-->
+<!--                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds1"-->
+<!--                                 :key="item.knowledgeId">-->
+<!--                                <span>{{item.name}}</span>-->
+<!--                                <span @click="removeKnowledge(item,1)" class="icon el-icon-close"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="knowledge-wrap-item">-->
+<!--                        <div class="knowledge-wrap-left">-->
+<!--                            <KnowledgeTree v-model="paramMap.knowledgeIds2"-->
+<!--                                           :type="2">专题-->
+<!--                            </KnowledgeTree>-->
+<!--                        </div>-->
+<!--                        <div class="knowledge-wrap-right jr-tag">-->
+<!--                            <div class="jr-tag-item" v-for="item in paramMap.knowledgeIds2" :key="item.name">-->
+<!--                                <span>{{item.name}}</span>-->
+<!--                                <span @click="removeKnowledge(item,2)" class="icon el-icon-close"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </el-form-item>
 
             <el-form-item label-width="0">
@@ -167,8 +169,10 @@
                 paramMap: {
                     subjectId: '',
                     time: [],
-                    knowledgeIds1: [],
-                    knowledgeIds2: [],
+                    knowledgeIds: {
+                        subjectId: '',//学科
+                        phaseId: '',//学段
+                    },
                 },
                 options: {
                     subjectList: [

@@ -16,7 +16,7 @@ a {
 }
 
 .mar-t-15 {
-    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .mar-l-15 {
@@ -43,11 +43,16 @@ a {
     font-size: $basicFontSize;
 }
 
+.wid-300 {
+    width: 300px;
+    margin-right: 20px;
+}
+
 .color-red {
     color: #F2545A;
 }
 
-.jr {
+.jr, .jr-KnowledgeTree-dialog {
     /*筛选框*/
     .jr-filter-form {
         //修改字体大小
@@ -107,10 +112,6 @@ a {
         align-items: center;
         flex-wrap: wrap;
 
-        &.hover {
-            cursor: pointer;
-        }
-
         .jr-tag-item {
             display: flex;
             align-items: center;
@@ -133,6 +134,21 @@ a {
             }
         }
 
+        &.hover {
+            .jr-tag-item{
+                cursor: pointer;
+            }
+        }
+
+        &.disabled{
+            .jr-tag-item {
+                cursor: not-allowed;
+                .icon{
+                    cursor: not-allowed;
+                }
+            }
+        }
+
     }
 
     //小箭头
@@ -141,21 +157,3 @@ a {
     }
 }
 
-.knowledge-wrap {
-    .knowledge-wrap-left {
-        margin: 5px 0;
-    }
-
-    .knowledge-wrap-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .knowledge-wrap-right {
-        margin-left: 20px;
-
-        .jr-tag-item {
-            margin-right: 20px;
-        }
-    }
-}

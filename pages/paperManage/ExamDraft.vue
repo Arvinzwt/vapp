@@ -27,7 +27,9 @@
               label="姓名"
             >
               <template slot-scope="scope">
-                <p>{{scope.row.name }}</p>
+                <p class="paper-name">{{scope.row.paperName }}</p>
+                <p class="paper-type">分类：{{scope.row.yearName}} > {{scope.row.provinceName}} > {{scope.row.gradeName}} > {{scope.row.examTypeName}}</p>
+                <p class="paper-mix">试卷号：{{scope.row.paperId}}&nbsp;&nbsp;浏览数：{{scope.row.viewCount}}&nbsp;&nbsp;下载量：{{scope.row.downloadCount}}</p>
               </template>
             </el-table-column>
             <el-table-column label="操作" align="right">
@@ -80,7 +82,7 @@
             :page-sizes="[20, 40, 60, 80]"
             :page-size="20"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
           </el-pagination>
         </div>
         <div class="modal">
@@ -88,62 +90,52 @@
                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" label-position="left" size="mini">
                 <el-form-item label="学科" prop="subject">
                   <el-radio-group v-model="ruleForm.subject">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.subject" :key="item.parameterId" :label="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="学段" prop="section">
                   <el-radio-group v-model="ruleForm.section">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.phase" :key="item.parameterId" :label="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="年级" prop="level">
                   <el-radio-group v-model="ruleForm.level">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.grade" :key="item.parameterId" :label="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="学期" prop="semester">
                   <el-radio-group v-model="ruleForm.semester">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.term" :key="item.parameterId" :label="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="省份" prop="province">
                   <el-radio-group v-model="ruleForm.province">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in province" :key="item.areaId" :label="item.areaId" @change="queryCity(item.areaId)">{{item.areaName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="城市" prop="city">
                   <el-radio-group v-model="ruleForm.city">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in city" :key="item.areaId" :label="item.areaId" @change="queryArea(item.areaId)" >{{item.areaName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="区域" prop="area">
                   <el-radio-group v-model="ruleForm.area">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in area" :key="item.areaId" :label="item.areaId" @change="querySchool(item.areaId)">{{item.areaName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="类型" prop="type">
                   <el-radio-group v-model="ruleForm.type">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.examType" :key="item.parameterId" :label="item.parameterId" :value="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="年份" prop="year">
                   <el-radio-group v-model="ruleForm.year">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
+                    <el-radio v-for="item in options.year" :key="item.parameterId" :label="item.parameterId" :value="item.parameterId">{{item.parameterName}}</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="学校" prop="school" class="special school">
                   <el-select v-model="ruleForm.school" placeholder="请选择学校">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                    <el-option v-for="item in schoolList" :key="item.schoolId" :label="item.schoolName" :value="item.schoolId"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="试卷名称" prop="name" class="special">
@@ -166,12 +158,12 @@
               style="width: 49%; display: inline-block"
             >
               <el-table-column
-                prop="date"
+                prop="knowledgeName"
                 label="知识点"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="question"
                 label="涉及题目"
                 width="180">
               </el-table-column>
@@ -183,12 +175,12 @@
               style="width: 49%; display: inline-block"  
             >
               <el-table-column
-                prop="date"
+                prop="abilityName"
                 label="能力"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="question"
                 label="涉及题目"
                 width="180">
               </el-table-column>
@@ -203,10 +195,20 @@
 </template>
 
 <script>
+import Api from '@/config/module/paperManage'
     export default {
         name: "ExamDraft",
         data() {
             return {
+              paperId: 0,
+              schoolList: [],
+              province: [],
+              city: [],
+              area: [],
+              options: {},
+              total: 0,
+              pageNum: 1,
+              pageSize: 20,
               dialogPaperVisible: false,
               dialogFormVisible: false,
               ruleForm: {
@@ -250,17 +252,103 @@
             }
         },
         methods: {
+          async querySchool (parentId) {
+            const params = {
+              provinceId: this.provinceId,
+              cityId: this.cityId,
+              districtId: parentId
+            }
+            const data = await Api.querySchool(params)
+            this.schoolList = data
+          },
+          async queryArea (parentId) {
+            const params = {
+              level: 3,
+              parentId,
+            }
+            this.cityId = parentId
+            const data = await Api.queryLocation(params)
+            this.area = data
+          },
+          async queryCity (parentId) {
+            const params = {
+              level: 2,
+              parentId,
+            }
+            this.provinceId = parentId
+            const data = await Api.queryLocation(params)
+            this.city = data
+          },
+          async getProvince () {
+            const data = await Api.queryLocation({level: 1})
+            this.province = data
+          },
+          getParams () {
+            const params = [
+              {paramCode: 'grade'},
+              {paramCode: 'term'},
+              {paramCode: 'examType'},
+              {paramCode: 'subject'},
+              {paramCode: 'phase'},
+              {paramCode: 'year'},
+            ]
+            params.forEach(async item => {
+              const data = await Api.queryOptions(item)
+              const param = item.paramCode
+              this.options[param] = data
+            })
+          },
+          async getData () {
+            const params = {
+              pageNum: this.pageNum,
+              pageSize: this.pageSize
+            }
+            const data = await Api.queryDraft(params)
+            this.tableData = data.list
+            this.total = data.list.length
+          },
           handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.pageSize = val
+            this.getData()
           },
           handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.pageNum = val
+            this.getData()
           },
           submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
+            this.$refs[formName].validate(async (valid) => {
               if (valid) {
-                alert('submit!');
-                this.dialogFormVisible = true
+                const {
+                  area,
+                  city,
+                  level,
+                  name,
+                  province,
+                  school,
+                  section,
+                  semester,
+                  subject,
+                  type,
+                  year
+                } = this.ruleForm
+                const params = {
+                  paperId: this.paperId,
+                  paperName: name,
+                  subjectId: subject,
+                  phaseId: section,
+                  gradeId: level,
+                  examTypeId: type,
+                  yearId: year,
+                  provinceId: province,
+                  cityId: city,
+                  districtId: area,
+                  termId: semester,
+                  schoolId: school
+                }
+                await Api.saveBasic(params)
+                this.$message.success('保存成功')
+                this.$refs[formName].resetFields();
+                this.dialogFormVisible = false
               } else {
                 console.log('error submit!!');
                 return false;
@@ -278,25 +366,72 @@
             this.$r.go('1-5')
           },
           handleDelete(index, row) {
-            console.log(index, row);
-            this.$alert('这是一段内容', '标题名称', {
+            const params = {
+              testpaperId: row.paperId
+            }
+            this.$alert('您确认删除吗？', '确认删除', {
               confirmButtonText: '确定',
-              callback: action => {
-                this.$message({
-                  type: 'success',
-                  message: `删除成功`
-                });
+              callback: async action => {
+                if (action === 'confirm') {
+                  await Api.deleteDraft(params)
+                  this.getData()
+                  this.$message({
+                    type: 'success',
+                    message: `删除成功`
+                  });
+                }
               }
             });
           },
           handleSet(index, row) {
+            const {
+              subjectId,
+              phaseId,
+              gradeId,
+              provinceId,
+              cityId,
+              districtId,
+              examTypeId,
+              yearId,
+              schoolId,
+              paperName,
+              termId,
+              cityName,
+              districtName
+            } = row
+            this.queryCity(provinceId)
+            this.queryArea(cityId)
+            this.querySchool(districtId)
+            this.ruleForm = {
+              subject: subjectId,
+              section: phaseId,
+              level: gradeId,
+              semester: termId,
+              province: provinceId,
+              city: cityId,
+              area: districtId,
+              type: examTypeId,
+              year: yearId,
+              school: schoolId,
+              name: paperName,
+              cityName,
+              districtName
+            }
+            this.paperId = row.paperId
             this.dialogFormVisible = true
           },
           handleView(index, row) {
             this.$r.go('1-6')
           },
-          handleAnalysis(index, row) {
+          async handleAnalysis(index, row) {
+            const params = {
+              testpaperId: row.paperId
+            }
+
             this.dialogPaperVisible = true
+            const data = await Api.paperAnalyse(params)
+            this.knowledgeData = data.knowledgeList
+            this.abilityData = data.abilityList
           },
           handleRemove (index, row) {
 
@@ -305,6 +440,9 @@
         created() {
         },
         mounted() {
+          this.getData()
+          this.getParams()
+          this.getProvince()
         },
         destroyed() {
         }
@@ -363,6 +501,15 @@
     background: #fafafa;
     .el-table th, .el-table tr {
       background: #F5F5F5 !important;
+    }
+    .paper-name {
+
+    }
+    .paper-type {
+
+    }
+    .peper-mix {
+
     }
   }
   .page {
