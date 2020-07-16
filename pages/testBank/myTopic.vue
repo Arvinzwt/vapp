@@ -164,7 +164,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
     .jr-testBank-myTopic {
         .flex-box {
             display: flex;

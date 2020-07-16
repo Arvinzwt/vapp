@@ -60,7 +60,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
     .color-red{
         .el-textarea__inner{
             color: #F2545A;

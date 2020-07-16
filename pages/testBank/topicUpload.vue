@@ -338,8 +338,6 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
-
     .jr-testBank-topicUpload {
         .wrap {
             padding-left: 15px;

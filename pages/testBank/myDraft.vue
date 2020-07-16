@@ -426,7 +426,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
 
     .jr-testBank-myDraft {
         .flex-box {

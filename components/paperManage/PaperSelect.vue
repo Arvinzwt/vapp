@@ -259,5 +259,5 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
 </style>

@@ -183,7 +183,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
     .paper-import-btn {
         margin-top: 60px;
     }

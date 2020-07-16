@@ -209,7 +209,7 @@
 </script>
 
 <style lang="scss">
-    @import "@/assets/css/testBank.scss";
+
 
     .jr-testBank-topicModify{
         .flex-box {

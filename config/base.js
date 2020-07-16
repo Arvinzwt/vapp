@@ -129,9 +129,9 @@ export default class base {
             method: 'POST',
             url: 'http://10.252.28.107:13117' + url,
             data,
-            // headers: {
-            //     'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            // }
+            headers: {
+                'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            }
         }).then(response => {
             return response.data.data;
         }).catch(error => {
