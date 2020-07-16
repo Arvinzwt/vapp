@@ -4,15 +4,13 @@
         <PaperSelect ref="paperSelect" :showphase="false"></PaperSelect>
         <div class="paper-all-search">
             <el-row :gutter="18">
-              <el-col :span="5">
-                <el-input v-model="paperName" placeholder="" size="mini" style="width:202px;"></el-input>
-              </el-col>
-              <el-button class="search" type="primary" size="mini" @click="searchPaperList">搜索</el-button>
+                <el-col :span="5">
+                    <el-input v-model="paperName" clearable placeholder="" size="mini" style="width:202px;"></el-input>
+                </el-col>
+                <el-button class="search" type="primary" size="mini" @click="searchPaper">搜索</el-button>
             </el-row>
         </div>
-        <PaperList :paperInfo="paperInfo"></PaperList>
-        <!--分页-->
-        <Pagination v-if="paperInfo.list.length > 0" v-model="pagesInfo" @change="pageChange"></Pagination>
+        <PaperList ref="paperList" :searchData="searchData" :queryType="queryType"></PaperList>
     </el-main>
 </template>
 
@@ -34,14 +32,24 @@
         data() {
             return {
                 paperName: '',//试卷编号
+                queryType: 'all',//查询试卷列表的类型（正式：all， 草稿：draft，待审核：review）
                 // 分页信息
                 pagesInfo: {
                     pageNum: 1,//页码
                     pageSize: 20,//页宽
                     totalNum: 0,//总条数
                 },
-                paperInfo: {
-                    list: []
+                searchData: {
+                    paperName: '',
+                    subjectId: '',
+                    gradeId: '',
+                    termId: '',
+                    provinceId: '',
+                    cityId: '',
+                    districtId: '',
+                    examTypeId: '',
+                    yearId: '',
+                    schoolId: '',
                 }
             }
         },
@@ -52,40 +60,33 @@
         destroyed() {
         },
         methods: {
-            searchPaperList() {
-                const isCheckOut = this.$refs.paperSelect.checkForm()
+            /**
+            *@desc 搜索试卷
+            */
+            searchPaper() {
                 const paramMap = this.$refs.paperSelect.paramMap
-                // if(isCheckOut) {
-                    const data = {
-                        paperName: paramMap.paperName,
-                        subjectId: paramMap.subjectId,
-                        gradeId: paramMap.gradeId,
-                        termId: paramMap.termId,
-                        provinceId: paramMap.provinceId,
-                        cityId: paramMap.cityId,
-                        cityId: paramMap.cityId,
-                        examTypeId: this.examTypeId,
-                        yearId: paramMap.yearId,
-                        schoolId: paramMap.schoolId,
-                        pageNum: this.pagesInfo.pageNum,
-                        pageSize: this.pagesInfo.pageSize,
+                this.searchData.paperName = this.paperName
+                this.searchData.subjectId = paramMap.subjectId
+                this.searchData.gradeId = paramMap.gradeId
+                this.searchData.termId = paramMap.termId
+                this.searchData.provinceId = paramMap.provinceId
+                this.searchData.cityId = paramMap.cityId
+                this.searchData.districtId = paramMap.districtId
+                this.searchData.examTypeId = paramMap.examTypeId
+                this.searchData.yearId = paramMap.yearId
+                this.searchData.schoolId = paramMap.schoolId
+                if(this.paperName) {
+                    this.$refs.paperList.searchPaperList()
+                } else {
+                    this.$refs.paperList.clearPaperList()
+                    const isCheckOut = this.$refs.paperSelect.checkForm()
+                    if(isCheckOut) {
+                        this.$refs.paperList.searchPaperList()
                     }
-                    paperapi.getPaperList(data).then(res => {
-                        this.paperInfo.list = res.list
-                        this.pagesInfo.pageNum = res.pageNum ? res.pageNum  : 1
-                        this.pagesInfo.pageSize = res.pageSize ? res.pageSize  : 20
-                        this.pagesInfo.totalNum = res.total ? res.total  : 0
-                    })
-                // } else {
-                //     console.log(222)
-                // }
+                }
             },
             toLinkImport() {
                 this.$r.go('1-4')
-            },
-
-            pageChange(val) {
-                console.log(val)
             },
         }
     }

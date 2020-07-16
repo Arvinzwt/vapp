@@ -22,6 +22,7 @@ export const actions = {
     async loginOut({commit}) {
         localStorage.removeItem('userInfo');
         localStorage.removeItem('menuInfo');
+        localStorage.removeItem('disInfo');
         this.$axios.setToken(false);
         commit('loginOUt');
         this.$router.replace({path: '/'});

@@ -17,7 +17,7 @@
         <!--题型-->
         <div>
             <h3 class="jr-subtitle">题型</h3>
-            <Topic></Topic>
+            <Topic :param="paramMap"></Topic>
         </div>
     </el-main>
 </template>
@@ -40,8 +40,9 @@
         },
         data() {
             return {
-                type: 2,
                 paramMap: {
+                    pageType: '0',
+                    questionId: '',
                     knowledgeIds: {
                         syncIds: [],
                         specIds: [],
@@ -50,7 +51,8 @@
             }
         },
         created() {
-            this.type = this.$route.query.type ? this.$route.query.type : 2;
+            this.paramMap.pageType = this.$route.query.pageType ? this.$route.query.pageType : '0';
+            this.paramMap.questionId = this.$route.query.questionId || '';
         },
         methods: {
             removeKnowledge() {

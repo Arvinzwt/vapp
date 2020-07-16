@@ -125,7 +125,7 @@
 
         </el-form>
 
-        <TopicList></TopicList>
+        <TopicList :topicData="topicData" @change="refreshPage"></TopicList>
     </el-main>
 </template>
 
@@ -190,7 +190,7 @@
                 //分页信息
                 pagesInfo: {
                     pageNum: 1,//页码
-                    pageSize: 20,//页宽
+                    pageSize: 499,//页宽
                     totalNum: 0,//总条数
                 },
 
@@ -209,7 +209,7 @@
                     termId: '',//学期
                     phaseId: '',//学段
                     areaId: '',//地区
-                    status: 2,
+                    status: 1,
 
                     time: [],
                     categoryId: 0,//题目大类id
@@ -284,7 +284,10 @@
                     typeList: [],//题型
                     yearList: [],//年份
                     questionList: [],//题目
-                }
+                },
+
+                //草稿列表
+                topicData: [],
             }
         },
         async created() {
@@ -299,21 +302,31 @@
                 paramCode: 'Phase', status: this.paramMap.status
             })) || [];
 
+            this.refreshPage();
+        },
 
-            // api.searchByPageNo({
-            //     pageNum:this.pagesInfo.pageNum,
-            //     pageSize:this.pagesInfo.pageSize,
-            //     status:this.paramMap.status,
-            //     searchType:2,
-            // }).then(res=>{
-            //
-            // })
-        },
-        mounted() {
-        },
-        destroyed() {
-        },
         methods: {
+            refreshPage() {
+                api.searchByPageNo({
+                    pageNum: this.pagesInfo.pageNum,
+                    pageSize: this.pagesInfo.pageSize,
+                    // status: this.paramMap.status,
+                    searchType: 0,
+                }).then(res => {
+                    this.pagesInfo.pageNum = res.number;
+                    this.pagesInfo.pageSize = res.size;
+                    this.pagesInfo.totalNum = res.totalPages;
+
+                    this.topicData = res.content.map(item => {
+                        return {
+                            ...item,
+                            showResolve: false,
+                            isOpera: false,
+                        }
+                    });
+                })
+            },
+
             topMsgChange() {
                 this.paramMap.versionId = '';
                 this.paramMap.gradeId = '';//年级

@@ -114,7 +114,7 @@ class Api extends base {
                             show: false,
                             isTopMenu: false,
                             name: '试卷预览',
-                            path: '/paperManage/PreviewTest',
+                            path: '/paperManage/paperPreview',
                             query: {},
                         }, {
                             code: '1-7',

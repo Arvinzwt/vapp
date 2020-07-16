@@ -3,7 +3,6 @@
     <div class="jr-topic">
         <el-form
             :model="paramMap"
-            :rules="rules"
             ref="ruleForm"
             class="jr-filter-form box"
             size="mini"
@@ -66,52 +65,39 @@
                     },
                     itemList: [],//题目列表
                 },
-
-                //校验规则
-                rules: {
-                    // rul: {
-                    // required(val) {
-                    //     console.log(val);
-                    //     return true
-                    // },
-                    // validator: (rule, value, callback) => {
-                    //     if (/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(value)) {
-                    //         callback();
-                    //     } else {
-                    //         callback(new Error('请输入正确的满减条件'));
-                    //     }
-                    // },
-
-                    // }
-                    // rul: {
-                    //     validator(rule, value, callback, source, options) {
-                    //         // console.log(rule)
-                    //         // console.log(value)
-                    //         // console.log(callback)
-                    //         // console.log(source)
-                    //         console.log(options)
-                    //
-                    //         // test if email address already exists in a database
-                    //         // and add a validation error to the errors array if it does
-                    //         // return errors;
-                    //     }
-                    // }
-                },
             }
         },
         props: {
             param: {
                 type: Object,
                 default: {
-                    topicId: '',//id
-                    subjectId: '',//学科
-                    phaseId: '',//学段
+                    pageType: '0',
+                    questionId: '',
+                    knowledgeIds: {
+                        syncIds: [],
+                        specIds: [],
+                    },
                 }
-            }
+            },
         },
         mounted() {
             this.initHandle();
-            this.getQuestionType();//拉取题型列表
+            if (this.param.pageType === '0') {
+                this.getQuestionType();//拉取题型列表
+            }
+            if (this.param.pageType === '1') {
+                api.detailByQuestionId({
+                    questionId: this.param.topicId
+                }).then(res => {
+
+                }).catch(err => {
+
+                })
+            }
+
+            if (this.param.pageType === '2') {
+
+            }
         },
 
         methods: {
@@ -160,11 +146,12 @@
 
                     //循环请求到的数据，添加结构
                     res.itemList.map(async (item, index) => {
+                        let m = Math.floor(Math.random() * 100);
                         let obj = {
                             ...item,
                             value: '',//值
                             options: [],//选项
-                            fId: `editor${index}`,//富文本id
+                            fId: `editor${index}${m}`,//富文本id
                         };
 
                         if (item.tagType === 1) {//如果是selected 填充选项

@@ -25,8 +25,8 @@
         <el-form-item label="城市" prop="cityId">
             <linkGroup v-if="showcity" class="cityId" v-model="paramMap.cityId" :options="options.cityList" @change="getArea"></linkGroup>
         </el-form-item>
-        <el-form-item label="区域" prop="areaId">
-            <linkGroup v-if="showarea" class="areaId" v-model="paramMap.areaId" :options="options.areaList" @change="getSchool"></linkGroup>
+        <el-form-item label="区域" prop="districtId">
+            <linkGroup v-if="showarea" class="areaId" v-model="paramMap.districtId" :options="options.areaList" @change="getSchool"></linkGroup>
         </el-form-item>
         <el-form-item label="类型" prop="examTypeId">
             <linkGroup class="typeId" v-model="paramMap.examTypeId" :options="options.categoryList"></linkGroup>
@@ -45,7 +45,6 @@
 
 <script>
     import linkGroup from '@/components/testBank/LinkGroup.vue';
-    import api from '@/config/module/testBank';
     import paperapi from '@/config/module/paperManage';
 
     export default {
@@ -57,12 +56,12 @@
             return {
                 paramMap: {
                     subjectId: '',
-                    phaseId: '',
+                    phaseId: undefined,
                     gradeId: '',
                     termId: '',
                     provinceId: '',
                     cityId: '',
-                    areaId: '',
+                    districtId: '',
                     examTypeId: '',
                     yearId: '',
                     schoolId: '',
@@ -111,7 +110,7 @@
                         required: true,
                         message: '请选择城市'
                     },
-                    areaId: {
+                    districtId: {
                         required: true,
                         message: '请选择区域'
                     },
@@ -128,13 +127,12 @@
         },
         props: ['showphase'],
         async created() {
-            //填充学科和学段
-            this.options.phaseList = await api.getParameterInfoByCode({paramCode: 'Phase', status: 1});
-            this.options.subjectList = await api.getParameterInfoByCode({paramCode: 'Subject', status: 1});
-            this.options.gradeList = await api.getParameterInfoByCode({paramCode: 'Grade', status: 1});
-            this.options.termList = await api.getParameterInfoByCode({paramCode: 'Term', status: 1});
-            this.options.yearList = await api.getParameterInfoByCode({paramCode: 'Year', status: 1});
-            this.options.categoryList = await api.getParameterInfoByCode({paramCode: 'Category', status: 1});
+            this.options.subjectList = await paperapi.queryOptions({paramCode: 'subject'});
+            this.options.phaseList = await paperapi.queryOptions({paramCode: 'phase'});
+            this.options.gradeList = await paperapi.queryOptions({paramCode: 'grade'});
+            this.options.termList = await paperapi.queryOptions({paramCode: 'term'});
+            this.options.yearList = await paperapi.queryOptions({paramCode: 'year'});
+            this.options.categoryList = await paperapi.queryOptions({paramCode: 'examType'});
             this.getProvinceList()
         },
         mounted() {
@@ -219,7 +217,7 @@
                 const data = {
                     provinceId: this.paramMap.provinceId,
                     cityId: this.paramMap.cityId,
-                    districtId: this.paramMap.areaId
+                    districtId: this.paramMap.districtId
                 }
                 paperapi.querySchool(data).then(res => {
                     if(res.length > 0) {
@@ -243,6 +241,18 @@
                     }
                 })
                 return isCheckOut
+            }
+        },
+        watch: {
+            paramMap: {
+                handler: function(val,oldval) {
+                    for(let item in val){
+                        if(val[item]) {
+                            this.$refs.rulesForm.clearValidate([item])
+                        }
+                    }
+                },
+                deep: true
             }
         }
     }

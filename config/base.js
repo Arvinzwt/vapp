@@ -78,7 +78,8 @@ export default class base {
             url,
             ...data,
         }).then(response => {
-            loadingInstance.close(); //关闭loading
+            if (loadingInstance) loadingInstance.close(); //关闭loading
+
             let code = response.data.code;//获取状态码
 
             if (code === 403) {
@@ -95,7 +96,7 @@ export default class base {
 
             return response.data.data;
         }).catch(error => {
-            loadingInstance.close(); //关闭loading
+            if (loadingInstance) loadingInstance.close(); //关闭loading
             let errorMsg = error.message;
 
             if (error.data) {
@@ -126,12 +127,11 @@ export default class base {
     demo(url, data, config) {
         return axios({
             method: 'POST',
-            url: 'http://10.252.29.91:8032/api/Index/getFile',
-            // url: 'http://10.252.28.84:13117/testpaper/fileAnalysis',
+            url: 'http://10.252.28.107:13117' + url,
             data,
-            headers: {
-                'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-            }
+            // headers: {
+            //     'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            // }
         }).then(response => {
             return response.data.data;
         }).catch(error => {

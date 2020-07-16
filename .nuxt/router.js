@@ -17,6 +17,7 @@ const _5ac76d45 = () => interopDefault(import('../pages/paperManage/paperAll.vue
 const _0c243a45 = () => interopDefault(import('../pages/paperManage/paperDraft.vue' /* webpackChunkName: "pages/paperManage/paperDraft" */))
 const _15d778d4 = () => interopDefault(import('../pages/paperManage/paperEdit.vue' /* webpackChunkName: "pages/paperManage/paperEdit" */))
 const _4b15d6b1 = () => interopDefault(import('../pages/paperManage/paperImport.vue' /* webpackChunkName: "pages/paperManage/paperImport" */))
+const _75bfc5ec = () => interopDefault(import('../pages/paperManage/paperPreview.vue' /* webpackChunkName: "pages/paperManage/paperPreview" */))
 const _5b6448e4 = () => interopDefault(import('../pages/paperManage/paperReview.vue' /* webpackChunkName: "pages/paperManage/paperReview" */))
 const _2d4db23a = () => interopDefault(import('../pages/paperManage/PreviewTest.vue' /* webpackChunkName: "pages/paperManage/PreviewTest" */))
 const _ede4833e = () => interopDefault(import('../pages/paperManage/UnauditExam.vue' /* webpackChunkName: "pages/paperManage/UnauditExam" */))
@@ -100,6 +101,10 @@ export const routerOptions = {
     path: "/paperManage/paperImport",
     component: _4b15d6b1,
     name: "paperManage-paperImport"
+  }, {
+    path: "/paperManage/paperPreview",
+    component: _75bfc5ec,
+    name: "paperManage-paperPreview"
   }, {
     path: "/paperManage/paperReview",
     component: _5b6448e4,

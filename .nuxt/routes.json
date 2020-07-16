@@ -98,6 +98,13 @@
     "_name": "_4b15d6b1"
   },
   {
+    "name": "paperManage-paperPreview",
+    "path": "/paperManage/paperPreview",
+    "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperPreview.vue",
+    "chunkName": "pages/paperManage/paperPreview",
+    "_name": "_75bfc5ec"
+  },
+  {
     "name": "paperManage-paperReview",
     "path": "/paperManage/paperReview",
     "component": "/usr/local/var/www/Workspace/testBank/pages/paperManage/paperReview.vue",
