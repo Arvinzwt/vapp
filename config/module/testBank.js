@@ -46,7 +46,17 @@ class Api extends base {
 
     // 根据学科、学段查询题型
     getQuestionType(data) {
-        return this.get('/parameter/getQuestionType', data)
+        return this.get('/parameter/getQuestionType', data).then(res => {
+            return res ? res.map(item => {
+                return {
+                    ...item,
+                    parameterId: item.typeId,
+                    parameterValue: item.typeName,
+                }
+            }) : [];
+        }).catch(err => {
+
+        })
     }
 
     // 根据题型查询模板(题目属性)
@@ -82,6 +92,21 @@ class Api extends base {
     // 更换草稿题目题型
     updateQuestionType(data) {
         return this.post('/question/draft/updateQuestionType', data)
+    }
+
+    // 获取省市区列表
+    getPcd(data) {
+        return this.get('/parameter/getPcd', data).then(res => {
+            return res ? res.map(item => {
+                return {
+                    ...item,
+                    parameterId: item.areaId,
+                    parameterValue: item.areaName,
+                }
+            }) : [];
+        }).catch(err => {
+
+        })
     }
 
 }

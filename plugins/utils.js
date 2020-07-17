@@ -13,6 +13,37 @@ import ta from "element-ui/src/locale/lang/ta";
 export default ({store, $axios, redirect}, inject) => {
     inject('utils', {
         U: underscore,
+        /**
+         *@descUTC 通用标准时转换为时间
+         *@param date [String] 时间
+         *@param type [Number] 类型 默认为2
+         *   param[type]:0=>date为数组并取出第一位数字转换；
+         *   param[type]:1=>date为数组并取出第2位数字转换；
+         *   param[type]:2=>date为数字
+         *@return Timestamp [long] 返回YYYY-MM-DD HH:mm:ss
+         */
+        convertTimestamp(date, type = 2) {
+            if (date) {
+                if (underscore.isArray(date)) {
+                    if (type === 0) {
+                        return date[type] ? moment(date[type]).format('YYYY-MM-DD HH:mm:ss') : 0;
+                    }
+
+                    if (type === 1) {
+                        return date[type] ? moment(date[type]).format('YYYY-MM-DD HH:mm:ss') : 0;
+                    }
+                } else {
+                    return '';
+                }
+
+                if (type === 2) {
+                    return moment(date[type]).format('YYYY-MM-DD HH:mm:ss');
+                }
+            } else {
+                return 0;
+            }
+
+        },
     });
 
 
