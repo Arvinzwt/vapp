@@ -190,7 +190,7 @@
                 //分页信息
                 pagesInfo: {
                     pageNum: 1,//页码
-                    pageSize: 499,//页宽
+                    pageSize: 5,//页宽
                     totalNum: 0,//总条数
                 },
 

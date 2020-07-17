@@ -1,6 +1,6 @@
 <template>
     <el-main class="jr-testBank-topicUpload">
-        <div v-show="currentPage==='upload'">
+        <div v-if="currentPage==='upload'">
             <Title haveLink>文档上传</Title>
 
             <!--筛选内容-->
@@ -10,11 +10,11 @@
                 label-width="70px"
                 label-position="left">
                 <el-form-item label="学科">
-                    <linkGroup class="linkGroup1" v-model="paramMap.subjectId" :options="options.subjectList"
+                    <linkGroup class="linkGroup1" v-model="paramMap.cSubjectId" :options="options.subjectList"
                                @change="topMsgChange"></linkGroup>
                 </el-form-item>
                 <el-form-item label="学段">
-                    <linkGroup class="linkGroup2" v-model="paramMap.phaseId" :options="options.phaseList"
+                    <linkGroup class="linkGroup2" v-model="paramMap.cPhaseId" :options="options.phaseList"
                                @change="topMsgChange"></linkGroup>
                 </el-form-item>
                 <el-form-item label="是否启用" v-if="currentModel==='0-2'">
@@ -27,55 +27,71 @@
                 <!--文档上传-->
                 <el-tab-pane label="文档上传" name="0-1">
                     <!--所属知识点-->
-                    <h3 class="jr-subtitle 1">所属知识点</h3>
-                    <div class="wrap">
-                        <KnowledgeTree v-model="docKnowledgeTreeModel"
-                                       :disabled="canSelectKnowledgeBtnIs"
-                                       @change="knowledgeChange"></KnowledgeTree>
-                    </div>
+                    <template>
+                        <h3 class="jr-subtitle 1">所属知识点</h3>
+                        <div class="wrap">
+                            <KnowledgePoint :disabled="canSelectKnowledgeBtnIs"
+                                            v-model="docParamMap.knowledgeIds"
+                                            @change="knowledgeChange($event,1)"
+                                            :param="paramMap"></KnowledgePoint>
+                        </div>
+                    </template>
 
                     <!--文件-->
-                    <h3 class="jr-subtitle 2">上传文件</h3>
-                    <div class="mar-l-15">
-                        <el-upload
-                            ref="uploadBom"
-                            action=""
-                            :show-file-list="true"
-                            :auto-upload="true"
-                            :file-list="docParamMap.file"
-                            :limit="1"
-                            :disabled="canUploadFile"
-                            :on-exceed="onFileExceed"
-                            :before-upload="onBeforeFile"
-                            :http-request="onFileUpload">
-                            <el-button size="small" :disabled="canUploadFile" type="">选择文件</el-button>
-                        </el-upload>
-                        <div class="mar-b-15 mar-t-15">
-                            <el-button size="mini" :disabled="canResolveFile" @click="onResolveFile"
-                                       type="primary">检测解析
-                            </el-button>
+                    <template>
+                        <h3 class="jr-subtitle 2">上传文件</h3>
+                        <div class="mar-l-15">
+                            <el-upload
+                                ref="uploadBom"
+                                action=""
+                                :show-file-list="true"
+                                :auto-upload="true"
+                                :file-list="docParamMap.file"
+                                :limit="2"
+                                :disabled="canUploadFile"
+                                :before-upload="onBeforeFile"
+                                :http-request="onFileUpload">
+                                <el-button size="small" :disabled="canUploadFile" type="">选择文件</el-button>
+                            </el-upload>
+                            <div class="mar-b-15 mar-t-15">
+                                <el-button size="mini" :disabled="canResolveFile" @click="onResolveFile"
+                                           type="primary">检测解析
+                                </el-button>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+
                 </el-tab-pane>
 
                 <!--在线录入-->
                 <el-tab-pane label="在线录入" name="0-2">
                     <!--所属知识点-->
-                    <h3 class="jr-subtitle 2">所属知识点</h3>
-                    <div class="wrap">
-                        <KnowledgeTree v-model="onlineKnowledgeTreeModel"
-                                       :disabled="canSelectKnowledgeBtnIs"></KnowledgeTree>
-                    </div>
+                    <template>
+                        <h3 class="jr-subtitle 1">所属知识点</h3>
+                        <div class="wrap">
+                            <KnowledgePoint :disabled="canSelectKnowledgeBtnIs"
+                                            v-model="onlineParamMap.knowledgeIds"
+                                            @change="knowledgeChange($event,2)"
+                                            :param="paramMap"></KnowledgePoint>
+                        </div>
+                    </template>
 
                     <!--题型-->
                     <div v-show="canEditTopicType">
-                        <h3 class="jr-subtitle 3">知识点</h3>
-                        <Topic class="mar-l-15" :param="paramMap" ref="topic" @change="saveOnlineTest"></Topic>
+                        <h3 class="jr-subtitle 3">题型</h3>
+                        <TopicTemplate class="mar-l-15"></TopicTemplate>
                     </div>
+
+                    <!--题型-->
+                    <template>
+
+                    </template>
                 </el-tab-pane>
             </el-tabs>
         </div>
-        <div v-show="currentPage==='detect'">
+
+        <!--导入文件检测-->
+        <div v-if="currentPage==='detect'">
             <!--title-->
             <Title>题目上传</Title>
 
@@ -103,8 +119,8 @@
 
 <script>
     import linkGroup from '~/components/testBank/LinkGroup.vue'
-    import KnowledgeTree from '~/components/testBank/KnowledgeTree.vue'
-    import Topic from '~/components/testBank/Topic.vue'
+    import KnowledgePoint from '~/components/testBank/KnowledgePoint.vue'
+    import TopicTemplate from '~/components/testBank/TopicTemplate.vue'
     import Title from '~/components/testBank/Title.vue'
     import api from '@/config/module/testBank'
 
@@ -112,86 +128,46 @@
         name: "topicUpload",
         components: {
             linkGroup,
-            KnowledgeTree,
-            Topic,
+            KnowledgePoint,
+            TopicTemplate,
             Title,
         },
         computed: {
             //判断能否选择知识点
             canSelectKnowledgeBtnIs() {
-                return !(this.paramMap.subjectId !== '' && this.paramMap.phaseId !== '')
+                return this.paramMap.cSubjectId === ''
             },
+
             //判定能否上传文件
             canUploadFile() {
                 return !(this.docParamMap.knowledgeIds.syncIds.length > 0 || this.docParamMap.knowledgeIds.specIds.length > 0)
             },
+
             //能否解析文件
             canResolveFile() {
                 return this.docParamMap.file.length === 0
             },
+
             //能否修改题型
             canEditTopicType() {
                 return (this.onlineParamMap.knowledgeIds.syncIds.length > 0 || this.onlineParamMap.knowledgeIds.specIds.length > 0)
             },
-            //文档上传默认传参
-            docKnowledgeTreeModel: {
-                get() {
-                    return {
-                        syncIds: this.docParamMap.knowledgeIds.syncIds,
-                        specIds: this.docParamMap.knowledgeIds.specIds,
-                        c_subjectId: this.paramMap.subjectId,//学科
-                        c_phaseId: this.paramMap.phaseId,//学段
-                    }
-                },
-                set(val) {
-                    this.docParamMap.knowledgeIds = {
-                        syncIds: val.syncIds,
-                        specIds: val.specIds,
-                    };
-                }
-
-            },
-            onlineKnowledgeTreeModel: {
-                get() {
-                    return {
-                        syncIds: this.onlineParamMap.knowledgeIds.syncIds,
-                        specIds: this.onlineParamMap.knowledgeIds.specIds,
-                        c_subjectId: this.paramMap.subjectId,//学科
-                        c_phaseId: this.paramMap.phaseId,//学段
-                    }
-                },
-                set(val) {
-                    this.onlineParamMap.knowledgeIds = {
-                        syncIds: val.syncIds,
-                        specIds: val.specIds,
-                    };
-                }
-            }
         },
         data() {
             return {
-                currentModel: '0-2',// 当前模块 0-1文档上传 0-2在线录入
+                currentModel: '0-1',// 当前模块 0-1文档上传 0-2在线录入
                 currentPage: 'upload',//upload题目上传，detect题目检测
 
-                //公共页面参数
+                //公共参数
                 paramMap: {
-                    subjectId: 7,//学科
-                    phaseId: 14,//学段
+                    cSubjectId: '',//学科
+                    cPhaseId: '',//学段
                 },
 
                 //文档上传参数
                 docParamMap: {
                     knowledgeIds: {
-                        syncIds: [
-                            {
-                                knowledgeId: 2,
-                                knowledgeUuid: "87c180c2-c5f4-4c62-978a-4455c38e206b",
-                                name: "人口",
-                                parentId: 1,
-                                remark: null,
-                            }
-                        ],
-                        specIds: []
+                        syncIds: [], specIds: []
                     },
                     file: [],//上传文件
                 },
@@ -200,39 +176,46 @@
                 onlineParamMap: {
                     status: true,//1-启用，2-不启用
                     knowledgeIds: {
-                        syncIds: [
-                            {
-                                knowledgeId: 2,
-                                knowledgeUuid: "87c180c2-c5f4-4c62-978a-4455c38e206b",
-                                name: "人口",
-                                parentId: 1,
-                                remark: null,
-                            }
-                        ], specIds: []
+                        syncIds: [], specIds: []
                     },
                 },
 
                 //文件检测数据参数
                 detectParam: {
-                    errorMsg: '检测结果正常',
-                    parseMsg: '检测结果正常',
+                    errorMsg: '',
+                    parseMsg: '',
                     questions: [],
                 },
 
                 //字典列表
                 options: {
-                    subjectList: [],//学科
-                    phaseList: [],//学段
+                    phaseList: [],
+                    subjectList: [],
                 }
             }
         },
-        async created() {
-            //填充学科和学段
-            this.options.phaseList = (await api.getParameterInfoByCode({paramCode: 'Phase', status: 1})) || [];
-            this.options.subjectList = (await api.getParameterInfoByCode({paramCode: 'Subject', status: 1})) || [];
-
+        created() {
+            this.initHandle();
         },
         methods: {
+            /**
+             *@desc 初始数据处理
+             */
+            async initHandle() {
+                //填充学科和学段
+                this.options.phaseList = await api.getParameterInfoByCode({paramCode: 'Phase', status: 1});
+                this.options.subjectList = await api.getParameterInfoByCode({paramCode: 'Subject', status: 1});
+            },
+
+            /**
+             *@desc 重置页面信息
+             */
+            resetPage() {
+                this.paramMap.cSubjectId = '';
+                this.paramMap.cPhaseId = '';
+                this.topMsgChange();//清空信息
+            },
+
             /**
              *@desc 修改学科或学段时
              */
@@ -243,18 +226,24 @@
                 this.onlineParamMap.knowledgeIds.specIds = [];
                 this.onlineParamMap.knowledgeIds.syncIds = [];
 
-                this.$refs.topic.getQuestionType();//在线录入的题型列表
+                // this.$refs.topic.getQuestionType();//在线录入的题型列表
             },
 
             /**
              *@desc 修改知识点时
              */
-            knowledgeChange(val) {
-                this.docParamMap.file = [];//清空上传文件
+            knowledgeChange(val, type) {
+                this.paramMap.cSubjectId = val.paramMap.cSubjectId;//重置值
+                this.paramMap.cPhaseId = val.paramMap.cPhaseId;//重置值
+                if (type === 1) {
+                    this.docParamMap.file = [];//清空上传文件
+                } else {
+                    // this
+                }
             },
 
             /**
-             *@desc 上传-上传前验证
+             *@desc 文档上传-上传前验证
              */
             onBeforeFile(file) {
                 if (!file.name.includes('doc')) {
@@ -267,29 +256,19 @@
             },
 
             /**
-             *@desc 文档上传-上传-文件超出个数
-             */
-            onFileExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-
-            /**
-             *@desc 文档上传-上传-上传函数
+             *@desc 文档上传-保存文件信息
              */
             onFileUpload(fileObj) {
                 this.docParamMap.file = [fileObj.file];
             },
 
             /**
-             *@desc 文档上传-检测解析文件
+             *@desc 文档上传-上传并检测解析文件
              */
             onResolveFile() {
-                //
-                // this.$r.go('0-5', {file: this.docParamMap.file});
                 let formData = new FormData();
                 if (this.docParamMap.file[0]) {
                     formData.append('file', this.docParamMap.file[0]);
-
                     api.fileCheckAnalyse(formData).then(res => {
                         Object.assign(this.detectParam, res);
                         this.currentPage = 'detect';
@@ -301,10 +280,25 @@
             },
 
             /**
-             *@desc 在线录入-保存录入结果
+             *@desc 文档上传-确定导入
              */
-            saveOnlineTest(val) {
-                this.$message.success('录入成功');
+            importFile() {
+                let knowledgeIds = this.docParamMap.knowledgeIds.specIds.concat(this.docParamMap.knowledgeIds.syncIds);
+
+                api.bulkImport({
+                    subjectId: this.paramMap.cSubjectId,
+                    phaseId: this.paramMap.cPhaseId,
+                    knowledgeIds: knowledgeIds.map(item => {
+                        return item.knowledgeId
+                    }),
+                    questions: this.detectParam.questions
+                }).then(res => {
+                    this.$message.success('导入成功');
+                    this.resetPage();//重置页面信息
+                    this.currentPage = 'upload';
+                }).catch(err => {
+
+                })
             },
 
             /**
@@ -315,24 +309,11 @@
             },
 
             /**
-             *@desc 文档上传-确定导入
+             *@desc 在线录入-保存录入结果
              */
-            importFile() {
-                let knowledgeIds = this.onlineParamMap.knowledgeIds.specIds.concat(this.onlineParamMap.knowledgeIds.syncIds);
-                api.bulkImport({
-                    subjectId: this.paramMap.subjectId,
-                    phaseId: this.paramMap.phaseId,
-                    knowledgeIds: knowledgeIds.map(item => {
-                        return item.knowledgeId
-                    }),
-                    questions: this.detectParam.questions
-                }).then(res => {
-                    this.$message.success('导入成功');
-                    this.currentPage = 'upload';
-                }).catch(err => {
-
-                })
-            }
+            // saveOnlineTest(val) {
+            //     this.$message.success('待确定');
+            // },
         }
     }
 </script>

@@ -182,8 +182,8 @@
         },
         async created() {
             //填充学科和学段
-            this.options.phaseList = await api.getParameterInfo({paramCode: 'Phase', status: 1});
-            this.options.subjectList = await api.getParameterInfo({paramCode: 'Subject', status: 1});
+            // this.options.phaseList = await api.getParameterInfo({paramCode: 'Phase', status: 1});
+            // this.options.subjectList = await api.getParameterInfo({paramCode: 'Subject', status: 1});
         },
         mounted() {
             MathJax.typesetPromise();
