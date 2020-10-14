@@ -1,8 +1,4 @@
 module.exports = {
-    /*
-    ** Nuxt rendering mode
-    ** See https://nuxtjs.org/api/configuration-mode
-    */
     mode: 'universal',
 
     /*
@@ -36,8 +32,7 @@ module.exports = {
     */
     css: [
         'element-ui/lib/theme-chalk/index.css',
-        '@/assets/css/iconfont.css',
-        '@/assets/css/common.scss',
+        '@/assets/css/common.scss'
     ],
 
     /*
@@ -45,16 +40,13 @@ module.exports = {
     */
     plugins: [
         '@/plugins/element-ui',
-        '@/plugins/initialize',
         '@/plugins/utils',
-        '@/plugins/apirepository',
+        '@/plugins/api-repository',
     ],
-
     /*
     ** Nuxt.js dev-modules
     */
     buildModules: [],
-
     /*
     ** Nuxt.js modules
     */
@@ -62,13 +54,11 @@ module.exports = {
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
     ],
-
     /*
     ** Axios module configuration
     ** See https://axios.nuxtjs.org/options
     */
     axios: {},
-
     /*
     ** Build configuration
     */
@@ -80,12 +70,11 @@ module.exports = {
         extend(config, ctx) {
         }
     },
-
     /*
     ** Define server access host and port
     */
     server: {
-        port: 4000, // default: 3000
-        host: 'localhost', // default: localhost,
+        port: 3005, // default: 3000
+        host: '0.0.0.0', // default: localhost,
     },
 }

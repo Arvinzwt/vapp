@@ -1,6 +1,6 @@
 # vapp
 
-> My laudable Nuxt.js project
+> 
 
 ## Build Setup
 

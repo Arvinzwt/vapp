@@ -1,8 +1,8 @@
 {
     "name": "vapp",
     "version": "1.0.0",
-    "description": "My laudable Nuxt.js project",
-    "author": "zhangwentao",
+    "description": "",
+    "author": "arvin",
     "private": true,
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",

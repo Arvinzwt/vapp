@@ -1,7 +1,7 @@
 <template>
-    <el-container>
+    <div>
         <nuxt/>
-    </el-container>
+    </div>
 </template>
 
 <style>
