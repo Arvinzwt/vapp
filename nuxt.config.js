@@ -68,31 +68,15 @@ module.exports = {
    */
     auth: {
         strategies: {
-            local: {
+            customStrategy: {
+                _scheme: '~/schemes/customScheme',
                 endpoints: {
-                    //     login: {url: '/api/auth/login', method: 'post', propertyName: 'token'},
-                    //     logout: {url: '/api/auth/logout', method: 'post'},
-                    //     user: {url: '/api/auth/user', method: 'get', propertyName: 'user'}
-                    login: false,
-                    user: false,
-                    logout: false,
+                    login: {url: '/api/auth/login', method: 'post', propertyName: 'token'},
+                    logout: {url: '/api/auth/logout', method: 'post'},
+                    user: {url: '/api/auth/user', method: 'get', propertyName: 'user'}
                 },
             }
         },
-        // redirect: {//通过将设置为，可以禁用每个重定向路径false。您也可以通过设置redirect为禁用所有重定向false
-        //     login: '/login',//如果需要登录，用户将被重定向到该路径。
-        //     logout: '/',//如果注销后当前路径受保护，则用户将被重定向到该路径。
-        //     callback: '/login',//登录后，身份提供者会将用户重定向到此路径。（应将Allowed Callback URLs您的应用程序/客户端中配置的（或类似设置）与身份提供商匹配）
-        //     home: '/'//登录后，用户将重定向到该路径。（rewriteRedirects将重写此路径）
-        // },
-        // watchLoggedIn:true,//启用后（默认），用户将在登录/注销时重定向。
-        // token: {
-        //     prefix: '_token.'//用于为所有存储提供程序构建令牌存储密钥的默认前缀。
-        // }
-        // localStorage:{
-        //     prefix: 'auth.'//默认令牌前缀，用于在浏览器的localStorage中构建用于令牌存储的密钥。
-        // }
-
     },
 
     /*
@@ -106,7 +90,7 @@ module.exports = {
     ** Build configuration
     */
     build: {
-        transpile: [/^element-ui/],
+        transpile: [/^element-ui/, '@nuxtjs/auth'],
         /*
         ** You can extend webpack config here
         */

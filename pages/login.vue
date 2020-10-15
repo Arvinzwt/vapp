@@ -27,8 +27,7 @@ export default {
     methods: {
         async userLogin() {
             try {
-                let response = await this.$auth.loginWith('local', { data: this.login })
-                console.log(response)
+                let response = await this.$auth.loginWith('customStrategy', { data: this.login })
             } catch (err) {
                 console.log(err)
             }
