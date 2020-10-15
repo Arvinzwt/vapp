@@ -1,5 +1,5 @@
 <template>
-    <el-main></el-main>
+    <el-main>首页</el-main>
 </template>
 
 <script>
