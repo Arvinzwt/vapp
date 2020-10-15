@@ -2,7 +2,7 @@
     "name": "vapp",
     "version": "1.0.0",
     "description": "",
-    "author": "arvin",
+    "author": "",
     "private": true,
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
@@ -11,14 +11,13 @@
         "generate": "nuxt generate"
     },
     "dependencies": {
-        "@nuxtjs/auth": "^4.9.1",
-        "@nuxtjs/axios": "^5.3.6",
-        "cross-env": "^5.2.0",
-        "element-ui": "^2.4.11",
-        "express": "^4.16.4",
-        "moment": "^2.26.0",
         "nuxt": "^2.0.0",
-        "underscore": "^1.10.2"
+        "cross-env": "^5.2.0",
+        "express": "^4.16.4",
+        "element-ui": "^2.4.11",
+        "@nuxtjs/axios": "^5.3.6",
+        "underscore": "^1.10.2",
+        "moment": "^2.26.0"
     },
     "devDependencies": {
         "nodemon": "^1.18.9",

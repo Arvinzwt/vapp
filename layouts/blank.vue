@@ -3,7 +3,3 @@
         <nuxt/>
     </el-container>
 </template>
-
-<style>
-
-</style>

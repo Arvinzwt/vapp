@@ -11,7 +11,7 @@ module.exports = {
     ** Headers of the page
     */
     head: {
-        title: process.env.npm_package_name || '',
+        title: '精锐在线',
         meta: [
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -43,19 +43,20 @@ module.exports = {
         '@/plugins/utils',
         '@/plugins/api-repository',
     ],
+
     /*
     ** Nuxt.js dev-modules
     */
     buildModules: [],
+
     /*
     ** Nuxt.js modules
     */
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
-        // Doc: https://auth.nuxtjs.org/
-        '@nuxtjs/auth',
     ],
+
     /*
     ** Axios module configuration
     ** See https://axios.nuxtjs.org/options
@@ -63,34 +64,10 @@ module.exports = {
     axios: {},
 
     /*
-   ** Auth module configuration
-   ** See https://auth.nuxtjs.org/
-   */
-    auth: {
-        strategies: {
-            customStrategy: {
-                _scheme: '~/schemes/customScheme',
-                endpoints: {
-                    login: {url: '/api/auth/login', method: 'post', propertyName: 'token'},
-                    logout: {url: '/api/auth/logout', method: 'post'},
-                    user: {url: '/api/auth/user', method: 'get', propertyName: 'user'}
-                },
-            }
-        },
-    },
-
-    /*
-    ** 路由监听
-    */
-    router: {
-        middleware: ['auth']
-    },
-
-    /*
     ** Build configuration
     */
     build: {
-        transpile: [/^element-ui/, '@nuxtjs/auth'],
+        transpile: [/^element-ui/],
         /*
         ** You can extend webpack config here
         */

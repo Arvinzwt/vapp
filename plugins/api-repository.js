@@ -1,3 +1,7 @@
-export default ({$axios}, inject) => {
-    $axios.defaults.baseURL = 'http://127.0.0.1:7001/'
+/**
+ * @description: api接口上下文管理
+ */
+
+export default (context, inject) => {
+    inject('api', {});
 }

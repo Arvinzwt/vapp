@@ -8,8 +8,8 @@ import underscore from 'underscore';
 import moment from 'moment';
 
 export default ({store, $axios, app}, inject) => {
-    inject("$utils", {
-        moment,
+    inject('utils', {
         underscore,
+        moment,
     })
 }
