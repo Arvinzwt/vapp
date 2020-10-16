@@ -4,7 +4,6 @@
 
 import config from "./config";
 import {Message, Loading} from "element-ui";
-import da from "element-ui/src/locale/lang/da";
 
 export default class Request {
     constructor(context) {
