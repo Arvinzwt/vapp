@@ -1,0 +1,37 @@
+/*常用变量*/
+@import "./basis.scss";
+
+body, html {
+    margin: 0;
+    padding: 0;
+    color: $jr-text-color-regular;
+    font-size: $jr-text-size-main-small;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+.jr {
+    border: 1px solid red;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    .jr-nav {
+        border: 1px solid green;
+    }
+
+    .jr-container {
+        border: 1px solid blue;
+
+        .jr-header {
+            border: 1px solid red;
+        }
+
+        .jr-menu {
+            border: 1px solid green;
+        }
+
+        .jr-main {
+            border: 1px solid blue;
+        }
+    }
+}
