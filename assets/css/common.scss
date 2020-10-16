@@ -9,6 +9,7 @@ body, html {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
+/*整体结构*/
 .jr {
     border: 1px solid red;
     min-height: 100vh;
@@ -32,6 +33,30 @@ body, html {
 
         .jr-main {
             border: 1px solid blue;
+        }
+    }
+}
+
+/*全局组件-loading*/
+.jr-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+
+    .el-loading-spinner {
+        position: static;
+        top: auto;
+        margin: 0;
+        width: auto;
+        text-align: center;
+        background: rgba(0, 0, 0, .5);
+        padding: 10px;
+        border-radius: 5px;
+
+        .el-icon-loading {
+            font-size: 30px;
+            color: #fff;
         }
     }
 }
