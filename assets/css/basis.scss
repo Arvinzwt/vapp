@@ -49,6 +49,9 @@ $jr-border-radius-circle: 50%;
 $jr-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
+/*  -- 宽度 -- */
+.w-100{ width: 100%; }
+.h-100{height: 100%;}
 
 /* 文字颜色 */
 .text-color-brand{color:$jr-brand-color;}//品牌色

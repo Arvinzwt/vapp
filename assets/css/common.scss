@@ -11,30 +11,30 @@ body, html {
 
 /*整体结构*/
 .jr {
-    border: 1px solid red;
+    //border: 1px solid red;
     min-height: 100vh;
     margin: 0;
     padding: 0;
 
-    .jr-nav {
-        border: 1px solid green;
-    }
-
-    .jr-container {
-        border: 1px solid blue;
-
-        .jr-header {
-            border: 1px solid red;
-        }
-
-        .jr-menu {
-            border: 1px solid green;
-        }
-
-        .jr-main {
-            border: 1px solid blue;
-        }
-    }
+    //.jr-nav {
+    //    border: 1px solid green;
+    //}
+    //
+    //.jr-container {
+    //    border: 1px solid blue;
+    //
+    //    .jr-header {
+    //        border: 1px solid red;
+    //    }
+    //
+    //    .jr-menu {
+    //        border: 1px solid green;
+    //    }
+    //
+    //    .jr-main {
+    //        border: 1px solid blue;
+    //    }
+    //}
 }
 
 /*全局组件-loading*/
