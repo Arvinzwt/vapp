@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-customer-call">
         呼入线索客户
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "customer-call",
         data() {
             return {}
         },

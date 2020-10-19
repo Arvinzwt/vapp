@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-today-clue">
         今日新线索
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "today-clue",
         data() {
             return {}
         },

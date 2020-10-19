@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-customer-manage">
         线索客户管理
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "customer-manage",
         data() {
             return {}
         },

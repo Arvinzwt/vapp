@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-recommend-check">
         推荐审核
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "recommend-check",
         data() {
             return {}
         },

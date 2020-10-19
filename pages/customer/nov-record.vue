@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-nov-record">
         诺访记录
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "nov-record",
         data() {
             return {}
         },

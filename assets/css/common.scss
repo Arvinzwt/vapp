@@ -2,61 +2,62 @@
 @import "./basis.scss";
 
 body, html {
-    margin: 0;
-    padding: 0;
-    color: $jr-text-color-regular;
-    font-size: $jr-text-size-main-small;
-    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: $jr-text-color-regular;
+  -webkit-font-smoothing: antialiased;
+  font-size: $jr-text-size-main-small;
+  font-family: Arial, sans-serif, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑";
 }
 
 /*整体结构*/
 .jr {
-    //border: 1px solid red;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
+  //border: 1px solid red;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 
-    //.jr-nav {
-    //    border: 1px solid green;
-    //}
-    //
-    //.jr-container {
-    //    border: 1px solid blue;
-    //
-    //    .jr-header {
-    //        border: 1px solid red;
-    //    }
-    //
-    //    .jr-menu {
-    //        border: 1px solid green;
-    //    }
-    //
-    //    .jr-main {
-    //        border: 1px solid blue;
-    //    }
-    //}
+  //.jr-nav {
+  //    border: 1px solid green;
+  //}
+  //
+  //.jr-container {
+  //    border: 1px solid blue;
+  //
+  //    .jr-header {
+  //        border: 1px solid red;
+  //    }
+  //
+  //    .jr-menu {
+  //        border: 1px solid green;
+  //    }
+  //
+  //    .jr-main {
+  //        border: 1px solid blue;
+  //    }
+  //}
 }
 
 /*全局组件-loading*/
 .jr-loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
 
-    .el-loading-spinner {
-        position: static;
-        top: auto;
-        margin: 0;
-        width: auto;
-        text-align: center;
-        background: rgba(0, 0, 0, .5);
-        padding: 10px;
-        border-radius: 5px;
+  .el-loading-spinner {
+    position: static;
+    top: auto;
+    margin: 0;
+    width: auto;
+    text-align: center;
+    background: rgba(0, 0, 0, .5);
+    padding: 10px;
+    border-radius: 5px;
 
-        .el-icon-loading {
-            font-size: 30px;
-            color: #fff;
-        }
+    .el-icon-loading {
+      font-size: 30px;
+      color: #fff;
     }
+  }
 }

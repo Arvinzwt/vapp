@@ -74,18 +74,18 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .text-line-loose{line-height: $jr-text-line-loose;}
 
 /* 背景颜色 */
-.bg-brand{color:$jr-brand-color;}//品牌色
-.bg-success{color: $jr-success-color;}//成功
-.bg-warning{color: $jr-warning-color;}//警告
-.bg-danger{color: $jr-danger-color;}//危险
-.bg-inf{color: $jr-info-color;} //提示
+.bg-brand{background-color:$jr-brand-color;}//品牌色
+.bg-success{background-color: $jr-success-color;}//成功
+.bg-warning{background-color: $jr-warning-color;}//警告
+.bg-danger{background-color: $jr-danger-color;}//危险
+.bg-inf{background-color: $jr-info-color;} //提示
 
-.bg-main{color:$jr-text-color-main;}//主要文字
-.bg-regular{color: $jr-text-color-regular;} //常规文字
-.bg-secondary{color: $jr-text-color-secondary;}//次要文字
-.bg-placeholder{color: $jr-text-color-placeholder;}//占位文字
-.bg-white{color: $jr-white;}//白
-.bg-black{color: $jr-black;}//黑
+.bg-main{background-color:$jr-text-color-main;}//主要文字
+.bg-regular{background-color: $jr-text-color-regular;} //常规文字
+.bg-secondary{background-color: $jr-text-color-secondary;}//次要文字
+.bg-placeholder{background-color: $jr-text-color-placeholder;}//占位文字
+.bg-white{background-color: $jr-white;}//白
+.bg-black{background-color: $jr-black;}//黑
 
 /* 边框 */
 .border-level1-left{border-left: 1px solid $jr-border-level1;}

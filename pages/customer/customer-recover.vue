@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-customer-recover">
         即将回收
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "customer-recover",
         data() {
             return {}
         },

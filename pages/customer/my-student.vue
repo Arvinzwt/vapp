@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-my-student">
         我的学员
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "my-student",
         data() {
             return {}
         },

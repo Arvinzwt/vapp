@@ -1,12 +1,11 @@
 <template>
-    <el-main>
+    <el-main class="jr-customer-today-reserve">
         今日预约沟通
     </el-main>
 </template>
 
 <script>
  export default {
-        name: "today-reserve",
         data() {
             return {}
         },
