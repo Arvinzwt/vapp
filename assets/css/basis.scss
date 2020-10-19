@@ -223,6 +223,13 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .text-ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .text-multi-ellipsis{overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;}
 
+/* 文字划过 */
+.cursor-pointer{cursor:pointer;}
+.cursor-default{cursor:default;}
+.cursor-crosshair{cursor:crosshair;}
+.cursor-waitr{cursor:wait;}
+.cursor-help{cursor:help;}
+
 /*字体图标*/
 @import url("//at.alicdn.com/t/font_2125379_9vf0kq1uz2.css");
 

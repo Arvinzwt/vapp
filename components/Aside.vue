@@ -8,18 +8,18 @@
                 :default-openeds="['customer']"
                 :default-active="$router.name">
             <el-submenu v-for="mItem in menuList"
-                        :key="mItem.id"
-                        :index="mItem.id">
+                        :key="mItem.name"
+                        :index="mItem.name">
                 <template slot="title">
                     <span class="iconfont mr-1" :class="mItem.icon"></span>
-                    <span>{{ mItem.name }}</span>
+                    <span>{{ mItem.title }}</span>
                 </template>
                 <el-menu-item v-for="mList in mItem.child"
-                              :key="mList.id"
-                              :index="mList.id"
-                              :class="$route.name===mList.id?'active':''"
+                              :key="mList.name"
+                              :index="mList.name"
+                              :class="$route.name===mList.name?'active':''"
                               @click="linkTo(mList)">
-                    <span> {{ mList.name }}</span>
+                    <span> {{ mList.title }}</span>
                     <span v-if="mList.num" class="jr-badge bg-danger ml-1">{{ mList.num }}</span>
                 </el-menu-item>
             </el-submenu>
@@ -43,7 +43,7 @@ export default {
                     menuList.push({
                         ...item,
                         child: item.child.filter(list => {
-                            return list.menuShow
+                            return list.show
                         })
                     })
                 }
@@ -75,6 +75,8 @@ export default {
     }
 
     .aside-menu {
+        border-right: 1px solid transparent;
+
         .el-submenu__title i {
             color: #fff;
         }
