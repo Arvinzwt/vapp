@@ -10,12 +10,18 @@ export default class Common extends Request {
 
     // 登录接口
     async login(data, options) {
-        return this.post('/api/auth/login', data, options);
+        // return this.post('/api/auth/login', data, options);
+        return {
+            token: 123123
+        }
     }
 
     //获取用户信息
     async user(data, options) {
-        return this.get('/api/auth/user', data, options);
+        // return this.get('/api/auth/user', data, options);
+        return {
+            name: '张三'
+        }
     }
 
     //测试下载功能
@@ -40,7 +46,45 @@ export default class Common extends Request {
                         "title": "线索客户管理",
                         "num": 0,//小时数量
                         "path": "/customer/customer-manage",
-                        "query": {}
+                        "query": {},
+                        'child': [
+                            {
+                                "name": "customer-customer-manage",//唯一id，页面name属性
+                                "code": "0988",//权限码
+                                "show": true,//是否在左侧菜单栏显示显示
+                                "title": "新海",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage",
+                                "query": {}
+                            },
+                            {
+                                "name": "customer-customer-manage-second",//唯一id，页面name属性
+                                "code": "0988",//权限码
+                                "show": false,//是否在左侧菜单栏显示显示
+                                "title": "公海",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage/second",
+                                "query": {}
+                            },
+                            {
+                                "name": "customer-customer-manage-third",//唯一id，页面name属性
+                                "code": "0988",//权限码
+                                "show": false,//是否在左侧菜单栏显示显示
+                                "title": "死海",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage/third",
+                                "query": {}
+                            },
+                            {
+                                "name": "customer-customer-manage-fourth",//唯一id，页面name属性
+                                "code": "0988",//权限码
+                                "show": false,//是否在左侧菜单栏显示显示
+                                "title": "全部",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage/fourth",
+                                "query": {}
+                            },
+                        ]
                     },
                     {
                         "name": "customer-customer-call",//唯一id

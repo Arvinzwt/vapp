@@ -20,7 +20,7 @@
                               :class="$route.name===mList.name?'active':''"
                               @click="linkTo(mList)">
                     <span> {{ mList.title }}</span>
-                    <span v-if="mList.num" class="jr-badge bg-danger ml-1">{{ mList.num }}</span>
+                    <span v-if="mList.num" class="jr-badge">{{ mList.num }}</span>
                 </el-menu-item>
             </el-submenu>
         </el-menu>
@@ -92,19 +92,7 @@ export default {
 
         .el-menu-item {
             font-size: 12px;
-        }
-
-        .jr-badge {
-            border-radius: 10px;
-            color: #fff;
-            display: inline-block;
-            font-size: 12px;
-            padding: 0 6px;
-            text-align: center;
-            white-space: nowrap;
-            height: 18px;
-            line-height: 18px;
-            border: 1px solid #488ff1;
+            min-width: auto;
         }
     }
 }

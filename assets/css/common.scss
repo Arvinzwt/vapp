@@ -8,35 +8,33 @@ body, html {
     -webkit-font-smoothing: antialiased;
     font-size: $jr-text-size-main-small;
     font-family: Arial, sans-serif, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑";
-    background-color: #fafafa;
 }
 
 /*整体结构*/
 .jr {
-    //border: 1px solid red;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
     padding: 0;
 
-    //.jr-nav {
-    //    border: 1px solid green;
-    //}
-    //
-    //.jr-container {
-    //    border: 1px solid blue;
-    //
-    //    .jr-header {
-    //        border: 1px solid red;
-    //    }
-    //
-    //    .jr-menu {
-    //        border: 1px solid green;
-    //    }
-    //
-    //    .jr-main {
-    //        border: 1px solid blue;
-    //    }
-    //}
+    .jr-aside {
+        //border: 1px solid blue;
+    }
+
+    .jr-container {
+
+        .jr-header {
+            //border: 1px solid red;
+        }
+
+        .jr-nav {
+            //border: 1px solid green;
+        }
+
+        .jr-main {
+            //border: 1px solid blue;
+            padding-top: 0;
+        }
+    }
 }
 
 /*全局组件-loading*/
@@ -61,4 +59,121 @@ body, html {
             color: #fff;
         }
     }
+}
+
+/*全局组件-tabs*/
+.jr-tabs {
+    .jr-tabs-main {
+        display: flex;
+        align-items: center;
+
+        .jr-tabs-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            margin-right: 40px;
+            font-weight: bolder;
+            color: #303133;
+            cursor: pointer;
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: 100%;
+                width: 0;
+                height: 2px;
+                background-color: $jr-brand-color;
+                transition: all 0.1s linear;
+            }
+
+            &.active {
+                color: $jr-brand-color;
+
+                &:after {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .jr-tabs-active {
+        height: 2px;
+        background-color: $jr-border-level2;
+    }
+}
+
+/*全局组件-table*/
+.jr-table {
+    margin: 20px 0;
+
+    th {
+        background-color: $jr-border-level4;
+
+        .cell {
+            font-size: $jr-text-size-auxiliary;
+            color: $jr-text-color-main;
+            font-weight: bolder;
+        }
+    }
+}
+
+/*全局组件-badge*/
+.jr-badge {
+    border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+    font-size: $jr-text-size-auxiliary;
+    padding: 0 4px;
+    text-align: center;
+    white-space: nowrap;
+    height: 14px;
+    line-height: 14px;
+    border: 1px solid transparent;
+    background-color: $jr-danger-color;
+    margin-left: 5px;
+}
+
+
+/*全局组件-表单*/
+.jr-form {
+    //修改字体大小
+    .el-form-item__label,
+    .el-form-item__content,
+    .el-select-dropdown__item,
+    .el-checkbox__label,
+    .el-radio__label,
+    .el-checkbox__inner,
+    .el-input__inner,
+    .el-link--inner,
+    .el-cascader-node__label,
+    .el-cascader__search-input::placeholder {
+        font-size: $jr-text-size-auxiliary;
+    }
+
+    //宽度统一
+    .el-date-editor--daterange.el-input__inner,
+    .el-select,
+    .el-date-editor.el-input,
+    .el-cascader {
+        width: 100%;
+    }
+
+    //调整上下间距
+    .el-form-item {
+        margin-bottom: 15px;
+    }
+
+    //级联选择器带筛选框高度调整
+    .el-cascader__search-input {
+        height: 20px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/*全局组件-link-text*/
+.el-link--inner {
+    font-size: $jr-text-size-auxiliary;
 }

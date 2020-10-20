@@ -56,14 +56,27 @@ export default {
             this.topMenu = [];
             this.menu.forEach(item => {
                 item.child.forEach(list => {
-                    tm.forEach(tmItem => {
-                        if (tmItem.name === list.name) {
-                            this.topMenu.push({
-                                ...list,
-                                query: tmItem.query
+                    if (list.child) {//如果有子路由
+                        list.child.forEach(li => {
+                            tm.forEach(tmItem => {
+                                if (tmItem.name === li.name) {
+                                    this.topMenu.push({
+                                        ...li,
+                                        query: tmItem.query
+                                    })
+                                }
                             })
-                        }
-                    })
+                        })
+                    } else {
+                        tm.forEach(tmItem => {
+                            if (tmItem.name === list.name) {
+                                this.topMenu.push({
+                                    ...list,
+                                    query: tmItem.query
+                                })
+                            }
+                        })
+                    }
                 })
             })
             return tm;

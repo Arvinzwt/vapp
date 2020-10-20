@@ -1,9 +1,9 @@
 <template>
     <el-container class="jr">
-        <asideTemplate class="jr-aside"></asideTemplate>
+        <aside-template class="jr-aside"></aside-template>
         <el-container class="jr-container" direction="vertical">
-            <headerTemplate class="jr-header"></headerTemplate>
-            <navTemplate class="jr-nav"></navTemplate>
+            <header-template class="jr-header"></header-template>
+            <nav-template class="jr-nav"></nav-template>
             <nuxt class="jr-main"/>
         </el-container>
     </el-container>
