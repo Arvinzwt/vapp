@@ -1,4 +1,5 @@
 <template>
+    <!--头部信息栏-->
     <el-header class="jr-header" height="40px">
         <div class="text-color-brand font-size-auxiliary">{{ currentDate }}</div>
         <div class="">

@@ -1,4 +1,5 @@
 <template>
+    <!--左侧菜单-->
     <el-aside class="jr-aside" width="200px">
         <img src="/images/menu_bg.png" alt="logo" class="aside-logo"/>
         <el-menu
@@ -36,13 +37,14 @@ export default {
         }
     },
     async mounted() {
+        //初始拉取菜单列表
         this.menuList = await this.$api.common.getMenu().then(list => {
             let menuList = []
             list.forEach(item => {
-                if (item.show) {
+                if (item.show) {//过滤第一层
                     menuList.push({
                         ...item,
-                        child: item.child.filter(list => {
+                        child: item.child.filter(list => {//过滤第二层
                             return list.show
                         })
                     })

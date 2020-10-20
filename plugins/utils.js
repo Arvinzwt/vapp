@@ -22,5 +22,38 @@ export default ({store, $axios, app}, inject) => {
             return timestamp ? moment(timestamp).format(format) : ''
             // 时间戳单位为秒时// return timestamp ? moment.unix(timestamp).format(format) : '';
         },
+
+        /**
+         *@desc 重置json对象-只能处理第一层
+         *@param json[Object] 重置对象
+         *@return json[Object]
+         */
+        resetJson(json) {
+            for (let key in json) {
+                if (json.hasOwnProperty(key)) {
+                    let target = json[key];
+                    if (underscore.isObject(json[key])) {
+                        target = {};
+                    }
+                    if (underscore.isArray(json[key])) {
+                        target = [];
+                    }
+                    if (underscore.isFunction(json[key])) {
+                        target = json[key];
+                    }
+                    if (underscore.isString(json[key])) {
+                        target = '';
+                    }
+                    if (underscore.isNumber(json[key])) {
+                        target = '0';
+                    }
+                    if (underscore.isBoolean(json[key])) {
+                        target = false;
+                    }
+                    json[key] = target;
+                }
+            }
+            return json;
+        }
     })
 }

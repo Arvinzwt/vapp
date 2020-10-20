@@ -159,8 +159,32 @@ export default class Common extends Request {
                         "path": "/customer/recommend-check",
                         "query": {}
                     },
+                    {
+                        "name": "customer-customer-detail",//唯一id
+                        "code": "0998",//权限码
+                        "show": false,//是否在左侧菜单栏显示显示
+                        "title": "用户详情",
+                        "num": 0,//小时数量
+                        "path": "/customer/customer-detail",
+                        "query": {}
+                    },
                 ]
             },
         ]
+    }
+
+    //拉取负责人
+    async getRole(data) {
+        return [{
+            id: 1,
+            label: '一级 1',
+            children: [{
+                id: 4,
+                label: '二级 1-1',
+            }, {
+                id: 5,
+                label: '二级 1-2',
+            }]
+        }]
     }
 }

@@ -1,4 +1,5 @@
 <template>
+    <!--线索客户管理-死海-->
     <div class="jr-customer-customer-manage-third">
         <!--筛选项-->
         <el-form class="jr-form" size="mini"
@@ -140,7 +141,7 @@
 </template>
 
 <script>
-import PaginationTemplate from "@/components/Pagination";
+import PaginationTemplate from "@/components/customer/Pagination";
 
 export default {
     components: {

@@ -1,4 +1,5 @@
 <template>
+    <!--线索客户管理-全部-->
     <div class="jr-customer-customer-manage-fourth">
         <!--筛选项-->
         <el-form class="jr-form" size="mini" :model="paramMap" :rules="paramRules"
@@ -153,7 +154,7 @@
 </template>
 
 <script>
-import PaginationTemplate from "@/components/Pagination";
+import PaginationTemplate from "@/components/customer/Pagination";
 
 export default {
     components: {

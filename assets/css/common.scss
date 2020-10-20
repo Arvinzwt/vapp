@@ -177,3 +177,25 @@ body, html {
 .el-link--inner {
     font-size: $jr-text-size-auxiliary;
 }
+
+/*全局组件-对话框*/
+.jr-dialog {
+    .dialog-header {
+        margin: 0;
+        padding: 0;
+    }
+
+    .el-dialog__body {
+        padding: 10px 20px;
+
+        .dialog-body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .dialog-footer {
+        margin: 0;
+        padding: 0;
+    }
+}
