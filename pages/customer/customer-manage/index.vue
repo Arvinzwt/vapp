@@ -25,7 +25,7 @@
                                 end-placeholder="结束日期"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="options.pickerOptions"
+                                :picker-options="$utils.pickerOptions"
                                 clearable>
                         </el-date-picker>
                     </el-form-item>
@@ -81,8 +81,8 @@
         </div>
         <!--列表-->
         <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column type="selection" align="center" width="50"/>
-            <el-table-column label="姓名" prop="name"></el-table-column>
+            <el-table-column fixed type="selection" align="center" width="50"/>
+            <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column label="手机" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer">
@@ -98,7 +98,7 @@
             <el-table-column label="备注" prop="name"></el-table-column>
             <el-table-column label="创建时间" prop="name"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerDetail">详情</el-link>
                 </template>
@@ -112,7 +112,6 @@
 <script>
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
-import moment from "moment";
 
 export default {
     components: {
@@ -185,64 +184,6 @@ export default {
                     // label:'label',
                     // children:'children',
                 },
-
-                //日期选择器的配置信息
-                pickerOptions: {
-                    firstDayOfWeek: 1,
-                    shortcuts: [
-                        {
-                            text: '当日',
-                            onClick(picker) {
-                                const date1 = moment().startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                const date2 = moment().endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                picker.$emit('pick', [date1, date2]);
-                            }
-                        }, {
-                            text: '昨日',
-                            onClick(picker) {
-                                console.log(this, 111)
-                                let date1 = moment().subtract(1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                let date2 = moment().subtract(1, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                picker.$emit('pick', [date1, date2]);
-                            }
-                        }, {
-                            text: '本周',
-                            onClick(picker) {
-                                let weekDay = moment().format('E');//计算今天是这周第几天
-                                let start = moment().subtract(weekDay - 1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');//周一日期
-                                let end = moment().add(7 - weekDay, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');//周日日期
-
-                                picker.$emit('pick', [start, end]);
-                            }
-                        },
-                        {
-                            text: '本月',
-                            onClick(picker) {
-                                let start = moment().startOf('month').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                let end = moment().endOf('month').endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                                picker.$emit('pick', [start, end]);
-                            }
-                        },
-                        {
-                            text: '最近7日',
-                            onClick(picker) {
-                                let date = [];
-                                date.push(moment().subtract(6, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                                date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                                picker.$emit('pick', date);
-                            }
-                        },
-                        {
-                            text: '最近30日',
-                            onClick(picker) {
-                                let date = [];
-                                date.push(moment().subtract(29, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                                date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                                picker.$emit('pick', date);
-                            }
-                        }
-                    ],
-                }
             },
 
             // 列表数据

@@ -39,7 +39,6 @@
 
 <script>
 export default {
-    name: "SelectedRole",
     data() {
         return {
             dialog: {
@@ -112,7 +111,12 @@ export default {
             let target = this.$refs['treeRef'].getCheckedKeys();
             if (target.length > 0) {
                 this.$emit('update', target);//更新数据
-                this.$emit('submit', target);//触发change
+                this.$emit('submit', {
+                    ids:target,
+                    name:(this.$refs['treeRef'].getCheckedNodes()).map(item=>{
+                        return item.label;
+                    })
+                });//触发change
                 this.dialog.show = false;
             } else {
                 this.$message.error("请选择负责人")
