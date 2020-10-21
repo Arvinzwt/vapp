@@ -93,7 +93,27 @@ export default class Common extends Request {
                         "title": "呼入线索客户",
                         "num": 0,//小时数量
                         "path": "/customer/customer-call",
-                        "query": {}
+                        "query": {},
+                        "child": [
+                            {
+                                "name": "customer-customer-call",//唯一id，页面name属性
+                                "code": "0981",//权限码
+                                "show": false,//是否在左侧菜单栏显示显示
+                                "title": "待确认",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage",
+                                "query": {}
+                            },
+                            {
+                                "name": "customer-customer-call-confirmed",//唯一id，页面name属性
+                                "code": "0981",//权限码
+                                "show": false,//是否在左侧菜单栏显示显示
+                                "title": "已确认",
+                                "num": 0,//小时数量
+                                "path": "/customer/customer-manage/confirmed",
+                                "query": {}
+                            },
+                        ]
                     },
                     {
                         "name": "customer-today-clue",//唯一id
@@ -109,7 +129,7 @@ export default class Common extends Request {
                         "code": "0990",//权限码
                         "show": true,//是否在左侧菜单栏显示显示
                         "title": "今日预约沟通",
-                        "num": 20,//小时数量
+                        "num": 0,//小时数量
                         "path": "/customer/today-reserve",
                         "query": {}
                     },
@@ -118,7 +138,7 @@ export default class Common extends Request {
                         "code": "0991",//权限码
                         "show": true,//是否在左侧菜单栏显示显示
                         "title": "即将回收",
-                        "num": 30,//小时数量
+                        "num": 0,//小时数量
                         "path": "/customer/customer-recover",
                         "query": {}
                     },
