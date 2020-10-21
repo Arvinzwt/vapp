@@ -1,6 +1,7 @@
 <template>
     <el-main class="jr-customer-my-customer">
-        我的线索客户
+        <h3 class="jr-title">我的线索客户</h3>
+
     </el-main>
 </template>
 

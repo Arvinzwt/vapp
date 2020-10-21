@@ -61,47 +61,13 @@ body, html {
     }
 }
 
-/*全局组件-tabs*/
-.jr-tabs {
-    .jr-tabs-main {
-        display: flex;
-        align-items: center;
-
-        .jr-tabs-item {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-            margin-right: 40px;
-            font-weight: bolder;
-            color: #303133;
-            cursor: pointer;
-
-            &:after {
-                content: '';
-                position: absolute;
-                top: 100%;
-                width: 0;
-                height: 2px;
-                background-color: $jr-brand-color;
-                transition: all 0.1s linear;
-            }
-
-            &.active {
-                color: $jr-brand-color;
-
-                &:after {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
-    .jr-tabs-active {
-        height: 2px;
-        background-color: $jr-border-level2;
-    }
+/*全局组件-标题*/
+.jr-title {
+    font-size: $jr-text-size-main-small;
+    font-weight: bolder;
+    margin: 0;
+    line-height: 40px;
+    height: 40px;
 }
 
 /*全局组件-table*/
@@ -134,7 +100,6 @@ body, html {
     background-color: $jr-danger-color;
     margin-left: 5px;
 }
-
 
 /*全局组件-表单*/
 .jr-form {

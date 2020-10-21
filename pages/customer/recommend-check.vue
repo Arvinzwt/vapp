@@ -1,6 +1,7 @@
 <template>
     <el-main class="jr-customer-recommend-check">
-        推荐审核
+        <h3 class="jr-title">推荐审核</h3>
+
     </el-main>
 </template>
 

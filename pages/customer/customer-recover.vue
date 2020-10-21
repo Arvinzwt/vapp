@@ -1,6 +1,7 @@
 <template>
     <el-main class="jr-customer-customer-recover">
-        即将回收
+        <h3 class="jr-title">即将回收</h3>
+
     </el-main>
 </template>
 

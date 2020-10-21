@@ -36,6 +36,7 @@ $jr-border-level4: #F2F6FC; //四级边框
 /* 基础色号 */
 $jr-black: #000000;
 $jr-white: #FFFFFF;
+$jr-gray: #fafafa; //常规
 $jr-transparent: transparent;
 
 /* 圆角 */
@@ -66,6 +67,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .text-color-placeholder{color: $jr-text-color-placeholder;}//占位文字
 .text-color-white{color: $jr-white;}//白
 .text-color-black{color: $jr-black;}//黑
+.text-color-gray{color: $jr-gray;}//黑
 
 /* 文字行高 */
 .text-line-none{line-height: $jr-text-line-none;}
@@ -86,6 +88,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .bg-placeholder{background-color: $jr-text-color-placeholder;}//占位文字
 .bg-white{background-color: $jr-white;}//白
 .bg-black{background-color: $jr-black;}//黑
+.bg-gray{background-color: $jr-gray;}
 
 /* 边框 */
 .border-level1-left{border-left: 1px solid $jr-border-level1;}
@@ -232,62 +235,34 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
 @mixin scroll-style{
     /*修改滚动条样式-滚动条整体部分*/
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-        background: transparent;
-    }
+    ::-webkit-scrollbar {width: 8px;height: 8px;background: transparent;}
 
     //滚动条的轨道
-    ::-webkit-scrollbar-track {
-
-    }
+    ::-webkit-scrollbar-track {}
 
     //内层轨道，滚动条中间部分
-    ::-webkit-scrollbar-track-piece {
-        //width: 0;
-        //height: 0;
-        //background-color: transparent;
-    }
+    ::-webkit-scrollbar-track-piece {}
 
     //滚动条里面的小方块
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,0.4);
-        border-radius: 8px;
-    }
+    ::-webkit-scrollbar-thumb {background-color: rgba(0,0,0,0.4);border-radius: 8px;}
 
     //滚动条里面的小方块-划过
-    ::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(0,0,0,0.6);
-    }
+    ::-webkit-scrollbar-thumb:hover {background-color: rgba(0,0,0,0.6);}
 
     //边角，即两个滚动条的交汇处
-    ::-webkit-scrollbar-corner {
-        background-color: transparent;
-    }
+    ::-webkit-scrollbar-corner {background-color: transparent;}
 
     //滚动条的轨道的两端按钮
-    ::-webkit-scrollbar-button {
-        width: 0;
-        height: 0;
-        background-color: transparent;
-    }
+    ::-webkit-scrollbar-button {width: 0;height: 0;background-color: transparent;}
 
     //两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
-    ::-webkit-resizer {
-        width: 0;
-        height: 0;
-        background-color: transparent;
-    }
+    ::-webkit-resizer {width: 0;height: 0;background-color: transparent;}
 }
 
-h1,h2,h3,h4,h5,h6{
-    font-weight: bolder;
-    color:$jr-text-color-main ;
-}
+h1,h2,h3,h4,h5,h6{font-weight: bolder;color:$jr-text-color-main ;}
 
 /*字体图标*/
-@import url("//at.alicdn.com/t/font_2125379_9vf0kq1uz2.css");
+@import url("//at.alicdn.com/t/font_2125379_1l8d9fuxfws.css");
 
 // 字体图标
 .iconfont {display: inline-flex;justify-content: center;align-items: center;font-size: inherit;}

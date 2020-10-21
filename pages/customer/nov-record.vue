@@ -1,6 +1,7 @@
 <template>
     <el-main class="jr-customer-nov-record">
-        诺访记录
+        <h3 class="jr-title">诺访记录</h3>
+
     </el-main>
 </template>
 

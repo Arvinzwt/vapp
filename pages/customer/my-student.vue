@@ -1,6 +1,7 @@
 <template>
     <el-main class="jr-customer-my-student">
-        我的学员
+        <h3 class="jr-title">我的学员</h3>
+
     </el-main>
 </template>
 

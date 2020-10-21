@@ -1,8 +1,7 @@
 <template>
     <el-main class="jr-customer-today-clue">
-        今日新线索
+        <h3 class="jr-title">今日新线索</h3>
 
-        <nuxt-link to="/customer/customer-manage?id=789&name=101112">线索客户</nuxt-link>
 
     </el-main>
 </template>

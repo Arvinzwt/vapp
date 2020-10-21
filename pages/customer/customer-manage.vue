@@ -2,17 +2,14 @@
     <!--线索客户管理-->
     <el-main class="jr-customer-customer-manage">
         <!--tab切换-->
-        <div class="jr-tabs">
-            <div class="jr-tabs-main">
-                <div class="jr-tabs-item" v-for="item in tabs" :key="item.id"
-                     :class="item.path===$route.path?'active':''"
-                     @click="tabsClick(item)">
+        <el-tabs :value="$route.name" @tab-click="tabsClick">
+            <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
+                <div slot="label">
                     <span>{{ item.name }}</span>
-                    <span v-if="item.num" class="jr-badge">{{ item.num }}</span>
+                    <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
                 </div>
-            </div>
-            <div class="jr-tabs-active"></div>
-        </div>
+            </el-tab-pane>
+        </el-tabs>
 
         <!--内容-->
         <nuxt-child class="main"/>
@@ -25,23 +22,23 @@ export default {
         return {
             tabs: [
                 {
-                    id: 'first',
+                    id: 'customer-customer-manage',
                     name: '新海（待分配）',
                     num: 6,
                     path: '/customer/customer-manage',
                 },
                 {
-                    id: 'second',
+                    id: 'customer-customer-manage-second',
                     name: '公海',
                     path: '/customer/customer-manage/second',
                 },
                 {
-                    id: 'third',
+                    id: 'customer-customer-manage-third',
                     name: '死海',
                     path: '/customer/customer-manage/third',
                 },
                 {
-                    id: 'fourth',
+                    id: 'customer-customer-manage-fourth',
                     name: '全部',
                     path: '/customer/customer-manage/fourth',
                 }
@@ -49,9 +46,9 @@ export default {
         }
     },
     methods: {
-        tabsClick(e) {
+        tabsClick(tab) {
             this.$router.push({
-                path: e.path
+                path: tab.$attrs.path
             })
         }
     }
@@ -65,8 +62,13 @@ export default {
         padding: 0;
         margin-top: 20px;
     }
-    .el-col{
+
+    .el-col {
         border: 1px solid transparent;
+    }
+
+    .el-tabs__item {
+        font-size: 13px;
     }
 }
 </style>
