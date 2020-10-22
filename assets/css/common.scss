@@ -1,55 +1,166 @@
-$basicFontSize: 12px;
-$gray: #f5f5f5;
-$blue: #4994F2;
-$red: #F2545A;
+/*常用变量*/
+@import "./basis.scss";
 
 body, html {
     margin: 0;
     padding: 0;
-    color: #606266;
-    font-size: $basicFontSize;
+    color: $jr-text-color-regular;
     -webkit-font-smoothing: antialiased;
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+    font-size: $jr-text-size-main-small;
+    font-family: Arial, sans-serif, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑";
+}
 
-    /*修改滚动条样式-滚动条整体部分*/
-    ::-webkit-scrollbar {
-        width: 5px;
-        background: #f7f8fb;
+/*整体结构*/
+.jr {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    .jr-aside {
+        //border: 1px solid blue;
     }
 
-    //滚动条的轨道
-    ::-webkit-scrollbar-track {
+    .jr-container {
 
+        .jr-header {
+            //border: 1px solid red;
+        }
+
+        .jr-nav {
+            //border: 1px solid green;
+        }
+
+        .jr-main {
+            //border: 1px solid blue;
+            padding-top: 0;
+        }
     }
+}
 
-    //滚动条里面的小方块
-    ::-webkit-scrollbar-thumb {
-        background: #c9c2c2;
-    }
+/*全局组件-loading*/
+.jr-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: #999;
+    .el-loading-spinner {
+        position: static;
+        top: auto;
+        margin: 0;
+        width: auto;
+        text-align: center;
+        background: rgba(0, 0, 0, .5);
+        padding: 10px;
         border-radius: 5px;
+
+        .el-icon-loading {
+            font-size: 30px;
+            color: #fff;
+        }
+    }
+}
+
+/*全局组件-标题*/
+.jr-title {
+    font-size: $jr-text-size-main-small;
+    font-weight: bolder;
+    margin: 0;
+    line-height: 40px;
+    height: 40px;
+}
+
+/*全局组件-table*/
+.jr-table {
+    margin: 20px 0;
+
+    th {
+        background-color: $jr-border-level4;
+
+        .cell {
+            font-size: $jr-text-size-auxiliary;
+            color: $jr-text-color-main;
+            font-weight: bolder;
+        }
+    }
+}
+
+/*全局组件-badge*/
+.jr-badge {
+    border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+    font-size: $jr-text-size-auxiliary;
+    padding: 0 4px;
+    text-align: center;
+    white-space: nowrap;
+    height: 14px;
+    line-height: 14px;
+    border: 1px solid transparent;
+    background-color: $jr-danger-color;
+    margin-left: 5px;
+}
+
+/*全局组件-表单*/
+.jr-form {
+    //修改字体大小
+    .el-form-item__label,
+    .el-form-item__content,
+    .el-select-dropdown__item,
+    .el-checkbox__label,
+    .el-radio__label,
+    .el-checkbox__inner,
+    .el-input__inner,
+    .el-link--inner,
+    .el-cascader-node__label,
+    .el-cascader__search-input::placeholder {
+        font-size: $jr-text-size-auxiliary;
     }
 
-    //边角，即两个滚动条的交汇处
-    ::-webkit-scrollbar-corner {
+    //宽度统一
+    .el-date-editor--daterange.el-input__inner,
+    .el-select,
+    .el-date-editor.el-input,
+    .el-cascader {
+        width: 100%;
     }
 
-    //滚动条的轨道的两端按钮
-    ::-webkit-scrollbar-button {
-        width: 0;
-        height: 0;
+    //调整上下间距
+    .el-form-item {
+        margin-bottom: 15px;
     }
 
-    //内层轨道，滚动条中间部分
-    ::-webkit-scrollbar-track-piece {
+    //级联选择器带筛选框高度调整
+    .el-cascader__search-input {
+        height: 20px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
 
+/*全局组件-link-text*/
+.el-link--inner {
+    font-size: $jr-text-size-auxiliary;
+}
+
+/*全局组件-对话框*/
+.jr-dialog {
+    .dialog-header {
+        margin: 0;
+        padding: 0;
     }
 
-    //两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
-    ::-webkit-resizer {
-        width: 0;
-        height: 0;
+    .el-dialog__body {
+        padding: 10px 20px;
+
+        .dialog-body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .dialog-footer {
+        margin: 0;
+        padding: 0;
     }
 }

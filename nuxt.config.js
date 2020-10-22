@@ -1,8 +1,4 @@
 module.exports = {
-    /*
-    ** Nuxt rendering mode
-    ** See https://nuxtjs.org/api/configuration-mode
-    */
     mode: 'universal',
 
     /*
@@ -15,7 +11,7 @@ module.exports = {
     ** Headers of the page
     */
     head: {
-        title: process.env.npm_package_name || '',
+        title: '精锐在线',
         meta: [
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -29,15 +25,14 @@ module.exports = {
     /*
     ** Customize the progress-bar color
     */
-    loading: {color: '#4994F2'},
+    loading: false,
 
     /*
     ** Global CSS
     */
     css: [
         'element-ui/lib/theme-chalk/index.css',
-        '@/assets/css/iconfont.css',
-        '@/assets/css/common.scss',
+        '@/assets/css/common.scss'
     ],
 
     /*
@@ -45,9 +40,8 @@ module.exports = {
     */
     plugins: [
         '@/plugins/element-ui',
-        '@/plugins/initialize',
         '@/plugins/utils',
-        '@/plugins/apirepository',
+        '@/plugins/api-repository',
     ],
 
     /*
@@ -85,7 +79,7 @@ module.exports = {
     ** Define server access host and port
     */
     server: {
-        port: 4000, // default: 3000
-        host: 'localhost', // default: localhost,
+        port: 3005, // default: 3000
+        host: 'localhost', // default: '0.0.0.0',
     },
 }

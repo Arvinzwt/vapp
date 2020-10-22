@@ -1,8 +1,8 @@
 {
     "name": "vapp",
     "version": "1.0.0",
-    "description": "My laudable Nuxt.js project",
-    "author": "zhangwentao",
+    "description": "",
+    "author": "",
     "private": true,
     "scripts": {
         "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
@@ -16,8 +16,8 @@
         "express": "^4.16.4",
         "element-ui": "^2.4.11",
         "@nuxtjs/axios": "^5.3.6",
-        "moment": "^2.26.0",
-        "underscore": "^1.10.2"
+        "underscore": "^1.10.2",
+        "moment": "^2.26.0"
     },
     "devDependencies": {
         "nodemon": "^1.18.9",
