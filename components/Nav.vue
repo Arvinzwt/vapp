@@ -52,33 +52,31 @@ export default {
          */
         async getTopMenu() {
             let tm = this.getLocalStorageTm();
+            let fn = (obj, obj2) => {
+                if (obj.name === obj2.name) {
+                    this.topMenu.push({
+                        ...obj,
+                        query: obj2.query
+                    })
+                }
+            }
 
             this.topMenu = [];
-            this.menu.forEach(item => {
-                item.child.forEach(list => {
-                    if (list.child) {//如果有子路由
-                        list.child.forEach(li => {
-                            tm.forEach(tmItem => {
-                                if (tmItem.name === li.name) {
-                                    this.topMenu.push({
-                                        ...li,
-                                        query: tmItem.query
-                                    })
-                                }
+            tm.forEach(tmItem => {//循环历史记录
+                this.menu.forEach(mItem => {//循环菜单第一层
+                    mItem.child = mItem.child || [];
+                    mItem.child.forEach(mList => {//循环菜单第二层
+                        if (mList.child) {
+                            mList.child.forEach(mLi => {//循环菜单第三层
+                                fn(mLi, tmItem)
                             })
-                        })
-                    } else {
-                        tm.forEach(tmItem => {
-                            if (tmItem.name === list.name) {
-                                this.topMenu.push({
-                                    ...list,
-                                    query: tmItem.query
-                                })
-                            }
-                        })
-                    }
+                        } else {
+                            fn(mList, tmItem)
+                        }
+                    })
                 })
             })
+
             return tm;
         },
 
