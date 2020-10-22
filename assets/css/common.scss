@@ -1,3 +1,6 @@
+/**
+ * @description: 全局结构css配置
+ */
 /*常用变量*/
 @import "./basis.scss";
 
@@ -138,11 +141,6 @@ body, html {
     }
 }
 
-/*全局组件-link-text*/
-.el-link--inner {
-    font-size: $jr-text-size-auxiliary;
-}
-
 /*全局组件-对话框*/
 .jr-dialog {
     .dialog-header {
@@ -163,4 +161,19 @@ body, html {
         margin: 0;
         padding: 0;
     }
+}
+
+/*组件修改-el-link*/
+.el-link--inner {
+    font-size: $jr-text-size-auxiliary;
+}
+
+/*组件修改-el-row*/
+.el-col {
+    border: 1px solid transparent;
+}
+
+/*组件修改-el-tabs*/
+.el-tabs__item {
+    font-size: $jr-text-size-main-small;
 }

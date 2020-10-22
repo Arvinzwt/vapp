@@ -1,4 +1,5 @@
 <template>
+    <!--默认模板-->
     <el-container class="jr">
         <aside-template class="jr-aside"></aside-template>
         <el-container class="jr-container" direction="vertical">

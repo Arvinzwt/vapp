@@ -1,4 +1,5 @@
 <template>
+    <!--空白模板-->
     <el-container class="jr">
         <el-container class="jr-container" direction="vertical">
             <nuxt class="jr-main"/>

@@ -1,122 +1,101 @@
 <template>
     <!--客户详情-->
     <el-main class="jr-customer-customer-detail">
-        <!--基本信息-->
-        <div class="bg-gray pl-4 pr-4 border-radius-base">
-            <h3 class="jr-title">基本信息</h3>
-            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="姓名">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="手机">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="渠道">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="创建时间">张三</el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="性别">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="省市区">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="详细地址">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="所在学校">张三</el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="所在年级">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="意向科目">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="联系电话1">张三</el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="联系电话2">张三</el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="备注">张三</el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form>
-        </div>
-
-        <!--历史记录-->
-        <el-tabs class="details-tabs" type="card">
-            <!--跟进记录-->
-            <el-tab-pane label="跟进记录">
-                <div class="details-timeline">
-                    <!--跟进记录列表-->
-                    <div class="details-timeline_item">
-                        <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">跟进记录 2020-3-5 19:03:09</div>
-                            <div class="details-timeline_user text-ellipsis">操作人：张三张三张三张三张三张三张三张三张三</div>
-                            <div class="details-timeline_status text-ellipsis">跟进状态：已分发校区</div>
-                        </div>
-                        <div class="details-timeline_content_wrap">
-                            <div class="details-timeline_content">
-                                <div class="details-timeline_remark">
-                                    留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录
-                                </div>
-                                <div class="details-timeline_audio">
-                                    <audio src="" controls>您的浏览器不支持 audio 标签</audio>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--暂无跟进记录空-->
-                    <div class="p-4 bg-gray">
-                        <span>暂无跟进记录空</span>
-                    </div>
-                </div>
-            </el-tab-pane>
-
-            <!--留资记录-->
-            <el-tab-pane label="留资记录">
-                <div class="details-timeline">
-                    <!--留资记录列表-->
-                    <div class="details-timeline_item">
-                        <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">留资记录 2020-3-5 19:03:09</div>
-                        </div>
-                        <div class="details-timeline_content_wrap">
-                            <div class="details-timeline_content">
-                                <div class="details-timeline_remark">
-                                    留资渠道：张三张三张三张三张三张三张三张三张三
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--留资记录空-->
-                    <div class="p-4 bg-gray">
-                        <span>暂无留资记录</span>
-                    </div>
+        <!--标题-->
+        <h3 class="jr-title">客户详情</h3>
+        <!--tab切换-->
+        <el-tabs :value="$route.name" @tab-click="tabsClick">
+            <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
+                <div slot="label">
+                    <span>{{ item.name }}</span>
+                    <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
                 </div>
             </el-tab-pane>
         </el-tabs>
+        <!--筛选项-->
+        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+            <el-row :gutter="15">
+                <el-col :span="6">
+                    <el-form-item label="渠道">
+                        <el-cascader
+                                v-model="paramMap.value1"
+                                :options="options.options1"
+                                :props="options.cascadeProps"
+                                collapse-tags
+                                clearable></el-cascader>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
+        <!--操作栏-->
+        <div class="action-bar">
+            <el-button type="primary" size="mini">分配</el-button>
+        </div>
+        <!--列表-->
+        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+            <el-table-column fixed type="selection" align="center" width="50"/>
+            <el-table-column fixed label="姓名" prop="name"></el-table-column>
+            <el-table-column label="手机" prop="phone"></el-table-column>
+        </el-table>
+        <!--分页信息-->
+        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
     </el-main>
 </template>
 
 <script>
+import PaginationTemplate from "@/components/customer/Pagination";
+import SelectedRoleTemplate from "@/components/customer/SelectedRole";
+
 export default {
-    name: "customer-detail",
+    components: {
+        PaginationTemplate,
+        SelectedRoleTemplate,
+    },
     data() {
         return {
-            paramMap: {},
+            // tab切换信息
+            tabs: [
+                {id: 'customer-customer-call', name: '待确认', num: 6, path: '/customer/customer-call',},
+                {id: 'customer-customer-call-confirmed', name: '已确认', path: '/customer/customer-call/confirmed',},
+            ],
+
+            // 筛选参数信息
+            paramMap: {
+                show: false,//是否显示全部筛选项
+                arr: [],
+                str: '',
+                obj: {},
+            },
+
+            // 筛选选项列表
+            options: {
+                options1: [
+                    {
+                        value: 1,
+                        label: '选项1',
+                        children: [{
+                            value: 2,
+                            label: '选项1-1',
+                            children: [
+                                {value: 3, label: '选项1-1-1'},
+                                {value: 4, label: '选项1-1-2'},
+                                {value: 5, label: '选项1-1-3'}
+                            ]
+                        }]
+                    }
+                ],
+            },
+
+            // 列表数据
+            tableData: [],
+
+            // 分页参数
+            pagesInfo: {
+                pageIndex: 1,
+                pageSize: 20,
+                count: 0,//总条数
+            },
+
         }
     },
     created() {
@@ -126,119 +105,50 @@ export default {
     destroyed() {
     },
     methods: {
+        /**
+         *@desc 刷新页面
+         */
+        refreshPage() {
+            console.log(this.paramMap, 'paramMap')
+            console.log(this.pagesInfo, 'pagesInfo')
+        },
 
+        /**
+         *@desc 切换tab时
+         */
+        tabsClick(tab) {
+
+        },
+
+        /**
+         *@desc 分页触发时
+         */
+        onPagesChange() {
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 提交筛选时
+         */
+        submitSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 重置筛选时
+         */
+        resetSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.$utils.resetJson(this.paramMap);//重置筛选数据
+            this.refreshPage();
+        },
     }
 }
 </script>
 
 <style lang="scss">
 .jr-customer-customer-detail {
-    //tabs
-    .details-tabs {
-        margin-top: 20px;
 
-        .el-tabs__header {
-            margin-bottom: 0;
-            border-bottom: none;
-
-            .el-tabs__nav {
-                border: none;
-            }
-
-            .el-tabs__item {
-                font-size: 12px;
-                border: none;
-            }
-
-            .is-active {
-                background-color: #fafafa;
-            }
-        }
-
-        .el-tabs__content {
-            background-color: #fafafa;
-            padding: 0;
-            font-size: 12px;
-        }
-    }
-
-    //时间线
-    .details-timeline {
-        .details-timeline_item {
-            .details-timeline_title {
-                height: 30px;
-                padding-top: 15px;
-                display: flex;
-                align-items: center;
-
-                .details-timeline_date {
-                    max-width: 200px;
-                    margin-right: 20px;
-                }
-
-                .details-timeline_user {
-                    max-width: 120px;
-                    margin-right: 20px;
-                }
-            }
-
-            .details-timeline_content {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                background-color: #f7f7f7;
-                padding: 8px 0;
-                padding-right: 20px;
-
-                .details-timeline_remark {
-                    padding-left: 20px;
-                    padding-right: 20px;
-                }
-
-                .details-timeline_audio {
-                    audio {
-                        display: block;
-                        height: 30px;
-                    }
-                }
-            }
-
-            $iconWidth: 40px;
-
-            .details-timeline_title, .details-timeline_content_wrap {
-                padding-left: $iconWidth;
-                position: relative;
-
-                &:after {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: $iconWidth/2;
-                    margin-left: -1px;
-                    width: 2px;
-                    background-color: #e4e7ed;
-                }
-            }
-
-            .details-timeline_title {
-                &:before {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    width: 12px;
-                    height: 12px;
-                    left: $iconWidth/2;
-                    margin-left: -6px;
-                    border-radius: 50%;
-                    background-color: #e4e7ed;;
-                }
-            }
-        }
-
-
-    }
 }
-
 </style>

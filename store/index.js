@@ -17,7 +17,7 @@ export const actions = {
      *@return promise [promise]
      */
     async logout({commit}) {
-        console.log('logout')
+        console.log('登出')
         return commit('logout');
     },
 

@@ -20,18 +20,18 @@
 <script>
 
 export default {
-    name: "Header",
     data() {
         return {
             currentDate: '',//当前时间
-            user: {},//用户信息
+            user: {//用户信息
+                name: null
+            },
         }
     },
     async mounted() {
-        this.currentDate = this.$utils.moment(new Date()).format('YYYY年MM月DD日');//获取当前年月日
+        this.currentDate = this.$utils.moment().format('YYYY年MM月DD日');//获取当前年月日
         this.user = await this.$api.common.user();//获取用户信息
     },
-
     methods: {
         /**
          *@desc 退出登录

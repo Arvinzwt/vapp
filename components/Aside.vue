@@ -7,21 +7,15 @@
                 background-color="#488ff1"
                 text-color="#fff"
                 :default-openeds="['customer']"
-                :default-active="$router.name">
-            <el-submenu v-for="mItem in menuList"
-                        :key="mItem.name"
-                        :index="mItem.name">
+                default-active="customer-manage">
+            <el-submenu index="customer">
                 <template slot="title">
-                    <span class="iconfont mr-1" :class="mItem.icon"></span>
-                    <span>{{ mItem.title }}</span>
+                    <span class="iconfont iconxueyuan mr-1"></span>
+                    <span>线索客户管理</span>
                 </template>
-                <el-menu-item v-for="mList in mItem.child"
-                              :key="mList.name"
-                              :index="mList.name"
-                              :class="$route.name===mList.name?'active':''"
-                              @click="linkTo(mList)">
-                    <span> {{ mList.title }}</span>
-                    <span v-if="mList.num" class="jr-badge">{{ mList.num }}</span>
+                <el-menu-item index="customer-manage" class="active">
+                    <span>线索客户管理</span>
+                    <span class="jr-badge">6</span>
                 </el-menu-item>
             </el-submenu>
         </el-menu>
@@ -29,38 +23,7 @@
 </template>
 
 <script>
-export default {
-    name: "Aside",
-    data() {
-        return {
-            menuList: [],
-        }
-    },
-    async mounted() {
-        //初始拉取菜单列表
-        this.menuList = await this.$api.common.getMenu().then(list => {
-            let menuList = []
-            list.forEach(item => {
-                if (item.show) {//过滤第一层
-                    menuList.push({
-                        ...item,
-                        child: item.child.filter(list => {//过滤第二层
-                            return list.show
-                        })
-                    })
-                }
-            })
-            return menuList
-        });
-    },
-    methods: {
-        linkTo(obj) {
-            this.$router.push({
-                path: obj.path
-            })
-        }
-    }
-}
+export default {}
 </script>
 
 <style lang="scss">
