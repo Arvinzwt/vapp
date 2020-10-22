@@ -1,13 +1,11 @@
-export const state = () => ({
-    user: {}
-});
+export const state = () => ({});
 
 export const mutations = {
     /**
      *@desc 登出
      */
     logout(state) {
-        state.user = {};
+        state = {};
     }
 };
 
@@ -17,7 +15,6 @@ export const actions = {
      *@return promise [promise]
      */
     async logout({commit}) {
-        console.log('logout')
         return commit('logout');
     },
 

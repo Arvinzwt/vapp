@@ -1,7 +1,7 @@
 <template>
-    <!--今日新线索-->
-    <el-main class="jr-customer-today-clue">
-        <h3 class="jr-title">今日新线索</h3>
+    <!--即将回收-->
+    <el-main class="jr-customer-soon-recover">
+        <h3 class="jr-title">即将回收</h3>
     </el-main>
 </template>
 
@@ -30,6 +30,6 @@ export default {
 </script>
 
 <style lang="scss">
-.jr-customer-today-clue {
+.jr-customer-soon-recover {
 }
 </style>

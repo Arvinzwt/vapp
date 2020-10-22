@@ -233,6 +233,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .cursor-waitr{cursor:wait;}
 .cursor-help{cursor:help;}
 
+//滚动条样式
 @mixin scroll-style{
     /*修改滚动条样式-滚动条整体部分*/
     ::-webkit-scrollbar {width: 8px;height: 8px;background: transparent;}

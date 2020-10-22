@@ -24,12 +24,13 @@ export default {
     data() {
         return {
             currentDate: '',//当前时间
-            user: {},//用户信息
+            user: {//用户信息
+                name: "张三"
+            },
         }
     },
     async mounted() {
         this.currentDate = this.$utils.moment(new Date()).format('YYYY年MM月DD日');//获取当前年月日
-        this.user = await this.$api.common.user();//获取用户信息
     },
 
     methods: {
