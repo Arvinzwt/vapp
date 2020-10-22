@@ -65,26 +65,16 @@ export default {
          */
         async resetTopMenu() {
             let tm = this.getLocalStorageTm();//local存储的路由信息
-            let filTopMenu = (obj, target) => {
-                if (obj.name === target.name) {
-                    this.topMenu.push({
-                        ...obj,
-                        query: target.query
-                    })
-                }
-            }
-
             this.topMenu = [];//清空topMenu
             tm.forEach(tmItem => {//循环历史记录
                 this.asideMenu.forEach(mItem => {//循环菜单第一层
                     mItem.child = mItem.child || [];
                     mItem.child.forEach(mList => {//循环菜单第二层
-                        if (mList.child) {//如果有子路由
-                            mList.child.forEach(mLi => {//循环菜单第三层
-                                filTopMenu(mLi, tmItem)
+                        if (mList.name === tmItem.name) {
+                            this.topMenu.push({
+                                ...mList,
+                                query: tmItem.query
                             })
-                        } else {//如果没有子菜单
-                            filTopMenu(mList, tmItem)
                         }
                     })
                 })
@@ -108,11 +98,13 @@ export default {
         tagClose(obj) {
             if (this.topMenu.length > 1) {//保证至少有一个topmenu
                 let tm = this.getLocalStorageTm();//本地存储信息
+
                 tm.forEach((item, index) => {//找到操作对象
                     if (item.name === obj.name) {
                         tm.splice(index, 1);//删除
                     }
                 })
+
                 localStorage.setItem('tm', JSON.stringify(tm));//重置本地存储
 
                 this.resetTopMenu().then(res => {//重置topmenu数据

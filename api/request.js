@@ -53,7 +53,9 @@ export default class Request {
 
             //授权失败触发登出功能
             if (code === 401 || code === 403) {
-                store.dispatch('logout');
+                store.dispatch('logout').then(res=>{
+                    redirect('/')
+                });
             }
 
             //业务逻辑出错跳到到catch执行

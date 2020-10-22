@@ -51,30 +51,30 @@ export default class Common extends Request {
                                 "query": {}//子页面参数
                             },
                             {
-                                "name": "customer-customer-manage-second",
+                                "name": "customer-customer-manage-public",
                                 "code": "0988",
                                 "show": false,
                                 "title": "线索客户管理-公海",
                                 "num": 0,
-                                "path": "/customer/customer-manage/second",
+                                "path": "/customer/customer-manage/public",
                                 "query": {}
                             },
                             {
-                                "name": "customer-customer-manage-third",
+                                "name": "customer-customer-manage-dead",
                                 "code": "0988",
                                 "show": false,
                                 "title": "线索客户管理-死海",
                                 "num": 0,
-                                "path": "/customer/customer-manage/third",
+                                "path": "/customer/customer-manage/dead",
                                 "query": {}
                             },
                             {
-                                "name": "customer-customer-manage-fourth",
+                                "name": "customer-customer-manage-all",
                                 "code": "0988",
                                 "show": false,
                                 "title": "线索客户管理-全部",
                                 "num": 0,
-                                "path": "/customer/customer-manage/fourth",
+                                "path": "/customer/customer-manage/all",
                                 "query": {}
                             },
                         ]
