@@ -58,9 +58,7 @@ export default {
 <style lang="scss">
 .jr-customer-customer-manage {
     .main {
-        margin: 0;
-        padding: 0;
-        margin-top: 20px;
+
     }
 
     .el-col {

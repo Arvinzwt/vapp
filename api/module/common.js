@@ -52,7 +52,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-manage",//唯一id，页面name属性
                                 "code": "0988",//权限码
                                 "show": true,//是否在左侧菜单栏显示显示
-                                "title": "新海",
+                                "title": "线索客户管理-新海",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage",
                                 "query": {}
@@ -61,7 +61,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-manage-second",//唯一id，页面name属性
                                 "code": "0988",//权限码
                                 "show": false,//是否在左侧菜单栏显示显示
-                                "title": "公海",
+                                "title": "线索客户管理-公海",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage/second",
                                 "query": {}
@@ -70,7 +70,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-manage-third",//唯一id，页面name属性
                                 "code": "0988",//权限码
                                 "show": false,//是否在左侧菜单栏显示显示
-                                "title": "死海",
+                                "title": "线索客户管理-死海",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage/third",
                                 "query": {}
@@ -79,7 +79,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-manage-fourth",//唯一id，页面name属性
                                 "code": "0988",//权限码
                                 "show": false,//是否在左侧菜单栏显示显示
-                                "title": "全部",
+                                "title": "线索客户管理-全部",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage/fourth",
                                 "query": {}
@@ -99,7 +99,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-call",//唯一id，页面name属性
                                 "code": "0981",//权限码
                                 "show": false,//是否在左侧菜单栏显示显示
-                                "title": "待确认",
+                                "title": "呼入线索客户-待确认",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage",
                                 "query": {}
@@ -108,7 +108,7 @@ export default class Common extends Request {
                                 "name": "customer-customer-call-confirmed",//唯一id，页面name属性
                                 "code": "0981",//权限码
                                 "show": false,//是否在左侧菜单栏显示显示
-                                "title": "已确认",
+                                "title": "呼入线索客户-已确认",
                                 "num": 0,//小时数量
                                 "path": "/customer/customer-manage/confirmed",
                                 "query": {}

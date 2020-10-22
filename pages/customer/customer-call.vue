@@ -1,7 +1,5 @@
 <template>
     <el-main class="jr-customer-customer-call">
-        <h3 class="jr-title">呼入线索客户</h3>
-
         <!--tab切换-->
         <el-tabs :value="$route.name" @tab-click="tabsClick">
             <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
@@ -48,12 +46,6 @@ export default {
 
 <style lang="scss">
 .jr-customer-customer-call {
-    .main {
-        margin: 0;
-        padding: 0;
-        margin-top: 20px;
-    }
-
     .el-col {
         border: 1px solid transparent;
     }

@@ -121,6 +121,7 @@ export default {
     justify-content: center;
 
     .login-wrap {
+        min-width: 850px;
         .login-title {
             height: 60px;
             display: flex;
