@@ -1,6 +1,6 @@
 <template>
     <!--选择标签-->
-    <div class="jr-customer-selected-role">
+    <div class="jr-customer-selected-tag">
 
     </div>
 </template>
@@ -10,6 +10,6 @@ export default {}
 </script>
 
 <style lang="scss">
-.jr-customer-selected-role {
+.jr-customer-selected-tag {
 }
 </style>

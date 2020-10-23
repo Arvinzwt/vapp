@@ -1,9 +1,16 @@
 <template>
     <!--选择角色-->
-    <div class="jr-selected-role">
+    <div class="jr-customer-selected-role">
         <!--触发对象-->
         <slot>
-            <el-button @click="openDialog" size="mini">触发</el-button>
+            <div class="jr-tag-wrp el-input__inner" @click="openDialog">
+                <div class="text-ellipsis">
+                    <el-tag v-for="item in showValue" :key="item.value" size="mini" type="info">
+                        {{ item.label }}
+                    </el-tag>
+                </div>
+                <div v-if="showValue.length===0" class="cursor-pointer text-color-placeholder pl-3 pr-3">请选择</div>
+            </div>
         </slot>
 
         <!--弹窗-->
@@ -42,14 +49,15 @@ export default {
     data() {
         return {
             dialog: {
-                show: false,//是否显示
+                show: false,//是否显示弹窗
                 filterText: '',//筛选内容
                 tree: [],//树数据
                 treeProps: {//树结构
                     children: 'children',
                     label: 'label'
                 }
-            }
+            },
+            showValue: [],//用来展示的结果数据
         }
     },
     watch: {
@@ -59,9 +67,6 @@ export default {
                 this.$refs['treeRef'].filter(val);
             },
         }
-    },
-    async mounted() {
-        this.dialog.tree = await this.$api.common.getRole();
     },
     model: {
         prop: 'model',
@@ -75,6 +80,10 @@ export default {
             }
         },
     },
+    async mounted() {
+        //拉取树数据
+        this.dialog.tree = await this.$api.common.getRole();
+    },
     methods: {
         /**
          *@desc 打开弹窗
@@ -82,8 +91,7 @@ export default {
         openDialog() {
             this.dialog.show = true;
             if (this.$refs['treeRef']) {
-                let target = this.$utils.underscore.isArray(this.model) ? this.model : [];
-                this.$refs['treeRef'].setCheckedKeys(target);//重置选中内容
+                this.$refs['treeRef'].setCheckedKeys(this.model);//重置选中内容
             }
         },
 
@@ -94,7 +102,7 @@ export default {
          */
         filterTreeNode(value, data) {
             if (!value) return true;
-            return data.label.indexOf(value) !== -1;
+            return data[this.dialog.treeProps.label].indexOf(value) !== -1;
         },
 
         /**
@@ -108,25 +116,37 @@ export default {
          *@desc 确定提交时
          */
         submitDialog() {
-            let target = this.$refs['treeRef'].getCheckedKeys();
+            let target = this.$refs['treeRef'].getCheckedKeys();//选中的数据
             if (target.length > 0) {
                 this.$emit('update', target);//更新数据
-                this.$emit('submit', {
-                    ids:target,
-                    name:(this.$refs['treeRef'].getCheckedNodes()).map(item=>{
-                        return item.label;
-                    })
-                });//触发change
-                this.dialog.show = false;
+                this.$emit('change', target);//触发change
+                this.showValue = this.$refs['treeRef'].getCheckedNodes();//选中的数据;
+
+                this.dialog.show = false;//关闭弹窗
             } else {
                 this.$message.error("请选择负责人")
             }
         },
-
     }
 }
 </script>
 
 <style lang="scss">
+.jr-customer-selected-role {
+    .jr-tag-wrp {
+        height: 28px;
+        line-height: 28px;
+        padding-left: 0;
+        padding-right: 0;
 
+        .el-tag {
+            border-color: transparent;
+            margin: 2px 0 2px 6px;
+        }
+
+        .el-tag__close.el-icon-close {
+            background-color: #C0C4CC;
+        }
+    }
+}
 </style>
