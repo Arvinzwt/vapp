@@ -26,11 +26,12 @@ export default ({store, $axios, app}, inject) => {
         /**
          *@desc 重置json对象-只能处理第一层
          *@param json[Object] 重置对象
+         *@param arr[array] 忽略的值
          *@return json[Object]
          */
-        resetJson(json) {
+        resetJson(json, arr) {
             for (let key in json) {
-                if (json.hasOwnProperty(key)) {
+                if (json.hasOwnProperty(key) && !arr.includes(key)) {
                     let target = json[key];
                     if (underscore.isObject(json[key])) {
                         target = {};
