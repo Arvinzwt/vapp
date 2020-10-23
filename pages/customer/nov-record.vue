@@ -21,6 +21,7 @@
                                 v-model="paramMap.value1"
                                 :options="options.options1"
                                 :props="options.cascadeProps"
+                                :show-all-levels="false"
                                 collapse-tags
                                 clearable></el-cascader>
                     </el-form-item>

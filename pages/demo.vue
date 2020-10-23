@@ -10,6 +10,7 @@
                                 v-model="paramMap.cascader"
                                 :options="options"
                                 :props="props"
+                                :show-all-levels="false"
                                 collapse-tags
                                 placeholder="请选择"
                                 clearable></el-cascader>
@@ -24,6 +25,7 @@
                                 :options="options"
                                 :props="props"
                                 collapse-tags
+                                :show-all-levels="false"
                                 placeholder="请选择"
                                 filterable
                                 clearable></el-cascader>
@@ -54,7 +56,7 @@
                                 v-model="paramMap.str"
                                 type="datetime"
                                 placeholder="选择日期时间"
-                                :picker-options="pickerOptions2">
+                                :picker-options="{firstDayOfWeek: 1}">
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
@@ -232,9 +234,6 @@ export default {
                 children: 'children'
             },
 
-            pickerOptions2: {
-                firstDayOfWeek: 1
-            },
 
             // 列表数据
             tableData: [

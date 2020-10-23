@@ -12,6 +12,7 @@
                                 v-model="paramMap.cascader"
                                 :options="options.options1"
                                 :props="options.cascadeProps"
+                                :show-all-levels="false"
                                 collapse-tags
                                 placeholder="请选择"
                                 clearable></el-cascader>
@@ -129,7 +130,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: false,//是否显示筛选
+                show: true,//是否显示筛选
                 date: [],//创建时间
                 cascader: [],//渠道
                 selectedArr: [],//年级

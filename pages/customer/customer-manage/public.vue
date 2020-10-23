@@ -1,21 +1,20 @@
 <template>
-    <!--线索客户管理-公海-->
-    <div class="jr-customer-customer-manage-second">
+    <!--线索客户管理-新海-->
+    <div class="jr-customer-customer-manage-public">
         <!--筛选项-->
-        <el-form class="jr-form" size="mini" :model="paramMap" :rules="paramRules"
-                 label-width="90px" label-position="left">
+        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px"
+                 label-position="left">
             <el-row :gutter="15">
+                <!--标签-->
                 <el-col :span="6">
                     <el-form-item label="标签">
-                        <selected-tag-template v-model="paramMap.tag.ids" @submit="submitSelectedTag"
-                                               ref="selectedTag">
-                            <el-input v-model="paramMap.tag.name" @focus="openSelectedTagDialog"></el-input>
-                        </selected-tag-template>
+                        <selected-tag-template v-model="paramMap.tag"/>
                     </el-form-item>
                 </el-col>
+                <!--跟进状态-->
                 <el-col :span="6">
                     <el-form-item label="跟进状态">
-                        <el-select v-model="paramMap.value1" multiple collapse-tags placeholder="请选择" clearable>
+                        <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
                                     v-for="item in options.options1"
                                     :key="item.value"
@@ -25,49 +24,53 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <!--放弃时间-->
                 <el-col :span="6">
                     <el-form-item label="放弃时间">
                         <el-date-picker
-                                v-model="paramMap.value2"
+                                v-model="paramMap.date1"
                                 type="daterange"
                                 range-separator="-"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="$utils.pickerOptions"
+                                :picker-options="$utils.pickeroptions"
                                 clearable>
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
+                <!--姓名，手机号-->
                 <el-col :span="6">
-                    <el-form-item label="" label-width="0">
-                        <el-input v-model="paramMap.value3" placeholder="可搜索姓名、手机" clearable/>
+                    <el-form-item label-width="0">
+                        <el-input :maxlength='50' v-model="paramMap.value1" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <div v-show="filterShow">
+            <div v-show="paramMap.show">
                 <el-row :gutter="15">
+                    <!--最新跟进时间-->
                     <el-col :span="6">
                         <el-form-item label="最新跟进时间">
                             <el-date-picker
-                                    v-model="paramMap.value4"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
                                     end-placeholder="结束日期"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickerOptions"
+                                    :picker-options="$utils.pickeroptions"
                                     clearable>
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <!--客户状态-->
                     <el-col :span="6">
                         <el-form-item label="客户状态">
-                            <el-select v-model="paramMap.value5" placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.str1" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in options.options2"
+                                        v-for="item in options.options1"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -75,78 +78,166 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <!--最近负责人-->
                     <el-col :span="6">
                         <el-form-item label="最近负责人">
-                            <selected-role-template v-model="paramMap.role.ids" @submit="submitAssignCustomer"
-                                                    ref="selectedRole">
-                                <el-input v-model="paramMap.role.name" @focus="openAssignCustomerDialog"></el-input>
-                            </selected-role-template>
+                            <selected-role-template v-model="paramMap.role"></selected-role-template>
                         </el-form-item>
                     </el-col>
+                    <!--渠道-->
                     <el-col :span="6">
                         <el-form-item label="渠道">
-                            <el-input/>
+                            <el-cascader
+                                    v-model="paramMap.cascader"
+                                    :options="options.options1"
+                                    :props="options.cascadeProps"
+                                    :show-all-levels="false"
+                                    collapse-tags
+                                    placeholder="请选择"
+                                    clearable></el-cascader>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
+                    <!--下次联系时间-->
                     <el-col :span="6">
                         <el-form-item label="下次联系时间">
-                            <el-input/>
+                            <el-date-picker
+                                    v-model="paramMap.date2"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickeroptions"
+                                    clearable>
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <!--年级-->
                     <el-col :span="6">
                         <el-form-item label="年级">
-                            <el-input/>
+                            <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择"
+                                       clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
+                    <!--科目-->
                     <el-col :span="6">
                         <el-form-item label="科目">
-                            <el-input/>
+                            <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择"
+                                       clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
+                    <!--沟通次数-->
                     <el-col :span="6">
                         <el-form-item label="沟通次数">
-                            <el-input/>
+                            <el-select v-model="paramMap.input1" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
+                    <!--之后未跟进-->
                     <el-col :span="6">
                         <el-form-item label="之后未跟进">
-                            <el-input/>
+                            <el-date-picker
+                                    v-model="paramMap.str"
+                                    type="datetime"
+                                    placeholder="选择日期时间"
+                                    :picker-options="{firstDayOfWeek: 1}">
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <!--获得时间-->
                     <el-col :span="6">
                         <el-form-item label="获得时间">
-                            <el-input/>
+                            <el-date-picker
+                                    v-model="paramMap.date2"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickeroptions"
+                                    clearable>
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <!--意向度-->
                     <el-col :span="6">
                         <el-form-item label="意向度">
-                            <el-input/>
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
+                    <!--创建时间-->
                     <el-col :span="6">
                         <el-form-item label="创建时间">
-                            <el-input/>
+                            <el-date-picker
+                                    v-model="paramMap.date2"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickeroptions"
+                                    clearable>
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </div>
             <el-row :gutter="15">
+                <!--放弃原因-->
                 <el-col :span="6">
-                    <el-form-item label="放弃原因" v-show="filterShow">
-                        <el-input/>
+                    <el-form-item label="放弃原因" v-show="paramMap.show">
+                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                            <el-option
+                                    v-for="item in options.options1"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
+                <!--确定按钮-->
                 <el-col :span="18">
-                    <el-form-item label="" label-width="0" class="text-right">
-                        <el-button type="primary">查询</el-button>
-                        <el-button type="">重置</el-button>
-                        <el-link type="primary" class="ml-2" @click="filterShow=!filterShow">
-                            <span v-show="filterShow">收起</span>
-                            <span v-show="!filterShow">展开</span>
+                    <el-form-item label-width="0" class="text-right">
+                        <el-button @click="submitSearch" type="primary">查询</el-button>
+                        <el-button @click="resetSearch">重置</el-button>
+                        <el-link type="primary" class="ml-4" @click="paramMap.show=!paramMap.show">
+                            <span v-show="!paramMap.show">展开</span>
+                            <span v-show="paramMap.show">收起</span>
                         </el-link>
                     </el-form-item>
                 </el-col>
@@ -154,32 +245,42 @@
         </el-form>
         <!--操作栏-->
         <div class="action-bar">
-            <el-button type="primary" size="mini">分配</el-button>
+            <selected-role-template v-model="paramMap.role" @change="assignCustomer" ref="selectedRole">
+                <el-button @click="openAssignCustomerDialog" type="primary" size="mini">分配</el-button>
+            </selected-role-template>
         </div>
         <!--列表-->
         <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column type="selection" align="center" width="50"/>
-            <el-table-column label="姓名" prop="name"></el-table-column>
-            <el-table-column label="手机" prop="name"></el-table-column>
-            <el-table-column label="意向度" prop="">
+            <el-table-column fixed width="50" type="selection" align="center"/>
+            <el-table-column fixed label="姓名" prop="name"></el-table-column>
+            <el-table-column fixed min-width="100px" label="手机" prop="phone">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="callCustomer">
+                        <span class="">{{ scope.row.phone }}</span>
+                        <span class="el-icon-phone-outline"></span>
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="意向度" prop="name">
                 <template slot-scope="scope">
                     <el-rate v-model="scope.row.rate" disabled :max="3"/>
                 </template>
             </el-table-column>
             <el-table-column label="年级" prop="name"></el-table-column>
+            <el-table-column label="科目" prop="name"></el-table-column>
             <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column label="跟进状态" prop="name"></el-table-column>
+            <el-table-column label="最新跟进状态" prop="name"></el-table-column>
             <el-table-column label="线索客户状态" prop="name"></el-table-column>
-            <el-table-column label="渠道来源" prop="name"></el-table-column>
+            <el-table-column label="渠道" prop="name"></el-table-column>
             <el-table-column label="最近负责人" prop="name"></el-table-column>
             <el-table-column label="最近跟进时间" prop="name"></el-table-column>
             <el-table-column label="最近跟进记录" prop="name"></el-table-column>
             <el-table-column label="放弃原因" prop="name"></el-table-column>
             <el-table-column label="放弃时间" prop="name"></el-table-column>
-            <el-table-column label="创建时间" prop="name"></el-table-column>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="创建人" prop="name"></el-table-column>
+            <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-link type="primary">详情</el-link>
+                    <el-link type="primary" @click="customerDetail">详情</el-link>
                 </template>
             </el-table-column>
         </el-table>
@@ -201,48 +302,55 @@ export default {
     },
     data() {
         return {
-            filterShow: false,//是否显示其他筛选
-
             // 筛选参数信息
             paramMap: {
-                value1: [],//跟进状态
-                value2: [],//放弃时间
-                value3: null,//手机姓名
-                value4: [],//手机姓名
-                value5: [],//手机姓名
-
-                role: {
-                    name: '',
-                    ids: []
-                },
-
-                tag: {
-                    name: '',
-                    ids: {value1: '', value2: '', value3: '', value4: ''},
-                }
+                show: false,//是否显示筛选
+                tag: [],//选择标签
+                selectedArr1: [],//跟进状态
+                date1: [],//放弃时间
+                input1: '',//姓名手机号
+                date2: [],//最新跟进时间
+                str1: [],//跟进状态
+                role: [],//负责人
+                cascader: [],
             },
-
-            // 筛选规则信息
-            paramRules: {},
 
             // 筛选选项列表
             options: {
-                //跟进状态
+                //渠道列表
                 options1: [
-                    {value: 3, label: '跟进状态1'},
-                    {value: 4, label: '跟进状态2'},
-                    {value: 5, label: '跟进状态3'}
+                    {
+                        value: '1',
+                        label: '选项1',
+                    },
+                    {
+                        value: '2',
+                        label: '选项2',
+                        children: [{
+                            value: '2-1',
+                            label: '选项2-1',
+                            children: [
+                                {value: '2-1-1', label: '选项2-1-1'},
+                                {value: '2-1-2', label: '选项2-1-2'},
+                                {value: '2-1-3', label: '选项2-1-3'}
+                            ]
+                        }]
+                    }
                 ],
 
-                options2: [
-                    {value: 3, label: '客户状态1'},
-                    {value: 4, label: '客户状态2'},
-                    {value: 5, label: '客户状态3'}
-                ],
+                //级联选择器配置
+                cascadeProps: {
+                    multiple: true,
+                    value: 'value',
+                    label: 'label',
+                    children: 'children',
+                },
             },
 
             // 列表数据
-            tableData: [{name: '英语',rate:2,}],
+            tableData: [
+                {name: '英语', phone: '123123123', rate: 3}
+            ],
 
             // 分页参数
             pagesInfo: {
@@ -252,55 +360,84 @@ export default {
             },
         }
     },
-    created() {
-    },
     mounted() {
-    },
-    destroyed() {
+        this.refreshPage();
     },
     methods: {
         /**
-         *@desc 分页触发时
+         *@desc 刷新页面
          */
-        onPagesChange(pagesInfo) {
-
+        refreshPage() {
+            console.log(this.paramMap, this.pagesInfo, 'paramMap')
         },
 
         /**
-         *@desc 打开分配用户弹窗
+         *@desc 分页触发时
+         */
+        onPagesChange() {
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 提交筛选时
+         */
+        submitSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 重置筛选时
+         */
+        resetSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 分配用户-打开选择负责人弹窗
          */
         openAssignCustomerDialog() {
-            if (this.$refs['selectedRole']) {
-                this.$refs['selectedRole'].openDialog();
+            let ids = this.$refs['filterTable'].selection;
+            if (ids.length > 0) {
+                if (this.$refs['selectedRole']) {
+                    this.$refs['selectedRole'].openDialog();
+                }
+            } else {
+                this.$message.error("请至少选择一条leads")
             }
         },
 
         /**
-         *@desc 分配用户
+         *@desc 分配用户-确定分配时
          */
-        submitAssignCustomer(obj) {
-            Object.assign(this.paramMap.role, {
-                name: obj.name.join('、'),
-                ids: obj.ids,
+        assignCustomer() {
+            this.$api.customer.assignCustomer({
+                customerId: this.$refs['filterTable'].selection,
+                roleId: this.paramMap.role,
+            }).then(res => {
+                this.$message.success('分配成功')
+                this.refreshPage();
             })
         },
 
         /**
-         *@desc 打开分配用户弹窗
+         *@desc 呼叫用户
          */
-        openSelectedTagDialog() {
-            if (this.$refs['selectedTag']) {
-                this.$refs['selectedTag'].openDialog();
-            }
+        callCustomer() {
+            this.$api.customer.callCustomer().then(res => {
+                this.$message.success('呼叫用户')
+                this.customerDetail();
+            })
         },
 
         /**
-         *@desc 分配用户
+         *@desc 用户详情
          */
-        submitSelectedTag(obj) {
-            Object.assign(this.paramMap.tag, {
-                name: obj.name.join('、'),
-                ids: obj.ids,
+        customerDetail() {
+            this.$router.push({
+                path: '/customer/customer-detail'
             })
         },
 
