@@ -1,9 +1,16 @@
 <template>
     <!--选择标签-->
-    <div class="jr-selected-role">
+    <div class="jr-selected-tag">
         <!--触发对象-->
         <slot>
-            <el-button @click="openDialog" size="mini">触发</el-button>
+            <div class="jr-tag-wrp el-input__inner" @click="openDialog">
+                <div class="text-ellipsis">
+                    <el-tag v-for="item in showValue" :key="item.value" size="mini" type="info">
+                        {{ item.label }}
+                    </el-tag>
+                </div>
+                <div v-if="showValue.length===0" class="cursor-pointer text-color-placeholder pl-3 pr-3">请选择</div>
+            </div>
         </slot>
 
         <!--弹窗-->
@@ -98,7 +105,8 @@ export default {
                     {name: '1级', id: '0'},
                     {name: '2级', id: '1'},
                 ],
-            }
+            },
+            showValue: [],
         }
     },
     model: {
@@ -161,5 +169,21 @@ export default {
 </script>
 
 <style lang="scss">
+.jr-selected-tag {
+    .jr-tag-wrp {
+        height: 28px;
+        line-height: 28px;
+        padding-left: 0;
+        padding-right: 0;
 
+        .el-tag {
+            border-color: transparent;
+            margin: 2px 0 2px 6px;
+        }
+
+        .el-tag__close.el-icon-close {
+            background-color: #C0C4CC;
+        }
+    }
+}
 </style>
