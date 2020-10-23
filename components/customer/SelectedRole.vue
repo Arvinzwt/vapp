@@ -14,12 +14,10 @@
         </slot>
 
         <!--弹窗-->
-        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false"
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" title="分配负责人"
                    :append-to-body="true" custom-class="jr-dialog" width="30%">
-            <!--弹窗头部-->
-            <h3 slot="title" class="dialog-header">分配负责人</h3>
             <!--弹窗内容-->
-            <div slot="default" class="dialog-body">
+            <div class="dialog-body">
                 <el-input placeholder="请输入内容"
                           size="mini" clearable class="mb-4"
                           v-model="dialog.filterText"></el-input>

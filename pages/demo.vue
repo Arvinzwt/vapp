@@ -160,6 +160,20 @@
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
 
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                    title="分配负责人" custom-class="jr-dialog" width="30%">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                内容
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="closeDialog">取 消</el-button>
+                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
+            </div>
+        </el-dialog>
+
     </el-main>
 </template>
 
@@ -194,7 +208,7 @@ export default {
 
                 role: [],
                 tag: [],
-                selectedArr:[],
+                selectedArr: [],
             },
 
             // 筛选选项列表
@@ -331,16 +345,28 @@ export default {
         /**
          *@desc 确定选中负责人时
          */
-        selectedRoleChange(target){
+        selectedRoleChange(target) {
             console.log(target)
         },
 
-        selectedTagChange(target){
+        selectedTagChange(target) {
             console.log(target)
         },
 
-        onPagesChange(){
+        onPagesChange() {
 
+        },
+        closeDialog(){
+
+        },
+        submitDialog(){
+            this.$refs['ruleForm'].validate((valid) => {
+                if (valid) {//如果验证通过
+
+                } else {
+                    return false;
+                }
+            })
         }
     }
 }
