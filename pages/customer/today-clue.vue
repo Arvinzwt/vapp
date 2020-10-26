@@ -244,7 +244,7 @@
 
         <!--列表-->
         <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini" border>
-            <el-table-column fixed type="selection" width="40px" align="center"/>
+            <el-table-column fixed type="selection" width="50px" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column fixed label="手机" min-width="110px" prop="phone">
                 <template slot-scope="scope">

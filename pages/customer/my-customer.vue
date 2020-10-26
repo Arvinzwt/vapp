@@ -757,7 +757,6 @@ export default {
 <style lang="scss">
 .jr-customer-my-customer {
     .action-bar {
-        margin-top: 30px;
         display: flex;
         justify-content: space-between;
 
