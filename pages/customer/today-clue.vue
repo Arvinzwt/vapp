@@ -1,8 +1,6 @@
 <template>
     <!--今日新线索-->
     <el-main class="jr-customer-today-clue">
-        <!--标题-->
-        <h3 class="jr-title">今日新线索</h3>
         <!--tab切换-->
         <el-tabs :value="currentTab" @tab-click="tabsClick">
             <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
@@ -256,7 +254,11 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="意向度" prop="name"></el-table-column>
+            <el-table-column label="意向度" prop="name">
+                <template slot-scope="scope">
+                    <el-rate v-model="scope.row.rate" disabled :max="3"/>
+                </template>
+            </el-table-column>
             <el-table-column label="年级" prop="name"></el-table-column>
             <el-table-column label="科目" prop="name"></el-table-column>
             <el-table-column label="地区" prop="name"></el-table-column>
