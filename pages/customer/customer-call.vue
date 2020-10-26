@@ -3,7 +3,7 @@
     <el-main class="jr-page jr-customer-customer-call">
         <!--tab切换-->
         <div class="jr-page-header">
-            <el-tabs :value="$route.name" @tab-click="tabsClick">
+            <el-tabs v-model="paramMap.tab" @tab-click="tabsClick">
                 <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
                     <div slot="label">
                         <span>{{ item.name }}</span>
@@ -44,7 +44,7 @@
                         <el-form-item label="是否有效">
                             <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in options"
+                                        v-for="item in options.options1"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -59,9 +59,10 @@
                                     v-model="paramMap.cascader"
                                     :options="options.options1"
                                     :props="options.cascadeProps"
-                                    :show-all-levels="false"
                                     collapse-tags
+                                    :show-all-levels="false"
                                     placeholder="请选择"
+                                    filterable
                                     clearable></el-cascader>
                         </el-form-item>
                     </el-col>
@@ -88,7 +89,7 @@
                         <el-form-item label="呼入类型">
                             <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in options"
+                                        v-for="item in options.options1"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -145,25 +146,18 @@
             </el-form>
             <!--列表-->
             <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
-                <el-table-column fixed label="姓名" prop="name"></el-table-column>
-                <el-table-column fixed min-width="100px" label="手机" prop="phone">
-                    <template slot-scope="scope">
-                        <el-link type="primary" @click="callCustomer">
-                            <span class="">{{ scope.row.phone }}</span>
-                            <span class="el-icon-phone-outline"></span>
-                        </el-link>
-                    </template>
-                </el-table-column>
-                <el-table-column label="年级" prop="name"></el-table-column>
-                <el-table-column label="坐席" prop="name"></el-table-column>
-                <el-table-column label="所属校区" prop="name"></el-table-column>
-                <el-table-column label="呼入类型" prop="name"></el-table-column>
-                <el-table-column label="渠道大类" prop="name"></el-table-column>
-                <el-table-column label="渠道小类" prop="name"></el-table-column>
-                <el-table-column label="登记时间" prop="name"></el-table-column>
-                <el-table-column label="是否有效" prop="name"></el-table-column>
-                <el-table-column label="确认人" prop="name"></el-table-column>
-                <el-table-column label="确认时间" prop="name"></el-table-column>
+                <el-table-column fixed label="姓名" prop="name"/>
+                <el-table-column fixed min-width="100px" label="手机" prop="phone"/>
+                <el-table-column label="年级" prop="name"/>
+                <el-table-column label="坐席" prop="name"/>
+                <el-table-column label="所属校区" prop="name"/>
+                <el-table-column label="呼入类型" prop="name"/>
+                <el-table-column label="渠道大类" prop="name"/>
+                <el-table-column label="渠道小类" prop="name"/>
+                <el-table-column label="登记时间" prop="name"/>
+                <el-table-column label="是否有效" prop="name"/>
+                <el-table-column label="确认人" prop="name"/>
+                <el-table-column label="确认时间" prop="name"/>
                 <el-table-column fixed="right" label="操作" align="center">
                     <template slot-scope="scope">
                         <el-link type="primary" @click="customerConfirm">确认</el-link>
@@ -182,7 +176,7 @@
                          label-width="90px" label-position="left">
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <el-form-item label="姓名" prop="str">
+                            <el-form-item label="姓名">
                                 名字
                             </el-form-item>
                         </el-col>
@@ -192,7 +186,7 @@
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <el-form-item label="坐席" prop="str">
+                            <el-form-item label="坐席">
                                 校区
                             </el-form-item>
                         </el-col>
@@ -204,7 +198,7 @@
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <el-form-item label="呼入类型">
+                            <el-form-item label="呼入类型" prop="str">
                                 <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
                                     <el-option
                                             v-for="item in options.options1"
@@ -235,7 +229,7 @@
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <el-form-item label="是否有效">
+                            <el-form-item label="是否有效" prop="str">
                                 <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
                                     <el-option
                                             v-for="item in options.options1"
@@ -247,7 +241,7 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
-                            <el-form-item label="无效类型">
+                            <el-form-item label="无效类型" prop="str">
                                 <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
                                     <el-option
                                             v-for="item in options.options1"
@@ -261,7 +255,7 @@
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
-                            <el-form-item label="教育顾问">
+                            <el-form-item label="教育顾问" prop="str">
                                 <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
                                     <el-option
                                             v-for="item in options.options1"
@@ -286,19 +280,18 @@
 
 <script>
 import PaginationTemplate from "@/components/customer/Pagination";
-import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 
 export default {
     components: {
         PaginationTemplate,
-        SelectedRoleTemplate,
     },
     data() {
         return {
             // tab切换信息
+            currentTab: '0',
             tabs: [
-                {id: 'customer-customer-call', name: '待确认', num: 6, path: '/customer/customer-call',},
-                {id: 'customer-customer-call-confirmed', name: '已确认', path: '/customer/customer-call/confirmed',},
+                {id: '0', name: '待确认', num: 6},
+                {id: '1', name: '已确认'},
             ],
 
             // 筛选参数信息
@@ -311,6 +304,7 @@ export default {
                 selectedArr2: [],//科目
                 str: '',
                 role: [],//选择的负责人
+                tab: '0',
             },
 
             // 筛选选项列表
@@ -363,7 +357,9 @@ export default {
                 form: {
                     str: ''
                 },
-                rules: {}
+                rules: {
+                    str: {required: true, message: '请选择', trigger: 'blur'},
+                }
             }
         }
     },
@@ -406,16 +402,7 @@ export default {
          *@desc 切换tab
          */
         tabsClick() {
-
-        },
-
-        /**
-         *@desc 呼叫用户
-         */
-        callCustomer() {
-            this.$router.push({
-                path: '/customer/customer-detail'
-            })
+            this.refreshPage();
         },
 
         /**
