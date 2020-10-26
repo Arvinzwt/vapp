@@ -149,7 +149,7 @@ export default class Common extends Request {
                         "show": true,
                         "title": "推荐客户登记",
                         "num": 0,
-                        "path": "/customer/recommend-register",
+                        "path": "/customer/customer-register",
                         "query": {}
                     },
                     {
