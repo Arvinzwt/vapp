@@ -61,6 +61,16 @@
                     </el-form-item>
                 </el-col>
 
+                <!--文本域-->
+                <el-col :span="6">
+                    <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入内容"
+                            v-model="paramMap.str">
+                    </el-input>
+                </el-col>
+
                 <!--下拉筛选-可多选-->
                 <el-col :span="6">
                     <el-form-item label="下拉筛选-可多选">
@@ -142,7 +152,8 @@
                 <!--负责人-->
                 <el-col :span="6">
                     <el-form-item label="负责人">
-                        <selected-role-template v-model="paramMap.role" @change="selectedRoleChange"></selected-role-template>
+                        <selected-role-template v-model="paramMap.role"
+                                                @change="selectedRoleChange"></selected-role-template>
                     </el-form-item>
                 </el-col>
 
@@ -187,7 +198,7 @@
 
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
-                    title="分配负责人" custom-class="jr-dialog" width="30%">
+                   title="分配负责人" custom-class="jr-dialog" width="30%">
             <!--弹窗内容-->
             <div class="dialog-body">
                 内容
@@ -378,10 +389,10 @@ export default {
         onPagesChange() {
 
         },
-        closeDialog(){
+        closeDialog() {
 
         },
-        submitDialog(){
+        submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
 
