@@ -33,6 +33,15 @@ export default class Common extends Request {
                 "icon": "iconxueyuan",//显示图标
                 "child": [
                     {
+                        "name": "customer-customer-call",
+                        "code": "0987",
+                        "show": true,
+                        "title": "呼入线索客户",
+                        "num": 0,
+                        "path": "/customer/customer-call",
+                        "query": {},
+                    },
+                    {
                         "name": "customer-customer-manage",//唯一属性， 如果是页面取页面name属性，如果不是取对应文件夹名
                         "code": "0988",//权限码
                         "show": true,//是否在左侧菜单栏显示显示
@@ -80,15 +89,6 @@ export default class Common extends Request {
                         ]
                     },
                     {
-                        "name": "customer-customer-call",
-                        "code": "0987",
-                        "show": true,
-                        "title": "呼入线索客户",
-                        "num": 0,
-                        "path": "/customer/customer-call",
-                        "query": {},
-                    },
-                    {
                         "name": "customer-today-clue",
                         "code": "0989",
                         "show": true,
@@ -125,6 +125,15 @@ export default class Common extends Request {
                         "query": {}
                     },
                     {
+                        "name": "customer-nov-record",
+                        "code": "0993",
+                        "show": true,
+                        "title": "诺访记录",
+                        "num": 0,
+                        "path": "/customer/nov-record",
+                        "query": {}
+                    },
+                    {
                         "name": "customer-my-student",
                         "code": "0994",
                         "show": true,
@@ -134,20 +143,10 @@ export default class Common extends Request {
                         "query": {}
                     },
                     {
-                        "name": "customer-nov-record",
-                        "code": "0993",
-                        "show": true,
-                        "title": "诺访记录",
-                        "num": 0,
-                        "path": "/customer/nov-record",
-                        "query": {}
-                    },
-
-                    {
                         "name": "customer-customer-register",
                         "code": "0995",
                         "show": true,
-                        "title": "推荐客户登记",
+                        "title": "推荐登记",
                         "num": 0,
                         "path": "/customer/customer-register",
                         "query": {}
@@ -159,6 +158,15 @@ export default class Common extends Request {
                         "title": "推荐审核",
                         "num": 0,
                         "path": "/customer/recommend-check",
+                        "query": {}
+                    },
+                    {
+                        "name": "customer-customer-add",
+                        "code": "0998",
+                        "show": true,
+                        "title": "线索录入",
+                        "num": 0,
+                        "path": "/customer/customer-add",
                         "query": {}
                     },
                     {
