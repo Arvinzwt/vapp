@@ -144,6 +144,15 @@ export default class Common extends Request {
                     },
 
                     {
+                        "name": "customer-customer-register",
+                        "code": "0995",
+                        "show": true,
+                        "title": "推荐客户登记",
+                        "num": 0,
+                        "path": "/customer/recommend-register",
+                        "query": {}
+                    },
+                    {
                         "name": "customer-recommend-check",
                         "code": "0995",
                         "show": true,
