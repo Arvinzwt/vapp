@@ -29,7 +29,7 @@ export default ({store, $axios, app}, inject) => {
          *@param arr[array] 忽略的值
          *@return json[Object]
          */
-        resetJson(json, arr) {
+        resetJson(json, arr=[]) {
             for (let key in json) {
                 if (json.hasOwnProperty(key) && !arr.includes(key)) {
                     let target = json[key];

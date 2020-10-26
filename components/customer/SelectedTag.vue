@@ -14,7 +14,7 @@
         </slot>
 
         <!--弹窗-->
-        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" title="分配负责人"
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" title="请选择标签"
                    :append-to-body="true" custom-class="jr-dialog" width="30%">
             <!--弹窗内容-->
             <div class="dialog-body">

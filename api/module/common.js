@@ -107,12 +107,12 @@ export default class Common extends Request {
                         "query": {}
                     },
                     {
-                        "name": "customer-customer-recover",
+                        "name": "customer-soon-recover",
                         "code": "0991",
                         "show": true,
                         "title": "即将回收",
                         "num": 0,
-                        "path": "/customer/customer-recover",
+                        "path": "/customer/soon-recover",
                         "query": {}
                     },
                     {
@@ -159,6 +159,15 @@ export default class Common extends Request {
                         "title": "用户详情",
                         "num": 0,
                         "path": "/customer/customer-detail",
+                        "query": {}
+                    },
+                    {
+                        "name": "customer-customer-follow",
+                        "code": "09981",
+                        "show": false,
+                        "title": "用户跟进",
+                        "num": 0,
+                        "path": "/customer/customer-follow",
                         "query": {}
                     },
                 ]

@@ -158,6 +158,30 @@
             </el-row>
         </el-form>
 
+        <!--列表-->
+        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+            <el-table-column fixed type="selection" width="40px" align="center"/>
+            <el-table-column fixed label="姓名" prop="name"></el-table-column>
+            <el-table-column fixed label="手机" min-width="110px" prop="phone">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="callCustomer">
+                        <span class="">{{ scope.row.phone }}</span>
+                        <span class="el-icon-phone-outline"></span>
+                    </el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="获取时间" prop="name"></el-table-column>
+            <el-table-column label="创建人" prop="name"></el-table-column>
+            <el-table-column fixed="right" label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="">跟进</el-link>
+                    <el-link type="primary" @click="">详情</el-link>
+                    <el-link type="primary" @click="">试听</el-link>
+                    <el-link type="primary" @click="">预约</el-link>
+                </template>
+            </el-table-column>
+        </el-table>
+
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
 
