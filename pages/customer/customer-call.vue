@@ -1,173 +1,178 @@
 <template>
     <!--呼入线索客户确认-->
-    <el-main class="jr-customer-customer-call">
+    <el-main class="jr-page jr-customer-customer-call">
         <!--tab切换-->
-        <el-tabs :value="$route.name" @tab-click="tabsClick">
-            <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
-                <div slot="label">
-                    <span>{{ item.name }}</span>
-                    <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
-                </div>
-            </el-tab-pane>
-        </el-tabs>
-        <!--筛选项-->
-        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
-            <el-row :gutter="15">
-                <!--姓名-->
-                <el-col :span="6">
-                    <el-form-item label="姓名">
-                        <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+        <div class="jr-page-header">
+            <el-tabs :value="$route.name" @tab-click="tabsClick">
+                <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
+                    <div slot="label">
+                        <span>{{ item.name }}</span>
+                        <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+        <!--滚动内容-->
+        <div class="jr-page-body">
+            <!--筛选项-->
+            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+                <el-row :gutter="15">
+                    <!--姓名-->
+                    <el-col :span="6">
+                        <el-form-item label="姓名">
+                            <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--登记时间-->
+                    <el-col :span="6">
+                        <el-form-item label="登记时间">
+                            <el-date-picker
+                                    v-model="paramMap.date"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickerOptions"
+                                    clearable>
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <!--是否有效-->
+                    <el-col :span="6">
+                        <el-form-item label="是否有效">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--学习中心-->
+                    <el-col :span="6">
+                        <el-form-item label="学习中心">
+                            <el-cascader
+                                    v-model="paramMap.cascader"
+                                    :options="options.options1"
+                                    :props="options.cascadeProps"
+                                    :show-all-levels="false"
+                                    collapse-tags
+                                    placeholder="请选择"
+                                    clearable></el-cascader>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15" v-show="paramMap.show">
+                    <!--确认时间-->
+                    <el-col :span="6">
+                        <el-form-item label="确认时间">
+                            <el-date-picker
+                                    v-model="paramMap.date"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickerOptions"
+                                    clearable>
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <!--呼入类型-->
+                    <el-col :span="6">
+                        <el-form-item label="呼入类型">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--坐席-->
+                    <el-col :span="6">
+                        <el-form-item label="坐席">
+                            <el-autocomplete
+                                    v-model="paramMap.str"
+                                    :fetch-suggestions="querySearchAsync"
+                                    placeholder="请输入内容"
+                                    :maxlength='50'
+                                    @select="handleSelect"
+                                    clearable>
+                                <template slot-scope="{ item }">
+                                    <div class="name">{{ item.value }}</div>
+                                    <span class="addr">{{ item.address }}</span>
+                                </template>
+                            </el-autocomplete>
+                        </el-form-item>
+                    </el-col>
+                    <!--渠道小类-->
+                    <el-col :span="6">
+                        <el-form-item label="渠道小类">
+                            <el-autocomplete
+                                    v-model="paramMap.str"
+                                    :fetch-suggestions="querySearchAsync"
+                                    placeholder="请输入内容"
+                                    :maxlength='50'
+                                    @select="handleSelect"
+                                    clearable>
+                                <template slot-scope="{ item }">
+                                    <div class="name">{{ item.value }}</div>
+                                    <span class="addr">{{ item.address }}</span>
+                                </template>
+                            </el-autocomplete>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <!--确定按钮-->
+                    <el-form-item label-width="0" class="text-right">
+                        <el-button @click="submitSearch" type="primary">查询</el-button>
+                        <el-button @click="resetSearch">重置</el-button>
+                        <el-link type="primary" class="ml-4 mr-2" @click="paramMap.show=!paramMap.show">
+                            <span v-show="!paramMap.show">展开</span>
+                            <span v-show="paramMap.show">收起</span>
+                        </el-link>
                     </el-form-item>
-                </el-col>
-                <!--登记时间-->
-                <el-col :span="6">
-                    <el-form-item label="登记时间">
-                        <el-date-picker
-                                v-model="paramMap.date"
-                                type="daterange"
-                                range-separator="-"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                value-format="yyyy-MM-dd HH:mm:ss"
-                                :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="$utils.pickerOptions"
-                                clearable>
-                        </el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <!--是否有效-->
-                <el-col :span="6">
-                    <el-form-item label="是否有效">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--学习中心-->
-                <el-col :span="6">
-                    <el-form-item label="学习中心">
-                        <el-cascader
-                                v-model="paramMap.cascader"
-                                :options="options.options1"
-                                :props="options.cascadeProps"
-                                :show-all-levels="false"
-                                collapse-tags
-                                placeholder="请选择"
-                                clearable></el-cascader>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="15" v-show="paramMap.show">
-                <!--确认时间-->
-                <el-col :span="6">
-                    <el-form-item label="确认时间">
-                        <el-date-picker
-                                v-model="paramMap.date"
-                                type="daterange"
-                                range-separator="-"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期"
-                                value-format="yyyy-MM-dd HH:mm:ss"
-                                :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="$utils.pickerOptions"
-                                clearable>
-                        </el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <!--呼入类型-->
-                <el-col :span="6">
-                    <el-form-item label="呼入类型">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--坐席-->
-                <el-col :span="6">
-                    <el-form-item label="坐席">
-                        <el-autocomplete
-                                v-model="paramMap.str"
-                                :fetch-suggestions="querySearchAsync"
-                                placeholder="请输入内容"
-                                :maxlength='50'
-                                @select="handleSelect"
-                                clearable>
-                            <template slot-scope="{ item }">
-                                <div class="name">{{ item.value }}</div>
-                                <span class="addr">{{ item.address }}</span>
-                            </template>
-                        </el-autocomplete>
-                    </el-form-item>
-                </el-col>
-                <!--渠道小类-->
-                <el-col :span="6">
-                    <el-form-item label="渠道小类">
-                        <el-autocomplete
-                                v-model="paramMap.str"
-                                :fetch-suggestions="querySearchAsync"
-                                placeholder="请输入内容"
-                                :maxlength='50'
-                                @select="handleSelect"
-                                clearable>
-                            <template slot-scope="{ item }">
-                                <div class="name">{{ item.value }}</div>
-                                <span class="addr">{{ item.address }}</span>
-                            </template>
-                        </el-autocomplete>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="15">
-                <!--确定按钮-->
-                <el-form-item label-width="0" class="text-right">
-                    <el-button @click="submitSearch" type="primary">查询</el-button>
-                    <el-button @click="resetSearch">重置</el-button>
-                    <el-link type="primary" class="ml-4 mr-2" @click="paramMap.show=!paramMap.show">
-                        <span v-show="!paramMap.show">展开</span>
-                        <span v-show="paramMap.show">收起</span>
-                    </el-link>
-                </el-form-item>
-            </el-row>
-        </el-form>
-        <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed label="姓名" prop="name"></el-table-column>
-            <el-table-column fixed min-width="100px" label="手机" prop="phone">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer">
-                        <span class="">{{ scope.row.phone }}</span>
-                        <span class="el-icon-phone-outline"></span>
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="年级" prop="name"></el-table-column>
-            <el-table-column label="坐席" prop="name"></el-table-column>
-            <el-table-column label="所属校区" prop="name"></el-table-column>
-            <el-table-column label="呼入类型" prop="name"></el-table-column>
-            <el-table-column label="渠道大类" prop="name"></el-table-column>
-            <el-table-column label="渠道小类" prop="name"></el-table-column>
-            <el-table-column label="登记时间" prop="name"></el-table-column>
-            <el-table-column label="是否有效" prop="name"></el-table-column>
-            <el-table-column label="确认人" prop="name"></el-table-column>
-            <el-table-column label="确认时间" prop="name"></el-table-column>
-            <el-table-column fixed="right" label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="customerConfirm">确认</el-link>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--分页信息-->
-        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+                </el-row>
+            </el-form>
+            <!--列表-->
+            <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+                <el-table-column fixed label="姓名" prop="name"></el-table-column>
+                <el-table-column fixed min-width="100px" label="手机" prop="phone">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="callCustomer">
+                            <span class="">{{ scope.row.phone }}</span>
+                            <span class="el-icon-phone-outline"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="年级" prop="name"></el-table-column>
+                <el-table-column label="坐席" prop="name"></el-table-column>
+                <el-table-column label="所属校区" prop="name"></el-table-column>
+                <el-table-column label="呼入类型" prop="name"></el-table-column>
+                <el-table-column label="渠道大类" prop="name"></el-table-column>
+                <el-table-column label="渠道小类" prop="name"></el-table-column>
+                <el-table-column label="登记时间" prop="name"></el-table-column>
+                <el-table-column label="是否有效" prop="name"></el-table-column>
+                <el-table-column label="确认人" prop="name"></el-table-column>
+                <el-table-column label="确认时间" prop="name"></el-table-column>
+                <el-table-column fixed="right" label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="customerConfirm">确认</el-link>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!--分页信息-->
+            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+        </div>
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
                    title="客户有效性确认" custom-class="jr-dialog" width="50%">
@@ -276,7 +281,6 @@
                 <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
             </div>
         </el-dialog>
-
     </el-main>
 </template>
 

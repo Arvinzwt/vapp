@@ -1,18 +1,20 @@
 <template>
     <!--线索客户管理-->
-    <el-main class="jr-customer-customer-manage">
+    <el-main class="jr-page jr-customer-customer-manage">
         <!--tab切换-->
-        <el-tabs :value="$route.name" @tab-click="tabsClick">
-            <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
-                <div slot="label">
-                    <span>{{ item.name }}</span>
-                    <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
-                </div>
-            </el-tab-pane>
-        </el-tabs>
-
+        <div class="jr-page-header">
+            <el-tabs :value="$route.name" @tab-click="tabsClick">
+                <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
+                    <div slot="label">
+                        <span>{{ item.name }}</span>
+                        <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
+                    </div>
+                </el-tab-pane>
+            </el-tabs>
+        </div>
+        
         <!--内容-->
-        <nuxt-child class="main"/>
+        <nuxt-child class="jr-page-body"/>
     </el-main>
 </template>
 
