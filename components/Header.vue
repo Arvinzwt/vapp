@@ -1,7 +1,9 @@
 <template>
     <!--头部信息栏-->
     <el-header class="jr-header" height="40px">
-        <div class="text-color-brand font-size-auxiliary">{{ currentDate }}</div>
+        <div class="text-color-brand font-size-subtitle cursor-pointer" @click="navCollapseHandle">
+            <span class="iconfont mr-2" :class="navIsCollapse?'iconmenuoff':'iconmenuon'"></span>
+        </div>
         <div class="">
             <el-dropdown class="text-color-brand font-size-auxiliary" @command="userClick">
                 <div class="cursor-pointer">
@@ -22,16 +24,15 @@
 export default {
     data() {
         return {
-            currentDate: '',//当前时间
             user: {//用户信息
                 name: null
             },
         }
     },
     async mounted() {
-        this.currentDate = this.$utils.moment().format('YYYY年MM月DD日');//获取当前年月日
         this.user = await this.$api.common.user();//获取用户信息
     },
+    props: ['navIsCollapse'],
     methods: {
         /**
          *@desc 退出登录
@@ -45,6 +46,13 @@ export default {
                 });
             }
         },
+
+        /**
+         *@desc 打开关闭菜单
+         */
+        navCollapseHandle() {
+            this.$emit('change')
+        }
     }
 }
 </script>

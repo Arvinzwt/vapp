@@ -1,6 +1,6 @@
 <template>
     <!--左侧菜单-->
-    <el-aside class="jr-aside" width="200px">
+    <el-aside class="jr-aside" :width="navIsCollapse?'200px':'0'">
         <img src="/images/menu_bg.png" alt="logo" class="aside-logo"/>
         <el-menu
                 class="aside-menu"
@@ -36,6 +36,7 @@ export default {
             menuList: [],
         }
     },
+    props:['navIsCollapse'],
     async mounted() {
         //初始拉取菜单列表
         this.menuList = await this.$api.common.getMenu().then(list => {
