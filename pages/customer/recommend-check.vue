@@ -102,7 +102,7 @@
         </el-form>
         <!--操作栏-->
         <div class="action-bar">
-            <el-button type="primary" size="mini">分配</el-button>
+            <el-button type="warning" size="mini">分配</el-button>
         </div>
         <!--列表-->
         <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">

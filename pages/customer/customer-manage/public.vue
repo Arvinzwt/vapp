@@ -246,7 +246,7 @@
         <!--操作栏-->
         <div class="action-bar">
             <selected-role-template v-model="paramMap.role" @change="assignCustomer" ref="selectedRole">
-                <el-button @click="openAssignCustomerDialog" type="primary" size="mini">分配</el-button>
+                <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
             </selected-role-template>
         </div>
         <!--列表-->
