@@ -1,167 +1,170 @@
 <template>
     <!--推荐客户登记-->
-    <el-main class="jr-customer-customer-register">
-        <el-alert
-                title="注意：本系统用户在本系统中登记上传的信息须来源正规合法，用户个人须对在本系统登记上传的信息负责，因用户上传信息违反法律法规或侵犯第三人的合法权益的，全部法律责任和赔偿责任均应由用户自行承担，与本系统所有者无关。"
-                type="warning"
-                show-icon>
-        </el-alert>
-        <!--标题-->
-        <h3 class="jr-title">推荐客户登记</h3>
-        <!--筛选项-->
-        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px"
-                 label-position="left">
-            <el-row :gutter="15">
-                <!--学生姓名-->
-                <el-col :span="6">
-                    <el-form-item label="学生姓名">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-                <!--性别-->
-                <el-col :span="6">
-                    <el-form-item label="性别">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--年级-->
-                <el-col :span="6">
-                    <el-form-item label="年级">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--推荐给校区-->
-                <el-col :span="6">
-                    <el-form-item label="推荐给校区">
-                        <el-cascader
-                                v-model="paramMap.cascader"
-                                :options="options.options1"
-                                :props="props"
-                                :show-all-levels="false"
-                                collapse-tags
-                                placeholder="请选择"
-                                clearable></el-cascader>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="15">
-                <!--就读学校-->
-                <el-col :span="6">
-                    <el-form-item label="就读学校">
-                        <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-                <!--线索来源-->
-                <el-col :span="6">
-                    <el-form-item label="线索来源">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--手机号-->
-                <el-col :span="6">
-                    <el-form-item label="手机号">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-                <!--联系人身份-->
-                <el-col :span="6">
-                    <el-form-item label="联系人身份">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="15">
-                <!--联系人姓名-->
-                <el-col :span="6">
-                    <el-form-item label="联系人姓名">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-                <!--推荐类型-->
-                <el-col :span="6">
-                    <el-form-item label="推荐类型">
-                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--学员编号-->
-                <el-col :span="6">
-                    <el-form-item label="学员编号">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-                <!--推荐码-->
-                <el-col :span="6">
-                    <el-form-item label="推荐码">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-form-item label="备注">
-                <el-input
-                        type="textarea"
-                        :maxlength='50'
-                        :rows="2"
-                        placeholder="请输入内容"
-                        v-model="paramMap.str" clearable>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="图片证明">
-                <el-upload
-                        action=""
-                        ref="uploadBom"
-                        :multiple="true"
-                        list-type="picture-card"
-                        :show-file-list="true"
-                        :auto-upload="false"
-                        :file-list="paramMap.arr"
-                        :limit="3"
-                        :on-preview="onFilePreview"
-                        :on-remove="onFileRemove"
-                        :on-exceed="onFileExceed"
-                        :http-request="onFileUpload"
-                        :before-upload="onBeforeFile">
-                    <span class="el-icon-plus"></span>
-                </el-upload>
+    <el-main class="jr-page jr-customer-customer-register">
+        <div class="jr-page-header">
+            <el-alert
+                    title="注意：本系统用户在本系统中登记上传的信息须来源正规合法，用户个人须对在本系统登记上传的信息负责，因用户上传信息违反法律法规或侵犯第三人的合法权益的，全部法律责任和赔偿责任均应由用户自行承担，与本系统所有者无关。"
+                    type="warning"
+                    show-icon>
+            </el-alert>
+        </div>
+        <div class="jr-page-body">
+            <!--标题-->
+            <h3 class="jr-title">推荐客户登记</h3>
+            <!--筛选项-->
+            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px"
+                     label-position="left">
+                <el-row :gutter="15">
+                    <!--学生姓名-->
+                    <el-col :span="6">
+                        <el-form-item label="学生姓名">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--性别-->
+                    <el-col :span="6">
+                        <el-form-item label="性别">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--年级-->
+                    <el-col :span="6">
+                        <el-form-item label="年级">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐给校区-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐给校区">
+                            <el-cascader
+                                    v-model="paramMap.cascader"
+                                    :options="options.options1"
+                                    :props="props"
+                                    :show-all-levels="false"
+                                    collapse-tags
+                                    placeholder="请选择"
+                                    clearable></el-cascader>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <!--就读学校-->
+                    <el-col :span="6">
+                        <el-form-item label="就读学校">
+                            <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--线索来源-->
+                    <el-col :span="6">
+                        <el-form-item label="线索来源">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--手机号-->
+                    <el-col :span="6">
+                        <el-form-item label="手机号">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--联系人身份-->
+                    <el-col :span="6">
+                        <el-form-item label="联系人身份">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <!--联系人姓名-->
+                    <el-col :span="6">
+                        <el-form-item label="联系人姓名">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐类型-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐类型">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--学员编号-->
+                    <el-col :span="6">
+                        <el-form-item label="学员编号">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐码-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐码">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item label="备注">
+                    <el-input
+                            type="textarea"
+                            :maxlength='50'
+                            :rows="2"
+                            placeholder="请输入内容"
+                            v-model="paramMap.str" clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="图片证明">
+                    <el-upload
+                            action=""
+                            ref="uploadBom"
+                            :multiple="true"
+                            list-type="picture-card"
+                            :show-file-list="true"
+                            :auto-upload="false"
+                            :file-list="paramMap.arr"
+                            :limit="3"
+                            :on-preview="onFilePreview"
+                            :on-remove="onFileRemove"
+                            :on-exceed="onFileExceed"
+                            :http-request="onFileUpload"
+                            :before-upload="onBeforeFile">
+                        <span class="el-icon-plus"></span>
+                    </el-upload>
 
-            </el-form-item>
-        </el-form>
-
-        <div class="text-right">
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="jr-page-footer text-right">
             <el-button size="mini" type="primary">提交</el-button>
             <el-button size="mini" type="">重置</el-button>
         </div>
