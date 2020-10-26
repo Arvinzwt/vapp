@@ -242,7 +242,7 @@
             </el-row>
         </el-form>
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini" border>
+        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed type="selection" width="40px" align="center"/>
             <el-table-column fixed label="回收倒计时" width="90px" prop="name"></el-table-column>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>

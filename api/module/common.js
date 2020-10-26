@@ -170,6 +170,15 @@ export default class Common extends Request {
                         "path": "/customer/customer-follow",
                         "query": {}
                     },
+                    {
+                        "name": "customer-customer-import",
+                        "code": "09981",
+                        "show": false,
+                        "title": "导入",
+                        "num": 0,
+                        "path": "/customer/customer-import",
+                        "query": {}
+                    },
                 ]
             },
         ]
