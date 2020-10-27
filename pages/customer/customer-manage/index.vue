@@ -88,9 +88,9 @@
             </selected-role-template>
         </div>
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed width="50" type="selection" align="center"/>
-            <el-table-column fixed label="姓名" prop="name"></el-table-column>
+            <el-table-column fixed label="姓名" prop="name"/>
             <el-table-column fixed min-width="100px" label="手机" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer">
@@ -99,13 +99,13 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="年级" prop="name"></el-table-column>
-            <el-table-column label="科目" prop="name"></el-table-column>
-            <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column label="渠道来源" prop="name"></el-table-column>
-            <el-table-column label="备注" prop="name"></el-table-column>
-            <el-table-column label="创建时间" prop="name"></el-table-column>
-            <el-table-column label="创建人" prop="name"></el-table-column>
+            <el-table-column label="年级" prop="name" sortable="custom"/>
+            <el-table-column label="科目" prop="name" sortable="custom"/>
+            <el-table-column label="地区" prop="name"/>
+            <el-table-column label="渠道" prop="name" sortable="custom"/>
+            <el-table-column label="备注" prop="name"/>
+            <el-table-column label="创建时间" prop="name"/>
+            <el-table-column label="创建人" prop="name"/>
             <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerDetail">详情</el-link>
@@ -137,7 +137,7 @@ export default {
                 input: '',//姓名手机号
                 selectedArr2: [],//科目
 
-                role:[],//选择的负责人
+                role: [],//选择的负责人
             },
 
             // 筛选选项列表
@@ -216,7 +216,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show','role']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -267,6 +267,13 @@ export default {
                 path: '/customer/customer-detail'
             })
         },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        }
     }
 }
 </script>

@@ -255,7 +255,7 @@
             </selected-role-template>
         </div>
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed width="50" type="selection" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column fixed min-width="100px" label="手机" prop="phone">
@@ -271,17 +271,17 @@
                     <el-rate v-model="scope.row.rate" disabled :max="3"/>
                 </template>
             </el-table-column>
-            <el-table-column label="年级" prop="name"></el-table-column>
-            <el-table-column label="科目" prop="name"></el-table-column>
+            <el-table-column label="年级" prop="name" sortable="custom"/>
+            <el-table-column label="科目" prop="name" sortable="custom"/>
             <el-table-column label="地区" prop="name"></el-table-column>
             <el-table-column min-width="95px" label="最新跟进状态" prop="name"></el-table-column>
             <el-table-column min-width="95px" label="线索客户状态" prop="name"></el-table-column>
-            <el-table-column label="渠道" prop="name"></el-table-column>
+            <el-table-column label="渠道" prop="name" sortable="custom"/>
             <el-table-column min-width="95px" label="最近负责人" prop="name"></el-table-column>
             <el-table-column min-width="135px" label="最近跟进时间" prop="date"></el-table-column>
             <el-table-column min-width="95px" label="最近跟进记录" prop="name"></el-table-column>
-            <el-table-column label="删除原因" prop="name"></el-table-column>
-            <el-table-column min-width="135px" label="删除时间" prop="date"></el-table-column>
+            <el-table-column label="删除原因" prop="name"/>
+            <el-table-column min-width="135px" label="删除时间" prop="date" sortable="custom"/>
             <el-table-column label="创建人" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
@@ -447,6 +447,13 @@ export default {
                 path: '/customer/customer-detail'
             })
         },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        }
 
     }
 }
