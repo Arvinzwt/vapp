@@ -174,6 +174,8 @@
                 class="jr-table" ref="filterTable" :data="tableData" size="mini"
 
                 @filter-change="tableFilterChange"
+                @sort-change="tableSortChange"
+
         >
             <el-table-column fixed type="selection" width="50px" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
@@ -192,8 +194,10 @@
                              column-key="name"
                              :filter-multiple="false"
                              :filters="options.options2"></el-table-column>
+            <!--排序-->
+            <el-table-column label="获取时间" prop="name"
+                             sortable="custom"/>
 
-            <el-table-column label="获取时间" prop="name"></el-table-column>
             <el-table-column label="获取时间" prop="name"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
@@ -424,6 +428,10 @@ export default {
             })
         },
 
+
+        /**
+         *@desc table触发筛选时
+         */
         tableFilterChange(columnKey) {
             // for (let key in columnKey) {  //将值填入
             //     if (columnKey.hasOwnProperty(key)) {
@@ -433,6 +441,13 @@ export default {
             console.log(columnKey)
             // this.refreshPage();
         },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        }
     }
 }
 </script>

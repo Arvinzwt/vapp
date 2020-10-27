@@ -145,10 +145,10 @@
                 </el-row>
             </el-form>
             <!--列表-->
-            <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+            <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
                 <el-table-column fixed label="姓名" prop="name"/>
                 <el-table-column fixed min-width="100px" label="手机" prop="phone"/>
-                <el-table-column label="年级" prop="name"/>
+                <el-table-column label="年级" prop="name"  sortable="custom"/>
                 <el-table-column label="坐席" prop="name"/>
                 <el-table-column label="所属校区" prop="name"/>
                 <el-table-column label="呼入类型" prop="name"/>
@@ -447,6 +447,13 @@ export default {
                     return false;
                 }
             })
+        },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
         }
     }
 }
