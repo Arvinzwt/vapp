@@ -49,7 +49,7 @@
                 </el-col>
                 <!--姓名，手机号-->
                 <el-col :span="6">
-                    <el-form-item label-width="0">
+                    <el-form-item label="姓名、手机号">
                         <el-input :maxlength='50' v-model="paramMap.input" placeholder="可搜索姓名、手机" clearable/>
                     </el-form-item>
                 </el-col>
@@ -253,7 +253,9 @@ export default {
         callCustomer() {
             this.$api.customer.callCustomer().then(res => {
                 this.$message.success('呼叫用户')
-                this.customerDetail();
+                this.$router.push({
+                    path: '/customer/customer-follow'
+                })
             })
         },
 

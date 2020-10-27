@@ -12,7 +12,6 @@
                 </el-tab-pane>
             </el-tabs>
         </div>
-        
         <!--内容-->
         <nuxt-child class="jr-page-body"/>
     </el-main>

@@ -35,14 +35,14 @@
                                 end-placeholder="结束日期"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="$utils.pickeroptions"
+                                :picker-options="$utils.pickerOptions"
                                 clearable>
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
                 <!--姓名，手机号-->
                 <el-col :span="6">
-                    <el-form-item label-width="0">
+                    <el-form-item label="姓名、手机号">
                         <el-input :maxlength='50' v-model="paramMap.value1" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
@@ -60,7 +60,7 @@
                                     end-placeholder="结束日期"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickeroptions"
+                                    :picker-options="$utils.pickerOptions"
                                     clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -110,7 +110,7 @@
                                     end-placeholder="结束日期"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickeroptions"
+                                    :picker-options="$utils.pickerOptions"
                                     clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -180,7 +180,7 @@
                                     end-placeholder="结束日期"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickeroptions"
+                                    :picker-options="$utils.pickerOptions"
                                     clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -190,7 +190,7 @@
                         <el-form-item label="意向度">
                             <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in options"
+                                        v-for="item in options.options1"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -209,7 +209,7 @@
                                     end-placeholder="结束日期"
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickeroptions"
+                                    :picker-options="$utils.pickerOptions"
                                     clearable>
                             </el-date-picker>
                         </el-form-item>
@@ -428,7 +428,9 @@ export default {
         callCustomer() {
             this.$api.customer.callCustomer().then(res => {
                 this.$message.success('呼叫用户')
-                this.customerDetail();
+                this.$router.push({
+                    path: '/customer/customer-follow'
+                })
             })
         },
 
