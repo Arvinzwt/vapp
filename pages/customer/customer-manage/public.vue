@@ -309,7 +309,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: false,//是否显示筛选
+                show: true,//是否显示筛选
                 tag: [],//选择标签
                 selectedArr1: [],//跟进状态
                 date1: [],//放弃时间

@@ -162,10 +162,15 @@
                     <el-col :span="6">
                         <el-form-item label="之后未跟进">
                             <el-date-picker
-                                    v-model="paramMap.str"
-                                    type="datetime"
-                                    placeholder="选择日期时间"
-                                    :picker-options="{firstDayOfWeek: 1}">
+                                    v-model="paramMap.date2"
+                                    type="daterange"
+                                    range-separator="-"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    :picker-options="$utils.pickerOptions"
+                                    clearable>
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -304,7 +309,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: false,//是否显示筛选
+                show: true,//是否显示筛选
                 tag: [],//选择标签
                 selectedArr1: [],//跟进状态
                 date1: [],//放弃时间

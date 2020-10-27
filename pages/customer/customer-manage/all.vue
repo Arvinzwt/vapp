@@ -26,7 +26,7 @@
                 </el-col>
                 <!--放弃时间-->
                 <el-col :span="6">
-                    <el-form-item label="删除时间">
+                    <el-form-item label="最近跟进时间">
                         <el-date-picker
                                 v-model="paramMap.date1"
                                 type="daterange"
@@ -80,7 +80,7 @@
                     </el-col>
                     <!--最近负责人-->
                     <el-col :span="6">
-                        <el-form-item label="最近负责人">
+                        <el-form-item label="负责人">
                             <selected-role-template v-model="paramMap.role"></selected-role-template>
                         </el-form-item>
                     </el-col>
@@ -222,9 +222,9 @@
                 </el-row>
             </div>
             <el-row :gutter="15">
-                <!--放弃原因-->
+                <!--海域-->
                 <el-col :span="6">
-                    <el-form-item label="删除原因" v-show="paramMap.show">
+                    <el-form-item label="海域" v-show="paramMap.show">
                         <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                             <el-option
                                     v-for="item in options.options1"
@@ -235,8 +235,21 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <!--校区-->
+                <el-col :span="6">
+                    <el-form-item label="校区" v-show="paramMap.show">
+                        <el-cascader
+                                v-model="paramMap.selectedArr1"
+                                :options="options.options1"
+                                :props="options.cascadeProps"
+                                :show-all-levels="false"
+                                collapse-tags
+                                placeholder="请选择"
+                                clearable></el-cascader>
+                    </el-form-item>
+                </el-col>
                 <!--确定按钮-->
-                <el-col :span="18">
+                <el-col :span="12">
                     <el-form-item label-width="0" class="text-right">
                         <el-button @click="submitSearch" type="primary">查询</el-button>
                         <el-button @click="resetSearch">重置</el-button>
@@ -309,7 +322,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: false,//是否显示筛选
+                show: true,//是否显示筛选
                 tag: [],//选择标签
                 selectedArr1: [],//跟进状态
                 date1: [],//放弃时间
