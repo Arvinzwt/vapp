@@ -287,14 +287,14 @@
             <el-table-column label="年级" prop="name"></el-table-column>
             <el-table-column label="科目" prop="name"></el-table-column>
             <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column label="最新跟进状态" prop="name"></el-table-column>
-            <el-table-column label="线索客户状态" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最新跟进状态" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="线索客户状态" prop="name"></el-table-column>
             <el-table-column label="渠道" prop="name"></el-table-column>
-            <el-table-column label="最近负责人" prop="name"></el-table-column>
-            <el-table-column label="最近跟进时间" prop="name"></el-table-column>
-            <el-table-column label="最近跟进记录" prop="name"></el-table-column>
-            <el-table-column label="删除原因" prop="name"></el-table-column>
-            <el-table-column label="删除时间" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最近负责人" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="最近跟进时间" prop="date"></el-table-column>
+            <el-table-column min-width="95px" label="最近跟进记录" prop="name"></el-table-column>
+            <el-table-column label="放弃原因" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="放弃时间" prop="date"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">

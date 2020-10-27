@@ -8,7 +8,7 @@
                     <el-form-item label="级联选择器">
                         <el-cascader
                                 v-model="paramMap.cascader"
-                                :options="options"
+                                :options="options.options1"
                                 :props="props"
                                 :show-all-levels="false"
                                 collapse-tags
@@ -22,7 +22,7 @@
                     <el-form-item label="级联选择器">
                         <el-cascader
                                 v-model="paramMap.cascader"
-                                :options="options"
+                                :options="options.options1"
                                 :props="props"
                                 collapse-tags
                                 :show-all-levels="false"
@@ -76,7 +76,7 @@
                     <el-form-item label="下拉筛选-可多选">
                         <el-select v-model="paramMap.selectedArr" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options"
+                                    v-for="item in options.options1"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -90,7 +90,7 @@
                     <el-form-item label="下拉筛选-单选">
                         <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options"
+                                    v-for="item in options.options1"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -170,17 +170,30 @@
         </el-form>
 
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table
+                class="jr-table" ref="filterTable" :data="tableData" size="mini"
+
+                @filter-change="tableFilterChange"
+        >
             <el-table-column fixed type="selection" width="50px" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column fixed label="手机" min-width="110px" prop="phone">
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer">
+                    <el-link type="primary" @click="">
                         <span class="">{{ scope.row.phone }}</span>
                         <span class="el-icon-phone-outline"></span>
                     </el-link>
                 </template>
             </el-table-column>
+
+            <!--筛选-->
+            <el-table-column label="获取时间" prop="name"
+                             filter-placement="bottom"
+                             column-key="name"
+                             :filter-multiple="false"
+                             :filters="options.options2"></el-table-column>
+
+            <el-table-column label="获取时间" prop="name"></el-table-column>
             <el-table-column label="获取时间" prop="name"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
@@ -248,17 +261,26 @@ export default {
             },
 
             // 筛选选项列表
-            options: [
-                {
-                    label: '选项1', value: '1',
-                    children: [
-                        {value: 3, label: '普陀'},
-                        {value: 4, label: '黄埔'},
-                    ]
-                },
-                {label: '选项2', value: '2'},
-                {label: '选项3', value: '3'},
-            ],
+            options: {
+                options1: [
+                    {
+                        label: '选项1', value: '1',
+                        children: [
+                            {value: 3, label: '普陀'},
+                            {value: 4, label: '黄埔'},
+                        ]
+                    },
+                    {label: '选项2', value: '2'},
+                    {label: '选项3', value: '3'},
+                ],
+
+                options2: [
+                    {
+                        'text': '选项1',
+                        value: '123'
+                    }
+                ],
+            },
 
             //级联选择器配置
             props: {
@@ -400,7 +422,17 @@ export default {
                     return false;
                 }
             })
-        }
+        },
+
+        tableFilterChange(columnKey) {
+            // for (let key in columnKey) {  //将值填入
+            //     if (columnKey.hasOwnProperty(key)) {
+            //         this.paramMap[key] = columnKey[key].join(',')
+            //     }
+            // }
+            console.log(columnKey)
+            // this.refreshPage();
+        },
     }
 }
 </script>
