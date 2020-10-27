@@ -2,7 +2,7 @@
     <!--今日预约沟通-->
     <el-main class="jr-customer-today-reserve">
         <!--tab切换-->
-        <el-tabs :value="currentTab" @tab-click="tabsClick">
+        <el-tabs :value="paramMap.tab" @tab-click="tabsClick">
             <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
                 <div slot="label">
                     <span>{{ item.name }}</span>
@@ -242,10 +242,11 @@
             </el-row>
         </el-form>
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini" border>
+        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini"
+                  border>
             <el-table-column fixed type="selection" width="50px" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
-            <el-table-column fixed label="手机号" min-width="110px" prop="phone">
+            <el-table-column fixed label="手机" min-width="110px" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer">
                         <span class="">{{ scope.row.phone }}</span>
@@ -253,23 +254,23 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="意向度" prop="name">
+            <el-table-column min-width="95px" label="意向度" prop="name">
                 <template slot-scope="scope">
-                    <el-rate v-model="scope.row.rate" disabled :max="3"/>
+                    <el-rate v-model="scope.row.rate" disabled :max="5"/>
                 </template>
             </el-table-column>
-            <el-table-column label="年级" prop="name"></el-table-column>
-            <el-table-column label="科目" prop="name"></el-table-column>
+            <el-table-column label="年级" prop="name" sortable="custom"></el-table-column>
+            <el-table-column label="科目" prop="name" sortable="custom"></el-table-column>
             <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column label="最新跟进状态" prop="name"></el-table-column>
-            <el-table-column label="线索客户状态" prop="name"></el-table-column>
-            <el-table-column label="渠道" prop="name"></el-table-column>
-            <el-table-column label="最近负责人" prop="name"></el-table-column>
-            <el-table-column label="最近跟进时间" prop="name"></el-table-column>
-            <el-table-column label="最近跟进记录" prop="name"></el-table-column>
-            <el-table-column label="获取时间" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最新跟进状态" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="线索客户状态" prop="name"></el-table-column>
+            <el-table-column label="渠道" prop="name" sortable="custom"></el-table-column>
+            <el-table-column min-width="95px" label="最近负责人" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="最近跟进时间" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最近跟进记录" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="获取时间" prop="name" sortable="custom"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
-            <el-table-column fixed="right" label="操作" align="center">
+            <el-table-column min-width="130px" fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerFollow">跟进</el-link>
                     <el-link type="primary" @click="customerDetail">详情</el-link>
@@ -284,8 +285,6 @@
 </template>
 
 <script>
-import moment from "moment";
-
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 import SelectedTagTemplate from "@/components/customer/SelectedTag";
@@ -298,8 +297,6 @@ export default {
     },
     data() {
         return {
-            currentTab: '0',
-
             // tab切换信息
             tabs: [
                 {id: '0', name: '未跟进', num: 6},
@@ -315,7 +312,8 @@ export default {
                 obj: {},
                 cascader: [],
                 tag: [],
-                date: []
+                date: [],
+                tab: '0',
             },
 
             // 筛选选项列表
@@ -400,7 +398,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap);//重置筛选数据
+            this.$utils.resetJson(this.paramMap,['show','tab']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -458,8 +456,14 @@ export default {
          */
         customerReserve() {
             this.$message.success('跳到upc')
-        }
+        },
 
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        }
     }
 }
 </script>
