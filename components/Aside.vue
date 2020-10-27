@@ -18,7 +18,7 @@
                 <el-menu-item v-for="mList in mItem.child"
                               :key="mList.name"
                               :index="mList.name"
-                              :class="$route.name===mList.name?'active':''"
+                              :class="isActive(mList)"
                               @click="linkTo(mList)">
                     <span> {{ mList.title }}</span>
                     <span v-if="mList.num" class="jr-badge">{{ mList.num }}</span>
@@ -36,7 +36,14 @@ export default {
             menuList: [],
         }
     },
-    props:['navIsCollapse'],
+    props: ['navIsCollapse'],
+    computed: {
+        isActive() {
+            return mList => {
+                return this.$route.name === mList.name || mList.child.includes(this.$route.name) ? 'active' : ''
+            }
+        }
+    },
     async mounted() {
         //初始拉取菜单列表
         this.menuList = await this.$api.common.getMenu().then(list => {

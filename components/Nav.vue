@@ -4,7 +4,7 @@
         <el-tag size="small" class="jr-nav_tag"
                 v-for="item in topMenu"
                 :key="item.name"
-                :type="item.name===$route.name?'':'info'"
+                :type="isActive(item)"
                 :closable="topMenu.length>1"
                 @click="tagClick(item)"
                 @close="tagClose(item)">
@@ -19,6 +19,13 @@ export default {
         return {
             topMenu: [],//顶部菜单信息
             asideMenu: [],//菜单信息
+        }
+    },
+    computed: {
+        isActive() {
+            return mList => {
+                return this.$route.name === mList.name || mList.child.includes(this.$route.name) ? '' : 'info'
+            }
         }
     },
     watch: {

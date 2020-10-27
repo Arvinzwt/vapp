@@ -40,6 +40,7 @@ export default class Common extends Request {
                         "num": 0,
                         "path": "/customer/customer-call",
                         "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-manage",//唯一属性， 如果是页面取页面name属性，如果不是取对应文件夹名
@@ -50,42 +51,10 @@ export default class Common extends Request {
                         "path": "/customer/customer-manage",//页面路由
                         "query": {},//页面参数，默认空
                         'child': [//子路由
-                            {
-                                "name": "customer-customer-manage",//唯一id，页面name属性
-                                "code": "0988",//权限码
-                                "show": true,//是否在左侧菜单栏显示显示
-                                "title": "线索客户管理-新海",
-                                "num": 0,//小时数量
-                                "path": "/customer/customer-manage",//子页面路由
-                                "query": {}//子页面参数
-                            },
-                            {
-                                "name": "customer-customer-manage-public",
-                                "code": "0988",
-                                "show": false,
-                                "title": "线索客户管理-公海",
-                                "num": 0,
-                                "path": "/customer/customer-manage/public",
-                                "query": {}
-                            },
-                            {
-                                "name": "customer-customer-manage-dead",
-                                "code": "0988",
-                                "show": false,
-                                "title": "线索客户管理-死海",
-                                "num": 0,
-                                "path": "/customer/customer-manage/dead",
-                                "query": {}
-                            },
-                            {
-                                "name": "customer-customer-manage-all",
-                                "code": "0988",
-                                "show": false,
-                                "title": "线索客户管理-全部",
-                                "num": 0,
-                                "path": "/customer/customer-manage/all",
-                                "query": {}
-                            },
+                            "customer-customer-manage",
+                            "customer-customer-manage-public",
+                            "customer-customer-manage-dead",
+                            "customer-customer-manage-all",
                         ]
                     },
                     {
@@ -95,7 +64,8 @@ export default class Common extends Request {
                         "title": "今日新线索",
                         "num": 6,
                         "path": "/customer/today-clue",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-today-reserve",
@@ -104,7 +74,8 @@ export default class Common extends Request {
                         "title": "今日预约沟通",
                         "num": 0,
                         "path": "/customer/today-reserve",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-soon-recover",
@@ -113,7 +84,8 @@ export default class Common extends Request {
                         "title": "即将回收",
                         "num": 0,
                         "path": "/customer/soon-recover",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-my-customer",
@@ -122,7 +94,8 @@ export default class Common extends Request {
                         "title": "我的线索客户",
                         "num": 0,
                         "path": "/customer/my-customer",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-nov-record",
@@ -131,7 +104,8 @@ export default class Common extends Request {
                         "title": "诺访记录",
                         "num": 0,
                         "path": "/customer/nov-record",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-my-student",
@@ -140,7 +114,8 @@ export default class Common extends Request {
                         "title": "我的学员",
                         "num": 0,
                         "path": "/customer/my-student",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-register",
@@ -149,7 +124,8 @@ export default class Common extends Request {
                         "title": "推荐登记",
                         "num": 0,
                         "path": "/customer/customer-register",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-recommend-check",
@@ -158,7 +134,8 @@ export default class Common extends Request {
                         "title": "推荐审核",
                         "num": 0,
                         "path": "/customer/recommend-check",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-add",
@@ -167,7 +144,8 @@ export default class Common extends Request {
                         "title": "线索录入",
                         "num": 0,
                         "path": "/customer/customer-add",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-detail",
@@ -176,7 +154,8 @@ export default class Common extends Request {
                         "title": "用户详情",
                         "num": 0,
                         "path": "/customer/customer-detail",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-follow",
@@ -185,7 +164,8 @@ export default class Common extends Request {
                         "title": "用户跟进",
                         "num": 0,
                         "path": "/customer/customer-follow",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                     {
                         "name": "customer-customer-import",
@@ -194,7 +174,8 @@ export default class Common extends Request {
                         "title": "导入",
                         "num": 0,
                         "path": "/customer/customer-import",
-                        "query": {}
+                        "query": {},
+                        "child": [],
                     },
                 ]
             },
@@ -212,13 +193,13 @@ export default class Common extends Request {
             }, {
                 id: 5,
                 label: '二级 1-2',
-            },{
+            }, {
                 id: 6,
                 label: '二级 1-3',
             }, {
                 id: 7,
                 label: '二级 1-4',
-            },{
+            }, {
                 id: 8,
                 label: '二级 1-5',
             }, {
