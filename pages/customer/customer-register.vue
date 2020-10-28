@@ -174,7 +174,7 @@
         </div>
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
-                   title="分配负责人" custom-class="jr-dialog" width="500px">
+                   :title="dialog.name" custom-class="jr-dialog" width="500px">
             <!--弹窗内容-->
             <div class="dialog-body">
                 <img :src="dialog.img" alt="" class="w-100">
@@ -265,7 +265,8 @@ export default {
 
             dialog: {
                 show: false,
-                img: ''
+                img: '',
+                name:'',
             }
         }
     },
@@ -396,6 +397,7 @@ export default {
          */
         onFilePreview(file) {
             this.dialog.img = file.url;
+            this.dialog.name = file.name;
             this.dialog.show = true;
         },
 

@@ -308,7 +308,7 @@
         </el-dialog>
         <!--弹窗2-->
         <el-dialog :visible.sync="dialog2.show" :close-on-click-modal="false" :append-to-body="true"
-                   title="分配负责人" custom-class="jr-dialog" width="500px">
+                   :title="dialog2.name" custom-class="jr-dialog" width="500px">
             <!--弹窗内容-->
             <div class="dialog-body">
                 <img :src="dialog2.img" alt="" class="w-100">
@@ -403,7 +403,8 @@ export default {
 
             dialog2: {
                 show: false,
-                img: ''
+                img: '',
+                name:''
             }
         }
     },
@@ -551,6 +552,7 @@ export default {
          */
         onFilePreview(file) {
             this.dialog2.img = file.url;
+            this.dialog2.name = file.name;
             this.dialog2.show = true;
         },
 
