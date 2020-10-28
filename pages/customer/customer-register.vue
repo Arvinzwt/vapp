@@ -1,6 +1,7 @@
 <template>
     <!--推荐客户登记-->
     <el-main class="jr-page jr-customer-customer-register">
+        <!--提示语-->
         <div class="jr-page-header">
             <el-alert
                     title="注意：本系统用户在本系统中登记上传的信息须来源正规合法，用户个人须对在本系统登记上传的信息负责，因用户上传信息违反法律法规或侵犯第三人的合法权益的，全部法律责任和赔偿责任均应由用户自行承担，与本系统所有者无关。"
@@ -8,6 +9,7 @@
                     show-icon>
             </el-alert>
         </div>
+        <!--内容-->
         <div class="jr-page-body">
             <!--标题-->
             <h3 class="jr-title">推荐客户登记</h3>
@@ -159,15 +161,30 @@
                             :http-request="onFileUpload"
                             :before-upload="onBeforeFile">
                         <span class="el-icon-plus"></span>
+                        <div slot="tip" class="el-upload__tip">最多三张，每张最大5M</div>
                     </el-upload>
 
                 </el-form-item>
             </el-form>
         </div>
+        <!--提交按钮-->
         <div class="jr-page-footer text-right">
             <el-button size="mini" type="primary">提交</el-button>
             <el-button size="mini" type="">重置</el-button>
         </div>
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   title="分配负责人" custom-class="jr-dialog" width="500px">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                <img :src="dialog.img" alt="" class="w-100">
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="dialog.show=false" type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </el-main>
 </template>
 
@@ -245,6 +262,11 @@ export default {
                 label: 'label',
                 children: 'children'
             },
+
+            dialog: {
+                show: false,
+                img: ''
+            }
         }
     },
     mounted() {
@@ -333,7 +355,7 @@ export default {
          *@desc 上传-文件超出个数
          */
         onFileExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
         },
         /**
          *@desc 上传-上传函数
@@ -370,7 +392,8 @@ export default {
         },
 
         onFilePreview(file) {
-            console.log('点击文件列表中已上传的文件时的钩子\t')
+            this.dialog.img = file.url;
+            this.dialog.show = true;
         },
         onFileRemove(file, fileList) {
             console.log('文件列表移除文件时的钩子\t')

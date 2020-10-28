@@ -85,6 +85,18 @@
                 </el-row>
                 <el-row :gutter="15">
                     <el-col :span="6">
+                        <el-form-item label="线索来源">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
                         <el-form-item label="渠道">
                             <el-cascader
                                     v-model="paramMap.cascader"
@@ -114,6 +126,7 @@
                                                     @change="selectedRoleChange"></selected-role-template>
                         </el-form-item>
                     </el-col>
+
                 </el-row>
                 <el-form-item label="备注">
                     <el-input
