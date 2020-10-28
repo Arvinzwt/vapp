@@ -131,12 +131,11 @@ export default {
 
 <style lang="scss">
 .jr-nav {
-    background-color: #fff;
-    padding: 0 20px;
+    padding: 10px 20px 0;
 
     .jr-nav_tag {
         margin-right: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         cursor: pointer;
     }
 }
