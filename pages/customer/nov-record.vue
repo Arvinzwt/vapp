@@ -20,7 +20,8 @@
                 </el-col>
                 <el-col :span="6">
                     <el-form-item label="负责人">
-                        <selected-role-template v-model="paramMap.role" @change="selectedRoleChange"></selected-role-template>
+                        <selected-role-template v-model="paramMap.role"
+                                                @change="selectedRoleChange"></selected-role-template>
                     </el-form-item>
                 </el-col>
                 <el-col :span="6">
@@ -86,7 +87,7 @@
         </el-form>
 
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed type="selection" align="center" width="50"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column fixed label="手机" min-width="110px" prop="phone">
@@ -102,12 +103,41 @@
             <el-table-column label="跟进状态" prop="name"></el-table-column>
             <el-table-column label="渠道来源" prop="name"></el-table-column>
             <el-table-column label="负责人" prop="name"></el-table-column>
-            <el-table-column label="诺到访时间" prop="name"></el-table-column>
-            <el-table-column label="是否到访" prop="name"></el-table-column>
-            <el-table-column label="实到访时间" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="诺到访时间" prop="name" sortable="custom"/>
+            <el-table-column label="是否到访" prop="name">
+                <template slot-scope="scope">
+                    <div @click="switchHandle(scope.row)" class="el-switch" :class="scope.row.switch?'is-checked':''">
+                        <span class="el-switch__core"></span>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column min-width="135px" label="实到访时间" prop="name" sortable="custom"/>
         </el-table>
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   title="选择到访时间" custom-class="jr-dialog" width="400px">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                <el-form class="jr-form" size="mini" :model="dialog.form" label-position="left" :rules="dialog.rules"
+                         label-width="90px" ref="ruleForm">
+                    <el-form-item label="到访时间">
+                        <el-date-picker
+                                v-model="dialog.form.date"
+                                type="datetime"
+                                placeholder="选择日期时间"
+                                :picker-options="{firstDayOfWeek: 1}">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="closeDialog">取 消</el-button>
+                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
+            </div>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -122,12 +152,6 @@ export default {
     },
     data() {
         return {
-            // tab切换信息
-            tabs: [
-                {id: 'customer-customer-call', name: '待确认', num: 6, path: '/customer/customer-call',},
-                {id: 'customer-customer-call-confirmed', name: '已确认', path: '/customer/customer-call/confirmed',},
-            ],
-
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示全部筛选项
@@ -156,7 +180,7 @@ export default {
             },
 
             // 列表数据
-            tableData: [],
+            tableData: [{name: 123, phone: 13122222222, switch: true,}],
 
             // 分页参数
             pagesInfo: {
@@ -165,13 +189,23 @@ export default {
                 count: 0,//总条数
             },
 
-            props:{
+            props: {
                 multiple: true,
                 value: 'value',
                 label: 'label',
                 children: 'children'
-            }
+            },
 
+            dialog: {
+                show: false,
+                form: {
+                    id: '',
+                    date: ''
+                },
+                rules: {
+                    date: {required: true, message: '请选择文件', trigger: 'blur'},
+                }
+            }
         }
     },
     created() {
@@ -190,10 +224,13 @@ export default {
         },
 
         /**
-         *@desc 切换tab时
+         *@desc 呼叫用户
          */
-        tabsClick(tab) {
-
+        callCustomer() {
+            this.$api.customer.callCustomer().then(res => {
+                this.$message.success('呼叫用户')
+                this.customerDetail();
+            })
         },
 
         /**
@@ -220,9 +257,62 @@ export default {
             this.refreshPage();
         },
 
-        selectedRoleChange(){
+        /**
+         *@desc 选择负责人
+         */
+        selectedRoleChange() {
 
-        }
+        },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 切换诺方时间
+         */
+        switchHandle(obj) {
+            if (obj.switch) {
+                this.$confirm('确认是否取消到访记录？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message.success('取消成功');
+                    obj.switch = false;
+                    this.refreshPage();
+                }).catch(() => {
+
+                });
+            } else {
+                this.dialog.form.id = obj.id;
+                this.dialog.show = true;
+            }
+        },
+
+        /**
+         *@desc 上传报告-关闭弹窗
+         */
+        closeDialog() {
+            this.dialog.show = false;
+        },
+
+        /**
+         *@desc 上传报告-提交
+         */
+        submitDialog() {
+            this.$refs['ruleForm'].validate((valid) => {
+                if (valid) {//如果验证通过
+                    this.refreshPage();
+                    this.closeDialog();
+                } else {
+                    return false;
+                }
+            })
+        },
     }
 }
 </script>
