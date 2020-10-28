@@ -119,14 +119,205 @@
             <el-table-column label="审核状态" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="">修改</el-link>
-                    <el-link type="primary" @click="">审核</el-link>
-                    <el-link type="primary" @click="">查看</el-link>
+                    <el-link type="primary" @click="modifyCustomer">修改</el-link>
+                    <el-link type="primary" @click="checkCustomer">审核</el-link>
+                    <el-link type="primary" @click="viewCustomer">查看</el-link>
                 </template>
             </el-table-column>
         </el-table>
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+        <!-- 弹窗 -->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   :title="dialog.title" custom-class="jr-dialog" width="800px">
+            <!--弹窗内容-->
+            <el-form class="jr-form" size="mini" :model="dialog.form" :rules="dialog.rules" label-width="90px"
+                     label-position="left" :disabled="dialog.type!==1" ref="ruleForm">
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="学生姓名" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="性别" prop="str">
+                            <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="年级" prop="str">
+                            <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="推荐给校区" prop="str">
+                            <el-cascader
+
+                                    v-model="dialog.form.cascader"
+                                    :options="options.options1"
+                                    :props="options.cascadeProps"
+                                    :show-all-levels="false"
+                                    collapse-tags
+                                    placeholder="请选择"
+                                    clearable></el-cascader>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="就读学校" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="线索来源" prop="str">
+                            <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="手机号" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="联系人身份" prop="str">
+                            <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="联系人姓名" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="推荐类型" prop="str">
+                            <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="12">
+                        <el-form-item label="学员编号" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="推荐码" prop="str">
+                            <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item label="备注" prop="str">
+                    <el-input :maxlength='50' type="textarea" v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+                </el-form-item>
+                <el-form-item label="图片证明" prop="str">
+                    <el-upload
+                            action=""
+                            ref="uploadBom"
+                            :multiple="true"
+                            list-type="picture-card"
+                            :show-file-list="true"
+                            :auto-upload="false"
+                            :file-list="dialog.form.cascader"
+                            :limit="3"
+                            :on-preview="onFilePreview"
+                            :on-remove="onFileRemove"
+                            :on-exceed="onFileExceed"
+                            :http-request="onFileUpload"
+                            :before-upload="onBeforeFile">
+                        <span class="el-icon-plus"></span>
+                        <div slot="tip" class="el-upload__tip">最多三张，每张最大5M</div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+
+            <el-form v-if="dialog.type===2" class="jr-form" size="mini" :model="dialog.form" :rules="dialog.rules" label-width="90px"
+                     label-position="left" ref="ruleForm2">
+                 <el-row :gutter="15">
+                   <el-col :span="12">
+                       <el-form-item label="审核结果" :disabled="false">
+                           <el-radio :disabled="false" v-model="dialog.form.str" label="1">通过</el-radio>
+                           <el-radio :disabled="false" v-model="dialog.form.str" label="2">驳回</el-radio>
+                       </el-form-item>
+                   </el-col>
+                   <el-col :span="12">
+                       <el-form-item label="教育顾问">
+                           <el-select :disabled="false" v-model="dialog.form.str" placeholder="请选择"
+                                      clearable>
+                               <el-option
+                                       v-for="item in options.options1"
+                                       :key="item.value"
+                                       :label="item.label"
+                                       :value="item.value">
+                               </el-option>
+                           </el-select>
+                       </el-form-item>
+                   </el-col>
+               </el-row>
+               <el-form-item label="驳回理由" prop="str">
+                   <el-input :maxlength='50' type="textarea" v-model="dialog.form.str" placeholder="请输入内容" clearable/>
+               </el-form-item>
+            </el-form>
+
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="closeDialog">取 消</el-button>
+                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
+            </div>
+        </el-dialog>
+        <!--弹窗2-->
+        <el-dialog :visible.sync="dialog2.show" :close-on-click-modal="false" :append-to-body="true"
+                   title="分配负责人" custom-class="jr-dialog" width="500px">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                <img :src="dialog2.img" alt="" class="w-100">
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="dialog2.show=false" type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -201,10 +392,18 @@ export default {
             // 弹窗
             dialog: {
                 show: false,
+                type: null,//1修改，2审核，3查看
+                title: '',
                 form: {
-                    str: ''
+                    str: '',
+                    cascader: []
                 },
                 rules: {}
+            },
+
+            dialog2: {
+                show: false,
+                img: ''
             }
         }
     },
@@ -244,22 +443,6 @@ export default {
         },
 
         /**
-         *@desc 切换tab
-         */
-        tabsClick() {
-
-        },
-
-        /**
-         *@desc 呼叫用户
-         */
-        callCustomer() {
-            this.$router.push({
-                path: '/customer/customer-detail'
-            })
-        },
-
-        /**
          *@desc 渠道小类/坐席-查询时
          */
         querySearchAsync(queryString, cb) {
@@ -277,9 +460,29 @@ export default {
         },
 
         /**
-         *@desc 客户确定 - 打开弹窗
+         *@desc 修改 - 打开弹窗
          */
-        customerConfirm() {
+        modifyCustomer() {
+            this.dialog.title = '修改线索客户信息'
+            this.dialog.type = 1;
+            this.dialog.show = true;
+        },
+
+        /**
+         *@desc 审核 - 打开弹窗
+         */
+        checkCustomer() {
+            this.dialog.title = '审核线索客户信息'
+            this.dialog.type = 2;
+            this.dialog.show = true;
+        },
+
+        /**
+         *@desc 查看 - 打开弹窗
+         */
+        viewCustomer() {
+            this.dialog.title = '查看线索客户信息'
+            this.dialog.type = 3;
             this.dialog.show = true;
         },
 
@@ -301,7 +504,62 @@ export default {
                     return false;
                 }
             })
-        }
+        },
+
+        /**
+         *@desc 上传-文件超出个数
+         */
+        onFileExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+
+        /**
+         *@desc 上传-上传函数
+         */
+        onFileUpload(fileObj) {
+            let paramMap = this.paramMap;
+            let linkage = this.$refs.linkage;
+            let formData = new FormData();
+
+            formData.append('leads_file', fileObj.file);
+            formData.append('org_code', linkage.org_code);
+            formData.append('school_code', linkage.school_code);
+            formData.append('charge_person', paramMap.charge_person.value);
+
+            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
+                this.refreshPage().then(() => {
+                    this.$message.success(res.data.msg);
+                });
+            })
+        },
+
+        /**
+         *@desc 上传-上传前验证
+         */
+        onBeforeFile(file) {
+            if (!file.name.includes('xls')) {
+                this.$message.error('只能上传excel!');
+                return false;
+            } else {
+                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
+                return true;
+            }
+        },
+
+        /**
+         *@desc 上传-点击上传文件
+         */
+        onFilePreview(file) {
+            this.dialog2.img = file.url;
+            this.dialog2.show = true;
+        },
+
+        /**
+         *@desc 上传-移除上传文件
+         */
+        onFileRemove(file, fileList) {
+            console.log('文件列表移除文件时的钩子\t')
+        },
     }
 }
 </script>

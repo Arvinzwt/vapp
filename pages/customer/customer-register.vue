@@ -357,6 +357,7 @@ export default {
         onFileExceed(files, fileList) {
             this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
         },
+
         /**
          *@desc 上传-上传函数
          */
@@ -377,7 +378,6 @@ export default {
             })
         },
 
-
         /**
          *@desc 上传-上传前验证
          */
@@ -391,10 +391,17 @@ export default {
             }
         },
 
+        /**
+         *@desc 上传-点击上传文件
+         */
         onFilePreview(file) {
             this.dialog.img = file.url;
             this.dialog.show = true;
         },
+
+        /**
+         *@desc 上传-移除上传文件
+         */
         onFileRemove(file, fileList) {
             console.log('文件列表移除文件时的钩子\t')
         },
