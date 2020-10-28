@@ -23,7 +23,7 @@
 
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" title="分配负责人"
-                   :append-to-body="true" custom-class="jr-dialog" width="30%">
+                   :append-to-body="true" custom-class="jr-dialog" width="500px">
             <!--弹窗内容-->
             <div class="dialog-body">
                 <el-input placeholder="请输入内容"
@@ -77,7 +77,6 @@ export default {
             handler(val) {
                 this.setShowValue();//设置选中的数据;
             },
-            // immediate: true
         }
     },
     model: {

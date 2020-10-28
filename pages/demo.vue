@@ -215,7 +215,7 @@
 
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
-                   title="分配负责人" custom-class="jr-dialog" width="30%">
+                   title="分配负责人" custom-class="jr-dialog" width="500px">
             <!--弹窗内容-->
             <div class="dialog-body">
                 内容
