@@ -264,7 +264,19 @@
             <el-table-column label="渠道" prop="name"></el-table-column>
             <el-table-column label="最近负责人" prop="name"></el-table-column>
             <el-table-column label="最近跟进时间" prop="name"></el-table-column>
-            <el-table-column label="最近跟进记录" prop="name"></el-table-column>
+            <el-table-column width="220px" label="最近跟进记录" prop="recording">
+                <template slot-scope="scope">
+                    <el-popover
+                            placement="top-start"
+                            width="200"
+                            trigger="hover"
+                            :content="scope.row.recording">
+                        <template slot="reference">
+                            <div class="text-ellipsis">{{ scope.row.recording }}</div>
+                        </template>
+                    </el-popover>
+                </template>
+            </el-table-column>
             <el-table-column label="获取时间" prop="name"></el-table-column>
             <el-table-column label="创建人" prop="name"></el-table-column>
             <el-table-column fixed="right" label="操作" align="center">

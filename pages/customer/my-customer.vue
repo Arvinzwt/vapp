@@ -71,7 +71,7 @@
                         <el-form-item label="客户状态">
                             <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in options"
+                                        v-for="item in options.options1"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -250,8 +250,9 @@
             </div>
         </div>
         <!--列表-->
-        <el-table class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed type="selection" width="50px" align="center"/>
+            <el-table-column fixed label="回收倒计时" width="90px" prop="name"></el-table-column>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
             <el-table-column fixed label="手机号" min-width="110px" prop="phone">
                 <template slot-scope="scope">
@@ -261,23 +262,35 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="意向度" prop="name">
+            <el-table-column min-width="95px" label="意向度" prop="name">
                 <template slot-scope="scope">
                     <el-rate v-model="scope.row.rate" disabled :max="3"/>
                 </template>
             </el-table-column>
-            <el-table-column label="年级" prop="name"></el-table-column>
-            <el-table-column label="科目" prop="name"></el-table-column>
+            <el-table-column label="年级" prop="name" sortable="custom"/>
+            <el-table-column label="科目" prop="name" sortable="custom"/>
             <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column label="最新跟进状态" prop="name"></el-table-column>
-            <el-table-column label="线索客户状态" prop="name"></el-table-column>
-            <el-table-column label="渠道" prop="name"></el-table-column>
-            <el-table-column label="最近负责人" prop="name"></el-table-column>
-            <el-table-column label="最近跟进时间" prop="name"></el-table-column>
-            <el-table-column label="最近跟进记录" prop="name"></el-table-column>
-            <el-table-column label="获取时间" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最新跟进状态" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="线索客户状态" prop="name"></el-table-column>
+            <el-table-column label="渠道" prop="name" sortable="custom"/>
+            <el-table-column min-width="95px" label="最近负责人" prop="name"></el-table-column>
+            <el-table-column min-width="135px" label="最近跟进时间" prop="name"></el-table-column>
+            <el-table-column width="220px" label="最近跟进记录" prop="recording">
+                <template slot-scope="scope">
+                    <el-popover
+                            placement="top-start"
+                            width="200"
+                            trigger="hover"
+                            :content="scope.row.recording">
+                        <template slot="reference">
+                            <div class="text-ellipsis">{{ scope.row.recording }}</div>
+                        </template>
+                    </el-popover>
+                </template>
+            </el-table-column>
+            <el-table-column min-width="135px" label="获取时间" prop="name" sortable="custom"/>
             <el-table-column label="创建人" prop="name"></el-table-column>
-            <el-table-column fixed="right" label="操作" align="center">
+            <el-table-column min-width="130px" fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerFollow">跟进</el-link>
                     <el-link type="primary" @click="customerDetail">详情</el-link>
@@ -297,7 +310,6 @@
             <div class="dialog-body">
                 <el-form class="jr-form" size="mini" :model="dialog.form" label-position="left" :rules="dialog.rules"
                          label-width="90px" ref="ruleForm">
-
                     <!--放弃-->
                     <div v-if="dialog.type===1">
                         <el-form-item label="放弃愿意" prop="reason1">
@@ -318,155 +330,68 @@
                                     v-model="dialog.form.reason2"/>
                         </el-form-item>
                     </div>
-                    <!--新增-->
+                    <!--上传报告-->
                     <div v-if="dialog.type===3">
                         <el-row :gutter="15">
                             <el-col :span="12">
-                                <el-form-item label="姓名" prop="">
-                                    <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
-                                </el-form-item>
+                                <el-form-item label="学员姓名">张三</el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="手机" prop="">
-                                    <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
-                                </el-form-item>
+                                <el-form-item label="生日">2012-09-09</el-form-item>
                             </el-col>
                         </el-row>
                         <el-row :gutter="15">
                             <el-col :span="12">
-                                <el-form-item label="性别" prop="">
-                                    <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
-                                        <el-option
-                                                v-for="item in options.options1"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-form-item label="线索客户来源">抖音</el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="年级" prop="">
-                                    <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
-                                        <el-option
-                                                v-for="item in options.options1"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-form-item label="学校">郑州大学</el-form-item>
                             </el-col>
                         </el-row>
                         <el-row :gutter="15">
                             <el-col :span="12">
-                                <el-form-item label="意向科学" prop="">
-                                    <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
-                                        <el-option
-                                                v-for="item in options.options1"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
+                                <el-form-item label="手机号">13111122222</el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="地区" prop="">
-                                    <el-cascader
-                                            v-model="paramMap.cascader"
-                                            :options="options.options1"
-                                            :show-all-levels="false"
-                                            collapse-tags
-                                            placeholder="请选择"
-                                            clearable></el-cascader>
-                                </el-form-item>
+                                <el-form-item label="家庭住址">张三</el-form-item>
                             </el-col>
                         </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="详细地址" prop="">
-                                    <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
-
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="学校" prop="">
-                                    <el-input :maxlength='50' v-model="dialog.form.str" placeholder="请输入内容" clearable/>
-
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="渠道" prop="">
-                                    <el-cascader
-                                            v-model="paramMap.cascader"
-                                            :options="options.options1"
-                                            :show-all-levels="false"
-                                            collapse-tags
-                                            placeholder="请选择"
-                                            clearable></el-cascader>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="事业部" prop="">
-                                    <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
-                                        <el-option
-                                                v-for="item in options.options1"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.value">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="校区" prop="">
-                                    <el-cascader
-                                            v-model="paramMap.cascader"
-                                            :options="options.options1"
-                                            :show-all-levels="false"
-                                            collapse-tags
-                                            placeholder="请选择"
-                                            clearable></el-cascader>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="负责人" prop="">
-                                    <selected-role-template v-model="paramMap.role"
-                                                            @change="selectedRoleChange"></selected-role-template>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="24">
-                                <el-form-item label="备注" prop="">
-                                    <el-input
-                                            type="textarea"
-                                            :rows="2"
-                                            placeholder="请输入内容"
-                                            v-model="dialog.form.reason2"/>
-                                </el-form-item>
-                            </el-col>
-
-                        </el-row>
-
-
-                    </div>
-                    <!--上传报告-->
-                    <div v-if="dialog.type===4">
-
+                        <el-form-item label="类型">
+                            <el-select v-model="dialog.form.reason2" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in options.options1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="选择文件">
+                            <el-upload
+                                    action=""
+                                    ref="uploadBom"
+                                    :multiple="true"
+                                    list-type="text"
+                                    :show-file-list="true"
+                                    :auto-upload="false"
+                                    :file-list="dialog.form.file"
+                                    :limit="10"
+                                    :on-preview="onFilePreview"
+                                    :on-remove="onFileRemove"
+                                    :on-exceed="onFileExceed"
+                                    :http-request="onFileUpload"
+                                    :before-upload="onBeforeFile">
+                                <el-link size="small" type="primary">上传</el-link>
+                            </el-upload>
+                        </el-form-item>
                     </div>
                 </el-form>
             </div>
             <!--弹窗尾部-->
             <div slot="footer" class="dialog-footer">
-                <span v-if="dialog.type===1||dialog.type===2" class="el-icon-warning"></span>
-                <span v-if="dialog.type===1" class="mr-4">放弃后线索客户将进入公海</span>
-                <span v-if="dialog.type===2" class="mr-4">删除后线索客户将进入死海</span>
+                <span v-if="dialog.type===1||dialog.type===2" class="el-icon-warning text-color-warning"></span>
+                <span v-if="dialog.type===1" class="mr-4 text-color-warning">放弃后线索客户将进入公海</span>
+                <span v-if="dialog.type===2" class="mr-4 text-color-warning">删除后线索客户将进入死海</span>
                 <el-button size="mini" @click="closeDialog">取 消</el-button>
                 <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
             </div>
@@ -475,8 +400,6 @@
 </template>
 
 <script>
-import moment from "moment";
-
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 import SelectedTagTemplate from "@/components/customer/SelectedTag";
@@ -497,7 +420,7 @@ export default {
                 obj: {},
                 cascader: [],
                 tag: [],
-                date: []
+                date: [],
             },
 
             // 筛选选项列表
@@ -519,7 +442,6 @@ export default {
                 ],
             },
 
-
             //级联选择器配置
             props: {
                 multiple: true,
@@ -529,7 +451,13 @@ export default {
             },
 
             // 列表数据
-            tableData: [{name: 123, phone: 12121212121, rate: 3,}],
+            tableData: [
+                {
+                    name: 123,
+                    phone: 12121212121, rate: 3,
+                    recording: '显示最近一条跟进记录内容，保证显示15个字，超过...表示，鼠标悬停展示完成内容显示最近一条跟进记录内容，保证显示15个字，超过...表示，鼠标悬停展示完成内容'
+                }
+            ],
 
             // 分页参数
             pagesInfo: {
@@ -540,15 +468,17 @@ export default {
 
             dialog: {
                 show: false,
-                type: null,//1放弃，2删除，3新增，4上传报告
+                type: null,//1放弃，2删除，3上传报告
                 title: '',
                 form: {
-                    role: [],//分配
                     reason1: '',//放弃
                     reason2: '',//删除
-                    str: '',
+                    file: [],
                 },
-                rules: {}
+                rules: {
+                    reason1: {required: true, message: '请输入放弃愿意', trigger: 'blur'},
+                    reason2: {required: true, message: '请输入删除愿意', trigger: 'blur'},
+                }
             }
 
         }
@@ -566,13 +496,6 @@ export default {
         refreshPage() {
             console.log(this.paramMap, 'paramMap')
             console.log(this.pagesInfo, 'pagesInfo')
-        },
-
-        /**
-         *@desc 切换tab时
-         */
-        tabsClick(tab) {
-
         },
 
         /**
@@ -595,7 +518,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -656,14 +579,24 @@ export default {
         },
 
         /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
+        },
+
+        /**
          *@desc 上传报告
          */
         customerUpload() {
-            this.dialog.type = 4;
+            this.dialog.type = 3;
             this.dialog.title = '上传报告';
             this.dialog.show = true;
         },
 
+        /**
+         *@desc 判定当前是否选择了leads
+         */
         _canBatch() {
             let ids = this.$refs['filterTable'].selection;
             if (ids.length > 0) {
@@ -705,7 +638,6 @@ export default {
                 this.dialog.title = '放弃线索客户';
                 this.dialog.show = true;
             }
-
         },
 
         /**
@@ -724,9 +656,9 @@ export default {
          *@desc 新增
          */
         addCustomer() {
-            this.dialog.type = 3;
-            this.dialog.title = '新增用户';
-            this.dialog.show = true;
+            this.$router.push({
+                path: '/customer/customer-add'
+            })
         },
 
         /**
@@ -738,9 +670,17 @@ export default {
             })
         },
 
+
+        /**
+         *@desc 放弃/删除/上传报告-关闭弹窗
+         */
         closeDialog() {
             this.dialog.show = false;
         },
+
+        /**
+         *@desc 放弃/删除/上传报告-提交
+         */
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
@@ -749,7 +689,62 @@ export default {
                     return false;
                 }
             })
-        }
+        },
+
+        /**
+         *@desc 上传-文件超出个数
+         */
+        onFileExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+
+        /**
+         *@desc 上传-上传函数
+         */
+        onFileUpload(fileObj) {
+            let paramMap = this.paramMap;
+            let linkage = this.$refs.linkage;
+            let formData = new FormData();
+
+            formData.append('leads_file', fileObj.file);
+            formData.append('org_code', linkage.org_code);
+            formData.append('school_code', linkage.school_code);
+            formData.append('charge_person', paramMap.charge_person.value);
+
+            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
+                this.refreshPage().then(() => {
+                    this.$message.success(res.data.msg);
+                });
+            })
+        },
+
+        /**
+         *@desc 上传-上传前验证
+         */
+        onBeforeFile(file) {
+            if (!file.name.includes('xls')) {
+                this.$message.error('只能上传excel!');
+                return false;
+            } else {
+                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
+                return true;
+            }
+        },
+
+        /**
+         *@desc 上传-点击已上传文件
+         */
+        onFilePreview(file) {
+            console.log('点击文件列表中已上传的文件时的钩子\t')
+        },
+
+        /**
+         *@desc 上传-移除上传文件
+         */
+        onFileRemove(file, fileList) {
+            console.log('文件列表移除文件时的钩子\t')
+        },
+
     }
 }
 </script>
