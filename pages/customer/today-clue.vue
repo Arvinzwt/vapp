@@ -246,8 +246,7 @@
                 </el-row>
             </el-form>
             <!--列表-->
-            <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini"
-                      border>
+            <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
                 <el-table-column fixed type="selection" width="50px" align="center"/>
                 <el-table-column fixed label="姓名" prop="name"></el-table-column>
                 <el-table-column fixed label="手机" min-width="110px" prop="phone">
