@@ -1,6 +1,6 @@
 <template>
     <!--选择角色-->
-    <div class="jr-customer-selected-role">
+    <div class="jr-customer-selected-tag">
         <!--触发对象-->
         <slot>
             <div class="jr-tag-wrp el-input__inner" @click="openDialog">
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style lang="scss">
-.jr-customer-selected-role {
+.jr-customer-selected-tag {
     .jr-tag-wrp {
         height: 28px;
         line-height: 28px;
