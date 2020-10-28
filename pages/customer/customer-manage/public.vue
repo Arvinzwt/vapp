@@ -281,7 +281,7 @@
             <el-table-column min-width="135px" label="最近跟进时间" prop="date"/>
             <el-table-column min-width="95px" label="最近跟进记录" prop="name"/>
             <el-table-column label="放弃原因" prop="name"/>
-            <el-table-column min-width="135px" label="放弃时间" prop="date" sortable="custom"/>/>
+            <el-table-column min-width="135px" label="放弃时间" prop="date" sortable="custom"/>
             <el-table-column label="创建人" prop="name"/>
             <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
@@ -396,7 +396,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show']);//重置筛选数据
             this.refreshPage();
         },
 
