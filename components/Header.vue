@@ -4,7 +4,6 @@
         <div class="jr-header-left">
             <span class="icon" @click="navCollapseHandle"
                   :class="navIsCollapse?'el-icon-s-fold':'el-icon-s-unfold'"></span>
-            <span>{{ time.date }}</span>
         </div>
         <el-dropdown class="text-color-brand font-size-auxiliary" @command="userClick">
             <div class="cursor-pointer">
@@ -35,7 +34,6 @@ export default {
     },
     async mounted() {
         this.user = await this.$api.common.user();//获取用户信息
-        this.setTime();//设置倒计时
     },
     props: ['navIsCollapse'],
     methods: {
@@ -58,20 +56,6 @@ export default {
         navCollapseHandle() {
             this.$emit('change')
         },
-
-        /**
-         *@desc 设置倒计时
-         */
-        setTime() {
-            let moment = this.$utils.moment;
-            if (this.interval) clearInterval(this.interval);
-            this.interval = setInterval(() => {
-                this.time.date = moment().format('YYYY-MM-DD HH:mm:ss');
-            }, 1000)
-        }
-    },
-    destroyed() {
-        if (this.interval) clearInterval(this.interval);
     }
 }
 </script>

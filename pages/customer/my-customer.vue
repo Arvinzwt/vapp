@@ -283,7 +283,7 @@
                             trigger="hover"
                             :content="scope.row.recording">
                         <template slot="reference">
-                            <div class="text-ellipsis">{{ scope.row.recording }}</div>
+                            <div class="text-ellipsis w-p200">{{ scope.row.recording }}</div>
                         </template>
                     </el-popover>
                 </template>
