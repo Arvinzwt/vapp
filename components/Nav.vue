@@ -31,20 +31,20 @@ export default {
     watch: {
         // 监听路由变化并存储下来
         async "$route"(to, form) {
-            let tm = this.getLocalStorageTm();//local存储的路由信息
-            let target = tm.find(item => {//找到当前操作的页面在历史存储中的对象
+            let menu = this.getLocalStorageTm();//local存储的路由信息
+            let target = menu.find(item => {//找到当前操作的页面在历史存储中的对象
                 return item.name === to.name;
             })
 
             if (!target) {//如果没有该路由，加入
-                tm.push({
+                menu.push({
                     name: to.name,
                     query: to.query,
                 });
-                localStorage.setItem('tm', JSON.stringify(tm));//本地存储
+                localStorage.setItem('menu', JSON.stringify(menu));//本地存储
             } else {//更新query信息
                 target.query = to.query;
-                localStorage.setItem('tm', JSON.stringify(tm));//本地存储
+                localStorage.setItem('menu', JSON.stringify(menu));//本地存储
             }
 
             this.resetTopMenu();//重新刷新topMenu数据
@@ -59,7 +59,7 @@ export default {
          *@desc 拉取本地存储的topMenu信息
          */
         getLocalStorageTm() {
-            return localStorage.getItem('tm') ? JSON.parse(localStorage.getItem('tm')) : [{
+            return localStorage.getItem('menu') ? JSON.parse(localStorage.getItem('menu')) : [{
                 name: 'customer-customer-manage',
                 query: {}
             }];
@@ -69,9 +69,9 @@ export default {
          *@desc 将本地存储的topMenu转换为数据对象
          */
         async resetTopMenu() {
-            let tm = this.getLocalStorageTm();//local存储的路由信息
+            let menu = this.getLocalStorageTm();//local存储的路由信息
             this.topMenu = [];//清空topMenu
-            tm.forEach(tmItem => {//循环历史记录
+            menu.forEach(tmItem => {//循环历史记录
                 this.asideMenu.forEach(mItem => {//循环菜单第一层
                     mItem.child = mItem.child || [];
                     mItem.child.forEach(mList => {//循环菜单第二层
@@ -84,7 +84,7 @@ export default {
                     })
                 })
             })
-            return tm;
+            return menu;
         },
 
         /**
@@ -102,15 +102,15 @@ export default {
          */
         tagClose(obj) {
             if (this.topMenu.length > 1) {//保证至少有一个topmenu
-                let tm = this.getLocalStorageTm();//本地存储信息
+                let menu = this.getLocalStorageTm();//本地存储信息
 
-                tm.forEach((item, index) => {//找到操作对象
+                menu.forEach((item, index) => {//找到操作对象
                     if (item.name === obj.name) {
-                        tm.splice(index, 1);//删除
+                        menu.splice(index, 1);//删除
                     }
                 })
 
-                localStorage.setItem('tm', JSON.stringify(tm));//重置本地存储
+                localStorage.setItem('menu', JSON.stringify(menu));//重置本地存储
 
                 this.resetTopMenu().then(res => {//重置topmenu数据
                     if (obj.name === this.$route.name) {//如果删除的是当前路由
