@@ -21,7 +21,7 @@ export default class Request {
      *@param options [Object] filterData是否过滤接口返回数据，默认过滤
      *@return promise [promise]
      */
-    request(method, url, data = {}, options = {}) {
+    async request(method, url, data = {}, options = {}) {
         let {$axios, redirect, store} = this.context;
         let {loadingInstance = true, showToast = true, filterData = true, responseType = 'json'} = options;
 
@@ -34,7 +34,9 @@ export default class Request {
             });
         }
 
-        // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+        //设置token
+        $axios.setToken((await store.dispatch('user')).token);
+
         // 请求数据
         return $axios({
             url,
@@ -53,7 +55,7 @@ export default class Request {
 
             //授权失败触发登出功能
             if (code === 401 || code === 403) {
-                store.dispatch('logout').then(res=>{
+                store.dispatch('logout').then(res => {
                     redirect('/')
                 });
             }

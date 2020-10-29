@@ -13,6 +13,20 @@ export default ({store, $axios, app}, inject) => {
         moment,
 
         /**
+         *@desc 验证权限
+         *@param authCode 需要验证的权限code
+         *@return {string}
+         */
+        verifyAuth(authCode = '') {
+            let right = '';
+            if (process.client) {
+                let usr = localStorage.getItem('usr');//存储localStorage
+                right = usr ? JSON.parse(usr).rightid : ''
+            }
+            return right.split(',').includes(authCode);
+        },
+
+        /**
          *@desc 格式化时间
          *@param timestamp[number] 单位为毫秒的时间戳或者date对象
          *@param format[string] 格式化时间结构默认YYYY-MM-DD HH:mm:ss
@@ -29,7 +43,7 @@ export default ({store, $axios, app}, inject) => {
          *@param arr[array] 忽略的值
          *@return json[Object]
          */
-        resetJson(json, arr=[]) {
+        resetJson(json, arr = []) {
             for (let key in json) {
                 if (json.hasOwnProperty(key) && !arr.includes(key)) {
                     let target = json[key];

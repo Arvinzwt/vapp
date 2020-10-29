@@ -45,21 +45,17 @@ export default {
         }
     },
     async mounted() {
-        //初始拉取菜单列表
-        this.menuList = await this.$api.common.getMenu().then(list => {
-            let menuList = []
-            list.forEach(item => {
-                if (item.show) {//过滤第一层
-                    menuList.push({
-                        ...item,
-                        child: item.child.filter(list => {//过滤第二层
-                            return list.show
-                        })
+        this.menuList = [];
+        this.$store.getters['getMenu'].forEach(item => {
+            if (item.show && this.$utils.verifyAuth(item.code)) {//过滤第一层
+                this.menuList.push({
+                    ...item,
+                    child: item.child.filter(list => {//过滤第二层
+                        return list.show && this.$utils.verifyAuth(list.code);
                     })
-                }
-            })
-            return menuList
-        });
+                })
+            }
+        })
     },
     methods: {
         linkTo(obj) {

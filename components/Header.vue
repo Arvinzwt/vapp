@@ -33,7 +33,7 @@ export default {
         }
     },
     async mounted() {
-        this.user = await this.$api.common.user();//获取用户信息
+        this.user = await this.$store.dispatch('user');//获取用户信息
     },
     props: ['navIsCollapse'],
     methods: {

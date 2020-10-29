@@ -51,10 +51,8 @@ export default {
         }
     },
     mounted() {
-        this.$api.common.getMenu().then(menu => {//拉取菜单信息
-            this.asideMenu = menu;
-            this.resetTopMenu();//重新刷新topMenu数据
-        });
+        this.asideMenu = this.$store.getters['getMenu'];
+        this.resetTopMenu();//重新刷新topMenu数据
     },
     methods: {
         /**
