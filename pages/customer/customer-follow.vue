@@ -3,7 +3,7 @@
     <el-main class="jr-customer-customer-follow">
         <h3 class="jr-title">跟进记录</h3>
         <!--基本信息-->
-        <div class="bg-gray pl-4 pr-4 pb-1 border-radius-base">
+        <div class="bg-wrap">
             <h3 class="jr-title">基本信息</h3>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
                 <el-row :gutter="15">
@@ -15,8 +15,8 @@
                     <el-col :span="6">
                         <el-form-item label="手机">
                             <span class="mr-2">13122122212</span>
-                            <span class="mr-2 el-icon-phone-outline text-color-brand"></span>
-                            <span class="el-icon-view text-color-brand"></span>
+                            <span class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
+                            <span class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -106,7 +106,7 @@
             </el-form>
         </div>
         <!--添加跟进记录-->
-        <div class="bg-gray pl-4 pr-4 pb-1 mt-4 border-radius-base">
+        <div class="bg-wrap mt-4">
             <h3 class="jr-title">添加跟进记录</h3>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
                 <el-row :gutter="15">
@@ -178,7 +178,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label-width="0">
-                            <el-link type="primary">请选择校区</el-link>
+                            <el-link type="primary" @click="selectedSchool">请选择校区</el-link>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -246,6 +246,53 @@
                 </div>
             </el-tab-pane>
         </el-tabs>
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   title="选择附近校区" custom-class="jr-dialog" width="800px" class="jr-customer-customer-follow">
+            <!--筛选内容-->
+            <el-form class="jr-form" size="mini" :model="dialog.form" label-width="90px" label-position="left">
+                <el-row :gutter="15">
+                    <el-col :span="10">
+                        <el-form-item label="省市区">
+                            <el-input placeholder="请输入内容" v-model="dialog.form.str"/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-form-item label="详细地址">
+                            <el-input placeholder="请输入内容" v-model="dialog.form.str"/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-form-item label-width="0" class="text-right">
+                            <el-button type="primary" @click="searchMap">查询</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <!--地图-->
+            <div class="map-box">
+                <div class="">
+                    <div id="map" class="border-level1"></div>
+                </div>
+                <div class="map-list-wrap border-level1">
+                    <ul class="">
+                        <li class="map-item" v-for="(item,index) in bdMap.addressList" :key="index"
+                            @click="addressClick(item)">
+                            <div class="title text-ellipsis">{{ index + 1 }}.{{ item.title }}</div>
+                            <div class="detail">详细地址：{{ item.address }}</div>
+                        </li>
+                        <li class="map-default" v-if="bdMap.addressList.length===0">换个地址试试看~</li>
+                    </ul>
+                </div>
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <span class="mr-4 text-color-success">已选择校区：上海AI七宝中心</span>
+                <span class="mr-4 text-color-danger">请选择校区</span>
+                <el-button size="mini" @click="closeDialog">取 消</el-button>
+                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
+            </div>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -268,7 +315,7 @@ export default {
                 selectedArr: [],//年级
                 input: '',//姓名手机号
                 selectedArr2: [],//科目
-                checked:false,
+                checked: false,
 
                 role: [],//选择的负责人
             },
@@ -324,10 +371,30 @@ export default {
                 label: 'label',
                 children: 'children'
             },
+
+            // 选择校区弹窗
+            dialog: {
+                show: false,
+                form: {//参数
+                    str: ''
+                }
+            },
+
+            //地图
+            bdMap: {
+                map: null,//地图实例
+                localSearch: null,//地图搜索实例
+                addressList: [],//地址列表
+            },
         }
     },
     mounted() {
-        this.refreshPage();
+        this.refreshPage();//拉取页面信息
+        this.$nextTick(() => {//引入百度地图
+            var script = document.createElement("script");
+            script.src = "https://api.map.baidu.com/api?v=2.0&ak=z4kTFTnWx47dN3qfb4zx9NG6NEwrlXlF&callback=initialize";
+            document.body.appendChild(script);
+        });
     },
     methods: {
         /**
@@ -406,12 +473,145 @@ export default {
                 path: '/customer/customer-detail'
             })
         },
+
+        /**
+         *@desc 选择校区
+         */
+        selectedSchool() {
+            this.dialog.show = true;
+
+            this.$nextTick(() => {
+                if (!this.bdMap.map) {
+                    let point = new BMap.Point(121.436864, 31.2515215);//此类表示一个地理坐标点。
+                    let map = this.bdMap.map = new BMap.Map("map");
+
+                    map.centerAndZoom(point, 14);//设初始化地图,zoom: 3~18
+                    map.enableScrollWheelZoom();//开启鼠标滚轮缩放功能。仅对PC上有效
+                    map.addControl(new BMap.NavigationControl());// 创建一个特定样式的地图平移缩放控件
+                    this.setCenterMark(point);
+
+
+                    // 开启用位置检索、周边检索和范围检索。
+                    this.bdMap.localSearch = new BMap.LocalSearch(map, {
+                        pageCapacity: 100,//每页容量
+                        onSearchComplete: (results) => {//检索完成后的回调函数
+                            let localSearch = this.bdMap.localSearch;//地图搜素实例
+                            let addressList = [];//地址列表
+
+                            // 结果解析并放入地址列表
+                            if (localSearch.getStatus() === BMAP_STATUS_SUCCESS) {
+                                for (let i = 0; i < results.getCurrentNumPois(); i++) {
+                                    addressList.push(results.getPoi(i))
+                                }
+                            }
+                            this.bdMap.addressList = addressList;
+                        }
+                    })
+                }
+            })
+        },
+
+        /**
+         *@desc 选择校区-查询校区
+         */
+        searchMap() {
+            let localSearch = this.bdMap.localSearch;
+            let keyword = '精锐教育'
+            localSearch.search(keyword)//触发搜索功能
+        },
+
+        /**
+         *@desc 选择校区-点击查询结构
+         */
+        addressClick(info) {
+            let map = this.bdMap.map;//地图实际
+            let point = new BMap.Point(info.point.lng, info.point.lat);// 点击的地理坐标点。
+
+
+            map.clearOverlays();//清除所有覆盖物
+            map.panTo(point, 14);//地图中心移动到到相应位置
+
+
+            this.setCenterMark(point);
+
+            this.$api.customer.getMap().then(res => {
+                res = res || [];
+                if (res.length === 0) {
+                    this.$message.warning('该地址附近无校区可选择,请重新选择地址')
+                    return false;
+                }
+
+                res.map(item => {
+                    let point = new BMap.Point(item.point.lng, item.point.lat);// 点击的地理坐标点。
+                    let marker = new BMap.Marker(point, {icon: new BMap.Icon("/images/map_icon.png", new BMap.Size(23, 25))});
+
+                    marker.addEventListener("click", e => {
+                        // 生成信息窗口
+                        let infoWindow = new BMap.InfoWindow(`
+                               <div>
+                                    <h4>${info.schoolname}</h4>
+                                    <p style="font-size:14px;">地址：${info.street}</p>
+                                    <p style="font-size:14px;">电话：${info.phone}</p>
+                                    <p>距离：${parseFloat(info.distance / 1000).toFixed(2)}公里</p>
+                                    <p></p>
+                                </div>`);
+
+                        //打开信息窗口
+                        marker.openInfoWindow(infoWindow);
+                    });
+                })
+            })
+        },
+
+        /**
+         *@desc 选择校区-设置中心点mark
+         */
+        setCenterMark(point) {
+            let map = this.bdMap.map;//地图实际
+            let marker = new BMap.Marker(point, {//中心点mark
+                icon: new BMap.Icon("/images/markers.png", new BMap.Size(23, 25), { //中心点icon
+                    offset: new BMap.Size(11, 25), // 指定定位位置
+                    imageOffset: new BMap.Size(0, 0 - 11 * 25) // 设置图片偏移
+                })
+            });
+            map.addOverlay(marker);//添加中心点mark
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);//设置动画
+        },
+
+        /**
+         *@desc 选择校区-关闭弹窗
+         */
+        closeDialog() {
+            this.dialog.show = false;
+        },
+
+        /**
+         *@desc 选择校区-提交
+         */
+        submitDialog() {
+            // this.$refs['ruleForm'].validate((valid) => {
+            //     if (valid) {//如果验证通过
+            //
+            //     } else {
+            //         return false;
+            //     }
+            // })
+        },
+
     }
 }
 </script>
 
 <style lang="scss">
 .jr-customer-customer-follow {
+    //块背景
+    .bg-wrap {
+        min-width: 950px;
+        background-color: #fafafa; //常规
+        padding: 0 20px 5px;
+        border-radius: 4px;
+    }
+
     //tabs
     .details-tabs {
         margin-top: 20px;
@@ -515,8 +715,63 @@ export default {
                 }
             }
         }
+    }
+
+    //地图
+    .map-box {
+        display: flex;
+
+        $width: 760px;
+        $height: 380px;
+
+        #map {
+            width: $width*0.7;
+            height: $height;
+            border-right: none;
+        }
 
 
+        $pt: 10px;
+        $pl: 15px;
+
+        .map-list-wrap {
+            padding: $pt 0;
+
+            ul {
+                width: $width*0.3;
+                height: $height - $pt*2;
+                overflow-y: scroll;
+
+                .map-item {
+                    padding: 10px $pl;
+                    cursor: pointer;
+
+                    .title {
+                        font-size: 14px;
+                        font-weight: bold;
+                    }
+
+                    .detail {
+                        font-size: 12px;
+                        margin-top: 4px;
+                    }
+
+                    .title, .detail {
+                        width: $width*0.3 - $pl*2;
+                    }
+
+                    &:hover {
+                        background-color: #F5F7FA;
+                    }
+                }
+            }
+        }
+
+        .map-default {
+            font-size: 13px;
+            text-align: center;
+            padding: 15px 0;
+        }
     }
 }
 </style>

@@ -95,6 +95,10 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .bg-gray{background-color: $jr-gray;}
 
 /* 边框 */
+.border-level1{border:1px solid $jr-border-level1 };
+.border-level2{border:1px solid $jr-border-level2 };
+.border-level3{border:1px solid $jr-border-level3 };
+.border-level4{border:1px solid $jr-border-level4 };
 .border-level1-left{border-left: 1px solid $jr-border-level1;}
 .border-level1-right{border-right: 1px solid $jr-border-level1;}
 .border-level1-top{border-top: 1px solid $jr-border-level1;}
@@ -265,6 +269,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 
 h1,h2,h3,h4,h5,h6{font-weight: bolder;color:$jr-text-color-main ;}
+ul, li {margin: 0;padding: 0;list-style: none;}
 
 /*字体图标*/
 @import url("//at.alicdn.com/t/font_2125379_y7caomyd6o.css");
