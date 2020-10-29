@@ -10,19 +10,19 @@ if (process.client) {// 如果客户端已经被加载，判断域名
     //接口地址，根据域名不同调取不同的后端接口地址
     if (localhost.indexOf('crm-dev.jronline.com') !== -1) {//dev
         env = 'dev'
-        baseUrl = '//api-dev.jronline.com'
+        baseUrl = '//mgr-api-dev.jronline.com'
     } else if (localhost.indexOf('crm-test.jronline.com') !== -1) {//test
         env = 'test'
-        baseUrl = '//api-test.jronline.com'
+        baseUrl = '//mgr-api-test.jronline.com'
     } else if (localhost.indexOf('crm-uat.jronline.com') !== -1) {//uat
         env = 'uat'
-        baseUrl = '//api-uat.jronline.com'
+        baseUrl = '//mgr-api-uat.jronline.com'
     } else if (localhost.indexOf('crm.jronline.com') !== -1) {//pro
         env = 'pro'
-        baseUrl = '//api.jronline.com';
+        baseUrl = '//mgr-api.jronline.com';
     } else {//local
         env = 'local'
-        baseUrl = '//127.0.0.1:7001/'
+        baseUrl = '//mgr-api-dev.jronline.com'
     }
 }
 

@@ -91,9 +91,8 @@ export default {
                 if (valid) {//如果验证通过
                     let loginForm = this.loginForm;
                     this.$api.common.login({
-                        account: loginForm.account,
+                        hrcode: loginForm.account,
                         password: loginForm.password,
-                        isRemember: loginForm.isRemember,
                     }).then(res => {
                         return this.setAccount();
                     }).then(res => {

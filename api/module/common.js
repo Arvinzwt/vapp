@@ -10,9 +10,7 @@ export default class Common extends Request {
 
     // 登录接口
     async login(data, options) {
-        return {
-            token: 123123
-        }
+        return this.post('/ool-api/user/v2/base/login',data)
     }
 
     // 获取用户信息
