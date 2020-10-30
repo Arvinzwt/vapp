@@ -1,4 +1,5 @@
 export const state = () => ({
+    // 菜单
     menu: [
         {
             "name": "customer",//唯一属性 - 如果是页面取页面name属性，如果不是取对应文件夹名
@@ -155,10 +156,102 @@ export const state = () => ({
             ]
         },
     ],
-    dictionary: {}
+    // 通用字典-静态
+    dic: {
+        // 跟踪结果
+        trackResult: [
+            {"value": "继续电话", "name": "继续电话",},
+            {"value": "参加俱乐部", "name": "参加俱乐部",},
+            {"value": "预约成功", "name": "预约成功",},
+            {"value": "无兴趣", "name": "无兴趣",},
+            {"value": "电话无回应", "name": "电话无回应",},
+            {"value": "再次提交", "name": "再次提交",},
+            {"value": "电话号码不正确", "name": "电话号码不正确",},
+            {"value": "无法联络上", "name": "无法联络上",},
+            {"value": "非本市", "name": "非本市",},
+            {"value": "年龄过小", "name": "年龄过小",},
+            {"value": "超龄", "name": "超龄",},
+        ],
+        // 沟通次数
+        communicate: [
+            {"value": "", "name": "不限",},
+            {"value": "0", "name": "0",},
+            {"value": "1", "name": "1",},
+            {"value": "2", "name": "2",},
+            {"value": "3", "name": "3",},
+            {"value": "4", "name": "4",},
+            {"value": "5", "name": "5",},
+            {"value": "10", "name": "5次以上",},
+        ],
+        // 意向度
+        intention: [
+            {"value": "", "name": "不限",},
+            {"value": "大", "name": "大",},
+            {"value": "一般", "name": "一般",},
+            {"value": "小", "name": "小",},
+            {"value": "没有", "name": "没有",},
+        ],
+        // 是否有效
+        isValid: [
+            {"value": "2", "name": "不限",},
+            {"value": "1", "name": "有效",},
+            {"value": "0", "name": "无效",},
+            {"value": "3", "name": "未确认",},
+        ],
+        // 无效类型
+        invalidType: [
+            {"value": "0", "name": "请选择",},
+            {"value": "1", "name": "小学一年级-二年级",},
+            {"value": "2", "name": "SPY或供应商虚假来电",},
+            {"value": "3", "name": "任何成人课程",},
+            {"value": "4", "name": "广告、招聘类",},
+            {"value": "5", "name": "精锐内部人员",},
+            {"value": "6", "name": "客户投诉电话",},
+            {"value": "7", "name": "1个月内的2次或多次来电",},
+            {"value": "8", "name": "内部测试电话",},
+            {"value": "10", "name": "找人或找总部",},
+            {"value": "11", "name": "在读学员",},
+        ],
+        // 性别
+        sex: [
+            {"value": "0", "name": "女",},
+            {"value": "1", "name": "男",},
+        ],
+        // 报告类型
+        reportType: [
+            {"value": "1", "name": "CC未签约分析报告",},
+            {"value": "2", "name": "入学测试",},
+        ],
+        // 联系人身份
+        contactIdentity: [
+            {"value": "", "name": "请选择",},
+            {"value": "父亲", "name": "父亲",},
+            {"value": "母亲", "name": "母亲",},
+            {"value": "祖父", "name": "祖父",},
+            {"value": "祖母", "name": "祖母",},
+            {"value": "外公", "name": "外公",},
+            {"value": "外婆", "name": "外婆",},
+            {"value": "其他", "name": "其他",},
+        ],
+        // 线索来源（推荐登记）
+        sourceClues1: [
+            {"value": "电话呼出", "name": "电话呼出",},
+            {"value": "电话呼入", "name": "电话呼入",},
+            {"value": "主动上门", "name": "主动上门",},
+        ],
+        // 线索来源（线索录入type 为1或者43）
+        sourceClues2: [
+            {"value": "电话呼入", "name": "电话呼入",},
+            {"value": "Local其他", "name": "Local其他",},
+        ],
+        // 线索来源（线索录入type 不为1或者43）
+        sourceClues3: [
+            {"value": "主动上门", "name": "主动上门",},
+            {"value": "拉访", "name": "拉访",},
+            {"value": "Local其他", "name": "Local其他",},
+        ],
+    },
 });
-
-export const mutations = {};
 
 export const actions = {
     /**
@@ -192,7 +285,7 @@ export const actions = {
      *@desc 拉取用户信息
      *@return promise [promise]
      */
-    user({commit}) {
+    async user() {
         let target = {token: false, rightid: '', name: '',}
         if (process.client) {
             let usr = localStorage.getItem('usr');//存储localStorage
