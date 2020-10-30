@@ -259,10 +259,12 @@ export const actions = {
      *@return promise [promise]
      */
     async logout({commit}) {
-        if (process.client) {
-            localStorage.removeItem('usr');//存储localStorage
-        }
-        return null;
+        return this.$api.common.logout().then(res => {
+            if (process.client) {
+                localStorage.removeItem('usr');//存储localStorage
+            }
+            return null;
+        })
     },
 
     /**
