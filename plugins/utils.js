@@ -87,7 +87,6 @@ export default ({store, $axios, app}, inject) => {
                 }, {
                     text: '昨日',
                     onClick(picker) {
-                        console.log(this, 111)
                         let date1 = moment().subtract(1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');
                         let date2 = moment().subtract(1, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');
                         picker.$emit('pick', [date1, date2]);

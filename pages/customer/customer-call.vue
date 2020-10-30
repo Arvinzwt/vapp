@@ -363,7 +363,12 @@ export default {
             }
         }
     },
-    mounted() {
+    computed:{
+        dic(){
+            return this.$store.state.dic;
+        }
+    },
+    async mounted() {
         this.refreshPage();
     },
     methods: {
@@ -371,7 +376,7 @@ export default {
          *@desc 刷新页面
          */
         refreshPage() {
-            console.log(this.paramMap, this.pagesInfo, 'paramMap')
+            // console.log(this.paramMap, this.pagesInfo, 'paramMap')
         },
 
         /**

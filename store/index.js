@@ -250,8 +250,34 @@ export const state = () => ({
             {"value": "拉访", "name": "拉访",},
             {"value": "Local其他", "name": "Local其他",},
         ],
+
+        //年级
+        grades: [],
+        //学科
+        subject: [],
+        //学院状态
+        leadsstatus: [],
+        //渠道大类
+        bigclass: [],
+        //渠道小类
+        smallclass: [],
+        //校区
+        hrcodedepts: [],
+        // 教育顾问（初始化）
+        sales: [],
+        // 教育顾问（根据选择校区）
+        deptsales: [],
     },
 });
+
+export const mutations = {
+    /**
+     *@desc 填充字典值
+     */
+    dic(state, dic) {
+        Object.assign(state.dic, dic);
+    }
+};
 
 export const actions = {
     /**
@@ -294,6 +320,23 @@ export const actions = {
             return usr ? JSON.parse(usr) : target
         }
         return target;
+    },
+
+    /**
+     *@desc 拉取字典信息
+     *@return promise [promise]
+     */
+    async dic({commit, state}) {
+        for (let key in state.dic) {//循环字典
+            if (state.dic.hasOwnProperty(key)) {
+                if (state.dic[key].length === 0) {//如果某个值没有length
+                    let target = {};
+                    target[key] = await this.$api.common[key]() || [];//请求并填充值
+                    commit('dic', target);
+                }
+            }
+        }
+        return state.dic;
     }
 };
 

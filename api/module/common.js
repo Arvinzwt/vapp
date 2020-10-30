@@ -20,42 +20,42 @@ export default class Common extends Request {
 
     // 字典-年级
     async grades(data) {
-        return this.post('/mgr-api/v2/basic/grades', data)
+        return this.get('/mgr-api/v2/basic/grades', data)
     }
 
     // 字典-学科
     async subject(data) {
-        return this.post('/mgr-api/v2/base/subject', data)
+        return this.get('/mgr-api/v2/basic/subject', data)
     }
 
     // 字典-学员状态
     async leadsstatus(data) {
-        return this.post('/mgr-api/v2/base/leadsstatus', data)
+        return this.get('/mgr-api/v2/basic/leadsstatus', data)
     }
 
     // 字典-渠道大类
     async bigclass(data) {
-        return this.post('/mgr-api/v2/base/bigclass', data)
+        return this.get('/mgr-api/v2/basic/bigclass', data)
     }
 
     // 字典-渠道小类
     async smallclass(data) {
-        return this.post('/mgr-api/v2/base/smallclass', data)
+        return this.post('/mgr-api/v2/basic/smallclass', data)
     }
 
     // 字典-校区
     async hrcodedepts(data) {
-        return this.post('/mgr-api/v2/base/hrcodedepts', data)
+        return this.post('/mgr-api/v2/basic/hrcodedepts', data)
     }
 
     // 字典-教育顾问（初始化）
     async sales(data) {
-        return this.post('/mgr-api/v2/base/sales', data)
+        return this.post('/mgr-api/v2/basic/sales', data)
     }
 
     // 字典-教育顾问（根据选择校区
     async deptsales(data) {
-        return this.post('/mgr-api/v2/base/deptsales', data)
+        return this.post('/mgr-api/v2/basic/deptsales', data)
     }
 
     //拉取负责人

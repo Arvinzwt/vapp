@@ -22,6 +22,9 @@ export default {
             navIsCollapse: true,
         }
     },
+    async beforeMount() {
+        await this.$store.dispatch('dic');//填充字典
+    },
     components: {
         AsideTemplate,
         HeaderTemplate,
