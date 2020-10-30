@@ -21,7 +21,7 @@ export default ({store, $axios, app}, inject) => {
             let right = '';
             if (process.client) {
                 let usr = localStorage.getItem('usr');//存储localStorage
-                right = usr ? JSON.parse(usr).rightid : ''
+                right = usr ? JSON.parse(usr).rightid || '' : ''
             }
             return right.split(',').includes(authCode);
         },

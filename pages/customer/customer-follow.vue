@@ -604,9 +604,10 @@ export default {
 
 <style lang="scss">
 .jr-customer-customer-follow {
+    min-width: 1000px;
+
     //块背景
     .bg-wrap {
-        min-width: 950px;
         background-color: #fafafa; //常规
         padding: 0 20px 5px;
         border-radius: 4px;
