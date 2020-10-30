@@ -119,6 +119,11 @@ export default {
             paramMap: {},
         }
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     created() {
     },
     mounted() {

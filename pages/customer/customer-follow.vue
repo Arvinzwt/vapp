@@ -388,6 +388,11 @@ export default {
             },
         }
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     mounted() {
         this.refreshPage();//拉取页面信息
         this.$nextTick(() => {//引入百度地图

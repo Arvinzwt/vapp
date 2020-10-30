@@ -311,6 +311,11 @@ export default {
         SelectedRoleTemplate,
         SelectedTagTemplate,
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     data() {
         return {
             currentTab: '0',

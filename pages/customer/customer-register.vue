@@ -273,6 +273,11 @@ export default {
     mounted() {
         this.refreshPage();
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     methods: {
         /**
          *@desc 刷新页面

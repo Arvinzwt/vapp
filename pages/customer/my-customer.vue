@@ -487,6 +487,11 @@ export default {
     },
     mounted() {
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     destroyed() {
     },
     methods: {

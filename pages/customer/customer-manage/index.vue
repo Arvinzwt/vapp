@@ -185,6 +185,11 @@ export default {
             },
         }
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     mounted() {
         this.refreshPage();
     },

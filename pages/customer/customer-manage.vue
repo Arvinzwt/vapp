@@ -47,6 +47,11 @@ export default {
             ],
         }
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     created() {
     },
     mounted() {

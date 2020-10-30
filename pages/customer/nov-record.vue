@@ -214,6 +214,11 @@ export default {
     },
     destroyed() {
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     methods: {
         /**
          *@desc 刷新页面

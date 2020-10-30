@@ -330,6 +330,11 @@ export default {
         PaginationTemplate,
         SelectedRoleTemplate,
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
     data() {
         return {
 
