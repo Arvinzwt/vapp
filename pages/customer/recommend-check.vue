@@ -30,11 +30,12 @@
                     <el-form-item label="学习中心">
                         <el-cascader
                                 v-model="paramMap.cascader"
-                                :options="options.options1"
-                                :props="options.cascadeProps"
+                                :options="dic.hrcodedepts"
+                                :props="$utils.hrcodedeptsProps"
                                 :show-all-levels="false"
                                 collapse-tags
                                 placeholder="请选择"
+                                filterable
                                 clearable></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -283,13 +284,12 @@
                    </el-col>
                    <el-col :span="12">
                        <el-form-item label="教育顾问">
-                           <el-select :disabled="false" v-model="dialog.form.str" placeholder="请选择"
-                                      clearable>
+                           <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
                                <el-option
-                                       v-for="item in options.options1"
-                                       :key="item.value"
-                                       :label="item.label"
-                                       :value="item.value">
+                                       v-for="item in dic.sales"
+                                       :key="item.id"
+                                       :label="item.name"
+                                       :value="item.id">
                                </el-option>
                            </el-select>
                        </el-form-item>

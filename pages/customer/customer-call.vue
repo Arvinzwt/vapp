@@ -314,7 +314,7 @@ export default {
                     str7: "",//是否有效
                     str8: "",//无效类型
                     str9: "",//教育顾问
-                    sort:'',//年级的排序
+                    sort: '',//年级的排序
                 },
                 rules: {
                     str7: {required: true, message: '请选择', trigger: 'blur'},
@@ -360,7 +360,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show', 'tab']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -368,7 +368,7 @@ export default {
          *@desc table触发排序时
          */
         tableSortChange(val) {
-            console.log(val.order,val.prop);//descending ascending
+            console.log(val.order, val.prop);//descending ascending
             this.refreshPage();
         },
 
