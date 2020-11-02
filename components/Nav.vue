@@ -60,7 +60,7 @@ export default {
          */
         getLocalStorageTm() {
             return localStorage.getItem('menu') ? JSON.parse(localStorage.getItem('menu')) : [{
-                name: 'customer-customer-manage',
+                name: 'customer-customer-call',
                 query: {}
             }];
         },

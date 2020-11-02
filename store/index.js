@@ -264,12 +264,13 @@ export const state = () => ({
         leadsstatus: [],
         //渠道大类
         bigclass: [],
-        //渠道小类
-        // smallclass: [],
         //校区
         hrcodedepts: [],
         // 教育顾问（初始化）
         sales: [],
+
+        //渠道小类
+        // smallclass: [],
         // 教育顾问（根据选择校区）
         // deptsales: [],
     },

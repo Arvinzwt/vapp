@@ -130,16 +130,5 @@ export default ({store, $axios, app}, inject) => {
             ],
         },
 
-        /**
-         *@desc 学习中心配置
-         */
-        hrcodedeptsProps:{
-            multiple: false,
-            value: 'deptid',
-            label: 'deptname',
-            children: 'chlid',
-            checkStrictly:true,
-        }
-
     })
 }
