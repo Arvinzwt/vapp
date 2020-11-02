@@ -13,6 +13,20 @@ export default ({store, $axios, app}, inject) => {
         moment,
 
         /**
+         *@desc 验证权限
+         *@param authCode 需要验证的权限code
+         *@return {string}
+         */
+        verifyAuth(authCode = '') {
+            let right = '';
+            if (process.client) {
+                let usr = localStorage.getItem('usr');//存储localStorage
+                right = usr ? JSON.parse(usr).rightid || '' : ''
+            }
+            return right.split(',').includes(authCode);
+        },
+
+        /**
          *@desc 格式化时间
          *@param timestamp[number] 单位为毫秒的时间戳或者date对象
          *@param format[string] 格式化时间结构默认YYYY-MM-DD HH:mm:ss
@@ -26,11 +40,12 @@ export default ({store, $axios, app}, inject) => {
         /**
          *@desc 重置json对象-只能处理第一层
          *@param json[Object] 重置对象
+         *@param arr[array] 忽略的值
          *@return json[Object]
          */
-        resetJson(json) {
+        resetJson(json, arr = []) {
             for (let key in json) {
-                if (json.hasOwnProperty(key)) {
+                if (json.hasOwnProperty(key) && !arr.includes(key)) {
                     let target = json[key];
                     if (underscore.isObject(json[key])) {
                         target = {};
@@ -56,11 +71,12 @@ export default ({store, $axios, app}, inject) => {
             return json;
         },
 
-
-        //日期选择器的配置信息
+        /**
+         *@desc 时间区间选择器的快捷筛选
+         */
         pickerOptions: {
             firstDayOfWeek: 1,
-                shortcuts: [
+            shortcuts: [
                 {
                     text: '当日',
                     onClick(picker) {
@@ -71,7 +87,6 @@ export default ({store, $axios, app}, inject) => {
                 }, {
                     text: '昨日',
                     onClick(picker) {
-                        console.log(this, 111)
                         let date1 = moment().subtract(1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');
                         let date2 = moment().subtract(1, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');
                         picker.$emit('pick', [date1, date2]);
@@ -113,6 +128,18 @@ export default ({store, $axios, app}, inject) => {
                     }
                 }
             ],
+        },
+
+        /**
+         *@desc 学习中心配置
+         */
+        hrcodedeptsProps:{
+            multiple: false,
+            value: 'deptid',
+            label: 'deptname',
+            children: 'chlid',
+            checkStrictly:true,
         }
+
     })
 }

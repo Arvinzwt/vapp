@@ -90,19 +90,13 @@ export default {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
                     let loginForm = this.loginForm;
-                    this.$api.common.login({
-                        account: loginForm.account,
-                        password: loginForm.password,
-                        isRemember: loginForm.isRemember,
-                    }).then(res => {
-                        return this.setAccount();
-                    }).then(res => {
+                    this.$store.dispatch('login',loginForm).then(res=>{
+                        this.setAccount();
                         this.$router.push({
-                            path: '/customer/customer-manage'
+                            path: '/customer/customer-call'
                         })
-                    }).catch(err => {
-
                     })
+
                 } else {
                     return false;
                 }
@@ -122,6 +116,7 @@ export default {
 
     .login-wrap {
         min-width: 850px;
+
         .login-title {
             height: 60px;
             display: flex;

@@ -8,8 +8,9 @@
                     <el-form-item label="级联选择器">
                         <el-cascader
                                 v-model="paramMap.cascader"
-                                :options="options"
+                                :options="options.options1"
                                 :props="props"
+                                :show-all-levels="false"
                                 collapse-tags
                                 placeholder="请选择"
                                 clearable></el-cascader>
@@ -21,9 +22,10 @@
                     <el-form-item label="级联选择器">
                         <el-cascader
                                 v-model="paramMap.cascader"
-                                :options="options"
+                                :options="options.options1"
                                 :props="props"
                                 collapse-tags
+                                :show-all-levels="false"
                                 placeholder="请选择"
                                 filterable
                                 clearable></el-cascader>
@@ -34,14 +36,14 @@
                 <el-col :span="6">
                     <el-form-item label="时间区间选择器">
                         <el-date-picker
-                                v-model="paramMap.arr"
+                                v-model="paramMap.date"
                                 type="daterange"
                                 range-separator="-"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期"
                                 value-format="yyyy-MM-dd HH:mm:ss"
                                 :default-time="['00:00:00', '23:59:59']"
-                                :picker-options="pickerOptions"
+                                :picker-options="$utils.pickerOptions"
                                 clearable>
                         </el-date-picker>
                     </el-form-item>
@@ -54,9 +56,19 @@
                                 v-model="paramMap.str"
                                 type="datetime"
                                 placeholder="选择日期时间"
-                                :picker-options="pickerOptions2">
+                                :picker-options="{firstDayOfWeek: 1}">
                         </el-date-picker>
                     </el-form-item>
+                </el-col>
+
+                <!--文本域-->
+                <el-col :span="6">
+                    <el-input
+                            type="textarea"
+                            :rows="2"
+                            placeholder="请输入内容"
+                            v-model="paramMap.str">
+                    </el-input>
                 </el-col>
 
                 <!--下拉筛选-可多选-->
@@ -64,7 +76,7 @@
                     <el-form-item label="下拉筛选-可多选">
                         <el-select v-model="paramMap.selectedArr" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options"
+                                    v-for="item in options.options1"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -78,7 +90,7 @@
                     <el-form-item label="下拉筛选-单选">
                         <el-select v-model="paramMap.str" placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options"
+                                    v-for="item in options.options1"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
@@ -86,7 +98,6 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-
 
                 <!--输入框 - 不支持搜索-->
                 <el-col :span="6">
@@ -141,7 +152,8 @@
                 <!--负责人-->
                 <el-col :span="6">
                     <el-form-item label="负责人">
-                        <selected-role-template v-model="paramMap.role" @change="selectedRoleChange"></selected-role-template>
+                        <selected-role-template v-model="paramMap.role"
+                                                @change="selectedRoleChange"></selected-role-template>
                     </el-form-item>
                 </el-col>
 
@@ -157,8 +169,63 @@
             </el-row>
         </el-form>
 
+        <!--列表-->
+        <el-table
+                class="jr-table" ref="filterTable" :data="tableData" size="mini"
+
+                @filter-change="tableFilterChange"
+                @sort-change="tableSortChange"
+
+        >
+            <el-table-column fixed type="selection" width="50px" align="center"/>
+            <el-table-column fixed label="姓名" prop="name"></el-table-column>
+            <el-table-column fixed label="手机" min-width="110px" prop="phone">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="">
+                        <span class="">{{ scope.row.phone }}</span>
+                        <span class="el-icon-phone-outline"></span>
+                    </el-link>
+                </template>
+            </el-table-column>
+
+            <!--筛选-->
+            <el-table-column label="获取时间" prop="name"
+                             filter-placement="bottom"
+                             column-key="name"
+                             :filter-multiple="false"
+                             :filters="options.options2"></el-table-column>
+            <!--排序-->
+            <el-table-column label="获取时间" prop="name"
+                             sortable="custom"/>
+
+            <el-table-column label="获取时间" prop="name"></el-table-column>
+            <el-table-column label="创建人" prop="name"></el-table-column>
+            <el-table-column fixed="right" label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="">跟进</el-link>
+                    <el-link type="primary" @click="">详情</el-link>
+                    <el-link type="primary" @click="">试听</el-link>
+                    <el-link type="primary" @click="">预约</el-link>
+                </template>
+            </el-table-column>
+        </el-table>
+
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   title="分配负责人" custom-class="jr-dialog" width="500px">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                内容
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="closeDialog">取 消</el-button>
+                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
+            </div>
+        </el-dialog>
 
     </el-main>
 </template>
@@ -194,21 +261,30 @@ export default {
 
                 role: [],
                 tag: [],
-                selectedArr:[],
+                selectedArr: [],
             },
 
             // 筛选选项列表
-            options: [
-                {
-                    label: '选项1', value: '1',
-                    children: [
-                        {value: 3, label: '普陀'},
-                        {value: 4, label: '黄埔'},
-                    ]
-                },
-                {label: '选项2', value: '2'},
-                {label: '选项3', value: '3'},
-            ],
+            options: {
+                options1: [
+                    {
+                        label: '选项1', value: '1',
+                        children: [
+                            {value: 3, label: '普陀'},
+                            {value: 4, label: '黄埔'},
+                        ]
+                    },
+                    {label: '选项2', value: '2'},
+                    {label: '选项3', value: '3'},
+                ],
+
+                options2: [
+                    {
+                        'text': '选项1',
+                        value: '123'
+                    }
+                ],
+            },
 
             //级联选择器配置
             props: {
@@ -218,87 +294,6 @@ export default {
                 children: 'children'
             },
 
-            // 时间选择器配置
-            pickerOptions: {
-                firstDayOfWeek: 1,
-                shortcuts: [
-                    {
-                        text: '当日',
-                        onClick(picker) {
-                            const date1 = moment().startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            const date2 = moment().endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            picker.$emit('pick', [date1, date2]);
-                        }
-                    }, {
-                        text: '昨日',
-                        onClick(picker) {
-                            console.log(this, 111)
-                            let date1 = moment().subtract(1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            let date2 = moment().subtract(1, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            picker.$emit('pick', [date1, date2]);
-                        }
-                    }, {
-                        text: '本周',
-                        onClick(picker) {
-                            let weekDay = moment().format('E');//计算今天是这周第几天
-                            let start = moment().subtract(weekDay - 1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');//周一日期
-                            let end = moment().add(7 - weekDay, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');//周日日期
-
-                            picker.$emit('pick', [start, end]);
-                        }
-                    },
-                    {
-                        text: '本月',
-                        onClick(picker) {
-                            let start = moment().startOf('month').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            let end = moment().endOf('month').endOf('days').format('YYYY-MM-DD HH:mm:ss');
-                            picker.$emit('pick', [start, end]);
-                        }
-                    },
-                    {
-                        text: '最近7日',
-                        onClick(picker) {
-                            let date = [];
-                            date.push(moment().subtract(6, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                            date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                            picker.$emit('pick', date);
-                        }
-                    },
-                    {
-                        text: '最近30日',
-                        onClick(picker) {
-                            let date = [];
-                            date.push(moment().subtract(29, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                            date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                            picker.$emit('pick', date);
-                        }
-                    }
-                ],
-            },
-
-            pickerOptions2: {
-                firstDayOfWeek: 1,
-                shortcuts: [{
-                    text: '今天',
-                    onClick(picker) {
-                        picker.$emit('pick', new Date());
-                    }
-                }, {
-                    text: '昨天',
-                    onClick(picker) {
-                        const date = new Date();
-                        date.setTime(date.getTime() - 3600 * 1000 * 24);
-                        picker.$emit('pick', date);
-                    }
-                }, {
-                    text: '一周前',
-                    onClick(picker) {
-                        const date = new Date();
-                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-                        picker.$emit('pick', date);
-                    }
-                }]
-            },
 
             // 列表数据
             tableData: [
@@ -409,16 +404,49 @@ export default {
         /**
          *@desc 确定选中负责人时
          */
-        selectedRoleChange(target){
+        selectedRoleChange(target) {
             console.log(target)
         },
 
-        selectedTagChange(target){
+        selectedTagChange(target) {
             console.log(target)
         },
 
-        onPagesChange(){
+        onPagesChange() {
 
+        },
+        closeDialog() {
+
+        },
+        submitDialog() {
+            this.$refs['ruleForm'].validate((valid) => {
+                if (valid) {//如果验证通过
+
+                } else {
+                    return false;
+                }
+            })
+        },
+
+
+        /**
+         *@desc table触发筛选时
+         */
+        tableFilterChange(columnKey) {
+            // for (let key in columnKey) {  //将值填入
+            //     if (columnKey.hasOwnProperty(key)) {
+            //         this.paramMap[key] = columnKey[key].join(',')
+            //     }
+            // }
+            console.log(columnKey)
+            // this.refreshPage();
+        },
+
+        /**
+         *@desc table触发排序时
+         */
+        tableSortChange(val) {
+            this.refreshPage();
         }
     }
 }

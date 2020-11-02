@@ -1,68 +1,42 @@
 <template>
-    <!--选择标签-->
-    <div class="jr-selected-tag">
+    <!--选择角色-->
+    <div class="jr-customer-selected-tag">
         <!--触发对象-->
         <slot>
-            <div class="jr-tag-wrp el-input__inner" @click="openDialog">
-                <div class="text-ellipsis">
-                    <el-tag v-for="item in showValue" :key="item.value" size="mini" type="info">
-                        {{ item.label }}
-                    </el-tag>
+            <div class="selected-wrp" @click="openDialog">
+                <div v-if="showList.length>0" class="selected-wrp-main">
+                    <div class="selected-wrp-tag">
+                        <el-tag @close="deleteHandle" closable size="mini" type="info">
+                            {{ showList[0].name }}
+                        </el-tag>
+                        <el-tag type="info" v-show="showList.length>1" size="mini">
+                            +{{ showList.length - 1 }}
+                        </el-tag>
+                    </div>
+                    <div @click.stop="clearHandle" class="selected-wrp-icon text-color-placeholder">
+                        <span class="el-icon-circle-close"></span>
+                    </div>
                 </div>
-                <div v-if="showValue.length===0" class="cursor-pointer text-color-placeholder pl-3 pr-3">请选择</div>
+                <div v-else class="selected-wrp-placeholder text-color-placeholder">请选择</div>
             </div>
         </slot>
 
         <!--弹窗-->
-        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false"
-                   :append-to-body="true" custom-class="jr-dialog" width="30%">
-            <!--弹窗头部-->
-            <h3 slot="title" class="dialog-header">请选择标签</h3>
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" title="请选择标签"
+                   :append-to-body="true" custom-class="jr-dialog" width="500px"
+                   class="jr-customer-selected-tag">
             <!--弹窗内容-->
-            <div slot="default" class="dialog-body">
-                <el-form class="jr-form" size="mini" :model="dialog.form" :rules="dialog.rules"
-                         label-width="90px" label-position="left">
-                    <el-form-item label="家庭收入" prop="value1">
-                        <el-select v-model="dialog.form.value1" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="是否有二胎" prop="value2">
-                        <el-select v-model="dialog.form.value2" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options2"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="续费可能性" prop="value3">
-                        <el-select v-model="dialog.form.value3" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options3"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="预警" prop="value4">
-                        <el-select v-model="dialog.form.value4" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options4"
-                                    :key="item.id"
-                                    :label="item.name"
-                                    :value="item.id">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-form>
+            <div class="dialog-body">
+                <el-collapse v-model="activeNames" @change="">
+                    <el-collapse-item v-for="item in dialog.tag" :key="item.id" :title="item.name" :name="item.id">
+                        <el-tag size="small" class="mr-3 mb-2 cursor-pointer"
+                                v-for="list in item.options"
+                                :key="list.id"
+                                :type="isActive(list)"
+                                @click="tagTap(list)">{{ list.name }}
+                        </el-tag>
+                    </el-collapse-item>
+                </el-collapse>
             </div>
             <!--弹窗尾部-->
             <div slot="footer" class="dialog-footer">
@@ -77,36 +51,64 @@
 export default {
     data() {
         return {
+            activeNames: ['1'],
             dialog: {
-                show: false,//是否显示
-                form: {
-                    value1: null,
-                    value2: null,
-                    value3: null,
-                    value4: null,
-                },
-                rules: {},
+                show: false,//是否显示弹窗
+                tag: [
+                    {
+                        id: '0',
+                        name: '家庭收入',
+                        options: [
+                            {id: '0-0', name: '年收入10w-20w',},
+                            {id: '0-1', name: '年收入10w-20w',},
+                            {id: '0-2', name: '年收入50w-100w',},
+                            {id: '0-3', name: '100w+',},
+                        ]
+                    },
+                    {
+                        id: '1',
+                        name: '是否有二胎',
+                        options: [
+                            {id: '1-1', name: '有',},
+                            {id: '1-2', name: '无',},
+                        ]
+                    },
+                    {
+                        id: '2',
+                        name: '续费可能性',
+                        options: [
+                            {id: '2-1', name: '大',},
+                            {id: '2-2', name: '中',},
+                            {id: '2-3', name: '小',},
+                        ]
+                    },
+                    {
+                        id: '3',
+                        name: '预警',
+                        options: [
+                            {id: '3-1', name: '一级',},
+                            {id: '3-2', name: '二级',},
+                            {id: '3-3', name: '三级',},
+                        ]
+                    },
+                ],
+                value: ['1-1'],
             },
-            options: {
-                options1: [
-                    {name: '年收入10w-20w', id: '0'},
-                    {name: '年收入50w-100w', id: '1'},
-                    {name: '100w+', id: '2'}
-                ],
-                options2: [
-                    {name: '有', id: '0'},
-                    {name: '无', id: '1'},
-                ],
-                options3: [
-                    {name: '大', id: '0'},
-                    {name: '小', id: '1'},
-                ],
-                options4: [
-                    {name: '1级', id: '0'},
-                    {name: '2级', id: '1'},
-                ],
+            showList: [],//用来展示的结果数据
+        }
+    },
+    watch: {
+        'model': {
+            handler(val) {
+                this.setTag();
             },
-            showValue: [],
+        }
+    },
+    computed: {
+        isActive() {
+            return list => {
+                return this.dialog.value.includes(list.id) ? '' : 'info';
+            }
         }
     },
     model: {
@@ -115,21 +117,47 @@ export default {
     },
     props: {
         model: {//绑定值
-            type: Object,
+            type: Array,
             default() {
-                return {}
+                return []
             }
         },
     },
+    async mounted() {
+        this.activeNames = ['0', '1', '2', '3']
+        this.setTag()
+    },
     methods: {
+        setTag() {
+            this.showList = [];
+            this.dialog.tag.forEach(item => {
+                item.options.forEach(list => {
+                    if (this.model.includes(list.id)) {
+                        this.showList.push(list)
+                    }
+                })
+            })
+        },
+
         /**
          *@desc 打开弹窗
          */
         openDialog() {
             this.dialog.show = true;
-            Object.assign(this.dialog.form, this.model)
+            this.dialog.value = [...this.model];
         },
 
+        /**
+         *@desc 选择标签时
+         */
+        tagTap(obj) {
+            if (this.dialog.value.includes(obj.id)) {
+                this.dialog.value.splice(this.dialog.value.indexOf(obj.id), 1)
+            } else {
+                this.dialog.value.push(obj.id)
+            }
+            console.log(this.model)
+        },
 
         /**
          *@desc 关闭弹窗
@@ -142,47 +170,108 @@ export default {
          *@desc 确定提交时
          */
         submitDialog() {
-            let target = this.dialog.form;
-            let tar1 = this.options.options1.find(item => {
-                return item.id === target.value1;
-            }) || {name: ''}
-            let tar2 = this.options.options2.find(item => {
-                return item.id === target.value1;
-            }) || {name: ''}
-            let tar3 = this.options.options3.find(item => {
-                return item.id === target.value1;
-            }) || {name: ''}
-            let tar4 = this.options.options4.find(item => {
-                return item.id === target.value1;
-            }) || {name: ''}
-
-            this.$emit('update', target);//更新数据
-            this.$emit('submit', {
-                ids: target,
-                name: [tar1.name, tar2.name, tar3.name, tar4.name]
-            });//触发change
-            this.dialog.show = false;
+            let target = this.dialog.value;//选中的数据
+            if (target.length > 0) {
+                this.$emit('update', target);//更新数据
+                this.$emit('change', target);//触发change
+                this.dialog.show = false;//关闭弹窗
+            } else {
+                this.$message.error("请选择标签")
+            }
         },
 
+        /**
+         *@desc 删除结果时
+         */
+        deleteHandle() {
+            this.model.splice(0, 1);
+            this.$emit('update', this.model);//更新数据
+            this.$emit('change', this.model);//触发change
+        },
+
+        /**
+         *@desc 清除结果时
+         */
+        clearHandle() {
+            this.$emit('update', []);//更新数据
+            this.$emit('change', []);//触发change
+        }
     }
 }
 </script>
 
 <style lang="scss">
-.jr-selected-tag {
-    .jr-tag-wrp {
-        height: 28px;
-        line-height: 28px;
-        padding-left: 0;
-        padding-right: 0;
+.jr-customer-selected-tag {
+    .el-collapse-item__content {
+        padding-bottom: 10px;
+    }
 
-        .el-tag {
-            border-color: transparent;
-            margin: 2px 0 2px 6px;
+    $inputHeight: 28px;
+
+    .selected-wrp {
+        -webkit-appearance: none;
+        background-color: #FFF;
+        background-image: none;
+        border-radius: 4px;
+        border: 1px solid #DCDFE6;
+        box-sizing: border-box;
+        color: #606266;
+        display: inline-block;
+        font-size: 12px;
+        height: $inputHeight;
+        line-height: $inputHeight;
+        outline: 0;
+        padding: 0;
+        transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+        width: 100%;
+
+        .selected-wrp-main {
+            height: $inputHeight;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .selected-wrp-tag {
+                .el-tag {
+                    border-color: transparent;
+                    margin-left: 6px;
+                }
+
+                .el-tag__close.el-icon-close {
+                    background-color: #C0C4CC;
+                }
+            }
+
+            .selected-wrp-icon {
+                height: 100%;
+                padding: 0 8px;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .el-icon-circle-close {
+                    display: none;
+                }
+            }
         }
 
-        .el-tag__close.el-icon-close {
-            background-color: #C0C4CC;
+        .selected-wrp-placeholder {
+            cursor: pointer;
+            padding: 0 15px;
+            height: $inputHeight;
+            line-height: $inputHeight;
+        }
+
+        &:hover {
+            border-color: #C0C4CC;
+
+            .selected-wrp-icon {
+                .el-icon-circle-close {
+                    display: inline-block;
+                }
+            }
         }
     }
 }

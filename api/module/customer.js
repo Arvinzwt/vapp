@@ -22,4 +22,9 @@ export default class Customer extends Request {
     async customerDetail(data) {
         return {};
     }
+
+    //获取地图信息
+    async getMap(data){
+        return []
+    }
 }

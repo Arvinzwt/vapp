@@ -1,3 +1,6 @@
+/**
+ * @description: 基础css配置
+ */
 /* 主色 */
 $jr-brand-color: #409EFF;
 
@@ -53,6 +56,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 /*  -- 宽度 -- */
 .w-100{ width: 100%; }
 .h-100{height: 100%;}
+.w-p200{width: 200px;}
 
 /* 文字颜色 */
 .text-color-brand{color:$jr-brand-color;}//品牌色
@@ -91,6 +95,10 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .bg-gray{background-color: $jr-gray;}
 
 /* 边框 */
+.border-level1{border:1px solid $jr-border-level1 };
+.border-level2{border:1px solid $jr-border-level2 };
+.border-level3{border:1px solid $jr-border-level3 };
+.border-level4{border:1px solid $jr-border-level4 };
 .border-level1-left{border-left: 1px solid $jr-border-level1;}
 .border-level1-right{border-right: 1px solid $jr-border-level1;}
 .border-level1-top{border-top: 1px solid $jr-border-level1;}
@@ -233,6 +241,7 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 .cursor-waitr{cursor:wait;}
 .cursor-help{cursor:help;}
 
+//滚动条样式
 @mixin scroll-style{
     /*修改滚动条样式-滚动条整体部分*/
     ::-webkit-scrollbar {width: 8px;height: 8px;background: transparent;}
@@ -260,9 +269,10 @@ $jr-shadow-basic: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 
 h1,h2,h3,h4,h5,h6{font-weight: bolder;color:$jr-text-color-main ;}
+ul, li {margin: 0;padding: 0;list-style: none;}
 
 /*字体图标*/
-@import url("//at.alicdn.com/t/font_2125379_1l8d9fuxfws.css");
+@import url("//at.alicdn.com/t/font_2125379_y7caomyd6o.css");
 
 // 字体图标
 .iconfont {display: inline-flex;justify-content: center;align-items: center;font-size: inherit;}

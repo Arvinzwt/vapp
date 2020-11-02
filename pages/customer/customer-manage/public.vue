@@ -1,21 +1,20 @@
 <template>
-    <!--我的学员-->
-    <el-main class="jr-customer-my-student">
-        <!--标题-->
-        <h3 class="jr-title">我的学员</h3>
+    <!--线索客户管理-新海-->
+    <div class="jr-customer-customer-manage-public">
         <!--筛选项-->
-        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+        <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px"
+                 label-position="left">
             <el-row :gutter="15">
                 <!--标签-->
                 <el-col :span="6">
                     <el-form-item label="标签">
-                        <selected-tag-template v-model="paramMap.tag" @change="selectedTagChange"/>
+                        <selected-tag-template v-model="paramMap.tag"/>
                     </el-form-item>
                 </el-col>
                 <!--跟进状态-->
                 <el-col :span="6">
                     <el-form-item label="跟进状态">
-                        <el-select v-model="paramMap.arr" multiple collapse-tags placeholder="请选择" clearable>
+                        <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
                                     v-for="item in options.options1"
                                     :key="item.value"
@@ -25,11 +24,11 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <!--最近跟进时间-->
+                <!--放弃时间-->
                 <el-col :span="6">
-                    <el-form-item label="最近跟进时间">
+                    <el-form-item label="放弃时间">
                         <el-date-picker
-                                v-model="paramMap.date"
+                                v-model="paramMap.date1"
                                 type="daterange"
                                 range-separator="-"
                                 start-placeholder="开始日期"
@@ -43,8 +42,8 @@
                 </el-col>
                 <!--姓名，手机号-->
                 <el-col :span="6">
-                    <el-form-item label="姓名，手机号">
-                        <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                    <el-form-item label="姓名、手机号">
+                        <el-input :maxlength='50' v-model="paramMap.value1" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -54,7 +53,7 @@
                     <el-col :span="6">
                         <el-form-item label="最新跟进时间">
                             <el-date-picker
-                                    v-model="paramMap.date"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
@@ -69,7 +68,7 @@
                     <!--客户状态-->
                     <el-col :span="6">
                         <el-form-item label="客户状态">
-                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.str1" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in options.options1"
                                         :key="item.value"
@@ -79,11 +78,10 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <!--负责人-->
+                    <!--最近负责人-->
                     <el-col :span="6">
-                        <el-form-item label="负责人">
-                            <selected-role-template v-model="paramMap.role"
-                                                    @change="selectedRoleChange"></selected-role-template>
+                        <el-form-item label="最近负责人">
+                            <selected-role-template v-model="paramMap.role"></selected-role-template>
                         </el-form-item>
                     </el-col>
                     <!--渠道-->
@@ -92,7 +90,7 @@
                             <el-cascader
                                     v-model="paramMap.cascader"
                                     :options="options.options1"
-                                    :props="props"
+                                    :props="options.cascadeProps"
                                     :show-all-levels="false"
                                     collapse-tags
                                     placeholder="请选择"
@@ -105,7 +103,7 @@
                     <el-col :span="6">
                         <el-form-item label="下次联系时间">
                             <el-date-picker
-                                    v-model="paramMap.date"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
@@ -120,7 +118,8 @@
                     <!--年级-->
                     <el-col :span="6">
                         <el-form-item label="年级">
-                            <el-select v-model="paramMap.arr" multiple collapse-tags placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择"
+                                       clearable>
                                 <el-option
                                         v-for="item in options.options1"
                                         :key="item.value"
@@ -133,7 +132,8 @@
                     <!--科目-->
                     <el-col :span="6">
                         <el-form-item label="科目">
-                            <el-select v-model="paramMap.arr" multiple collapse-tags placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.selectedArr1" multiple collapse-tags placeholder="请选择"
+                                       clearable>
                                 <el-option
                                         v-for="item in options.options1"
                                         :key="item.value"
@@ -146,7 +146,7 @@
                     <!--沟通次数-->
                     <el-col :span="6">
                         <el-form-item label="沟通次数">
-                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.input1" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in options.options1"
                                         :key="item.value"
@@ -162,7 +162,7 @@
                     <el-col :span="6">
                         <el-form-item label="之后未跟进">
                             <el-date-picker
-                                    v-model="paramMap.date"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
@@ -178,7 +178,7 @@
                     <el-col :span="6">
                         <el-form-item label="获得时间">
                             <el-date-picker
-                                    v-model="paramMap.date"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
@@ -207,7 +207,7 @@
                     <el-col :span="6">
                         <el-form-item label="创建时间">
                             <el-date-picker
-                                    v-model="paramMap.date"
+                                    v-model="paramMap.date2"
                                     type="daterange"
                                     range-separator="-"
                                     start-placeholder="开始日期"
@@ -222,7 +222,21 @@
                 </el-row>
             </div>
             <el-row :gutter="15">
-                <el-col :span="24">
+                <!--放弃原因-->
+                <el-col :span="6">
+                    <el-form-item label="放弃原因" v-show="paramMap.show">
+                        <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                            <el-option
+                                    v-for="item in options.options1"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <!--确定按钮-->
+                <el-col :span="18">
                     <el-form-item label-width="0" class="text-right">
                         <el-button @click="submitSearch" type="primary">查询</el-button>
                         <el-button @click="resetSearch">重置</el-button>
@@ -235,16 +249,16 @@
             </el-row>
         </el-form>
         <!--操作栏-->
-        <div class="action-bar text-right">
-            <el-button @click="addCustomer" type="" size="mini">新增</el-button>
-            <el-button @click="importCustomer" type="" size="mini">导入</el-button>
+        <div class="action-bar">
+            <selected-role-template v-model="paramMap.role" @change="assignCustomer" ref="selectedRole">
+                <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
+            </selected-role-template>
         </div>
         <!--列表-->
         <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed type="selection" width="50px" align="center"/>
-            <el-table-column fixed label="回收倒计时" width="90px" prop="name"></el-table-column>
+            <el-table-column fixed width="50" type="selection" align="center"/>
             <el-table-column fixed label="姓名" prop="name"></el-table-column>
-            <el-table-column fixed label="手机号" min-width="110px" prop="phone">
+            <el-table-column fixed min-width="100px" label="手机" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer">
                         <span class="">{{ scope.row.phone }}</span>
@@ -252,19 +266,19 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column min-width="95px" label="意向度" prop="name">
+            <el-table-column label="意向度" prop="name">
                 <template slot-scope="scope">
                     <el-rate v-model="scope.row.rate" disabled :max="3"/>
                 </template>
             </el-table-column>
             <el-table-column label="年级" prop="name" sortable="custom"/>
             <el-table-column label="科目" prop="name" sortable="custom"/>
-            <el-table-column label="地区" prop="name"></el-table-column>
-            <el-table-column min-width="95px" label="最新跟进状态" prop="name"></el-table-column>
-            <el-table-column min-width="95px" label="线索客户状态" prop="name"></el-table-column>
+            <el-table-column label="地区" prop="name"/>
+            <el-table-column min-width="95px" label="最新跟进状态" prop="name"/>
+            <el-table-column min-width="95px" label="线索客户状态" prop="name"/>
             <el-table-column label="渠道" prop="name" sortable="custom"/>
-            <el-table-column min-width="95px" label="最近负责人" prop="name"></el-table-column>
-            <el-table-column min-width="135px" label="最近跟进时间" prop="name"></el-table-column>
+            <el-table-column min-width="95px" label="最近负责人" prop="name"/>
+            <el-table-column min-width="135px" label="最近跟进时间" prop="date"/>
             <el-table-column width="220px" label="最近跟进记录" prop="recording">
                 <template slot-scope="scope">
                     <el-popover
@@ -278,89 +292,18 @@
                     </el-popover>
                 </template>
             </el-table-column>
-            <el-table-column min-width="135px" label="获取时间" prop="name" sortable="custom"/>
-            <el-table-column label="创建人" prop="name"></el-table-column>
-            <el-table-column min-width="130px" fixed="right" label="操作" align="center">
+            <el-table-column label="放弃原因" prop="name"/>
+            <el-table-column min-width="135px" label="放弃时间" prop="date" sortable="custom"/>
+            <el-table-column label="创建人" prop="name"/>
+            <el-table-column fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="customerFollow">跟进</el-link>
                     <el-link type="primary" @click="customerDetail">详情</el-link>
-                    <el-link type="primary" @click="customerAudition">试听</el-link>
-                    <el-link type="primary" @click="customerReserve">预约</el-link>
-                    <el-link type="primary" @click="customerUpload">上传报告</el-link>
                 </template>
             </el-table-column>
         </el-table>
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
-
-        <!--弹窗-->
-        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
-                   :title="dialog.title" custom-class="jr-dialog" width="600px">
-            <!--弹窗内容-->
-            <div class="dialog-body">
-                <el-form class="jr-form" size="mini" :model="dialog.form" label-position="left" :rules="dialog.rules"
-                         label-width="90px" ref="ruleForm">
-                    <el-row :gutter="15">
-                        <el-col :span="12">
-                            <el-form-item label="学员姓名">张三</el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="生日">2012-09-09</el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="15">
-                        <el-col :span="12">
-                            <el-form-item label="线索客户来源">抖音</el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="学校">郑州大学</el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row :gutter="15">
-                        <el-col :span="12">
-                            <el-form-item label="手机号">13111122222</el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="家庭住址">张三</el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-form-item label="类型">
-                        <el-select v-model="dialog.form.str" placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="选择文件">
-                        <el-upload
-                                action=""
-                                ref="uploadBom"
-                                :multiple="true"
-                                list-type="text"
-                                :show-file-list="true"
-                                :auto-upload="false"
-                                :file-list="dialog.form.file"
-                                :limit="10"
-                                :on-preview="onFilePreview"
-                                :on-remove="onFileRemove"
-                                :on-exceed="onFileExceed"
-                                :http-request="onFileUpload"
-                                :before-upload="onBeforeFile">
-                            <el-link size="small" type="primary">上传</el-link>
-                        </el-upload>
-                    </el-form-item>
-                </el-form>
-            </div>
-            <!--弹窗尾部-->
-            <div slot="footer" class="dialog-footer">
-                <el-button size="mini" @click="closeDialog">取 消</el-button>
-                <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
-            </div>
-        </el-dialog>
-    </el-main>
+    </div>
 </template>
 
 <script>
@@ -378,49 +321,52 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: false,//是否显示全部筛选项
-                arr: [],
-                str: '',
-                obj: {},
+                show: true,//是否显示筛选
+                tag: [],//选择标签
+                selectedArr1: [],//跟进状态
+                date1: [],//放弃时间
+                input1: '',//姓名手机号
+                date2: [],//最新跟进时间
+                str1: [],//跟进状态
+                role: [],//负责人
                 cascader: [],
-                tag: [],
-                date: [],
             },
 
             // 筛选选项列表
             options: {
+                //渠道列表
                 options1: [
                     {
-                        value: 1,
+                        value: '1',
                         label: '选项1',
+                    },
+                    {
+                        value: '2',
+                        label: '选项2',
                         children: [{
-                            value: 2,
-                            label: '选项1-1',
+                            value: '2-1',
+                            label: '选项2-1',
                             children: [
-                                {value: 3, label: '选项1-1-1'},
-                                {value: 4, label: '选项1-1-2'},
-                                {value: 5, label: '选项1-1-3'}
+                                {value: '2-1-1', label: '选项2-1-1'},
+                                {value: '2-1-2', label: '选项2-1-2'},
+                                {value: '2-1-3', label: '选项2-1-3'}
                             ]
                         }]
                     }
                 ],
-            },
 
-            //级联选择器配置
-            props: {
-                multiple: true,
-                value: 'value',
-                label: 'label',
-                children: 'children'
+                //级联选择器配置
+                cascadeProps: {
+                    multiple: true,
+                    value: 'value',
+                    label: 'label',
+                    children: 'children',
+                },
             },
 
             // 列表数据
             tableData: [
-                {
-                    name: 123,
-                    phone: 12121212121, rate: 3,
-                    recording: '显示最近一条跟进记录内容，保证显示15个字，超过...表示，鼠标悬停展示完成内容显示最近一条跟进记录内容，保证显示15个字，超过...表示，鼠标悬停展示完成内容'
-                }
+                {name: '英语', phone: '123123123', rate: 3, date: "2020-09-09 12:20:30"}
             ],
 
             // 分页参数
@@ -429,39 +375,22 @@ export default {
                 pageSize: 20,
                 count: 0,//总条数
             },
-
-            dialog: {
-                show: false,
-                title: '上传报告',
-                form: {
-                    str:'',
-                    file: [],
-                },
-                rules: {
-                    file: {required: true, message: '请选择文件', trigger: 'blur'},
-                }
-            }
-
         }
-    },
-    created() {
-    },
-    mounted() {
-    },
-    destroyed() {
     },
     computed: {
         dic() {
             return this.$store.state.dic;
         }
     },
+    mounted() {
+        this.refreshPage();
+    },
     methods: {
         /**
          *@desc 刷新页面
          */
         refreshPage() {
-            console.log(this.paramMap, 'paramMap')
-            console.log(this.pagesInfo, 'pagesInfo')
+            console.log(this.paramMap, this.pagesInfo, 'paramMap')
         },
 
         /**
@@ -489,17 +418,30 @@ export default {
         },
 
         /**
-         *@desc 选择标签时
+         *@desc 分配用户-打开选择负责人弹窗
          */
-        selectedTagChange() {
-
+        openAssignCustomerDialog() {
+            let ids = this.$refs['filterTable'].selection;
+            if (ids.length > 0) {
+                if (this.$refs['selectedRole']) {
+                    this.$refs['selectedRole'].openDialog();
+                }
+            } else {
+                this.$message.error("请至少选择一条leads")
+            }
         },
 
         /**
-         *@desc 选择角色时
+         *@desc 分配用户-确定分配时
          */
-        selectedRoleChange() {
-
+        assignCustomer() {
+            this.$api.customer.assignCustomer({
+                customerId: this.$refs['filterTable'].selection,
+                roleId: this.paramMap.role,
+            }).then(res => {
+                this.$message.success('分配成功')
+                this.refreshPage();
+            })
         },
 
         /**
@@ -508,21 +450,14 @@ export default {
         callCustomer() {
             this.$api.customer.callCustomer().then(res => {
                 this.$message.success('呼叫用户')
-                this.customerFollow();
+                this.$router.push({
+                    path: '/customer/customer-follow'
+                })
             })
         },
 
         /**
-         *@desc 跟进
-         */
-        customerFollow() {
-            this.$router.push({
-                path: '/customer/customer-follow'
-            })
-        },
-
-        /**
-         *@desc 详情
+         *@desc 用户详情
          */
         customerDetail() {
             this.$router.push({
@@ -531,139 +466,16 @@ export default {
         },
 
         /**
-         *@desc 试听
-         */
-        customerAudition() {
-            this.$message.success('跳到upc')
-        },
-
-        /**
-         *@desc 签约
-         */
-        customerReserve() {
-            this.$message.success('跳到upc')
-        },
-
-        /**
          *@desc table触发排序时
          */
         tableSortChange(val) {
             this.refreshPage();
-        },
-
-        /**
-         *@desc 上传报告
-         */
-        customerUpload() {
-            this.dialog.show = true;
-        },
-
-        /**
-         *@desc 新增
-         */
-        addCustomer() {
-            this.$router.push({
-                path: '/customer/customer-add'
-            })
-        },
-
-        /**
-         *@desc 导入
-         */
-        importCustomer() {
-            this.$router.push({
-                path: '/customer/customer-import'
-            })
-        },
-
-
-        /**
-         *@desc 上传报告-关闭弹窗
-         */
-        closeDialog() {
-            this.dialog.show = false;
-        },
-
-        /**
-         *@desc 上传报告-提交
-         */
-        submitDialog() {
-            this.$refs['ruleForm'].validate((valid) => {
-                if (valid) {//如果验证通过
-                    this.closeDialog();
-                } else {
-                    return false;
-                }
-            })
-        },
-
-        /**
-         *@desc 上传-文件超出个数
-         */
-        onFileExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        },
-
-        /**
-         *@desc 上传-上传函数
-         */
-        onFileUpload(fileObj) {
-            let paramMap = this.paramMap;
-            let linkage = this.$refs.linkage;
-            let formData = new FormData();
-
-            formData.append('leads_file', fileObj.file);
-            formData.append('org_code', linkage.org_code);
-            formData.append('school_code', linkage.school_code);
-            formData.append('charge_person', paramMap.charge_person.value);
-
-            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
-                this.refreshPage().then(() => {
-                    this.$message.success(res.data.msg);
-                });
-            })
-        },
-
-        /**
-         *@desc 上传-上传前验证
-         */
-        onBeforeFile(file) {
-            if (!file.name.includes('xls')) {
-                this.$message.error('只能上传excel!');
-                return false;
-            } else {
-                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
-                return true;
-            }
-        },
-
-        /**
-         *@desc 上传-点击已上传文件
-         */
-        onFilePreview(file) {
-            console.log('点击文件列表中已上传的文件时的钩子\t')
-        },
-
-        /**
-         *@desc 上传-移除上传文件
-         */
-        onFileRemove(file, fileList) {
-            console.log('文件列表移除文件时的钩子\t')
-        },
+        }
 
     }
 }
 </script>
 
 <style lang="scss">
-.jr-customer-my-customer {
-    .action-bar {
-        display: flex;
-        justify-content: space-between;
 
-        .action-bar_left {
-            display: flex;
-        }
-    }
-}
 </style>

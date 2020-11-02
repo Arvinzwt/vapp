@@ -1,6 +1,6 @@
 <template>
     <!--左侧菜单-->
-    <el-aside class="jr-aside" width="200px">
+    <el-aside class="jr-aside" :width="navIsCollapse?'200px':'0'">
         <img src="/images/menu_bg.png" alt="logo" class="aside-logo"/>
         <el-menu
                 class="aside-menu"
@@ -18,7 +18,7 @@
                 <el-menu-item v-for="mList in mItem.child"
                               :key="mList.name"
                               :index="mList.name"
-                              :class="$route.name===mList.name?'active':''"
+                              :class="isActive(mList)"
                               @click="linkTo(mList)">
                     <span> {{ mList.title }}</span>
                     <span v-if="mList.num" class="jr-badge">{{ mList.num }}</span>
@@ -36,22 +36,26 @@ export default {
             menuList: [],
         }
     },
+    props: ['navIsCollapse'],
+    computed: {
+        isActive() {
+            return mList => {
+                return this.$route.name === mList.name || mList.child.includes(this.$route.name) ? 'active' : ''
+            }
+        }
+    },
     async mounted() {
-        //初始拉取菜单列表
-        this.menuList = await this.$api.common.getMenu().then(list => {
-            let menuList = []
-            list.forEach(item => {
-                if (item.show) {//过滤第一层
-                    menuList.push({
-                        ...item,
-                        child: item.child.filter(list => {//过滤第二层
-                            return list.show
-                        })
+        this.menuList = [];
+        this.$store.getters['getMenu'].forEach(item => {
+            if (item.show && this.$utils.verifyAuth(item.code)) {//过滤第一层
+                this.menuList.push({
+                    ...item,
+                    child: item.child.filter(list => {//过滤第二层
+                        return list.show && this.$utils.verifyAuth(list.code);
                     })
-                }
-            })
-            return menuList
-        });
+                })
+            }
+        })
     },
     methods: {
         linkTo(obj) {
