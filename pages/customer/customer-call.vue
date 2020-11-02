@@ -58,7 +58,7 @@
                             <el-cascader
                                     v-model="paramMap.cascader"
                                     :options="dic.hrcodedepts"
-                                    :props="$utils.hrcodedeptsProps"
+                                    :props="hrcodedeptsProps"
                                     :show-all-levels="false"
                                     collapse-tags
                                     placeholder="请选择"
@@ -297,6 +297,15 @@ export default {
                 pageIndex: 1,
                 pageSize: 20,
                 count: 0,//总条数
+            },
+
+            // 校区公用配置
+            hrcodedeptsProps:{
+                multiple: false,
+                value: 'deptid',
+                label: 'deptname',
+                children: 'chlid',
+                checkStrictly:true,
             },
 
             // 弹窗

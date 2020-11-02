@@ -131,7 +131,7 @@ export default ({store, $axios, app}, inject) => {
         },
 
         /**
-         *@desc 校区公用配置
+         *@desc 学习中心配置
          */
         hrcodedeptsProps:{
             multiple: false,

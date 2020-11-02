@@ -5,17 +5,30 @@
         <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px"
                  label-position="left">
             <el-row :gutter="15">
-                <!--渠道-->
+                <!--渠道大类-->
                 <el-col :span="6">
-                    <el-form-item label="渠道">
-                        <el-cascader
-                                v-model="paramMap.cascader"
-                                :options="options.options1"
-                                :props="options.cascadeProps"
-                                :show-all-levels="false"
-                                collapse-tags
-                                placeholder="请选择"
-                                clearable></el-cascader>
+                    <el-form-item label="渠道大类">
+                        <el-select v-model="paramMap.cascader" placeholder="请选择" clearable>
+                            <el-option
+                                    v-for="item in dic.bigclass"
+                                    :key="item.classid"
+                                    :label="item.classname"
+                                    :value="item.classid+'&'+item.classname">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <!--渠道小类-->
+                <el-col :span="6">
+                    <el-form-item label="渠道小类">
+                        <el-select v-model="paramMap.cascader2" placeholder="请选择" clearable>
+                            <el-option
+                                    v-for="(item,index) in options.smallclass"
+                                    :key="index"
+                                    :label="item.bigclassname"
+                                    :value="item.bigclassid">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <!--创建时间-->
@@ -37,39 +50,53 @@
                 <!--年级-->
                 <el-col :span="6">
                     <el-form-item label="年级">
-                        <el-select v-model="paramMap.selectedArr" multiple collapse-tags placeholder="请选择" clearable>
+                        <el-select v-model="paramMap.grades" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in dic.grades"
+                                    :key="item.dicCode"
+                                    :label="item.name"
+                                    :value="item.dicCode">
                             </el-option>
                         </el-select>
-                    </el-form-item>
-                </el-col>
-                <!--姓名，手机号-->
-                <el-col :span="6">
-                    <el-form-item label="姓名、手机号">
-                        <el-input :maxlength='50' v-model="paramMap.input" placeholder="可搜索姓名、手机" clearable/>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="15">
+                <!--姓名，手机号-->
+                <el-col :span="6">
+                    <el-form-item label="姓名、手机号" v-show="paramMap.show">
+                        <el-input :maxlength='50' v-model="paramMap.input" placeholder="可搜索姓名、手机" clearable/>
+                    </el-form-item>
+                </el-col>
                 <!--科目-->
                 <el-col :span="6">
                     <el-form-item label="科目" v-show="paramMap.show">
-                        <el-select v-model="paramMap.selectedArr2" multiple collapse-tags placeholder="请选择" clearable>
+                        <el-select v-model="paramMap.arr2" multiple collapse-tags placeholder="请选择" clearable>
                             <el-option
-                                    v-for="item in options.options1"
-                                    :key="item.value"
+                                    v-for="item in dic.subject"
+                                    :key="item.dicCode"
                                     :label="item.label"
-                                    :value="item.value">
+                                    :value="item.dicCode">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <!--学习中心-->
+                <el-col :span="6">
+                    <el-form-item label="学习中心" v-show="paramMap.show">
+                        <el-cascader
+                                v-model="paramMap.arr3"
+                                :options="dic.hrcodedepts"
+                                :props="$utils.hrcodedeptsProps"
+                                :show-all-levels="false"
+                                collapse-tags
+                                placeholder="请选择"
+                                filterable
+                                clearable></el-cascader>
+                    </el-form-item>
+                </el-col>
                 <!--确定按钮-->
-                <el-col :span="18">
+                <el-col :span="6">
                     <el-form-item label-width="0" class="text-right">
                         <el-button @click="submitSearch" type="primary">查询</el-button>
                         <el-button @click="resetSearch">重置</el-button>
@@ -83,7 +110,7 @@
         </el-form>
         <!--操作栏-->
         <div class="action-bar">
-            <selected-role-template v-model="paramMap.role" @change="assignCustomer" ref="selectedRole">
+            <selected-role-template v-model="paramMap.role" @change="submitAssignCustomer" ref="selectedRole">
                 <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
             </selected-role-template>
         </div>
@@ -131,45 +158,14 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: true,//是否显示筛选
+                cascader: '',//渠道大类
+                cascader2: '',//渠道小类
                 date: [],//创建时间
-                cascader: [],//渠道
-                selectedArr: [],//年级
+                grades: [],//年级
                 input: '',//姓名手机号
-                selectedArr2: [],//科目
-
-                role: [],//选择的负责人
-            },
-
-            // 筛选选项列表
-            options: {
-                //渠道列表
-                options1: [
-                    {
-                        value: '1',
-                        label: '选项1',
-                    },
-                    {
-                        value: '2',
-                        label: '选项2',
-                        children: [{
-                            value: '2-1',
-                            label: '选项2-1',
-                            children: [
-                                {value: '2-1-1', label: '选项2-1-1'},
-                                {value: '2-1-2', label: '选项2-1-2'},
-                                {value: '2-1-3', label: '选项2-1-3'}
-                            ]
-                        }]
-                    }
-                ],
-
-                //级联选择器配置
-                cascadeProps: {
-                    multiple: true,
-                    value: 'value',
-                    label: 'label',
-                    children: 'children',
-                },
+                arr2: [],//科目
+                arr3: [],//学习中心
+                sort:'',//年级-科目-渠道-排序
             },
 
             // 列表数据
@@ -183,12 +179,24 @@ export default {
                 pageSize: 20,
                 count: 0,//总条数
             },
+
+            options: {
+                smallclass: [],//渠道小类
+            },
+        }
+    },
+    watch: {
+        async 'paramMap.cascader'(val) {//监听渠道大类值，赋值渠道小类
+            this.options.smallclass = val ? await this.$api.common.smallclass({
+                "bigclassname": val.split('&')[1],
+                "deptids": ""
+            }) : [];
         }
     },
     computed: {
         dic() {
             return this.$store.state.dic;
-        }
+        },
     },
     mounted() {
         this.refreshPage();
@@ -221,7 +229,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -242,7 +250,7 @@ export default {
         /**
          *@desc 分配用户-确定分配时
          */
-        assignCustomer() {
+        submitAssignCustomer() {
             this.$api.customer.assignCustomer({
                 customerId: this.$refs['filterTable'].selection,
                 roleId: this.paramMap.role,
@@ -259,7 +267,10 @@ export default {
             this.$api.customer.callCustomer().then(res => {
                 this.$message.success('呼叫用户')
                 this.$router.push({
-                    path: '/customer/customer-follow'
+                    path: '/customer/customer-follow',
+                    query: {
+                        id: 123,
+                    }
                 })
             })
         },
@@ -269,7 +280,10 @@ export default {
          */
         customerDetail() {
             this.$router.push({
-                path: '/customer/customer-detail'
+                path: '/customer/customer-detail',
+                query: {
+                    id: 123,
+                }
             })
         },
 

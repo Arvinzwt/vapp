@@ -31,7 +31,7 @@
                         <el-cascader
                                 v-model="paramMap.cascader"
                                 :options="dic.hrcodedepts"
-                                :props="$utils.hrcodedeptsProps"
+                                :props="hrcodedeptsProps"
                                 :show-all-levels="false"
                                 collapse-tags
                                 placeholder="请选择"
@@ -386,6 +386,14 @@ export default {
             tableData: [
                 {name: '英语', phone: '123123123'}
             ],
+
+            hrcodedeptsProps:{
+                multiple: false,
+                value: 'deptid',
+                label: 'deptname',
+                children: 'chlid',
+                checkStrictly:true,
+            },
 
             // 分页参数
             pagesInfo: {
