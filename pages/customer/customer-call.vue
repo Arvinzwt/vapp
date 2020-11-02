@@ -58,7 +58,7 @@
                             <el-cascader
                                     v-model="paramMap.leaningCenter"
                                     :options="dic.hrcodedepts"
-                                    :props="hrcodedeptsProps"
+                                    :props="$utils.leaningCenterProps"
                                     :show-all-levels="false"
                                     collapse-tags
                                     placeholder="请选择"
@@ -322,15 +322,6 @@ export default {
                     invalidType: {required: true, message: '请选择', trigger: 'blur'},
                     sales: {required: true, message: '请选择', trigger: 'blur'},
                 }
-            },
-
-            // 学习中心配置
-            hrcodedeptsProps: {
-                multiple: false,
-                value: 'deptid',
-                label: 'deptname',
-                children: 'chlid',
-                checkStrictly: true,
             },
         }
     },

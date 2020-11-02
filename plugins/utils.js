@@ -130,5 +130,14 @@ export default ({store, $axios, app}, inject) => {
             ],
         },
 
+        // 学习中心配置
+        leaningCenterProps: {
+            multiple: false,
+            value: 'deptid',
+            label: 'deptname',
+            children: 'chlid',
+            checkStrictly: true,
+        },
+
     })
 }
