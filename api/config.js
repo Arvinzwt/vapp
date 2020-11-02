@@ -22,8 +22,8 @@ if (process.client) {// 如果客户端已经被加载，判断域名
         baseUrl = '//mgr-api.jronline.com';
     } else {//local
         env = 'local'
-        // baseUrl = '//mgr-api-dev.jronline.com'
-        baseUrl = '//localhost:7001'
+        baseUrl = '//mgr-api-dev.jronline.com'
+        // baseUrl = '//localhost:7001'
     }
 }
 
