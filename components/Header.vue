@@ -42,7 +42,9 @@ export default {
          */
         userClick(command) {
             if (command === 'e') {
-                this.$store.dispatch('logout').then(res => {
+                this.$api.common.logout().then(res => {
+                    return this.$store.dispatch('logout')
+                }).then(res => {
                     this.$router.replace({
                         path: '/'
                     })

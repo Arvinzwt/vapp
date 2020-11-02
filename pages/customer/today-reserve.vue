@@ -414,7 +414,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap,['show','tab']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show', 'tab']);//重置筛选数据
             this.refreshPage();
         },
 
