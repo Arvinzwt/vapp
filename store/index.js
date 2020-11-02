@@ -174,7 +174,6 @@ export const state = () => ({
         ],
         // 沟通次数
         communicate: [
-            {"value": "", "name": "不限",},
             {"value": "0", "name": "0",},
             {"value": "1", "name": "1",},
             {"value": "2", "name": "2",},
@@ -185,22 +184,24 @@ export const state = () => ({
         ],
         // 意向度
         intention: [
-            {"value": "", "name": "不限",},
             {"value": "大", "name": "大",},
             {"value": "一般", "name": "一般",},
             {"value": "小", "name": "小",},
             {"value": "没有", "name": "没有",},
         ],
-        // 是否有效
+        // 是否有效-查询
         isValid: [
-            {"value": "2", "name": "不限",},
             {"value": "1", "name": "有效",},
             {"value": "0", "name": "无效",},
             {"value": "3", "name": "未确认",},
         ],
+        // 是否有效2-输入
+        isValid2: [
+            {"value": "1", "name": "有效",},
+            {"value": "0", "name": "无效",},
+        ],
         // 无效类型
         invalidType: [
-            {"value": "0", "name": "请选择",},
             {"value": "1", "name": "小学一年级-二年级",},
             {"value": "2", "name": "SPY或供应商虚假来电",},
             {"value": "3", "name": "任何成人课程",},
@@ -224,7 +225,6 @@ export const state = () => ({
         ],
         // 联系人身份
         contactIdentity: [
-            {"value": "", "name": "请选择",},
             {"value": "父亲", "name": "父亲",},
             {"value": "母亲", "name": "母亲",},
             {"value": "祖父", "name": "祖父",},
@@ -249,6 +249,11 @@ export const state = () => ({
             {"value": "主动上门", "name": "主动上门",},
             {"value": "拉访", "name": "拉访",},
             {"value": "Local其他", "name": "Local其他",},
+        ],
+        // 呼入类型
+        incomingType:[
+            {"value": "电话呼入", "name": "电话呼入",},
+            {"value": "在线咨询", "name": "在线咨询",},
         ],
 
         //年级

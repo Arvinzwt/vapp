@@ -93,7 +93,7 @@ export default {
                     this.$store.dispatch('login',loginForm).then(res=>{
                         this.setAccount();
                         this.$router.push({
-                            path: '/customer/customer-manage'
+                            path: '/customer/customer-call'
                         })
                     })
 
