@@ -260,7 +260,7 @@ export const state = () => ({
         grades: [],
         //学科
         subject: [],
-        //学院状态
+        //学员状态
         leadsstatus: [],
         //渠道大类
         bigclass: [],

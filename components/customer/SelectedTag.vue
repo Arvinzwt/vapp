@@ -54,6 +54,7 @@ export default {
             activeNames: ['1'],
             dialog: {
                 show: false,//是否显示弹窗
+                value: ['1-1'],
                 tag: [
                     {
                         id: '0',
@@ -92,7 +93,6 @@ export default {
                         ]
                     },
                 ],
-                value: ['1-1'],
             },
             showList: [],//用来展示的结果数据
         }
