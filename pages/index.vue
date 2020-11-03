@@ -90,13 +90,24 @@ export default {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
                     let loginForm = this.loginForm;
-                    this.$store.dispatch('login',loginForm).then(res=>{
-                        this.setAccount();
-                        this.$router.push({
-                            path: '/customer/customer-call'
-                        })
-                    })
+                    this.$store.dispatch('login', loginForm).then(res => {//登录
+                        return this.$store.dispatch('menu');//拉取菜单
+                    }).then(menuList => {
+                        //判断登录成功后能跳转的首页路径
+                        for (let i = 0; i < menuList.length; i++) {
+                            if (menuList[i].show) {
+                                for (let j = 0; j < menuList[i].child.length; j++) {
+                                    if (menuList[i].child[j].show) {
+                                        this.setAccount();//存储账号信息
+                                        this.$router.replace({path: menuList[i].child[j].path})//跳转
+                                        return
+                                    }
+                                }
+                            }
+                        }
 
+                        this.$message.warning('暂无权限，请联系管理员')
+                    })
                 } else {
                     return false;
                 }

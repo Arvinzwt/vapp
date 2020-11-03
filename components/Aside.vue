@@ -45,17 +45,20 @@ export default {
         }
     },
     async mounted() {
-        this.menuList = [];
-        this.$store.getters['getMenu'].forEach(item => {
-            if (item.show && this.$utils.verifyAuth(item.code)) {//过滤第一层
-                this.menuList.push({
-                    ...item,
-                    child: item.child.filter(list => {//过滤第二层
-                        return list.show && this.$utils.verifyAuth(list.code);
+        this.$store.dispatch('menu').then(menuList => {
+            this.menuList = [];
+            menuList.forEach(item => {
+                if (item.show) {//过滤第一层
+                    this.menuList.push({
+                        ...item,
+                        child: item.child.filter(list => {//过滤第二层
+                            return list.show;
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
+        });
+
     },
     methods: {
         linkTo(obj) {

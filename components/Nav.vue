@@ -51,8 +51,10 @@ export default {
         }
     },
     mounted() {
-        this.asideMenu = this.$store.getters['getMenu'];
-        this.resetTopMenu();//重新刷新topMenu数据
+        this.$store.dispatch('menu').then(menu => {
+            this.asideMenu = menu;
+            this.resetTopMenu();//重新刷新topMenu数据
+        });
     },
     methods: {
         /**
@@ -60,7 +62,7 @@ export default {
          */
         getLocalStorageTm() {
             return localStorage.getItem('menu') ? JSON.parse(localStorage.getItem('menu')) : [{
-                name: 'customer-customer-call',
+                name: this.$route.name,
                 query: {}
             }];
         },

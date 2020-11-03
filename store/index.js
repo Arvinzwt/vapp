@@ -251,7 +251,7 @@ export const state = () => ({
             {"value": "Local其他", "name": "Local其他",},
         ],
         // 呼入类型
-        incomingType:[
+        incomingType: [
             {"value": "电话呼入", "name": "电话呼入",},
             {"value": "在线咨询", "name": "在线咨询",},
         ],
@@ -293,8 +293,9 @@ export const actions = {
     async logout({commit}) {
         if (process.client) {
             localStorage.removeItem('usr');//存储localStorage
+            localStorage.removeItem('menu');//存储localStorage
         }
-        return  null;
+        return null;
     },
 
     /**
@@ -341,15 +342,24 @@ export const actions = {
             }
         }
         return state.dic;
-    }
-};
+    },
 
-export const getters = {
     /**
-     *@desc 拉取菜单
+     *@desc 拉取menu信息
      *@return promise [promise]
      */
-    getMenu: state => {
-        return state.menu;
+    async menu({state}) {
+        let target = [];
+        state.menu.forEach(item => {
+            if (this.$utils.verifyAuth(item.code)) {//验证第一层权限
+                target.push({
+                    ...item,
+                    child: item.child.filter(list => {
+                        return this.$utils.verifyAuth(list.code);
+                    })
+                })
+            }
+        });
+        return target
     }
-}
+};
