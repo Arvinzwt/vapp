@@ -38,6 +38,38 @@ export default ({store, $axios, app}, inject) => {
         },
 
         /**
+         *@desc 时间转化为时间戳
+         *@param date 转化对象，可以是数组:转化时间区间，可以是date:转换单个日期
+         *@param type[number]
+         *   0:target是数组返回第一位的时间戳
+         *   1:target是数组返回第二位的时间戳
+         *   2:target是date返回时间戳
+         *@return date[num]
+         */
+        convertTime(date, type = 2) {
+            let target = 0;
+            switch (type) {
+                case 0:
+                    if (underscore.isArray(date)) {
+                        target = date[type] ? moment(date[type]).unix().valueOf() : 0;
+                    }
+                    break;
+                case 1:
+                    if (underscore.isArray(date)) {
+                        target = date[type] ? moment(date[type]).unix().valueOf() : 0;
+                    }
+                    break;
+                case 2:
+                    target = date ? moment(date).valueOf() : 0;
+                    break;
+                default:
+                    target = 0;
+                    break;
+            }
+            return target;
+        },
+
+        /**
          *@desc 重置json对象-只能处理第一层
          *@param json[Object] 重置对象
          *@param arr[array] 忽略的值
@@ -80,23 +112,23 @@ export default ({store, $axios, app}, inject) => {
                 {
                     text: '当日',
                     onClick(picker) {
-                        const date1 = moment().startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                        const date2 = moment().endOf('days').format('YYYY-MM-DD HH:mm:ss');
+                        const date1 = moment().startOf('days').format();
+                        const date2 = moment().endOf('days').format();
                         picker.$emit('pick', [date1, date2]);
                     }
                 }, {
                     text: '昨日',
                     onClick(picker) {
-                        let date1 = moment().subtract(1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                        let date2 = moment().subtract(1, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');
+                        let date1 = moment().subtract(1, 'days').startOf('days').format();
+                        let date2 = moment().subtract(1, 'days').endOf('days').format();
                         picker.$emit('pick', [date1, date2]);
                     }
                 }, {
                     text: '本周',
                     onClick(picker) {
                         let weekDay = moment().format('E');//计算今天是这周第几天
-                        let start = moment().subtract(weekDay - 1, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss');//周一日期
-                        let end = moment().add(7 - weekDay, 'days').endOf('days').format('YYYY-MM-DD HH:mm:ss');//周日日期
+                        let start = moment().subtract(weekDay - 1, 'days').startOf('days').format();//周一日期
+                        let end = moment().add(7 - weekDay, 'days').endOf('days').format();//周日日期
 
                         picker.$emit('pick', [start, end]);
                     }
@@ -104,8 +136,8 @@ export default ({store, $axios, app}, inject) => {
                 {
                     text: '本月',
                     onClick(picker) {
-                        let start = moment().startOf('month').startOf('days').format('YYYY-MM-DD HH:mm:ss');
-                        let end = moment().endOf('month').endOf('days').format('YYYY-MM-DD HH:mm:ss');
+                        let start = moment().startOf('month').startOf('days').format();
+                        let end = moment().endOf('month').endOf('days').format();
                         picker.$emit('pick', [start, end]);
                     }
                 },
@@ -113,8 +145,8 @@ export default ({store, $axios, app}, inject) => {
                     text: '最近7日',
                     onClick(picker) {
                         let date = [];
-                        date.push(moment().subtract(6, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                        date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
+                        date.push(moment().subtract(6, 'days').startOf('days').format());
+                        date.push(moment().endOf('days').format());
                         picker.$emit('pick', date);
                     }
                 },
@@ -122,8 +154,8 @@ export default ({store, $axios, app}, inject) => {
                     text: '最近30日',
                     onClick(picker) {
                         let date = [];
-                        date.push(moment().subtract(29, 'days').startOf('days').format('YYYY-MM-DD HH:mm:ss'));
-                        date.push(moment().endOf('days').format('YYYY-MM-DD HH:mm:ss'));
+                        date.push(moment().subtract(29, 'days').startOf('days').format());
+                        date.push(moment().endOf('days').format());
                         picker.$emit('pick', date);
                     }
                 }

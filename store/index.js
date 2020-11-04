@@ -255,6 +255,13 @@ export const state = () => ({
             {"value": "电话呼入", "name": "电话呼入",},
             {"value": "在线咨询", "name": "在线咨询",},
         ],
+        // 海域
+        sea: [
+            {"value": "1", "name": "新海",},
+            {"value": "2", "name": "个人海",},
+            {"value": "3", "name": "公海",},
+            {"value": "4", "name": "死海",},
+        ],
 
         //年级
         grades: [],
