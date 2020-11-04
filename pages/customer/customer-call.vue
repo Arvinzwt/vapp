@@ -443,7 +443,7 @@ export default {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
                     let form = this.dialog.form;
-                    this.$api.customer.LeadsCallCenterUpdate({
+                    this.$api.customer.leadsCallCenterUpdate({
                         intype: form.intype,// 呼入类型
                         ifok: form.ifok,// 是否有效
                         invalidType: form.invalidType,// 无效类型

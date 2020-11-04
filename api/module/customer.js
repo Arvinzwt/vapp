@@ -44,7 +44,7 @@ export default class Customer extends Request {
     }
 
     // leads呼叫中心更新
-    async LeadsCallCenterUpdate(data, options) {
+    async leadsCallCenterUpdate(data, options) {
         return this.post('/gxh-leads/v1/LeadsCallCenter/update', data, options)
     }
 
