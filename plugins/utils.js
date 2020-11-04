@@ -92,7 +92,7 @@ export default ({store, $axios, app}, inject) => {
                         target = '';
                     }
                     if (underscore.isNumber(json[key])) {
-                        target = '0';
+                        target = '';
                     }
                     if (underscore.isBoolean(json[key])) {
                         target = false;

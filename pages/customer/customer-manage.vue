@@ -7,13 +7,13 @@
                 <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
                     <div slot="label">
                         <span>{{ item.name }}</span>
-                        <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
+                        <i v-if="seaNum>0&&item.id==='customer-customer-manage'" class="jr-badge">{{ seaNum }}</i>
                     </div>
                 </el-tab-pane>
             </el-tabs>
         </div>
         <!--内容-->
-        <nuxt-child class="jr-page-body"/>
+        <nuxt-child v-model="seaNum" class="jr-page-body"/>
     </el-main>
 </template>
 
@@ -21,12 +21,13 @@
 export default {
     data() {
         return {
+            seaNum: 0,//新海消息数
+
             // tab切换信息
             tabs: [
                 {
                     id: 'customer-customer-manage',
                     name: '新海（待分配）',
-                    num: 6,
                     path: '/customer/customer-manage',
                 },
                 {

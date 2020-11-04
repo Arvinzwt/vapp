@@ -9,8 +9,18 @@ export default class Customer extends Request {
     }
 
     // leads查询
-    async leads(data, options) {
-        return this.post('/gxh-leads/v1/Leads/leads', data, options)
+    async LeadsSearch(data, options) {
+        return this.post('/gxh-leads/v1/Leads/search', data, options)
+    }
+
+    // 分配负责人
+    async assignCustomer(data, options) {
+        return true
+    }
+
+    // 呼叫负责人
+    async callCustomer(data, options) {
+        return true
     }
 
     // 今日新线索
@@ -45,7 +55,7 @@ export default class Customer extends Request {
 
     // leads呼叫中心更新
     async leadsCallCenterUpdate(data, options) {
-        return this.post('/gxh-leads/v1/LeadsCallCenter/update', data, options)
+        return true
     }
 
     // 新增-更新追踪信息
