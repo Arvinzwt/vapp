@@ -7,7 +7,8 @@
                 <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
                     <div slot="label">
                         <span>{{ item.name }}</span>
-                        <i v-if="item.num" class="jr-badge">{{ item.num }}</i>
+                        <i v-if="item.id==='3'&&confirmedNum>0"
+                           class="jr-badge">{{ pagesInfo.count }}</i>
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -61,7 +62,6 @@
                                     range-separator="-"
                                     start-placeholder="开始日期"
                                     end-placeholder="结束日期"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
                                     :default-time="['00:00:00', '23:59:59']"
                                     :picker-options="$utils.pickerOptions"
                                     clearable>
@@ -97,32 +97,34 @@
                     </el-col>
 
                     <!--确定按钮-->
-                    <el-form-item label-width="0" class="text-right">
-                        <el-button @click="submitSearch" type="primary">查询</el-button>
-                        <el-button @click="resetSearch">重置</el-button>
-                        <el-link type="primary" class="ml-4 mr-2" @click="paramMap.show=!paramMap.show">
-                            <span v-show="!paramMap.show">展开</span>
-                            <span v-show="paramMap.show">收起</span>
-                        </el-link>
-                    </el-form-item>
+                    <el-col :span="6">
+                        <el-form-item label-width="0" class="text-right">
+                            <el-button @click="submitSearch" type="primary">查询</el-button>
+                            <el-button @click="resetSearch">重置</el-button>
+                            <el-link type="primary" class="ml-4 mr-2" @click="paramMap.show=!paramMap.show">
+                                <span v-show="!paramMap.show">展开</span>
+                                <span v-show="paramMap.show">收起</span>
+                            </el-link>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
             </el-form>
             <!--列表-->
             <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-                <el-table-column fixed label="姓名" prop="name"/>
+                <el-table-column fixed label="姓名" prop="studentName"/>
                 <el-table-column fixed min-width="100px" label="手机" prop="tel"/>
-                <el-table-column label="年级" prop="name" sortable="grade"/>
+                <el-table-column label="年级" prop="grade" sortable="grade"/>
                 <el-table-column label="坐席" prop="callName"/>
-                <el-table-column label="所属校区" prop="deptId"/>
+                <el-table-column label="所属校区" prop="name"/>
                 <el-table-column label="呼入类型" prop="intype"/>
                 <el-table-column label="渠道大类" prop="bigClass"/>
                 <el-table-column label="渠道小类" prop="smallClass"/>
                 <el-table-column label="登记时间" prop="callTime"/>
                 <el-table-column label="确认人" prop="auditUName"/>
                 <el-table-column label="确认时间" prop="auditTime"/>
-                <el-table-column fixed="right" label="操作" align="center">
+                <el-table-column fixed="right" label="操作" align="center" v-if="paramMap.ifok==='3'">
                     <template slot-scope="scope">
-                        <el-link type="primary" @click="customerConfirm">确认</el-link>
+                        <el-link type="primary" @click="customerConfirm(scope.row)">确认</el-link>
                     </template>
                 </el-table-column>
             </el-table>
@@ -136,100 +138,99 @@
             <div class="dialog-body">
                 <el-form class="jr-form" size="mini" :model="dialog.form" :rules="dialog.rules" ref="ruleForm"
                          label-width="90px" label-position="left">
-                    <!--                    <el-row :gutter="15">-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="姓名" prop="name">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.name" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="电话" prop="phone">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.phone" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                    </el-row>-->
-                    <!--                    <el-row :gutter="15">-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="坐席" prop="seat">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.seat" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="所属校区" prop="school">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.school" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                    </el-row>-->
-                    <!--                    <el-row :gutter="15">-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="呼入类型" prop="incomingType">-->
-                    <!--                                <el-select v-model="dialog.form.incomingType" placeholder="请选择" clearable>-->
-                    <!--                                    <el-option-->
-                    <!--                                            v-for="item in dic.incomingType"-->
-                    <!--                                            :key="item.value"-->
-                    <!--                                            :label="item.name"-->
-                    <!--                                            :value="item.value">-->
-                    <!--                                    </el-option>-->
-                    <!--                                </el-select>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="渠道大类" prop="big">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.big" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                    </el-row>-->
-                    <!--                    <el-row :gutter="15">-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="渠道小类" prop="small">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.small" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                        <el-col :span="12">-->
-                    <!--                            <el-form-item label="登记时间" prop="checkTime">-->
-                    <!--                                <el-input :maxlength='50' v-model="dialog.form.checkTime" disabled clearable/>-->
-                    <!--                            </el-form-item>-->
-                    <!--                        </el-col>-->
-                    <!--                    </el-row>-->
                     <el-row :gutter="15">
-                        <!--                        <el-col :span="12">-->
-                        <!--                            <el-form-item label="是否有效" prop="isValid">-->
-                        <!--                                <el-select v-model="dialog.form.isValid" placeholder="请选择" clearable>-->
-                        <!--                                    <el-option-->
-                        <!--                                            v-for="item in dic.isValid2"-->
-                        <!--                                            :key="item.value"-->
-                        <!--                                            :label="item.name"-->
-                        <!--                                            :value="item.value">-->
-                        <!--                                    </el-option>-->
-                        <!--                                </el-select>-->
-                        <!--                            </el-form-item>-->
-                        <!--                        </el-col>-->
-                        <!--                        <el-col :span="12">-->
-                        <!--                            <el-form-item label="教育顾问" prop="sales">-->
-                        <!--                                <el-select v-model="dialog.form.sales" placeholder="请选择" clearable>-->
-                        <!--                                    <el-option-->
-                        <!--                                            v-for="item in dic.sales"-->
-                        <!--                                            :key="item.id"-->
-                        <!--                                            :label="item.name"-->
-                        <!--                                            :value="item.id">-->
-                        <!--                                    </el-option>-->
-                        <!--                                </el-select>-->
-                        <!--                            </el-form-item>-->
-                        <!--                        </el-col>-->
+                        <el-col :span="12">
+                            <el-form-item label="姓名">
+                                <div class="disabled-input">{{ dialog.form.studentName }}</div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="电话">
+                                <div class="disabled-input">{{ dialog.form.tel }}</div>
+                            </el-form-item>
+                        </el-col>
                     </el-row>
-                    <el-row :gutter="15" v-if="dialog.form.isValid==='0'">
-                        <!--                        <el-col :span="12">-->
-                        <!--                            <el-form-item label="无效类型" prop="invalidType">-->
-                        <!--                                <el-select v-model="dialog.form.invalidType" placeholder="请选择" clearable>-->
-                        <!--                                    <el-option-->
-                        <!--                                            v-for="item in dic.invalidType"-->
-                        <!--                                            :key="item.value"-->
-                        <!--                                            :label="item.name"-->
-                        <!--                                            :value="item.value">-->
-                        <!--                                    </el-option>-->
-                        <!--                                </el-select>-->
-                        <!--                            </el-form-item>-->
-                        <!--                        </el-col>-->
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <el-form-item label="坐席">
+                                <div class="disabled-input">{{ dialog.form.callName }}</div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="所属校区">
+                                <div class="disabled-input">{{ dialog.form.name }}</div>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <el-form-item label="呼入类型">
+                                <el-select v-model="dialog.form.intype" placeholder="请选择" clearable>
+                                    <el-option
+                                            v-for="item in dic.incomingType"
+                                            :key="item.value"
+                                            :label="item.name"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="登记时间">
+                                <div class="disabled-input">{{ dialog.form.callTime }}</div>
+                            </el-form-item>
+                        </el-col>
+
+                    </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <el-form-item label="渠道大类">
+                                <div class="disabled-input">{{ dialog.form.bigClass }}</div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="渠道小类">
+                                <div class="disabled-input">{{ dialog.form.smallClass }}</div>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <el-form-item label="是否有效" prop="ifok">
+                                <el-select v-model="dialog.form.ifok" placeholder="请选择" clearable>
+                                    <el-option
+                                            v-for="item in dic.isValid2"
+                                            :key="item.value"
+                                            :label="item.name"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" v-if="dialog.form.ifok==='1'">
+                            <el-form-item label="教育顾问" prop="sales">
+                                <el-select v-model="dialog.form.sales" placeholder="请选择" clearable>
+                                    <el-option
+                                            v-for="item in dialog.options.salesList"
+                                            :key="item.id"
+                                            :label="item.name"
+                                            :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12" v-if="dialog.form.ifok==='0'">
+                            <el-form-item label="无效类型" prop="invalidType">
+                                <el-select v-model="dialog.form.invalidType" placeholder="请选择" clearable>
+                                    <el-option
+                                            v-for="item in dic.invalidType"
+                                            :key="item.value"
+                                            :label="item.name"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
                     </el-row>
                 </el-form>
             </div>
@@ -251,6 +252,8 @@ export default {
     },
     data() {
         return {
+            confirmedNum: 0,
+
             // tab切换信息
             tabs: [
                 {id: '3', name: '待确认'},
@@ -261,10 +264,10 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
+                ifok: "3",//是否有效 - tab切换
                 name: "",//姓名
-                ifok: "3",//是否有效
                 checkTime: [],//登记时间
-                deptId: "",//学习中心
+                deptId: [],//学习中心
                 auditTime: [],//确认时间
                 intype: [],//呼入类型
                 callName: "",//坐席
@@ -287,12 +290,25 @@ export default {
             dialog: {
                 show: false,
                 form: {
-
+                    studentName: '',// 姓名
+                    tel: '',// 手机号
+                    callName: '',// 坐席
+                    name: '',// 所属校区
+                    intype: '',// 呼入类型
+                    bigClass: '',// 渠道大类
+                    smallClass: '',// 渠道小类
+                    callTime: '',// 登记时间
+                    ifok: '',// 是否有效
+                    invalidType: '',// 无效类型
+                    sales: '',// 教育顾问
+                },
+                options: {
+                    salesList: [],//教育顾问列表
                 },
                 rules: {
-                    // isValid: {required: true, message: '请选择', trigger: 'blur'},
-                    // invalidType: {required: true, message: '请选择', trigger: 'blur'},
-                    // sales: {required: true, message: '请选择', trigger: 'blur'},
+                    ifok: {required: true, message: '请选择', trigger: 'blur'},
+                    invalidType: {required: true, message: '请选择', trigger: 'blur'},
+                    sales: {required: true, message: '请选择', trigger: 'blur'},
                 }
             },
         }
@@ -318,6 +334,7 @@ export default {
          */
         refreshPage() {
             let {pagesInfo, paramMap, $utils} = this;
+
             return this.$api.customer.search({
                 "pageindex": pagesInfo.pageIndex,
                 "pagesize": pagesInfo.pageSize,
@@ -327,7 +344,7 @@ export default {
                 "ifok": paramMap.ifok,
                 "startTime": $utils.convertTime(paramMap.checkTime, 0),
                 "endTime": $utils.convertTime(paramMap.checkTime, 1),
-                "deptId": paramMap.deptId,
+                "deptId": $utils.underscore.last(paramMap.deptId) || '',
                 "startAuditTime": $utils.convertTime(paramMap.auditTime, 0),
                 "endAuditTime": $utils.convertTime(paramMap.auditTime, 1),
                 "intype": paramMap.intype.join(','),
@@ -341,6 +358,9 @@ export default {
                 })
                 this.tableData = list;
 
+                if (paramMap.ifok === '3') {//如果是待确认数据刷新，更新总数
+                    this.confirmedNum = total;
+                }
             }).catch(err => {
             })
         },
@@ -358,7 +378,7 @@ export default {
          */
         resetSearch() {
             this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show', 'tab']);//重置筛选数据
+            this.$utils.resetJson(this.paramMap, ['show', 'order', 'orderfield', 'ifok']);//重置筛选数据
             this.refreshPage();
         },
 
@@ -366,7 +386,28 @@ export default {
          *@desc table触发排序时
          */
         tableSortChange(val) {
-            console.log(val.order, val.prop);//descending ascending
+            let target;
+            switch (val.order) {
+                case "descending":
+                    target = {
+                        order: "desc",//排序
+                        orderfield: val.name,//排序对象
+                    }
+                    break;
+                case "ascending":
+                    target = {
+                        order: "asce",//排序
+                        orderfield: val.name,//排序对象
+                    }
+                    break;
+                default:
+                    target = {
+                        order: "",//排序
+                        orderfield: "",//排序对象
+                    }
+                    break;
+            }
+            Object.assign(this.paramMap, target);
             this.refreshPage();
         },
 
@@ -380,7 +421,11 @@ export default {
         /**
          *@desc 客户确定 - 打开弹窗
          */
-        customerConfirm() {
+        async customerConfirm(obj) {
+            Object.assign(this.dialog.form, obj);
+            this.dialog.options.salesList = await this.$api.common.deptsales({//拉取教育顾问数据
+                "deptids": obj.deptId
+            })
             this.dialog.show = true;
         },
 
@@ -397,8 +442,17 @@ export default {
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
-                    this.refreshPage();
-                    this.closeDialog();
+                    let form = this.dialog.form;
+                    this.$api.customer.LeadsCallCenterUpdate({
+                        intype: form.intype,// 呼入类型
+                        ifok: form.ifok,// 是否有效
+                        invalidType: form.invalidType,// 无效类型
+                        sales: form.sales,// 教育顾问
+                    }).then(res => {
+                        this.$message.success('确认成功');
+                        this.refreshPage();
+                        this.closeDialog();
+                    })
                 } else {
                     return false;
                 }
@@ -409,5 +463,23 @@ export default {
 </script>
 
 <style lang="scss">
-
+.disabled-input {
+    -webkit-appearance: none;
+    background-image: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    outline: 0;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+    padding-right: 30px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    background-color: #F5F7FA;
+    border: 1px solid #E4E7ED;
+    color: #C0C4CC;
+    cursor: not-allowed;
+}
 </style>
