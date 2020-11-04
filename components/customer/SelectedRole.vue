@@ -26,20 +26,41 @@
                    :append-to-body="true" custom-class="jr-dialog" width="500px">
             <!--弹窗内容-->
             <div class="dialog-body">
-                <el-input placeholder="请输入内容"
-                          size="mini" clearable class="mb-4"
-                          v-model="dialog.filterText"></el-input>
-                <el-tree
-                        class="filter-tree"
-                        :data="dialog.tree"
-                        :props="dialog.treeProps"
-                        :filter-node-method="filterTreeNode"
-                        node-key="id"
-                        default-expand-all
-                        expand-on-click-node
-                        show-checkbox
-                        ref="treeRef">
-                </el-tree>
+                <el-form class="jr-form" size="mini" label-width="90px" label-position="left">
+                    <el-row :gutter="15">
+                        <el-col :span="12">
+                            <el-form-item label="学习中心">
+                                <el-cascader
+                                        v-model="dialog.form.deptid"
+                                        :options="dic.hrcodedepts"
+                                        :props="$utils.leaningCenterProps"
+                                        :show-all-levels="false"
+                                        collapse-tags
+                                        placeholder="请选择"
+                                        filterable
+                                        clearable></el-cascader>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-input placeholder="请输入内容"
+                                      size="mini" clearable
+                                      v-model="dialog.form.filter"></el-input>
+                        </el-col>
+                    </el-row>
+                </el-form>
+                <div style="max-height: 300px;overflow-y: scroll;">
+                    <el-tree
+                            class="filter-tree"
+                            :data="dialog.tree"
+                            :props="dialog.treeProps"
+                            :filter-node-method="filterTreeNode"
+                            node-key="id"
+                            default-expand-all
+                            expand-on-click-node
+                            show-checkbox
+                            ref="treeRef">
+                    </el-tree>
+                </div>
             </div>
             <!--弹窗尾部-->
             <div slot="footer" class="dialog-footer">
@@ -56,11 +77,15 @@ export default {
         return {
             dialog: {
                 show: false,//是否显示弹窗
-                filterText: '',//筛选内容
+                form: {
+                    filter: '',//筛选内容
+                    deptid: '',//学习中心
+                },
                 tree: [],//树数据
                 treeProps: {//树结构
                     children: 'children',
-                    label: 'label'
+                    label: 'name',
+                    value: 'id',
                 }
             },
             showList: [],//用来展示的结果数据
@@ -68,14 +93,25 @@ export default {
     },
     watch: {
         //树状图筛选
-        'dialog.filterText': {
+        'dialog.form.filter': {
             handler(val) {
                 this.$refs['treeRef'].filter(val);
             },
         },
+        //树状图筛选2
+        'dialog.form.deptid': {
+            async handler(val) {
+                let deptids = this.$utils.underscore.last(val);
+                this.dialog.tree = await this.$api.common.deptsales({
+                    "deptids": deptids ? deptids + '' : ''
+                }) || []; //拉取树数据
+            },
+        },
+
+        //设置选中的数据;
         'model': {
             handler(val) {
-                this.setShowValue();//设置选中的数据;
+                this.setShowValue();
             },
         }
     },
@@ -91,8 +127,13 @@ export default {
             }
         },
     },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        },
+    },
     async mounted() {
-        this.dialog.tree = await this.$api.common.getRole() || []; //拉取树数据
+        this.dialog.tree = await this.$api.common.sales() || []; //拉取树数据
         this.setShowValue();
     },
     methods: {
