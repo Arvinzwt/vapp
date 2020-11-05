@@ -100,7 +100,7 @@ export default {
     watch: {
         'model': {
             handler(val) {
-                this.setTag();
+                this.setTag();//同步标签选中内容
             },
         }
     },
@@ -128,6 +128,9 @@ export default {
         this.setTag()
     },
     methods: {
+        /**
+         *@desc 同步标签选中内容
+         */
         setTag() {
             this.showList = [];
             this.dialog.tag.forEach(item => {

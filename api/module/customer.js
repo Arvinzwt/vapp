@@ -94,42 +94,42 @@ export default class Customer extends Request {
     }
 
     // 获取标签列表
-    async GetTags(data, options) {
+    async getTags(data, options) {
         return this.post('/gxh-leads/v1/Tag/GetTags', data, options)
     }
 
     // 新增标签
-    async NewTag(data, options) {
+    async newTag(data, options) {
         return this.post('/gxh-leads/v1/Tag/NewTag', data, options)
     }
 
     // 修改标签
-    async UpdateTagInfo(data, options) {
+    async updateTagInfo(data, options) {
         return this.post('/gxh-leads/v1/Tag/UpdateTagInfo', data, options)
     }
 
     // 删除已注册标签
-    async DeleteRegisteredTag(data, options) {
+    async deleteRegisteredTag(data, options) {
         return this.post('/gxh-leads/v1/Tag/DeleteRegisteredTag', data, options)
     }
 
     // 绑定标签
-    async BindingTag(data, options) {
+    async bindingTag(data, options) {
         return this.post('/gxh-leads/v1/Tag/BindingTag', data, options)
     }
 
     // 取消绑定
-    async UntyingTag(data, options) {
+    async untyingTag(data, options) {
         return this.post('/gxh-leads/v1/Tag/UntyingTag', data, options)
     }
 
     // 数据绑定标签变更
-    async TagChange(data, options) {
+    async tagChange(data, options) {
         return this.post('/gxh-leads/v1/Tag/TagChange', data, options)
     }
 
     // cc约访预约上门
-    async GetCallCCCenterList(data, options) {
+    async getCallCCCenterList(data, options) {
         return this.post('/gxh-leads/v1/Visit/GetCallCCCenterList', data, options)
     }
 
@@ -139,7 +139,7 @@ export default class Customer extends Request {
     }
 
     // 线索客户管理-上传报告
-    async UploadReport(data, options) {
+    async uploadReport(data, options) {
         return this.post('/gxh-leads/v1/Visit/UploadReport', data, options)
     }
 }

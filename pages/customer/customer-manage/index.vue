@@ -158,7 +158,6 @@ export default {
                 smallChannelId: '',//渠道小类
                 createdDate: [],//创建时间
                 deptid: [],//学习中心(deptid)
-
                 leads_status: [],//客户状态(code)
                 intension: [],//意向度
                 isvalid: [],//是否有效
@@ -172,7 +171,7 @@ export default {
                 area_code: "",//海域
                 appoint_time: 0,//预约沟通时间
                 trace_num: [],//跟进次数
-                last_owner: "",//最近一次负责人
+                last_owner: [],//最近一次负责人
                 if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
                 tags: [],//标签
 
@@ -227,7 +226,7 @@ export default {
                 last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
                 next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
                 next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
-                no_trace_time: $utils.convertTime(paramMap.next_trace_time, 1),
+                no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
                 gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
                 gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
                 giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
@@ -237,7 +236,7 @@ export default {
                 appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
                 appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
                 trace_num: paramMap.trace_num.join(','),
-                last_owner: paramMap.last_owner,
+                last_owner: paramMap.last_owner.join(','),
                 if_trace: paramMap.if_trace.join(','),
                 tags: paramMap.tags.join(',')
             }).then(({request = {}, total = 0, list = []} = {}) => {
