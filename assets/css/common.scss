@@ -192,6 +192,27 @@ body, html {
     }
 }
 
+/*全局组件-禁止输入框*/
+.jr-disabled-input {
+    -webkit-appearance: none;
+    background-image: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-block;
+    outline: 0;
+    padding: 0 15px;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    width: 100%;
+    padding-right: 30px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    background-color: #F5F7FA;
+    border: 1px solid #E4E7ED;
+    color: #C0C4CC;
+    cursor: not-allowed;
+}
+
 /*组件修改-el-link*/
 .el-link--inner {
     font-size: $jr-text-size-auxiliary;
@@ -206,3 +227,4 @@ body, html {
 .el-tabs__item {
     font-size: $jr-text-size-main-small;
 }
+

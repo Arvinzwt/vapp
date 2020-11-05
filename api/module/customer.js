@@ -9,7 +9,7 @@ export default class Customer extends Request {
     }
 
     // leads查询
-    async LeadsSearch(data, options) {
+    async leadsSearch(data, options) {
         return this.post('/gxh-leads/v1/Leads/search', data, options)
     }
 
@@ -59,17 +59,17 @@ export default class Customer extends Request {
     }
 
     // 新增-更新追踪信息
-    async AddUpdateTrack(data, options) {
+    async addUpdateTrack(data, options) {
         return this.post('/gxh-leads/v1/LeadsTracks/AddUpdateTrack', data, options)
     }
 
     // 根据学员id获取学院所有的追踪记录
-    async GetTrackListByStudentid(data, options) {
+    async getTrackListByStudentid(data, options) {
         return this.post('/gxh-leads/v1/LeadsTracks/GetTrackListByStudentid', data, options)
     }
 
     // 根据leadsid获取负责人变更记录
-    async GetOwnerRecordByStudentid(data, options) {
+    async getOwnerRecordByStudentid(data, options) {
         return this.post('/gxh-leads/v1/LeadsTracks/GetOwnerRecordByStudentid', data, options)
     }
 

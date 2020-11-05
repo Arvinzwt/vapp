@@ -1,11 +1,193 @@
 <template>
     <!--客户详情-->
-    <el-main class="jr-customer-customer-detail"></el-main>
+    <el-main class="jr-customer-customer-detail">
+        <!--基本信息-->
+        <div class="bg-gray pl-4 pr-4 border-radius-base">
+            <h3 class="jr-title">基本信息</h3>
+            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+                <el-row :gutter="15">
+                    <el-col :span="6">
+                        <el-form-item label="姓名">
+                            <div class="jr-disabled-input">{{ paramMap.name }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="手机">
+                            <div class="jr-disabled-input">
+                                <span>{{ paramMap.phone }}</span>
+                                <span></span>
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="性别">
+                            <div class="jr-disabled-input">{{ paramMap.sex }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="家庭住址">
+                            <div class="jr-disabled-input">{{ paramMap.address }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="6">
+                        <el-form-item label="所在学校">
+                            <div class="jr-disabled-input">{{ paramMap.school }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="所在年级">
+                            <div class="jr-disabled-input">{{ paramMap.grade }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="意向科目">
+                            <div class="jr-disabled-input">{{ paramMap.subjects }}</div>
+                        </el-form-item>
+                    </el-col>
+
+
+                    <el-col :span="6">
+                        <el-form-item label="渠道大类">
+                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="6">
+                        <el-form-item label="渠道小类">
+                            <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="创建时间">
+                            <div class="jr-disabled-input">{{ paramMap.created_at }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="联系电话1">
+                            <div class="jr-disabled-input">{{ paramMap.phone1 }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="联系电话2">
+                            <div class="jr-disabled-input">{{ paramMap.phone2 }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <el-col :span="6">
+                        <el-form-item label="备注">
+                            <div class="jr-disabled-input">{{ paramMap.remark }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
+
+        <!--历史记录-->
+        <el-tabs class="details-tabs" type="card">
+            <!--跟进记录-->
+            <el-tab-pane label="跟进记录">
+                <div class="details-timeline">
+                    <!--跟进记录列表-->
+                    <div class="details-timeline_item" v-for="item in followRecord" :key="item.id">
+                        <div class="details-timeline_title text-color-main">
+                            <div class="details-timeline_date text-ellipsis">跟进记录 {{ item.datetime }}</div>
+                            <div class="details-timeline_user text-ellipsis">操作人：{{ item.zneirong }}</div>
+                            <div class="details-timeline_status text-ellipsis">跟进状态：{{ item.zzType }}</div>
+                        </div>
+                        <div class="details-timeline_content_wrap">
+                            <div class="details-timeline_content">
+                                <div class="details-timeline_remark">
+                                    {{ item.hot }}
+                                </div>
+                                <div class="details-timeline_audio">
+                                    <audio v-if="item.gw" :src="item.gw" controls>您的浏览器不支持 audio 标签</audio>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--暂无跟进记录空-->
+                    <div v-if="followRecord.length===0" class="p-4 bg-gray">
+                        <span>暂无跟进记录空</span>
+                    </div>
+                </div>
+            </el-tab-pane>
+
+            <!--负责人变更记录-->
+            <el-tab-pane label="负责人变更记录">
+                <div class="details-timeline">
+                    <!--留资记录列表-->
+                    <div class="details-timeline_item" v-for="item in chargeRecord" :key="item.id">
+                        <div class="details-timeline_title text-color-main">
+                            <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
+                        </div>
+                        <div class="details-timeline_content_wrap">
+                            <div class="details-timeline_content">
+                                <div class="details-timeline_remark">
+                                    负责人变更记录：{{ item.creatorId }}=>{{ item.updatorId }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--负责人变更记录空-->
+                    <div v-if="chargeRecord.length===0" class="p-4 bg-gray">
+                        <span>暂无负责人变更记录</span>
+                    </div>
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+    </el-main>
 </template>
 
 <script>
 export default {
-
+    data() {
+        return {
+            paramMap: {
+                "leadsid": "",
+                "name": "",
+                "phone": "",
+                "phone1": "",
+                "phone2": "",
+                "intype": "",
+                "address": "",
+                "sex": "",
+                "grade": "",
+                "subjects": "",
+                "bigclass": "",
+                "smallclass": "",
+                "created_at": "",
+                "gain_time": "",
+                "owner": "",
+                "remark": "",
+                "birthday": "",
+                "school": "",
+            },
+            followRecord: [],//跟进记录
+            chargeRecord: [],//负责人变更记录
+        }
+    },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
+    mounted() {
+        this.refreshPage()
+    },
+    methods: {
+        refreshPage() {
+            let customer = this.$api.customer;
+            Promise.all([customer.detail(), customer.getTrackListByStudentid(), customer.getOwnerRecordByStudentid()]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
+                Object.assign(this.paramMap, paramMap)
+                this.followRecord = followRecord;
+                this.chargeRecord = chargeRecord;
+            })
+        }
+    }
 }
 </script>
 

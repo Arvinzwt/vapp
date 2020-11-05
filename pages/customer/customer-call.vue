@@ -141,24 +141,24 @@
                     <el-row :gutter="15">
                         <el-col :span="12">
                             <el-form-item label="姓名">
-                                <div class="disabled-input">{{ dialog.form.studentName }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.studentName }}</div>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="电话">
-                                <div class="disabled-input">{{ dialog.form.tel }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.tel }}</div>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="15">
                         <el-col :span="12">
                             <el-form-item label="坐席">
-                                <div class="disabled-input">{{ dialog.form.callName }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.callName }}</div>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="所属校区">
-                                <div class="disabled-input">{{ dialog.form.name }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.name }}</div>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -177,7 +177,7 @@
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="登记时间">
-                                <div class="disabled-input">{{ dialog.form.callTime }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.callTime }}</div>
                             </el-form-item>
                         </el-col>
 
@@ -185,12 +185,12 @@
                     <el-row :gutter="15">
                         <el-col :span="12">
                             <el-form-item label="渠道大类">
-                                <div class="disabled-input">{{ dialog.form.bigClass }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.bigClass }}</div>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="渠道小类">
-                                <div class="disabled-input">{{ dialog.form.smallClass }}</div>
+                                <div class="jr-disabled-input">{{ dialog.form.smallClass }}</div>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -463,23 +463,5 @@ export default {
 </script>
 
 <style lang="scss">
-.disabled-input {
-    -webkit-appearance: none;
-    background-image: none;
-    border-radius: 4px;
-    box-sizing: border-box;
-    display: inline-block;
-    outline: 0;
-    padding: 0 15px;
-    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
-    width: 100%;
-    padding-right: 30px;
-    height: 28px;
-    line-height: 28px;
-    font-size: 12px;
-    background-color: #F5F7FA;
-    border: 1px solid #E4E7ED;
-    color: #C0C4CC;
-    cursor: not-allowed;
-}
+
 </style>

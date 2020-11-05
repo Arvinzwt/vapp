@@ -369,7 +369,7 @@ export default {
         refreshPage() {
             let {pagesInfo, paramMap, $utils} = this;
 
-            return this.$api.customer.LeadsSearch({
+            return this.$api.customer.leadsSearch({
                 area_code: '3',
                 pageindex: pagesInfo.pageIndex,
                 pagesize: pagesInfo.pageSize,
