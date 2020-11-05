@@ -171,7 +171,7 @@ export default {
                 area_code: "",//海域
                 appoint_time: 0,//预约沟通时间
                 trace_num: [],//跟进次数
-                last_owner: [],//最近一次负责人
+                last_owner: '',//最近一次负责人
                 if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
                 tags: [],//标签
 
@@ -236,7 +236,7 @@ export default {
                 appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
                 appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
                 trace_num: paramMap.trace_num.join(','),
-                last_owner: paramMap.last_owner.join(','),
+                last_owner: paramMap.last_owner,
                 if_trace: paramMap.if_trace.join(','),
                 tags: paramMap.tags.join(',')
             }).then(({request = {}, total = 0, list = []} = {}) => {
