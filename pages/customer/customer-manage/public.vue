@@ -282,6 +282,7 @@
             <el-table-column label="放弃原因" prop="trace_reason"/>
             <el-table-column min-width="135px" label="放弃时间" prop="giveup_time" sortable="custom"/>
             <el-table-column label="有效性" prop="isvalid"/>
+            <el-table-column label="沟通次数" prop="trace_num"/>
             <el-table-column label="学习中心" prop="deptname"/>
             <el-table-column min-width="95px" label="创建人" prop="creator"/>
             <el-table-column fixed="right" label="操作" align="center">
