@@ -470,11 +470,12 @@ export default {
         /**
          *@desc 呼叫用户
          */
-        callCustomer() {
+        callCustomer(obj) {
             this.$api.customer.callCustomer().then(res => {
                 this.$message.success('呼叫用户')
                 this.$router.push({
-                    path: '/customer/customer-follow'
+                    path: '/customer/customer-follow',
+                    query: obj.leadsid
                 })
             })
         },
@@ -482,9 +483,10 @@ export default {
         /**
          *@desc 用户详情
          */
-        customerDetail() {
+        customerDetail(obj) {
             this.$router.push({
-                path: '/customer/customer-detail'
+                path: '/customer/customer-detail',
+                query: obj.leadsid
             })
         },
 
