@@ -90,7 +90,12 @@
             </selected-role-template>
         </div>
         <!--列表-->
-        <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <div class="jr-table-placeholder" v-if="tableData.length===0">
+            <img src="/images/placeholder.png" alt="placeholder">
+            <span>暂无数据</span>
+        </div>
+
+        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
             <el-table-column fixed width="50" type="selection" align="center"/>
             <el-table-column fixed label="姓名" prop="name"/>
             <el-table-column fixed min-width="100px" label="手机号" prop="phone">

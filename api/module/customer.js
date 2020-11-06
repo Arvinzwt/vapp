@@ -49,7 +49,7 @@ export default class Customer extends Request {
     }
 
     // leads呼叫中心详情
-    async LeadsCallCenterDetail(data, options) {
+    async leadsCallCenterDetail(data, options) {
         return this.get('/gxh-leads/v1/LeadsCallCenter/detail', data, options)
     }
 
@@ -68,9 +68,19 @@ export default class Customer extends Request {
         return this.post('/gxh-leads/v1/LeadsTracks/GetTrackListByStudentid', data, options)
     }
 
+    // 根据学员id获取此学员的所有追踪记录分页
+    async getTrackListByPagerStudentid(data, options) {
+        return this.post('/gxh-leads/v1/LeadsTracks/GetTrackListByPagerStudentid', data, options)
+    }
+
     // 根据leadsid获取负责人变更记录
     async getOwnerRecordByStudentid(data, options) {
         return this.post('/gxh-leads/v1/LeadsTracks/GetOwnerRecordByStudentid', data, options)
+    }
+
+    // 根据leadsid获取录负责人变更记录分页
+    async getOwnerRecordPagerByStudentid(data, options) {
+        return this.post('/gxh-leads/v1/LeadsTracks/GetOwnerRecordPagerByStudentid', data, options)
     }
 
     // 推荐客户查询

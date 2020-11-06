@@ -116,6 +116,21 @@ body, html {
     }
 }
 
+.jr-table-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img {
+        width: 350px;
+    }
+
+    span{
+        margin-top: 20px;
+    }
+}
+
 /*全局组件-badge*/
 .jr-badge {
     border-radius: 10px;
