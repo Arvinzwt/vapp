@@ -46,7 +46,7 @@
                 <!--科目-->
                 <el-col :span="6">
                     <el-form-item label="科目" v-show="paramMap.show">
-                        <el-select v-model="paramMap.subject" multiple collapse-tags placeholder="请选择" clearable>
+                        <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                             <el-option
                                     v-for="item in dic.subject"
                                     :key="item.dicCode"
@@ -83,40 +83,42 @@
                 </el-col>
             </el-row>
         </el-form>
-        <!--操作栏-->
-        <div class="action-bar">
-            <selected-role-template v-model="paramMap.role" @change="submitAssignCustomer" ref="selectedRole">
-                <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
-            </selected-role-template>
+        <!--列表-有数据-->
+        <div v-if="tableData.length>0">
+            <!--操作栏-->
+            <div class="action-bar">
+                <selected-role-template v-model="paramMap.role" @change="submitAssignCustomer" ref="selectedRole">
+                    <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
+                </selected-role-template>
+            </div>
+            <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable"
+                      :data="tableData" size="mini" border>
+                <el-table-column fixed width="50px" type="selection" align="center"/>
+                <el-table-column fixed width="95px" label="姓名" prop="name"/>
+                <el-table-column fixed width="95px" label="手机号" prop="phone">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="callCustomer(scope.row)">
+                            <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
+                            <span class="el-icon-phone-outline"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="年级" prop="grade" sortable="custom"/>
+                <el-table-column label="科目" prop="subjects" sortable="custom"/>
+                <el-table-column label="学习中心" prop="deptname"/>
+                <el-table-column label="渠道大类" prop="bigclass" sortable="custom"/>
+                <el-table-column label="渠道小类" prop="smallclass" sortable="custom"/>
+                <el-table-column label="备注" prop="remark"/>
+                <el-table-column label="创建时间" prop="created_at"/>
+                <el-table-column label="创建人" prop="creator"/>
+                <el-table-column width="90px" fixed="right" label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
+                    </template>
+                </el-table-column>
+            </el-table>
         </div>
-        <!--列表-->
-        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable"
-                  :data="tableData" size="mini" border>
-            <el-table-column fixed width="50px" type="selection" align="center"/>
-            <el-table-column fixed width="95px" label="姓名" prop="name"/>
-            <el-table-column fixed width="95px" label="手机号" prop="phone">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer(scope.row)">
-                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
-                        <span class="el-icon-phone-outline"></span>
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="年级" prop="grade" sortable="custom"/>
-            <el-table-column label="科目" prop="subjects" sortable="custom"/>
-            <el-table-column label="学习中心" prop="deptname"/>
-            <el-table-column label="渠道大类" prop="bigclass" sortable="custom"/>
-            <el-table-column label="渠道小类" prop="smallclass" sortable="custom"/>
-            <el-table-column label="备注" prop="remark"/>
-            <el-table-column label="创建时间" prop="created_at"/>
-            <el-table-column label="创建人" prop="creator"/>
-            <el-table-column width="90px" fixed="right" label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
-                </template>
-            </el-table-column>
-        </el-table>
-
+        <!--列表-没数据-->
         <div class="jr-table-placeholder" v-if="tableData.length===0">
             <img src="/images/placeholder.png" alt="placeholder">
             <span>暂无数据</span>

@@ -236,12 +236,12 @@
         </div>
 
         <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed width="50" type="selection" align="center"/>
-            <el-table-column fixed min-width="95px" label="姓名" prop="name"></el-table-column>
-            <el-table-column fixed min-width="110px" label="手机" prop="phone">
+            <el-table-column fixed width="50px" type="selection" align="center"/>
+            <el-table-column fixed width="95px" label="姓名" prop="name"/>
+            <el-table-column fixed width="95px" label="手机号" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer(scope.row)">
-                        <span class="">{{ scope.row.phone }}</span>
+                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
                         <span class="el-icon-phone-outline"></span>
                     </el-link>
                 </template>
@@ -407,7 +407,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: true,//是否显示筛选
+                show: false,//是否显示筛选
                 order: "",//排序方式
                 orderfield: "",//排序字段
                 keywords: "",//手机号或姓名

@@ -71,12 +71,12 @@
         </div>
 
         <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed type="selection" align="center" width="50"/>
-            <el-table-column fixed label="姓名" prop="name"></el-table-column>
-            <el-table-column fixed label="手机" min-width="110px" prop="phone">
+            <el-table-column fixed width="50px" type="selection" align="center"/>
+            <el-table-column fixed width="95px" label="姓名" prop="name"/>
+            <el-table-column fixed width="95px" label="手机号" prop="phone">
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer">
-                        <span class="">{{ scope.row.phone }}</span>
+                    <el-link type="primary" @click="callCustomer(scope.row)">
+                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
                         <span class="el-icon-phone-outline"></span>
                     </el-link>
                 </template>

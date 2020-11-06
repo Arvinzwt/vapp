@@ -105,8 +105,8 @@
         </div>
 
         <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed width="50" type="selection" align="center"/>
-            <el-table-column fixed label="姓名" prop="name"/>
+            <el-table-column fixed width="50px" type="selection" align="center"/>
+            <el-table-column fixed width="95px" label="姓名" prop="name"/>
             <el-table-column label="学习中心" prop="deptname"/>
             <el-table-column label="年级" prop="grade" sortable="custom"/>
             <el-table-column label="就读学校" prop="school"/>

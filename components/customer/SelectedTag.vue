@@ -7,7 +7,7 @@
                 <div v-if="showList.length>0" class="selected-wrp-main">
                     <div class="selected-wrp-tag">
                         <el-tag @close="deleteHandle" closable size="mini" type="info">
-                            {{ showList[0].name }}
+                            {{ showList[0].tag_Name }}
                         </el-tag>
                         <el-tag type="info" v-show="showList.length>1" size="mini">
                             +{{ showList.length - 1 }}
@@ -28,12 +28,13 @@
             <!--弹窗内容-->
             <div class="dialog-body">
                 <el-collapse v-model="activeNames" @change="">
-                    <el-collapse-item v-for="item in dialog.tag" :key="item.id" :title="item.name" :name="item.id">
+                    <el-collapse-item v-for="item in tags" :key="item.tag_Id" :title="item.tag_Name"
+                                      :name="item.tag_Id">
                         <el-tag size="small" class="mr-3 mb-2 cursor-pointer"
-                                v-for="list in item.options"
-                                :key="list.id"
+                                v-for="list in item.tag_Items"
+                                :key="list.tag_Id"
                                 :type="isActive(list)"
-                                @click="tagTap(list)">{{ list.name }}
+                                @click="tagTap(list)">{{ list.tag_Name }}
                         </el-tag>
                     </el-collapse-item>
                 </el-collapse>
@@ -54,47 +55,10 @@ export default {
             activeNames: ['1'],
             dialog: {
                 show: false,//是否显示弹窗
-                value: ['1-1'],
-                tag: [
-                    {
-                        id: '0',
-                        name: '家庭收入',
-                        options: [
-                            {id: '0-0', name: '年收入10w-20w',},
-                            {id: '0-1', name: '年收入10w-20w',},
-                            {id: '0-2', name: '年收入50w-100w',},
-                            {id: '0-3', name: '100w+',},
-                        ]
-                    },
-                    {
-                        id: '1',
-                        name: '是否有二胎',
-                        options: [
-                            {id: '1-1', name: '有',},
-                            {id: '1-2', name: '无',},
-                        ]
-                    },
-                    {
-                        id: '2',
-                        name: '续费可能性',
-                        options: [
-                            {id: '2-1', name: '大',},
-                            {id: '2-2', name: '中',},
-                            {id: '2-3', name: '小',},
-                        ]
-                    },
-                    {
-                        id: '3',
-                        name: '预警',
-                        options: [
-                            {id: '3-1', name: '一级',},
-                            {id: '3-2', name: '二级',},
-                            {id: '3-3', name: '三级',},
-                        ]
-                    },
-                ],
+                value: [],
             },
             showList: [],//用来展示的结果数据
+            tags: [],//标签列表
         }
     },
     watch: {
@@ -107,7 +71,7 @@ export default {
     computed: {
         isActive() {
             return list => {
-                return this.dialog.value.includes(list.id) ? '' : 'info';
+                return this.dialog.value.includes(list.tag_Id) ? '' : 'info';
             }
         }
     },
@@ -124,7 +88,38 @@ export default {
         },
     },
     async mounted() {
-        this.activeNames = ['0', '1', '2', '3']
+        // this.$api.customer.getTags({
+        //     "clientNo": "",
+        //     "timeStamp": this.$utils.moment(),
+        //     "tag_parent_Id": 0
+        // }).then((res = []) => {
+        //
+        // })
+        let res = [{
+            "tag_Id": 1, "tag_Name": "家庭收入",
+            "tag_Items": [{"tag_Id": 11, "tag_Name": "年收入10W-20W", "tag_Items": null}, {
+                "tag_Id": 12, "tag_Name": "年收入50W-100W", "tag_Items": null
+            }, {"tag_Id": 13, "tag_Name": "100W+", "tag_Items": null}]
+        }, {
+            "tag_Id": 2, "tag_Name": "是否有二孩",
+            "tag_Items": [{"tag_Id": 21, "tag_Name": "有", "tag_Items": null}, {
+                "tag_Id": 22, "tag_Name": "没有", "tag_Items": null
+            }]
+        }, {
+            "tag_Id": 3, "tag_Name": "续费可能性",
+            "tag_Items": [{"tag_Id": 31, "tag_Name": "续费可能性大", "tag_Items": null}, {
+                "tag_Id": 32, "tag_Name": "续费可能性中", "tag_Items": null
+            }, {"tag_Id": 33, "tag_Name": "续费可能性小", "tag_Items": null}]
+        }, {
+            "tag_Id": 4, "tag_Name": "预警",
+            "tag_Items": [{"tag_Id": 41, "tag_Name": "一级预警", "tag_Items": null}, {
+                "tag_Id": 42, "tag_Name": "二级预警", "tag_Items": null
+            }, {"tag_Id": 43, "tag_Name": "三级预警", "tag_Items": null}]
+        }]
+        this.activeNames = res.map(item => {
+            return item.tag_Id;
+        })
+        this.tags = res;
         this.setTag()
     },
     methods: {
@@ -133,9 +128,9 @@ export default {
          */
         setTag() {
             this.showList = [];
-            this.dialog.tag.forEach(item => {
-                item.options.forEach(list => {
-                    if (this.model.includes(list.id)) {
+            this.tags.forEach(item => {
+                item.tag_Items.forEach(list => {
+                    if (this.model.includes(list.tag_Id)) {
                         this.showList.push(list)
                     }
                 })
@@ -154,10 +149,10 @@ export default {
          *@desc 选择标签时
          */
         tagTap(obj) {
-            if (this.dialog.value.includes(obj.id)) {
-                this.dialog.value.splice(this.dialog.value.indexOf(obj.id), 1)
+            if (this.dialog.value.includes(obj.tag_Id)) {
+                this.dialog.value.splice(this.dialog.value.indexOf(obj.tag_Id), 1)
             } else {
-                this.dialog.value.push(obj.id)
+                this.dialog.value.push(obj.tag_Id)
             }
             console.log(this.model)
         },

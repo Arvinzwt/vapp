@@ -283,7 +283,7 @@ export default {
         return {
             // 筛选参数信息
             paramMap: {
-                show: true,//是否显示筛选
+                show: false,//是否显示筛选
                 tags: [],//标签
                 name: '',//
                 phone: '',
