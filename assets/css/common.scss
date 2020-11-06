@@ -123,7 +123,7 @@ body, html {
     flex-direction: column;
 
     img {
-        width: 350px;
+        width: 300px;
     }
 
     span{
@@ -145,6 +145,7 @@ body, html {
     border: 1px solid transparent;
     background-color: $jr-danger-color;
     margin-left: 5px;
+    font-style: italic;
 }
 
 /*全局组件-表单*/

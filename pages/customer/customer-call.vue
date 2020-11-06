@@ -396,13 +396,13 @@ export default {
                 case "descending":
                     target = {
                         order: "desc",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 case "ascending":
                     target = {
                         order: "asce",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 default:

@@ -90,18 +90,14 @@
             </selected-role-template>
         </div>
         <!--列表-->
-        <div class="jr-table-placeholder" v-if="tableData.length===0">
-            <img src="/images/placeholder.png" alt="placeholder">
-            <span>暂无数据</span>
-        </div>
-
-        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed width="50" type="selection" align="center"/>
-            <el-table-column fixed label="姓名" prop="name"/>
-            <el-table-column fixed min-width="100px" label="手机号" prop="phone">
+        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable"
+                  :data="tableData" size="mini" border>
+            <el-table-column fixed width="50px" type="selection" align="center"/>
+            <el-table-column fixed width="95px" label="姓名" prop="name"/>
+            <el-table-column fixed width="95px" label="手机号" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer(scope.row)">
-                        <span class="">{{ scope.row.phone }}</span>
+                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
                         <span class="el-icon-phone-outline"></span>
                     </el-link>
                 </template>
@@ -114,12 +110,17 @@
             <el-table-column label="备注" prop="remark"/>
             <el-table-column label="创建时间" prop="created_at"/>
             <el-table-column label="创建人" prop="creator"/>
-            <el-table-column fixed="right" label="操作" align="center">
+            <el-table-column width="90px" fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
                 </template>
             </el-table-column>
         </el-table>
+
+        <div class="jr-table-placeholder" v-if="tableData.length===0">
+            <img src="/images/placeholder.png" alt="placeholder">
+            <span>暂无数据</span>
+        </div>
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
     </div>
@@ -163,22 +164,23 @@ export default {
                 smallChannelId: '',//渠道小类
                 createdDate: [],//创建时间
                 deptid: [],//学习中心(deptid)
-                leads_status: [],//客户状态(code)
-                intension: [],//意向度
-                isvalid: [],//是否有效
-                last_trace_status: [],//最近跟进状态
-                last_trace_time: [],//最近跟进时间
-                next_trace_time: [],//下次跟进时间
-                no_trace_time: 0,//之后未跟进
-                gain_time: [],//获取时间
-                giveup_time: [],//放弃时间
-                deadsea_time: [],//进入死海时间
-                area_code: "",//海域
-                appoint_time: 0,//预约沟通时间
-                trace_num: [],//跟进次数
-                last_owner: '',//最近一次负责人
-                if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
-                tags: [],//标签
+
+                // leads_status: [],//客户状态(code)
+                // intension: [],//意向度
+                // isvalid: [],//是否有效
+                // last_trace_status: [],//最近跟进状态
+                // last_trace_time: [],//最近跟进时间
+                // next_trace_time: [],//下次跟进时间
+                // no_trace_time: 0,//之后未跟进
+                // gain_time: [],//获取时间
+                // giveup_time: [],//放弃时间
+                // deadsea_time: [],//进入死海时间
+                // area_code: "",//海域
+                // appoint_time: 0,//预约沟通时间
+                // trace_num: [],//跟进次数
+                // last_owner: '',//最近一次负责人
+                // if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
+                // tags: [],//标签
 
                 role: [],//选择的角色
             },
@@ -214,7 +216,7 @@ export default {
                 pageindex: pagesInfo.pageIndex,
                 pagesize: pagesInfo.pageSize,
                 order: paramMap.order,
-                orderfield: paramMap.order,
+                orderfield: paramMap.orderfield,
                 keywords: paramMap.keywords,
                 grade: paramMap.grade.join(','),
                 subjects: paramMap.subjects,
@@ -223,27 +225,27 @@ export default {
                 created_start: $utils.convertTime(paramMap.createdDate, 0),
                 created_end: $utils.convertTime(paramMap.createdDate, 1),
                 deptid: $utils.underscore.last(paramMap.deptid) || '',
-                leads_status: paramMap.leads_status.join(','),
-                intension: paramMap.intension.join(','),
-                isvalid: paramMap.isvalid.join(','),
-                last_trace_status: paramMap.last_trace_status.join(','),
-                last_trace_time_start: $utils.convertTime(paramMap.last_trace_time, 0),
-                last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
-                next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
-                next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
-                no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
-                gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
-                gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
-                giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
-                giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
-                deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
-                deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
-                appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
-                appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
-                trace_num: paramMap.trace_num.join(','),
-                last_owner: paramMap.last_owner,
-                if_trace: paramMap.if_trace.join(','),
-                tags: paramMap.tags.join(',')
+                // leads_status: paramMap.leads_status.join(','),
+                // intension: paramMap.intension.join(','),
+                // isvalid: paramMap.isvalid.join(','),
+                // last_trace_status: paramMap.last_trace_status.join(','),
+                // last_trace_time_start: $utils.convertTime(paramMap.last_trace_time, 0),
+                // last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
+                // next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
+                // next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
+                // no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
+                // gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
+                // gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
+                // giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
+                // giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
+                // deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
+                // deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
+                // appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
+                // appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
+                // trace_num: paramMap.trace_num.join(','),
+                // last_owner: paramMap.last_owner,
+                // if_trace: paramMap.if_trace.join(','),
+                // tags: paramMap.tags.join(',')
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
                     pageIndex: request.pageindex || 1,
@@ -343,13 +345,13 @@ export default {
                 case "descending":
                     target = {
                         order: "desc",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 case "ascending":
                     target = {
                         order: "asce",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 default:

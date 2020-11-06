@@ -104,6 +104,15 @@ export default ({store, $axios, app}, inject) => {
         },
 
         /**
+         *@desc 手机号脱敏
+         *@param phone 手机号
+         *@return string
+         */
+        desensitizationPhone(phone) {
+            return phone ? phone.replace(/(\d{3})\d*\d{4}/, '$1****$2') : ''
+        },
+
+        /**
          *@desc 时间区间选择器的快捷筛选
          */
         pickerOptions: {

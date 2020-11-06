@@ -495,7 +495,7 @@ export default {
                 pageindex: pagesInfo.pageIndex,
                 pagesize: pagesInfo.pageSize,
                 order: paramMap.order,
-                orderfield: paramMap.order,
+                orderfield: paramMap.orderfield,
                 keywords: paramMap.keywords,
                 grade: paramMap.grade.join(','),
                 subjects: paramMap.subjects,
@@ -623,13 +623,13 @@ export default {
                 case "descending":
                     target = {
                         order: "desc",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 case "ascending":
                     target = {
                         order: "asce",//排序
-                        orderfield: val.name,//排序对象
+                        orderfield: val.prop,//排序对象
                     }
                     break;
                 default:
