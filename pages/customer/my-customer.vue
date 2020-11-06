@@ -235,10 +235,10 @@
             <span>暂无数据</span>
         </div>
 
-        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
+        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini" border>
             <el-table-column fixed width="50px" type="selection" align="center"/>
             <el-table-column fixed width="95px" label="姓名" prop="name"/>
-            <el-table-column fixed width="95px" label="手机号" prop="phone">
+            <el-table-column fixed width="105px" label="手机号" prop="phone">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="callCustomer(scope.row)">
                         <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
@@ -270,7 +270,7 @@
             <el-table-column label="沟通次数" prop="trace_num"/>
             <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
             <el-table-column min-width="95px" label="创建人" prop="creator"/>
-            <el-table-column fixed="right" label="操作" align="center">
+            <el-table-column width="190px" fixed="right" label="操作" align="center">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
                     <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>

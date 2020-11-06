@@ -109,7 +109,7 @@ export default ({store, $axios, app}, inject) => {
          *@return string
          */
         desensitizationPhone(phone) {
-            return phone ? phone.replace(/(\d{3})\d*\d{4}/, '$1****$2') : ''
+            return phone ? phone.replace(/(\d{3})\d*(\d{4})/, '$1****$2') : '';
         },
 
         /**

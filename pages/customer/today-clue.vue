@@ -217,7 +217,7 @@
             <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
                 <el-table-column fixed width="50px" type="selection" align="center"/>
                 <el-table-column fixed width="95px" label="姓名" prop="name"/>
-                <el-table-column fixed width="95px" label="手机号" prop="phone">
+                <el-table-column fixed width="105px" label="手机号" prop="phone">
                     <template slot-scope="scope">
                         <el-link type="primary" @click="callCustomer(scope.row)">
                             <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
