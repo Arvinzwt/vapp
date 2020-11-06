@@ -1,13 +1,326 @@
 <template>
     <!--推荐客户登记-->
-    <el-main class="jr-page jr-customer-customer-register"></el-main>
+    <el-main class="jr-page jr-customer-customer-register">
+        <!--提示语-->
+        <div class="jr-page-header">
+            <el-alert
+                    title="注意：本系统用户在本系统中登记上传的信息须来源正规合法，用户个人须对在本系统登记上传的信息负责，因用户上传信息违反法律法规或侵犯第三人的合法权益的，全部法律责任和赔偿责任均应由用户自行承担，与本系统所有者无关。"
+                    type="warning"
+                    show-icon>
+            </el-alert>
+        </div>
+        <!--内容-->
+        <div class="jr-page-body">
+            <!--标题-->
+            <h3 class="jr-title">推荐客户登记</h3>
+            <!--筛选项-->
+            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+                <el-row :gutter="15">
+                    <!--学生姓名-->
+                    <el-col :span="6">
+                        <el-form-item label="学生姓名">
+                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--性别-->
+                    <el-col :span="6">
+                        <el-form-item label="性别">
+                            <el-select v-model="paramMap.sex" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.sex"
+                                        :key="item.value"
+                                        :label="item.name"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--年级-->
+                    <el-col :span="6">
+                        <el-form-item label="年级">
+                            <el-select v-model="paramMap.grade" placeholder="请选择"
+                                       clearable>
+                                <el-option
+                                        v-for="item in dic.grades"
+                                        :key="item.dicCode"
+                                        :label="item.name"
+                                        :value="item.dicCode">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐给校区-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐给校区">
+                            <el-cascader
+                                    v-model="paramMap.deptId"
+                                    :options="dic.hrcodedepts"
+                                    :props="$utils.leaningCenterProps"
+                                    :show-all-levels="false"
+                                    collapse-tags
+                                    placeholder="请选择"
+                                    filterable
+                                    clearable></el-cascader>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <!--就读学校-->
+                    <el-col :span="6">
+                        <el-form-item label="就读学校">
+                            <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--线索来源-->
+                    <el-col :span="6">
+                        <el-form-item label="线索来源">
+                            <el-select v-model="paramMap.last_trace_status" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.sourceClues1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--手机号-->
+                    <el-col :span="6">
+                        <el-form-item label="手机号">
+                            <el-input :maxlength='50' v-model="paramMap.phone" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--教育顾问-->
+                    <el-col :span="6">
+                        <el-form-item label="联系人身份" prop="sales">
+                            <el-select v-model="paramMap.sales" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.sales"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
+                    <!--联系人姓名-->
+                    <el-col :span="6">
+                        <el-form-item label="联系人姓名">
+                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐类型-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐类型">
+                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.sourceClues1"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <!--学员编号-->
+                    <el-col :span="6">
+                        <el-form-item label="学员编号">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <!--推荐码-->
+                    <el-col :span="6">
+                        <el-form-item label="推荐码">
+                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-form-item label="备注">
+                    <el-input
+                            type="textarea"
+                            :maxlength='50'
+                            :rows="2"
+                            placeholder="请输入内容"
+                            v-model="paramMap.str" clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="图片证明">
+                    <el-upload
+                            action=""
+                            ref="uploadBom"
+                            :multiple="true"
+                            list-type="picture-card"
+                            :show-file-list="true"
+                            :auto-upload="false"
+                            :file-list="paramMap.arr"
+                            :limit="3"
+                            :on-preview="onFilePreview"
+                            :on-remove="onFileRemove"
+                            :on-exceed="onFileExceed"
+                            :http-request="onFileUpload"
+                            :before-upload="onBeforeFile">
+                        <span class="el-icon-plus"></span>
+                        <div slot="tip" class="el-upload__tip">最多三张，每张最大5M</div>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
+        </div>
+        <!--提交按钮-->
+        <div class="jr-page-footer text-right">
+            <el-button size="mini" type="primary">提交</el-button>
+            <el-button size="mini" type="">重置</el-button>
+        </div>
+        <!--弹窗-->
+        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
+                   :title="dialog.name" custom-class="jr-dialog" width="500px">
+            <!--弹窗内容-->
+            <div class="dialog-body">
+                <img :src="dialog.img" alt="" class="w-100">
+            </div>
+            <!--弹窗尾部-->
+            <div slot="footer" class="dialog-footer">
+                <el-button size="mini" @click="dialog.show=false" type="primary">确 定</el-button>
+            </div>
+        </el-dialog>
+    </el-main>
 </template>
 
 <script>
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 
-export default {}
+export default {
+    components: {
+        PaginationTemplate,
+        SelectedRoleTemplate,
+    },
+    data() {
+        return {
+            // 筛选参数信息
+            paramMap: {
+                name:''
+            },
+
+            // 列表数据
+            tableData: [
+                {name: '英语', phone: '123123123'}
+            ],
+
+            // 分页参数
+            pagesInfo: {
+                pageIndex: 1,
+                pageSize: 20,
+                count: 0,//总条数
+            },
+
+            dialog: {
+                show: false,
+                img: '',
+                name:'',
+            },
+        }
+    },
+    mounted() {
+        this.refreshPage();
+    },
+    computed: {
+        dic() {
+            return this.$store.state.dic;
+        }
+    },
+    methods: {
+        /**
+         *@desc 刷新页面
+         */
+        refreshPage() {
+            console.log(this.paramMap, this.pagesInfo, 'paramMap')
+        },
+
+        /**
+         *@desc 分页触发时
+         */
+        onPagesChange() {
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 提交筛选时
+         */
+        submitSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 重置筛选时
+         */
+        resetSearch() {
+            this.pagesInfo.pageIndex = 1;//重置分页数据
+            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
+            this.refreshPage();
+        },
+
+        /**
+         *@desc 上传-文件超出个数
+         */
+        onFileExceed(files, fileList) {
+            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        },
+
+        /**
+         *@desc 上传-上传函数
+         */
+        onFileUpload(fileObj) {
+            let paramMap = this.paramMap;
+            let linkage = this.$refs.linkage;
+            let formData = new FormData();
+
+            formData.append('leads_file', fileObj.file);
+            formData.append('org_code', linkage.org_code);
+            formData.append('school_code', linkage.school_code);
+            formData.append('charge_person', paramMap.charge_person.value);
+
+            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
+                this.refreshPage().then(() => {
+                    this.$message.success(res.data.msg);
+                });
+            })
+        },
+
+        /**
+         *@desc 上传-上传前验证
+         */
+        onBeforeFile(file) {
+            if (!file.name.includes('xls')) {
+                this.$message.error('只能上传excel!');
+                return false;
+            } else {
+                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
+                return true;
+            }
+        },
+
+        /**
+         *@desc 上传-点击上传文件
+         */
+        onFilePreview(file) {
+            this.dialog.img = file.url;
+            this.dialog.name = file.name;
+            this.dialog.show = true;
+        },
+
+        /**
+         *@desc 上传-移除上传文件
+         */
+        onFileRemove(file, fileList) {
+            console.log('文件列表移除文件时的钩子\t')
+        },
+    }
+
+
+}
 </script>
 
 <style lang="scss">
