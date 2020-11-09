@@ -85,32 +85,36 @@
                 </el-row>
             </el-form>
         </div>
-
         <!--历史记录-->
         <el-tabs class="details-tabs" type="card">
             <!--跟进记录-->
             <el-tab-pane label="跟进记录">
                 <div class="details-timeline">
                     <!--跟进记录列表-->
-                    <div class="details-timeline_item" v-for="item in historyParam.followRecord" :key="item.id">
+                    <div class="details-timeline_item" v-for="item in followRecord.list" :key="item.id">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">跟进记录 {{ item.datetime }}</div>
-                            <div class="details-timeline_user text-ellipsis">操作人：{{ item.zneirong }}</div>
-                            <div class="details-timeline_status text-ellipsis">跟进状态：{{ item.zzType }}</div>
+                            <div class="details-timeline_user text-ellipsis">操作人：{{ item.gw }}</div>
+                            <div class="details-timeline_status text-ellipsis">跟进状态：{{ item.ztype }}</div>
                         </div>
                         <div class="details-timeline_content_wrap">
                             <div class="details-timeline_content">
                                 <div class="details-timeline_remark">
-                                    {{ item.hot }}
+                                    {{ item.zneirong }}
                                 </div>
                                 <div class="details-timeline_audio">
-                                    <audio v-if="item.gw" :src="item.gw" controls>您的浏览器不支持 audio 标签</audio>
+                                    <audio v-if="item.metadata" :src="item.metadata" controls>您的浏览器不支持 audio 标签</audio>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--加载更多-->
+                    <div v-if="followRecord.list.length<followRecord.total"
+                         class="p-5 bg-gray text-center">
+                        <el-link type="primary" @click="addMore(1)">加载更多>></el-link>
+                    </div>
                     <!--暂无跟进记录空-->
-                    <div v-if="historyParam.followRecord.length===0" class="p-4 bg-gray">
+                    <div v-if="followRecord.list.length===0" class="p-4 bg-gray text-center">
                         <span>暂无跟进记录空</span>
                     </div>
                 </div>
@@ -120,7 +124,7 @@
             <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
                     <!--留资记录列表-->
-                    <div class="details-timeline_item" v-for="item in historyParam.chargeRecord" :key="item.id">
+                    <div class="details-timeline_item" v-for="item in chargeRecord.list" :key="item.id">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
                         </div>
@@ -132,8 +136,13 @@
                             </div>
                         </div>
                     </div>
+                    <!--加载更多-->
+                    <div v-if="chargeRecord.list.length<chargeRecord.total"
+                         class="p-5 bg-gray text-center">
+                        <el-link type="primary" @click="addMore(2)">加载更多>></el-link>
+                    </div>
                     <!--负责人变更记录空-->
-                    <div v-if="historyParam.chargeRecord.length===0" class="p-4 bg-gray">
+                    <div v-if="chargeRecord.list.length===0" class="p-4 bg-gray text-center">
                         <span>暂无负责人变更记录</span>
                     </div>
                 </div>
@@ -168,9 +177,24 @@ export default {
                 "school": "",//学校
             },
 
-            historyParam: {
-                followRecord: [],//跟进记录
-                chargeRecord: [],//负责人变更记录
+            // 跟进记录
+            followRecord: {
+                list: [],
+                pages: {
+                    pageindex: 1,
+                    pagesize: 20
+                },
+                total: 0,
+            },
+
+            // 负责人记录
+            chargeRecord: {
+                list: [],
+                pages: {
+                    pageindex: 1,
+                    pagesize: 20
+                },
+                total: 0,
             }
 
         }
@@ -182,7 +206,7 @@ export default {
     },
     mounted() {
         this.paramMap.leadsid = this.$route.query.id
-        this.refreshPage()
+        this.refreshPage();
     },
     methods: {
         /**
@@ -190,17 +214,43 @@ export default {
          */
         async refreshPage() {
             let leadsid = this.paramMap.leadsid
-
+            //基础信息
             let paramMap = await this.$api.customer.detail({leadsid}) || {};
-            let followRecord = await this.$api.customer.getTrackListByStudentid({studentId: leadsid}) || [];
-            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({leadsid}) || [];
+            //跟进记录
+            let followRecord = await this.$api.customer.getTrackListByPagerStudentid({
+                studentId: leadsid,
+                ...this.followRecord.pages
+            }) || [];
+            //负责人记录
+            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({
+                leadsid,
+                ...this.chargeRecord.pages
+            }) || [];
 
-            Object.assign(this.paramMap, paramMap)
-            Object.assign(this.historyParam, {
-                followRecord,
-                chargeRecord,
-            })
+            Object.assign(this.paramMap, paramMap);
+
+            followRecord.list = followRecord.list || [];
+            chargeRecord.list = chargeRecord.list || [];
+
+            this.followRecord.list = this.followRecord.list.concat(followRecord.list);
+            this.chargeRecord.list = this.chargeRecord.list.concat(chargeRecord.list);
+
+            this.followRecord.total = followRecord.total || 0;
+            this.chargeRecord.total = chargeRecord.total || 0;
         },
+
+        /**
+         *@desc 加载更多
+         */
+        addMore(type) {
+            if (type === 1) {
+                this.followRecord.pages.pageindex++
+            }
+            if (type === 2) {
+                this.chargeRecord.pages.pageindex++
+            }
+            this.refreshPage();
+        }
     }
 }
 </script>
