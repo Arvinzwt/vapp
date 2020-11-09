@@ -218,14 +218,12 @@ export default {
 
                     setTimeout(async () => {
                         let fileList = await this.$api.common.uploadfile(imgTarget) || [];
-
                         this.$api.customer.uploadReport({
                             "studentid": this.dialog.form.leadsid,
                             "type": this.dialog.form.type,
-                            "filepath": fileList[0].fileContent
-                            //         .map(item => {
-                            //     return item.fileContent
-                            // }),
+                            "filepath": (fileList.map(item => {
+                                return item.fileContent
+                            })).join(';'),
                         }).then(res => {
                             this.$emit('submit', this.dialog.form)
                             this.closeDialog();
