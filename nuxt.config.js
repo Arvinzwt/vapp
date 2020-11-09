@@ -80,6 +80,6 @@ module.exports = {
     */
     server: {
         port: 3005, // default: 3000
-        host: 'localhost', // default: '0.0.0.0',
+        host: '0.0.0.0', // default: '0.0.0.0',
     },
 }

@@ -22,7 +22,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="手机">
-                            <span class="mr-2">13122122212</span>
+                            <span class="mr-2">{{ paramMap.phone }}</span>
                             <span class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
                             <span class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
@@ -49,12 +49,12 @@
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="学校">
-                            <el-input :maxlength='50' v-model="paramMap.schoool" placeholder="请输入内容" clearable/>
+                            <el-input :maxlength='50' v-model="paramMap.school" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="年级">
-                            <el-select v-model="paramMap.grade" multiple collapse-tags placeholder="请选择"
+                            <el-select v-model="paramMap.grade" placeholder="请选择"
                                        clearable>
                                 <el-option
                                         v-for="item in dic.grades"
@@ -67,7 +67,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="意向学科">
-                            <el-select v-model="paramMap.subject" multiple collapse-tags placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.subject"
                                         :key="item.dicCode"
@@ -90,16 +90,24 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
+                        <el-form-item label="联系电话1">
+                            <el-input :maxlength='50' v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="联系电话2">
+                            <el-input :maxlength='50' v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
                         <el-form-item label="备注">
                             <div class="jr-disabled-input">{{ paramMap.remark }}</div>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label-width="0" class="text-right">
-                            <el-button type="primary">提交</el-button>
-                        </el-form-item>
-                    </el-col>
                 </el-row>
+                <el-form-item label-width="0" class="text-right">
+                    <el-button type="primary" @click="submitBasicMsg">提交</el-button>
+                </el-form-item>
             </el-form>
         </div>
         <!--系统信息-->
@@ -111,37 +119,35 @@
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="创建时间">
-                            <div class="jr-disabled-input">{{ paramMap.time1 }}</div>
+                            <div class="jr-disabled-input">{{ paramMap.created_at }}</div>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="获取时间">
-                            <div class="jr-disabled-input">{{ paramMap.time2 }}</div>
+                            <div class="jr-disabled-input">{{ paramMap.gain_time }}</div>
 
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="cc负责人">
-                            <div class="jr-disabled-input">{{ paramMap.usr }}</div>
+                            <div class="jr-disabled-input">{{ paramMap.owner }}</div>
                         </el-form-item>
                     </el-col>
                 </el-row>
-
             </el-form>
-
         </div>
         <!--添加跟进记录-->
         <div class="bg-wrap">
             <div class="jr-title">
                 <h3>添加跟进记录</h3>
             </div>
-            <el-form class="jr-form" size="mini" :model="paramMap" :rules="paramRule" label-width="90px"
+            <el-form class="jr-form" size="mini" :model="followParam" :rules="rules" label-width="90px"
                      label-position="left">
                 <el-row :gutter="15">
                     <!--跟进状态-->
                     <el-col :span="6">
                         <el-form-item label="跟进状态">
-                            <el-select v-model="paramMap.last_trace_status" multiple collapse-tags placeholder="请选择"
+                            <el-select v-model="followParam.last_trace_status" placeholder="请选择"
                                        clearable>
                                 <el-option
                                         v-for="item in dic.trackResult"
@@ -155,7 +161,7 @@
                     <!--意向度-->
                     <el-col :span="6">
                         <el-form-item label="意向度">
-                            <el-select v-model="paramMap.intention" multiple collapse-tags placeholder="请选择" clearable>
+                            <el-select v-model="followParam.intention" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.intention"
                                         :key="item.value"
@@ -169,13 +175,8 @@
                         <el-form-item label="下次跟进时间">
                             <el-date-picker
                                     v-model="paramMap.last_trace_time"
-                                    type="daterange"
-                                    range-separator="-"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期"
-                                    :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickerOptions"
-                                    clearable>
+                                    type="date"
+                                    placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -183,13 +184,8 @@
                         <el-form-item label="诺到访时间">
                             <el-date-picker
                                     v-model="paramMap.ntime"
-                                    type="daterange"
-                                    range-separator="-"
-                                    start-placeholder="开始日期"
-                                    end-placeholder="结束日期"
-                                    :default-time="['00:00:00', '23:59:59']"
-                                    :picker-options="$utils.pickerOptions"
-                                    clearable>
+                                    type="date"
+                                    placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -198,64 +194,63 @@
                     <el-input
                             type="textarea"
                             :rows="2"
-                            placeholder="请输入内容"
-                            v-model="paramMap.reason1"/>
+                            placeholder="请写跟进记录"
+                            v-model="followParam.reason1"/>
                 </el-form-item>
                 <el-form-item label-width="0" class="text-right">
-                   <el-button size="mini" type="primary">提交</el-button>
+                    <el-button size="mini" @click="submitFollowParam" type="primary">提交</el-button>
                 </el-form-item>
             </el-form>
         </div>
-
         <!--历史记录-->
         <el-tabs class="details-tabs" type="card">
             <!--跟进记录-->
             <el-tab-pane label="跟进记录">
                 <div class="details-timeline">
                     <!--跟进记录列表-->
-                    <div class="details-timeline_item">
+                    <div class="details-timeline_item" v-for="item in historyParam.followRecord" :key="item.id">
                         <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">跟进记录 2020-3-5 19:03:09</div>
-                            <div class="details-timeline_user text-ellipsis">操作人：张三张三张三张三张三张三张三张三张三</div>
-                            <div class="details-timeline_status text-ellipsis">跟进状态：已分发校区</div>
+                            <div class="details-timeline_date text-ellipsis">跟进记录 {{ item.datetime }}</div>
+                            <div class="details-timeline_user text-ellipsis">操作人：{{ item.zneirong }}</div>
+                            <div class="details-timeline_status text-ellipsis">跟进状态：{{ item.zzType }}</div>
                         </div>
                         <div class="details-timeline_content_wrap">
                             <div class="details-timeline_content">
                                 <div class="details-timeline_remark">
-                                    留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录留资记录
+                                    {{ item.hot }}
                                 </div>
                                 <div class="details-timeline_audio">
-                                    <audio src="" controls>您的浏览器不支持 audio 标签</audio>
+                                    <audio v-if="item.gw" :src="item.gw" controls>您的浏览器不支持 audio 标签</audio>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--暂无跟进记录空-->
-                    <div class="p-4 bg-gray">
+                    <div v-if="historyParam.followRecord.length===0" class="p-4 bg-gray">
                         <span>暂无跟进记录空</span>
                     </div>
                 </div>
             </el-tab-pane>
 
-            <!--留资记录-->
-            <el-tab-pane label="留资记录">
+            <!--负责人变更记录-->
+            <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
                     <!--留资记录列表-->
-                    <div class="details-timeline_item">
+                    <div class="details-timeline_item" v-for="item in historyParam.chargeRecord" :key="item.id">
                         <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">留资记录 2020-3-5 19:03:09</div>
+                            <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
                         </div>
                         <div class="details-timeline_content_wrap">
                             <div class="details-timeline_content">
                                 <div class="details-timeline_remark">
-                                    留资渠道：张三张三张三张三张三张三张三张三张三
+                                    负责人变更记录：{{ item.creatorId }}=>{{ item.updatorId }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--留资记录空-->
-                    <div class="p-4 bg-gray">
-                        <span>暂无留资记录</span>
+                    <!--负责人变更记录空-->
+                    <div v-if="historyParam.chargeRecord.length===0" class="p-4 bg-gray">
+                        <span>暂无负责人变更记录</span>
                     </div>
                 </div>
             </el-tab-pane>
@@ -281,42 +276,89 @@ export default {
     },
     data() {
         return {
-            // 筛选参数信息
+            //基础信息
             paramMap: {
-                show: false,//是否显示筛选
-                tags: [],//标签
-                name: '',//
-                phone: '',
-                sex: '',
-                address: '',
-                schoool: '',
-                grade: '',
-                subject: [],
-                phone1: '',
-                phone2: '',
-                bigclass: '',
-                smallclass: '',
-                remark: '',
-                time1: '',
-                time2: '',
-                usr: '',
-
-
-                last_trace_status: '',
-                intention: '',
-                last_trace_time: '',
-                ntime: '',
-
-                reason1: '',
+                "leadsid": "",//id
+                "name": "",//姓名
+                "phone": "",//手机号
+                "phone1": "",//联系电话1
+                "phone2": "",//联系电话2
+                "intype": "",//线索来源
+                "address": "",//家庭住址
+                "sex": "",//性别
+                "grade": "",//年级
+                "subjects": "",//学科
+                "bigclass": "",//大类
+                "smallclass": "",//小类
+                "created_at": "",//创建时间
+                "gain_time": "",//获取时间
+                "owner": "",//负责人
+                "remark": "",//备注
+                "birthday": "",//生日
+                "tags": [],//标签
+                "school": "",//学校
             },
 
-            paramRule: {
+            //添加根基记录
+            followParam: {
+                last_trace_status: [],//跟进状态
+                intention: '',//意向度
+                last_trace_time: '',//下次跟进时间
+                ntime: '',//诺到访时间
+                reason1: '',//请写跟进记录
+            },
+
+            //历史记录
+            historyParam: {
+                followRecord: [],//跟进记录
+                chargeRecord: [],//负责人变更记录
+            },
+
+            //必填判定
+            rules: {
                 last_trace_status: {required: true, message: '请选择', trigger: 'blur'},
                 intention: {required: true, message: '请选择', trigger: 'blur'},
             }
         }
     },
+    mounted() {
+        this.paramMap.leadsid = this.$route.query.id
+        this.refreshPage()
+    },
     methods: {
+        /**
+         *@desc 拉取页面信息
+         */
+        refreshPage() {
+            let customer = this.$api.customer;
+            let paramMap = this.paramMap;
+            Promise.all([customer.detail({//拉取基础信息和系统信息
+                leadsid: paramMap.leadsid
+            }), customer.getTrackListByStudentid({//跟进记录
+                studentId: paramMap.leadsid
+            }), customer.getOwnerRecordByStudentid({//负责人变更记录
+                leadsId: paramMap.leadsid
+            })]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
+                Object.assign(this.paramMap, {
+                    tags: paramMap.tags.split(',')
+                })
+                Object.assign(this.historyParam, {
+                    followRecord,
+                    chargeRecord,
+                })
+            })
+        },
+
+        /**
+         *@desc 打开选择标签弹窗
+         */
+        openAddTagDialog() {
+            this.$refs['tagRef'].openDialog();
+        },
+
+        /**
+         *@desc 提交绑定标签
+         */
         submitSelectedTag() {
             this.$api.customer.bindingTag({
                 // "clientNo": "string",
@@ -334,8 +376,19 @@ export default {
                 this.refreshPage();
             })
         },
-        openAddTagDialog() {
-            this.$refs['tagRef'].openDialog();
+
+        /**
+         *@desc 提交基础信息修改
+         */
+        submitBasicMsg() {
+            console.log(this.paramMap)
+        },
+
+        /**
+         *@desc 新增跟进记录
+         */
+        submitFollowParam() {
+            console.log(this.followParam)
         }
     }
 }

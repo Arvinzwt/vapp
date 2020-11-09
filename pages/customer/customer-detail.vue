@@ -147,24 +147,25 @@ export default {
     data() {
         return {
             paramMap: {
-                "leadsid": "",
-                "name": "",
-                "phone": "",
-                "phone1": "",
-                "phone2": "",
-                "intype": "",
-                "address": "",
-                "sex": "",
-                "grade": "",
-                "subjects": "",
-                "bigclass": "",
-                "smallclass": "",
-                "created_at": "",
-                "gain_time": "",
-                "owner": "",
-                "remark": "",
-                "birthday": "",
-                "school": "",
+                "leadsid": "",//id
+                "name": "",//姓名
+                "phone": "",//手机号
+                "phone1": "",//联系电话1
+                "phone2": "",//联系电话2
+                "intype": "",//线索来源
+                "address": "",//家庭住址
+                "sex": "",//性别
+                "grade": "",//年级
+                "subjects": "",//学科
+                "bigclass": "",//大类
+                "smallclass": "",//小类
+                "created_at": "",//创建时间
+                "gain_time": "",//获取时间
+                "owner": "",//负责人
+                "remark": "",//备注
+                "birthday": "",//生日
+                "tags": "",//标签
+                "school": "",//学校
             },
             followRecord: [],//跟进记录
             chargeRecord: [],//负责人变更记录
@@ -176,12 +177,23 @@ export default {
         }
     },
     mounted() {
+        this.paramMap.leadsid = this.$route.query.id
         this.refreshPage()
     },
     methods: {
+        /**
+         *@desc 拉取页面信息
+         */
         refreshPage() {
             let customer = this.$api.customer;
-            Promise.all([customer.detail(), customer.getTrackListByStudentid(), customer.getOwnerRecordByStudentid()]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
+            let paramMap = this.paramMap;
+            Promise.all([customer.detail({
+                leadsid: paramMap.leadsid
+            }), customer.getTrackListByStudentid({
+                studentId: paramMap.leadsid
+            }), customer.getOwnerRecordByStudentid({
+                leadsId: paramMap.leadsid
+            })]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
                 Object.assign(this.paramMap, paramMap)
                 this.followRecord = followRecord;
                 this.chargeRecord = chargeRecord;
