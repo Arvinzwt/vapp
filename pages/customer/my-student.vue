@@ -577,7 +577,7 @@ export default {
         customerFollow(obj) {
             this.$router.push({
                 path: '/customer/customer-follow',
-                query: obj.leadsid
+                query: {id:obj.leadsid}
             })
         },
 
@@ -589,7 +589,7 @@ export default {
                 this.$message.success('呼叫用户')
                 this.$router.push({
                     path: '/customer/customer-follow',
-                    query: obj.leadsid
+                    query: {id:obj.leadsid}
                 })
             })
         },
@@ -600,7 +600,7 @@ export default {
         customerDetail(obj) {
             this.$router.push({
                 path: '/customer/customer-detail',
-                query: obj.leadsid
+                query: {id:obj.leadsid}
             })
         },
 
