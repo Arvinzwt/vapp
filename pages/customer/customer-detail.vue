@@ -92,7 +92,7 @@
             <el-tab-pane label="跟进记录">
                 <div class="details-timeline">
                     <!--跟进记录列表-->
-                    <div class="details-timeline_item" v-for="item in followRecord" :key="item.id">
+                    <div class="details-timeline_item" v-for="item in historyParam.followRecord" :key="item.id">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">跟进记录 {{ item.datetime }}</div>
                             <div class="details-timeline_user text-ellipsis">操作人：{{ item.zneirong }}</div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <!--暂无跟进记录空-->
-                    <div v-if="followRecord.length===0" class="p-4 bg-gray">
+                    <div v-if="historyParam.followRecord.length===0" class="p-4 bg-gray">
                         <span>暂无跟进记录空</span>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
             <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
                     <!--留资记录列表-->
-                    <div class="details-timeline_item" v-for="item in chargeRecord" :key="item.id">
+                    <div class="details-timeline_item" v-for="item in historyParam.chargeRecord" :key="item.id">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
                         </div>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <!--负责人变更记录空-->
-                    <div v-if="chargeRecord.length===0" class="p-4 bg-gray">
+                    <div v-if="historyParam.chargeRecord.length===0" class="p-4 bg-gray">
                         <span>暂无负责人变更记录</span>
                     </div>
                 </div>
@@ -167,8 +167,12 @@ export default {
                 "tags": "",//标签
                 "school": "",//学校
             },
-            followRecord: [],//跟进记录
-            chargeRecord: [],//负责人变更记录
+
+            historyParam: {
+                followRecord: [],//跟进记录
+                chargeRecord: [],//负责人变更记录
+            }
+
         }
     },
     computed: {
@@ -184,21 +188,19 @@ export default {
         /**
          *@desc 拉取页面信息
          */
-        refreshPage() {
-            let customer = this.$api.customer;
-            let paramMap = this.paramMap;
-            Promise.all([customer.detail({
-                leadsid: paramMap.leadsid
-            }), customer.getTrackListByStudentid({
-                studentId: paramMap.leadsid
-            }), customer.getOwnerRecordByStudentid({
-                leadsId: paramMap.leadsid
-            })]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
-                Object.assign(this.paramMap, paramMap)
-                this.followRecord = followRecord;
-                this.chargeRecord = chargeRecord;
+        async refreshPage() {
+            let leadsid = this.paramMap.leadsid
+
+            let paramMap = await this.$api.customer.detail({leadsid}) || {};
+            let followRecord = await this.$api.customer.getTrackListByStudentid({studentId: leadsid}) || [];
+            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({leadsid}) || [];
+
+            Object.assign(this.paramMap, paramMap)
+            Object.assign(this.historyParam, {
+                followRecord,
+                chargeRecord,
             })
-        }
+        },
     }
 }
 </script>

@@ -329,23 +329,17 @@ export default {
         /**
          *@desc 拉取页面信息
          */
-        refreshPage() {
-            let customer = this.$api.customer;
-            let paramMap = this.paramMap;
-            Promise.all([customer.detail({//拉取基础信息和系统信息
-                leadsid: paramMap.leadsid
-            }), customer.getTrackListByStudentid({//跟进记录
-                studentId: paramMap.leadsid
-            }), customer.getOwnerRecordByStudentid({//负责人变更记录
-                leadsId: paramMap.leadsid
-            })]).then(([paramMap = {}, followRecord = [], chargeRecord = []]) => {
-                Object.assign(this.paramMap, {
-                    tags: paramMap.tags.split(',')
-                })
-                Object.assign(this.historyParam, {
-                    followRecord,
-                    chargeRecord,
-                })
+        async refreshPage() {
+            let leadsid = this.paramMap.leadsid
+
+            let paramMap = await this.$api.customer.detail({leadsid}) || {};
+            let followRecord = await this.$api.customer.getTrackListByStudentid({studentId: leadsid}) || [];
+            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({leadsid}) || [];
+
+            Object.assign(this.paramMap, paramMap)
+            Object.assign(this.historyParam, {
+                followRecord,
+                chargeRecord,
             })
         },
 
