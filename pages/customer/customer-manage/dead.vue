@@ -265,12 +265,12 @@
                 </el-table-column>
                 <el-table-column label="意向度" prop="intension"/>
                 <el-table-column label="标签" prop="tags"/>
-                <el-table-column label="年级" prop="grade" sortable="custom"/>
-                <el-table-column label="科目" prop="subjects" sortable="custom"/>
+                <el-table-column label="年级" prop="grade" :sortable="false"/>
+                <el-table-column label="科目" prop="subjects" :sortable="false"/>
                 <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
                 <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
-                <el-table-column min-width="95px" label="渠道大类" prop="bigclass" sortable="custom"/>
-                <el-table-column min-width="95px" label="渠道小类" prop="smallclass" sortable="custom"/>
+                <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
+                <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
                 <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
                 <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
                 <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
@@ -284,7 +284,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="删除原因" prop="trace_reason"/>
-                <el-table-column min-width="135px" label="删除时间" prop="giveup_time" sortable="custom"/>
+                <el-table-column min-width="135px" label="删除时间" prop="giveup_time" :sortable="false"/>
                 <el-table-column label="有效性" prop="isvalid"/>
                 <el-table-column label="沟通次数" prop="trace_num"/>
                 <el-table-column label="学习中心" prop="deptname"/>
@@ -324,8 +324,8 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                order: "",//排序方式
-                orderfield: "",//排序字段
+                // order: "",//排序方式
+                // orderfield: "",//排序字段
 
                 keywords: "",//手机号或姓名
                 grade: [],//年级
@@ -488,7 +488,7 @@ export default {
                 this.$message.success('呼叫用户')
                 this.$router.push({
                     path: '/customer/customer-follow',
-                    query: {id:obj.leadsid}
+                    query: {id: obj.leadsid}
                 })
             })
         },
@@ -499,7 +499,7 @@ export default {
         customerDetail(obj) {
             this.$router.push({
                 path: '/customer/customer-detail',
-                query: {id:obj.leadsid}
+                query: {id: obj.leadsid}
             })
         },
 

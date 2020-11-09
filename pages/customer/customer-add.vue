@@ -146,8 +146,8 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                order: "",//排序方式
-                orderfield: "",//排序字段
+                 // order: "",//排序方式
+                // orderfield: "",//排序字段
                 keywords: "",//手机号或姓名
                 grade: [],//年级
                 subjects: "",//学科

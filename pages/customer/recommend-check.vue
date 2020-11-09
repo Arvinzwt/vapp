@@ -108,7 +108,7 @@
             <el-table-column fixed width="50px" type="selection" align="center"/>
             <el-table-column fixed width="95px" label="姓名" prop="name"/>
             <el-table-column label="学习中心" prop="deptname"/>
-            <el-table-column label="年级" prop="grade" sortable="custom"/>
+            <el-table-column label="年级" prop="grade" :sortable="false"/>
             <el-table-column label="就读学校" prop="school"/>
             <el-table-column label="联系人身份" prop=""/>
             <el-table-column label="联系人姓名" prop=""/>
@@ -337,8 +337,8 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                order: "",//排序方式
-                orderfield: "",//排序字段
+                 // order: "",//排序方式
+                // orderfield: "",//排序字段
                 keywords: "",//手机号或姓名
                 grade: [],//年级
                 subjects: "",//学科

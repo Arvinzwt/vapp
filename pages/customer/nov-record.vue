@@ -86,7 +86,7 @@
             <el-table-column label="跟进状态" prop="name"></el-table-column>
             <el-table-column label="渠道来源" prop="name"></el-table-column>
             <el-table-column label="负责人" prop="name"></el-table-column>
-            <el-table-column min-width="135px" label="诺到访时间" prop="name" sortable="custom"/>
+            <el-table-column min-width="135px" label="诺到访时间" prop="name" :sortable="false"/>
             <el-table-column label="是否到访" prop="name">
                 <template slot-scope="scope">
                     <div @click="switchHandle(scope.row)" class="el-switch" :class="scope.row.switch?'is-checked':''">
@@ -94,7 +94,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column min-width="135px" label="实到访时间" prop="name" sortable="custom"/>
+            <el-table-column min-width="135px" label="实到访时间" prop="name" :sortable="false"/>
         </el-table>
         <!--分页信息-->
         <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>

@@ -104,11 +104,11 @@
                         </el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="年级" prop="grade" sortable="custom"/>
-                <el-table-column label="科目" prop="subjects" sortable="custom"/>
+                <el-table-column label="年级" prop="grade" :sortable="false"/>
+                <el-table-column label="科目" prop="subjects" :sortable="false"/>
                 <el-table-column label="学习中心" prop="deptname"/>
-                <el-table-column label="渠道大类" prop="bigclass" sortable="custom"/>
-                <el-table-column label="渠道小类" prop="smallclass" sortable="custom"/>
+                <el-table-column label="渠道大类" prop="bigclass" :sortable="false"/>
+                <el-table-column label="渠道小类" prop="smallclass" :sortable="false"/>
                 <el-table-column label="备注" prop="remark"/>
                 <el-table-column label="创建时间" prop="created_at"/>
                 <el-table-column label="创建人" prop="creator"/>
@@ -158,8 +158,8 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                order: "",//排序方式
-                orderfield: "",//排序字段
+                 // order: "",//排序方式
+                // orderfield: "",//排序字段
                 keywords: "",//手机号或姓名
                 grade: [],//年级
                 subjects: "",//学科
