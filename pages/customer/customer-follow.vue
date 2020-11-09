@@ -5,15 +5,9 @@
         <div class="bg-wrap">
             <div class="jr-title">
                 <h3>基本信息</h3>
-                <selected-tag-template v-model="paramMap.tags" ref="tagRef" @change="submitSelectedTag">
-                    <el-button type="primary" size="mini" @click="openAddTagDialog">添加标签</el-button>
-                </selected-tag-template>
             </div>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
-                <!--标签-->
-                <el-form-item label="标签">
-                    <el-tag size="small" type="primary">标签1</el-tag>
-                </el-form-item>
+
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="姓名">
@@ -22,9 +16,12 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="手机">
-                            <span class="mr-2">{{ paramMap.phone }}</span>
-                            <span class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
-                            <span class="el-icon-view text-color-brand cursor-pointer"></span>
+                            <span v-if="showPhone" class="mr-2">{{ paramMap.phone }}</span>
+                            <span v-else class="mr-2">{{ $utils.desensitizationPhone(paramMap.phone) }}</span>
+                            <span @click="callCustomer"
+                                  class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
+                            <span @click="showPhone=!showPhone"
+                                  class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -78,12 +75,17 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="渠道大类">
-                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
+                        <el-form-item label="标签">
+                            <selected-tag-template v-model="paramMap.tags" ref="tagRef" @change="submitSelectedTag"/>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
+                    <el-col :span="6">
+                        <el-form-item label="渠道大类">
+                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
+                        </el-form-item>
+                    </el-col>
                     <el-col :span="6">
                         <el-form-item label="渠道小类">
                             <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
@@ -99,12 +101,12 @@
                             <el-input :maxlength='50' v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="备注">
-                            <div class="jr-disabled-input">{{ paramMap.remark }}</div>
-                        </el-form-item>
-                    </el-col>
                 </el-row>
+                <el-col :span="6">
+                    <el-form-item label="备注">
+                        <div class="jr-disabled-input">{{ paramMap.remark }}</div>
+                    </el-form-item>
+                </el-col>
                 <el-form-item label-width="0" class="text-right">
                     <el-button type="primary" @click="submitBasicMsg">提交</el-button>
                 </el-form-item>
@@ -142,11 +144,11 @@
                 <h3>添加跟进记录</h3>
             </div>
             <el-form class="jr-form" size="mini" :model="followParam" :rules="rules" label-width="90px"
-                     label-position="left">
+                     label-position="left" ref="ruleForm">
                 <el-row :gutter="15">
                     <!--跟进状态-->
                     <el-col :span="6">
-                        <el-form-item label="跟进状态">
+                        <el-form-item label="跟进状态" prop="last_trace_status">
                             <el-select v-model="followParam.last_trace_status" placeholder="请选择"
                                        clearable>
                                 <el-option
@@ -160,7 +162,7 @@
                     </el-col>
                     <!--意向度-->
                     <el-col :span="6">
-                        <el-form-item label="意向度">
+                        <el-form-item label="意向度" prop="intention">
                             <el-select v-model="followParam.intention" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.intention"
@@ -286,6 +288,8 @@ export default {
     },
     data() {
         return {
+            showPhone: false,
+
             //基础信息
             paramMap: {
                 "leadsid": "",//id
@@ -311,7 +315,7 @@ export default {
 
             //添加根基记录
             followParam: {
-                last_trace_status: [],//跟进状态
+                last_trace_status: '',//跟进状态
                 intention: '',//意向度
                 last_trace_time: '',//下次跟进时间
                 ntime: '',//诺到访时间
@@ -340,8 +344,8 @@ export default {
 
             //必填判定
             rules: {
-                last_trace_status: {required: true, message: '请选择', trigger: 'blur'},
-                intention: {required: true, message: '请选择', trigger: 'blur'},
+                last_trace_status: {required: true, message: '请选择跟进状态', trigger: 'blur'},
+                intention: {required: true, message: '请选择意向度', trigger: 'blur'},
             }
         }
     },
@@ -363,7 +367,7 @@ export default {
                 ...this.followRecord.pages
             }) || [];
             //负责人记录
-            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({
+            let chargeRecord = await this.$api.customer.getOwnerRecordPagerByStudentid({
                 leadsid,
                 ...this.chargeRecord.pages
             }) || [];
@@ -399,25 +403,26 @@ export default {
         /**
          *@desc 打开选择标签弹窗
          */
-        openAddTagDialog() {
-            this.$refs['tagRef'].openDialog();
-        },
+        // openAddTagDialog() {
+        //     this.$refs['tagRef'].openDialog();
+        // },
 
         /**
          *@desc 提交绑定标签
          */
         submitSelectedTag() {
             this.$api.customer.bindingTag({
-                // "clientNo": "string",
-                // "timeStamp": "2020-11-06T03:04:08.190Z",
-                // "tag_Id": 0,
-                // "tag_sourceId": "string",
-                // "tag_sourceName": "string",
-                // "tag_sourceTypeId": "string",
-                // "tag_sourceTypeName": "string",
-                // "marker": "string",
-                // "mark_time": "2020-11-06T03:04:08.190Z",
-                // "remark": "string"
+                // "clientNo": "",//客户流水号
+                // "timeStamp": "",//操作时间 时间戳
+                // "tag_Id": 0,//标签ID
+                // "tag_sourceId": "",//标记对象主索引
+                // "tag_sourceName": "",//标记对象名称
+                // "tag_sourceTypeId": "",//标记对象类型ID 1-老师 2-学生 3-员工 4-合同
+                // "tag_sourceTypeName": "",//标记对象类型名称 老师 学生 员工 合同
+                // "marker": "string",//标记者
+                // "mark_time": "",//标记时间
+                // "mark_timeStamp": 0,//标记时间时间戳
+                // "remark": ""//备注
             }).then(res => {
                 this.$message.success('添加成功')
                 this.refreshPage();
@@ -435,8 +440,37 @@ export default {
          *@desc 新增跟进记录
          */
         submitFollowParam() {
-            console.log(this.followParam)
-        }
+            this.$refs['ruleForm'].validate((valid) => {
+                if (valid) {//如果验证通过
+                    this.$api.customer.addUpdateTrack({
+                        "id": this.$route.query.callId,
+                        "studentid": this.paramMap.leadsid,
+                        "ztype": this.followParam.last_trace_status,//跟踪结果
+                        "zneirong": this.followParam.last_trace_time,//追踪记录
+                        // "datetime": 0,//登记日期时间戳
+                        "nextdate": this.followParam.ntime,//下次追踪时间时间戳
+                        // "gw": "string",//追踪者
+                        // "zzType": 0,//追踪方式
+                        // "subtype": 0,//子类型：用于区分电话方式的子类型 1： 合力呼叫系统
+                        // "hrcode": "string"//hrcode
+                    }).then(res => {
+                        this.$message.success('成功');
+                        this.refreshPage();
+                    })
+                }else {
+                    return false
+                }
+            })
+        },
+
+        /**
+         *@desc 呼叫用户
+         */
+        callCustomer(obj) {
+            this.$api.customer.callCustomer().then(res => {
+                this.$message.success('呼叫用户')
+            })
+        },
     }
 }
 </script>

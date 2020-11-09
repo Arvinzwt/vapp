@@ -92,9 +92,9 @@ export default class Common extends Request {
         })
     }
 
-    // 上传接口
+    // 上传图片接口
     async upload(data, options) {
-        // return this.post('/mgr-api/v2/basic/sales', data, options)
-        return true
+        return this.post('/gxh-leads/v1/Base/uploadfile', data, options)
     }
+
 }

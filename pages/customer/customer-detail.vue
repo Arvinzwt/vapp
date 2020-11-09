@@ -222,7 +222,7 @@ export default {
                 ...this.followRecord.pages
             }) || [];
             //负责人记录
-            let chargeRecord = await this.$api.customer.getOwnerRecordByStudentid({
+            let chargeRecord = await this.$api.customer.getOwnerRecordPagerByStudentid({
                 leadsid,
                 ...this.chargeRecord.pages
             }) || [];
