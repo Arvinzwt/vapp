@@ -249,6 +249,7 @@
                     <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
                 </selected-role-template>
             </div>
+            <!--列表-->
             <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
                 <el-table-column fixed width="50px" type="selection" align="center"/>
                 <el-table-column fixed width="95px" label="姓名" prop="name"/>
@@ -291,14 +292,14 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!--分页信息-->
+            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         </div>
         <!--列表-没有数据-->
         <div class="jr-table-placeholder" v-if="tableData.length===0">
             <img src="/images/placeholder.png" alt="placeholder">
             <span>暂无数据</span>
         </div>
-        <!--分页信息-->
-        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
     </div>
 </template>
 
@@ -343,7 +344,7 @@ export default {
                 last_owner: '',//最近一次负责人
                 tags: [],//标签
 
-                area_code:'',//海域
+                area_code: '',//海域
                 // if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪） //
                 // deadsea_time: [],//进入死海时间
                 // appoint_time: [],//预约沟通时间

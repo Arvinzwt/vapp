@@ -214,74 +214,82 @@
                 </el-col>
             </el-row>
         </el-form>
-        <!--操作栏-->
-        <div class="action-bar">
-            <div class="action-bar_left">
-                <selected-role-template v-model="dialog.form.role" class="mr-2"
-                                        @change="submitAssignCustomer" ref="selectedRoleRef">
-                    <el-button @click="openAssignCustomer" type="warning" size="mini">分配</el-button>
-                </selected-role-template>
-                <el-button @click="quitCustomer" type="warning" size="mini">放弃</el-button>
-                <el-button @click="deleteCustomer" type="warning" size="mini">删除</el-button>
+
+        <!--列表-有数据-->
+        <div v-if="tableData.length>0">
+            <!--操作栏-->
+            <div class="action-bar">
+                <div class="action-bar_left">
+                    <selected-role-template v-model="dialog.form.role" class="mr-2"
+                                            @change="submitAssignCustomer" ref="selectedRoleRef">
+                        <el-button @click="openAssignCustomer" type="warning" size="mini">分配</el-button>
+                    </selected-role-template>
+                    <el-button @click="quitCustomer" type="warning" size="mini">放弃</el-button>
+                    <el-button @click="deleteCustomer" type="warning" size="mini">删除</el-button>
+                </div>
+                <div>
+                    <el-button @click="addCustomer" type="" size="mini">新增</el-button>
+                    <el-button @click="importCustomer" type="" size="mini">导入</el-button>
+                </div>
             </div>
-            <div>
-                <el-button @click="addCustomer" type="" size="mini">新增</el-button>
-                <el-button @click="importCustomer" type="" size="mini">导入</el-button>
-            </div>
+            <!--列表-->
+            <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable"
+                      :data="tableData" size="mini">
+                <el-table-column fixed width="50px" type="selection" align="center"/>
+                <el-table-column fixed width="95px" label="姓名" prop="name"/>
+                <el-table-column fixed width="105px" label="手机号" prop="phone">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="callCustomer(scope.row)">
+                            <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
+                            <span class="el-icon-phone-outline"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="意向度" prop="intension"/>
+                <el-table-column label="标签" prop="tags"/>
+                <el-table-column label="年级" prop="grade" sortable="custom"/>
+                <el-table-column label="科目" prop="subjects" sortable="custom"/>
+                <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
+                <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
+                <el-table-column min-width="95px" label="渠道大类" prop="bigclass" sortable="custom"/>
+                <el-table-column min-width="95px" label="渠道小类" prop="smallclass" sortable="custom"/>
+                <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
+                <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
+                <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
+                    <template slot-scope="scope">
+                        <el-popover placement="top-start" width="200" trigger="hover"
+                                    :content="scope.row.last_trace_record">
+                            <template slot="reference">
+                                <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
+                            </template>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="95px" label="下次跟进时间" prop="next_trace_time"/>
+                <el-table-column label="沟通次数" prop="trace_num"/>
+                <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
+                <el-table-column min-width="95px" label="有效性" prop="isvalid"/>
+                <el-table-column min-width="95px" label="创建时间" prop="created_at"/>
+                <el-table-column min-width="95px" label="创建人" prop="creator"/>
+                <el-table-column width="190px" fixed="right" label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
+                        <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
+                        <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
+                        <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
+                        <el-link type="primary" @click="customerUpload(scope.row)">上传报告</el-link>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!--分页信息-->
+            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         </div>
-        <!--列表-->
+        <!--列表-没有数据-->
         <div class="jr-table-placeholder" v-if="tableData.length===0">
             <img src="/images/placeholder.png" alt="placeholder">
             <span>暂无数据</span>
         </div>
 
-        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini" border>
-            <el-table-column fixed width="50px" type="selection" align="center"/>
-            <el-table-column fixed width="95px" label="姓名" prop="name"/>
-            <el-table-column fixed width="105px" label="手机号" prop="phone">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer(scope.row)">
-                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
-                        <span class="el-icon-phone-outline"></span>
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="意向度" prop="intension"/>
-            <el-table-column label="标签" prop="tags"/>
-            <el-table-column label="年级" prop="grade" sortable="custom"/>
-            <el-table-column label="科目" prop="subjects" sortable="custom"/>
-            <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
-            <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
-            <el-table-column min-width="95px" label="渠道大类" prop="bigclass" sortable="custom"/>
-            <el-table-column min-width="95px" label="渠道小类" prop="smallclass" sortable="custom"/>
-            <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
-            <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
-            <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
-                <template slot-scope="scope">
-                    <el-popover placement="top-start" width="200" trigger="hover"
-                                :content="scope.row.last_trace_record">
-                        <template slot="reference">
-                            <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
-                        </template>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="95px" label="下次跟进时间" prop="next_trace_time"/>
-            <el-table-column label="沟通次数" prop="trace_num"/>
-            <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
-            <el-table-column min-width="95px" label="创建人" prop="creator"/>
-            <el-table-column width="190px" fixed="right" label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
-                    <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
-                    <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
-                    <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
-                    <el-link type="primary" @click="customerUpload(scope.row)">上传报告</el-link>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--分页信息-->
-        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
                    :title="dialog.title" custom-class="jr-dialog" width="600px">
@@ -410,6 +418,7 @@ export default {
                 show: false,//是否显示筛选
                 order: "",//排序方式
                 orderfield: "",//排序字段
+
                 keywords: "",//手机号或姓名
                 grade: [],//年级
                 subjects: "",//学科
@@ -426,13 +435,14 @@ export default {
                 no_trace_time: 0,//之后未跟进
                 gain_time: [],//获取时间
                 giveup_time: [],//放弃时间
-                deadsea_time: [],//进入死海时间
-                area_code: "",//海域
-                appoint_time: 0,//预约沟通时间
                 trace_num: [],//跟进次数
                 last_owner: '',//最近一次负责人
-                if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
                 tags: [],//标签
+
+                // area_code: "",//海域
+                // if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪） //
+                // deadsea_time: [],//进入死海时间
+                // appoint_time: [],//预约沟通时间
 
                 role: [],//选择的角色
             },
@@ -510,21 +520,22 @@ export default {
                 last_trace_status: paramMap.last_trace_status.join(','),
                 last_trace_time_start: $utils.convertTime(paramMap.last_trace_time, 0),
                 last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
-                next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
-                next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
+                next_trace_time_start: $utils.convertTime(paramMap.next_trace_time, 0),
+                next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 1),
                 no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
                 gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
                 gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
                 giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
                 giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
-                deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
-                deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
-                appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
-                appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
                 trace_num: paramMap.trace_num.join(','),
                 last_owner: paramMap.last_owner,
-                if_trace: paramMap.if_trace.join(','),
-                tags: paramMap.tags.join(',')
+                tags: paramMap.tags.join(','),
+
+                // deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
+                // deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
+                // appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
+                // appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
+                // if_trace: paramMap.if_trace.join(','),
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
                     pageIndex: request.pageindex || 1,
@@ -651,7 +662,7 @@ export default {
             this.dialog.type = 3;
             this.dialog.title = '上传报告';
             let student = await this.$api.customer.detail({leadsid: obj.leadsid});
-            if(student){
+            if (student) {
                 Object.assign(this.dialog.form.form3, {
                     ...student,
                     "studentid": student.leadsid,
@@ -659,7 +670,7 @@ export default {
                     "filepath": ""
                 })
                 this.dialog.show = true;
-            }else {
+            } else {
                 console.error('无法找到数据详情')
             }
         },

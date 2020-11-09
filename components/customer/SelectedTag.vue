@@ -88,39 +88,19 @@ export default {
         },
     },
     async mounted() {
-        // this.$api.customer.getTags({
-        //     "clientNo": "",
-        //     "timeStamp": this.$utils.moment(),
-        //     "tag_parent_Id": 0
-        // }).then((res = []) => {
-        //
-        // })
-        let res = [{
-            "tag_Id": 1, "tag_Name": "家庭收入",
-            "tag_Items": [{"tag_Id": 11, "tag_Name": "年收入10W-20W", "tag_Items": null}, {
-                "tag_Id": 12, "tag_Name": "年收入50W-100W", "tag_Items": null
-            }, {"tag_Id": 13, "tag_Name": "100W+", "tag_Items": null}]
-        }, {
-            "tag_Id": 2, "tag_Name": "是否有二孩",
-            "tag_Items": [{"tag_Id": 21, "tag_Name": "有", "tag_Items": null}, {
-                "tag_Id": 22, "tag_Name": "没有", "tag_Items": null
-            }]
-        }, {
-            "tag_Id": 3, "tag_Name": "续费可能性",
-            "tag_Items": [{"tag_Id": 31, "tag_Name": "续费可能性大", "tag_Items": null}, {
-                "tag_Id": 32, "tag_Name": "续费可能性中", "tag_Items": null
-            }, {"tag_Id": 33, "tag_Name": "续费可能性小", "tag_Items": null}]
-        }, {
-            "tag_Id": 4, "tag_Name": "预警",
-            "tag_Items": [{"tag_Id": 41, "tag_Name": "一级预警", "tag_Items": null}, {
-                "tag_Id": 42, "tag_Name": "二级预警", "tag_Items": null
-            }, {"tag_Id": 43, "tag_Name": "三级预警", "tag_Items": null}]
-        }]
-        this.activeNames = res.map(item => {
-            return item.tag_Id;
+        this.$api.customer.getTags({
+            "clientNo": "",
+            // "timeStamp": this.$utils.moment().valueOf(),
+            "tag_parent_Id": 0
+        }).then((res = []) => {
+            this.activeNames = res.map(item => {
+                return item.tag_Id;
+            })
+            this.tags = res;
+            this.setTag()
         })
-        this.tags = res;
-        this.setTag()
+
+
     },
     methods: {
         /**

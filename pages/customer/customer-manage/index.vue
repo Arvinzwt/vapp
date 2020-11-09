@@ -91,6 +91,7 @@
                     <el-button @click="openAssignCustomerDialog" type="warning" size="mini">分配</el-button>
                 </selected-role-template>
             </div>
+            <!--列表-->
             <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable"
                       :data="tableData" size="mini" border>
                 <el-table-column fixed width="50px" type="selection" align="center"/>
@@ -117,14 +118,14 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!--分页信息-->
+            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         </div>
         <!--列表-没数据-->
         <div class="jr-table-placeholder" v-if="tableData.length===0">
             <img src="/images/placeholder.png" alt="placeholder">
             <span>暂无数据</span>
         </div>
-        <!--分页信息-->
-        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
     </div>
 </template>
 
