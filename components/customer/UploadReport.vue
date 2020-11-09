@@ -58,16 +58,16 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="选择文件"  prop="filepath">
+                <el-form-item label="选择文件" prop="filepath">
                     <el-upload
                             action=""
                             ref="uploadBom"
                             :multiple="true"
                             list-type="text"
                             :show-file-list="true"
-                            :auto-upload="false"
+                            :auto-upload="true"
                             :file-list="dialog.form.filepath"
-                            :limit="10"
+                            :limit="100"
                             :on-preview="onFilePreview"
                             :on-remove="onFileRemove"
                             :on-exceed="onFileExceed"
@@ -76,6 +76,7 @@
                         <el-link size="small" type="primary">上传</el-link>
                     </el-upload>
                 </el-form-item>
+
             </el-form>
             <!--弹窗尾部-->
             <div slot="footer" class="dialog-footer">
@@ -130,6 +131,7 @@ export default {
         async openDialog() {
             let leadsid = this.leadsid;
             if (leadsid) {
+                // 拉取数据详情
                 await this.$api.customer.detail({leadsid: leadsid}).then(student => {
                     Object.assign(this.dialog.form, {
                         ...student,
@@ -145,43 +147,41 @@ export default {
         },
 
         /**
+         *@desc 上传-上传前验证
+         */
+        onBeforeFile(file) {
+            // if (!file.name.includes('xls')) {
+            //     this.$message.error('只能上传excel!');
+            //     return false;
+            // } else {
+            //     this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
+            //     return true;
+            // }
+            return true;
+        },
+
+        /**
          *@desc 上传-文件超出个数
          */
         onFileExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            this.$message.warning(`超出上传文件上限，请删除后重新上传`);
         },
 
         /**
          *@desc 上传-上传函数
          */
         onFileUpload(fileObj) {
-            let paramMap = this.paramMap;
-            let linkage = this.$refs.linkage;
             let formData = new FormData();
+            formData.append('file', fileObj.file);
+            formData.append('leadsid', this.leadsid);
 
-            formData.append('leads_file', fileObj.file);
-            formData.append('org_code', linkage.org_code);
-            formData.append('school_code', linkage.school_code);
-            formData.append('charge_person', paramMap.charge_person.value);
-
-            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
-                this.refreshPage().then(() => {
-                    this.$message.success(res.data.msg);
+            this.$api.common.upload(formData, {isAllParams: true}).then(res => {
+                this.dialog.form.filepath.push({
+                    uid: fileObj.file.uid,
+                    url: fileObj.file.url,//res.url
+                    name: fileObj.file.name
                 });
             })
-        },
-
-        /**
-         *@desc 上传-上传前验证
-         */
-        onBeforeFile(file) {
-            if (!file.name.includes('xls')) {
-                this.$message.error('只能上传excel!');
-                return false;
-            } else {
-                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
-                return true;
-            }
         },
 
         /**
@@ -195,7 +195,12 @@ export default {
          *@desc 上传-移除上传文件
          */
         onFileRemove(file, fileList) {
-            console.log('文件列表移除文件时的钩子\t')
+            for (let i = 0; i < this.dialog.form.filepath.length; i++) {
+                if (this.dialog.form.filepath[i].uid === file.uid) {
+                    this.dialog.form.filepath[i].splice(i, 1);
+                    return false;
+                }
+            }
         },
 
         /**
@@ -211,7 +216,17 @@ export default {
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
-                    this.closeDialog();
+                    this.$api.customer.uploadReport({
+                        "studentid": this.dialog.form.leadsid,
+                        "type": this.dialog.form.type,
+                        "filepath": this.dialog.form.filepath.map(item => {
+                            return item.url
+                        }),
+                    }).then(res => {
+                        this.$emit('submit', this.dialog.form)
+                        this.closeDialog();
+                    })
+
                 } else {
                     return false;
                 }

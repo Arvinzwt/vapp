@@ -329,7 +329,8 @@
             </div>
         </el-dialog>
 
-        <upload-report-template :leadsid="dialog.form.leadsid" ref="uploadReportRef"></upload-report-template>
+        <upload-report-template :leadsid="dialog.form.leadsid" ref="uploadReportRef"
+                                @submit="submitUploadReport"></upload-report-template>
     </el-main>
 </template>
 
@@ -519,13 +520,22 @@ export default {
         },
 
         /**
-         *@desc 上传报告
+         *@desc 上传报告-打开弹窗
          */
         async customerUpload(obj) {
             this.dialog.form.leadsid = obj.leadsid;
             this.$nextTick(() => {
                 this.$refs['uploadReportRef'].openDialog();
             })
+        },
+
+        /**
+         *@desc 上传报告-提交弹窗
+         */
+        submitUploadReport(param) {
+            console.log(param,11)
+            this.$message.success('上传成功');
+            this.refreshPage();
         },
 
         /**
