@@ -343,8 +343,8 @@ export default {
             return this.$api.customer.appointleads({
                 pageindex: pagesInfo.pageIndex,
                 pagesize: pagesInfo.pageSize,
-                order: paramMap.order,
-                orderfield: paramMap.orderfield,
+                // order: paramMap.order,
+                // orderfield: paramMap.orderfield,
                 keywords: paramMap.keywords,
                 grade: paramMap.grade.join(','),
                 subjects: paramMap.subjects,

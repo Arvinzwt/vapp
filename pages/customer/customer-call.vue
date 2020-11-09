@@ -122,7 +122,7 @@
                         </el-link>
                     </template>
                 </el-table-column>
-                <el-table-column label="年级" prop="grade" sortable="grade"/>
+                <el-table-column label="年级" prop="grade" :sortable="false"/>
                 <el-table-column label="坐席" prop="callName"/>
                 <el-table-column label="所属校区" prop="name"/>
                 <el-table-column label="呼入类型" prop="intype"/>
@@ -285,8 +285,8 @@ export default {
                 intype: [],//呼入类型
                 callName: "",//坐席
                 smallclassname: "",//渠道小类
-                order: "",//排序
-                orderfield: "",//排序对象
+                // order: "",//排序
+                // orderfield: "",//排序对象
             },
 
             // 列表数据
@@ -351,8 +351,8 @@ export default {
             return this.$api.customer.search({
                 "pageindex": pagesInfo.pageIndex,
                 "pagesize": pagesInfo.pageSize,
-                "order": paramMap.order,
-                "orderfield": paramMap.orderfield,
+                // "order": paramMap.order,
+                // "orderfield": paramMap.orderfield,
                 "name": paramMap.name,
                 "ifok": paramMap.ifok,
                 "startTime": $utils.convertTime(paramMap.checkTime, 0),
