@@ -93,7 +93,7 @@ export default class Common extends Request {
     }
 
     // 上传图片接口
-    async upload(data, options) {
+    async uploadfile(data, options) {
         return this.post('/gxh-leads/v1/Base/uploadfile', data, options)
     }
 

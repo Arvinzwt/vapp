@@ -215,23 +215,24 @@
             </el-row>
         </el-form>
 
+        <!--操作栏-->
+        <div class="action-bar">
+            <div class="action-bar_left">
+                <selected-role-template v-model="dialog.form.role" class="mr-2"
+                                        @change="submitAssignCustomer" ref="selectedRoleRef">
+                    <el-button @click="openAssignCustomer" type="warning" size="mini">分配</el-button>
+                </selected-role-template>
+                <el-button @click="quitCustomer" type="warning" size="mini">放弃</el-button>
+                <el-button @click="deleteCustomer" type="warning" size="mini">删除</el-button>
+            </div>
+            <div>
+                <el-button @click="addCustomer" type="" size="mini">新增</el-button>
+                <el-button @click="importCustomer" type="" size="mini">导入</el-button>
+            </div>
+        </div>
+
         <!--列表-有数据-->
         <div v-if="tableData.length>0">
-            <!--操作栏-->
-            <div class="action-bar">
-                <div class="action-bar_left">
-                    <selected-role-template v-model="dialog.form.role" class="mr-2"
-                                            @change="submitAssignCustomer" ref="selectedRoleRef">
-                        <el-button @click="openAssignCustomer" type="warning" size="mini">分配</el-button>
-                    </selected-role-template>
-                    <el-button @click="quitCustomer" type="warning" size="mini">放弃</el-button>
-                    <el-button @click="deleteCustomer" type="warning" size="mini">删除</el-button>
-                </div>
-                <div>
-                    <el-button @click="addCustomer" type="" size="mini">新增</el-button>
-                    <el-button @click="importCustomer" type="" size="mini">导入</el-button>
-                </div>
-            </div>
             <!--列表-->
             <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable"
                       :data="tableData" size="mini">

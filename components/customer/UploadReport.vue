@@ -126,7 +126,7 @@ export default {
     },
     methods: {
         /**
-         *@desc 上传报告
+         *@desc 上传报告-打开弹窗
          */
         async openDialog() {
             let leadsid = this.leadsid;
@@ -150,14 +150,12 @@ export default {
          *@desc 上传-上传前验证
          */
         onBeforeFile(file) {
-            // if (!file.name.includes('xls')) {
-            //     this.$message.error('只能上传excel!');
-            //     return false;
-            // } else {
-            //     this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
-            //     return true;
-            // }
-            return true;
+            if (!file.type.includes('image')) {
+                this.$message.error('只能上传图片!');
+                return false;
+            } else {
+                return true;
+            }
         },
 
         /**
@@ -171,17 +169,7 @@ export default {
          *@desc 上传-上传函数
          */
         onFileUpload(fileObj) {
-            let formData = new FormData();
-            formData.append('file', fileObj.file);
-            formData.append('leadsid', this.leadsid);
-
-            this.$api.common.upload(formData, {isAllParams: true}).then(res => {
-                this.dialog.form.filepath.push({
-                    uid: fileObj.file.uid,
-                    url: fileObj.file.url,//res.url
-                    name: fileObj.file.name
-                });
-            })
+            this.dialog.form.filepath.push(fileObj.file);
         },
 
         /**
@@ -197,7 +185,7 @@ export default {
         onFileRemove(file, fileList) {
             for (let i = 0; i < this.dialog.form.filepath.length; i++) {
                 if (this.dialog.form.filepath[i].uid === file.uid) {
-                    this.dialog.form.filepath[i].splice(i, 1);
+                    this.dialog.form.filepath.splice(i, 1);
                     return false;
                 }
             }
@@ -216,17 +204,35 @@ export default {
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
-                    this.$api.customer.uploadReport({
-                        "studentid": this.dialog.form.leadsid,
-                        "type": this.dialog.form.type,
-                        "filepath": this.dialog.form.filepath.map(item => {
-                            return item.url
-                        }),
-                    }).then(res => {
-                        this.$emit('submit', this.dialog.form)
-                        this.closeDialog();
+                    let imgTarget = [];
+                    this.dialog.form.filepath.forEach(file => {
+                        let reader = new FileReader();
+                        reader.addEventListener("load", () => {
+                            imgTarget.push({
+                                filename: file.name,
+                                fileContent: reader.result,
+                            })
+                        })
+                        reader.readAsDataURL(file);
                     })
 
+                    setTimeout(async () => {
+                        let fileList = await this.$api.common.uploadfile(imgTarget) || [];
+
+                        this.$api.customer.uploadReport({
+                            "studentid": this.dialog.form.leadsid,
+                            "type": this.dialog.form.type,
+                            "filepath": fileList[0].fileContent
+                            //         .map(item => {
+                            //     return item.fileContent
+                            // }),
+                        }).then(res => {
+                            this.$emit('submit', this.dialog.form)
+                            this.closeDialog();
+                        }).catch(err => {
+
+                        })
+                    }, 300)
                 } else {
                     return false;
                 }
