@@ -612,13 +612,13 @@ export default {
             switch (val.order) {
                 case "descending":
                     target = {
-                        order: "desc",//排序
+                        order: 1,//排序
                         orderfield: val.prop,//排序对象
                     }
                     break;
                 case "ascending":
                     target = {
-                        order: "asce",//排序
+                        order: 0,//排序
                         orderfield: val.prop,//排序对象
                     }
                     break;
