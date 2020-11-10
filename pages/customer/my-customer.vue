@@ -105,7 +105,7 @@
                     <!--科目-->
                     <el-col :span="6">
                         <el-form-item label="科目">
-                            <el-select v-model="paramMap.subject" multiple collapse-tags placeholder="请选择"
+                            <el-select v-model="paramMap.subjects" placeholder="请选择"
                                        clearable>
                                 <el-option
                                         v-for="item in dic.subject"

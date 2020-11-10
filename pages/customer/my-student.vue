@@ -105,7 +105,7 @@
                     <!--科目-->
                     <el-col :span="6">
                         <el-form-item label="科目">
-                            <el-select v-model="paramMap.subject" multiple collapse-tags placeholder="请选择"
+                            <el-select v-model="paramMap.subjects" placeholder="请选择"
                                        clearable>
                                 <el-option
                                         v-for="item in dic.subject"
@@ -188,90 +188,77 @@
                     </el-col>
                 </el-row>
             </div>
-            <el-row :gutter="15">
-                <el-col :span="6">
-                    <el-form-item label="有效性" v-show="paramMap.show">
-                        <el-select v-model="paramMap.isvalid" multiple collapse-tags placeholder="请选择" clearable>
-                            <el-option
-                                    v-for="item in dic.isValid"
-                                    :key="item.value"
-                                    :label="item.name"
-                                    :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="18">
-                    <!--确定按钮-->
-                    <el-form-item label-width="0" class="text-right">
-                        <el-button @click="submitSearch" type="primary">查询</el-button>
-                        <el-button @click="resetSearch">重置</el-button>
-                        <el-link type="primary" class="ml-4" @click="paramMap.show=!paramMap.show">
-                            <span v-show="!paramMap.show">展开</span>
-                            <span v-show="paramMap.show">收起</span>
-                        </el-link>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+            <!--确定按钮-->
+            <el-form-item label-width="0" class="text-right">
+                <el-button @click="submitSearch" type="primary">查询</el-button>
+                <el-button @click="resetSearch">重置</el-button>
+                <el-link type="primary" class="ml-4" @click="paramMap.show=!paramMap.show">
+                    <span v-show="!paramMap.show">展开</span>
+                    <span v-show="paramMap.show">收起</span>
+                </el-link>
+            </el-form-item>
         </el-form>
         <!--操作栏-->
         <div class="action-bar text-right">
             <el-button @click="addCustomer" type="" size="mini">新增</el-button>
             <el-button @click="importCustomer" type="" size="mini">导入</el-button>
         </div>
-        <!--列表-->
+        <!--列表-有数据-->
+        <div v-if="tableData.length>0">
+            <!--列表-->
+            <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
+                <el-table-column fixed width="50px" type="selection" align="center"/>
+                <el-table-column fixed width="95px" label="姓名" prop="name"/>
+                <el-table-column fixed width="105px" label="手机号" prop="phone">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="callCustomer(scope.row)">
+                            <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
+                            <span class="el-icon-phone-outline"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="意向度" prop="intension"/>
+                <el-table-column label="标签" prop="tags"/>
+                <el-table-column label="年级" prop="grade" :sortable="false"/>
+                <el-table-column label="科目" prop="subjects" :sortable="false"/>
+                <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
+                <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
+                <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
+                <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
+                <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
+                <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
+                <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
+                    <template slot-scope="scope">
+                        <el-popover placement="top-start" width="200" trigger="hover"
+                                    :content="scope.row.last_trace_record">
+                            <template slot="reference">
+                                <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
+                            </template>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column min-width="95px" label="下次跟进时间" prop="next_trace_time"/>
+                <el-table-column label="沟通次数" prop="trace_num"/>
+                <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
+                <el-table-column min-width="95px" label="创建人" prop="creator"/>
+                <el-table-column width="190px" fixed="right" label="操作" align="center">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
+                        <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
+                        <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
+                        <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
+                        <el-link type="primary" @click="customerUpload(scope.row)">上传报告</el-link>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <!--分页信息-->
+            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+        </div>
+        <!--列表-没有数据-->
         <div class="jr-table-placeholder" v-if="tableData.length===0">
             <img src="/images/placeholder.png" alt="placeholder">
             <span>暂无数据</span>
         </div>
-
-        <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-            <el-table-column fixed width="50px" type="selection" align="center"/>
-            <el-table-column fixed width="95px" label="姓名" prop="name"/>
-            <el-table-column fixed width="105px" label="手机号" prop="phone">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="callCustomer(scope.row)">
-                        <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
-                        <span class="el-icon-phone-outline"></span>
-                    </el-link>
-                </template>
-            </el-table-column>
-            <el-table-column label="意向度" prop="intension"/>
-            <el-table-column label="标签" prop="tags"/>
-            <el-table-column label="年级" prop="grade" :sortable="false"/>
-            <el-table-column label="科目" prop="subjects" :sortable="false"/>
-            <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
-            <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
-            <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
-            <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
-            <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
-            <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
-            <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
-                <template slot-scope="scope">
-                    <el-popover placement="top-start" width="200" trigger="hover"
-                                :content="scope.row.last_trace_record">
-                        <template slot="reference">
-                            <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
-                        </template>
-                    </el-popover>
-                </template>
-            </el-table-column>
-            <el-table-column min-width="95px" label="下次跟进时间" prop="next_trace_time"/>
-            <el-table-column label="沟通次数" prop="trace_num"/>
-            <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
-            <el-table-column min-width="95px" label="创建人" prop="creator"/>
-            <el-table-column fixed="right" label="操作" align="center">
-                <template slot-scope="scope">
-                    <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
-                    <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
-                    <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
-                    <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
-                    <el-link type="primary" @click="customerUpload(scope.row)">上传报告</el-link>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--分页信息-->
-        <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
                    :title="dialog.title" custom-class="jr-dialog" width="600px">
@@ -299,73 +286,6 @@
                                     v-model="dialog.form.reason2"/>
                         </el-form-item>
                     </div>
-                    <!--上传报告-->
-                    <div v-if="dialog.type===3">
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="学员姓名">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.name }}</div>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="生日">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.birthday }}</div>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="线索客户来源">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.intype }}</div>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="学校">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.school }}</div>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-row :gutter="15">
-                            <el-col :span="12">
-                                <el-form-item label="手机号">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.phone }}</div>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="家庭住址">
-                                    <div class="jr-disabled-input">{{ dialog.form.form3.address }}</div>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
-                        <el-form-item label="类型">
-                            <el-select v-model="dialog.form.form3.type" placeholder="请选择" clearable>
-                                <el-option
-                                        v-for="item in dic.reportType"
-                                        :key="item.value"
-                                        :label="item.name"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="选择文件">
-                            <el-upload
-                                    action=""
-                                    ref="uploadBom"
-                                    :multiple="true"
-                                    list-type="text"
-                                    :show-file-list="true"
-                                    :auto-upload="false"
-                                    :file-list="dialog.form.form3.filepath"
-                                    :limit="10"
-                                    :on-preview="onFilePreview"
-                                    :on-remove="onFileRemove"
-                                    :on-exceed="onFileExceed"
-                                    :http-request="onFileUpload"
-                                    :before-upload="onBeforeFile">
-                                <el-link size="small" type="primary">上传</el-link>
-                            </el-upload>
-                        </el-form-item>
-                    </div>
                 </el-form>
             </div>
             <!--弹窗尾部-->
@@ -377,6 +297,9 @@
                 <el-button size="mini" @click="submitDialog" type="primary">提 交</el-button>
             </div>
         </el-dialog>
+
+        <upload-report-template :leadsid="dialog.form.leadsid" ref="uploadReportRef"
+                                @submit="submitUploadReport"></upload-report-template>
     </el-main>
 </template>
 
@@ -385,28 +308,31 @@ import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 import SelectedTagTemplate from "@/components/customer/SelectedTag";
 import SelectedChannelTemplate from "@/components/customer/SelectedChannel";
+import UploadReportTemplate from "@/components/customer/UploadReport";
 
 export default {
     components: {
         PaginationTemplate,
         SelectedRoleTemplate,
         SelectedTagTemplate,
-        SelectedChannelTemplate
+        SelectedChannelTemplate,
+        UploadReportTemplate
     },
     data() {
         return {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                 // order: "",//排序方式
+                // order: "",//排序方式
                 // orderfield: "",//排序字段
+
                 keywords: "",//手机号或姓名
                 grade: [],//年级
                 subjects: "",//学科
                 bigChannelId: '',//渠道大类
                 smallChannelId: '',//渠道小类
                 createdDate: [],//创建时间
-                deptid: [],//学习中心(deptid)
+                // deptid: [],//学习中心(deptid)
                 leads_status: [],//客户状态(code)
                 intension: [],//意向度
                 isvalid: [],//是否有效
@@ -415,14 +341,15 @@ export default {
                 next_trace_time: [],//下次跟进时间
                 no_trace_time: 0,//之后未跟进
                 gain_time: [],//获取时间
-                giveup_time: [],//放弃时间
-                deadsea_time: [],//进入死海时间
-                area_code: "",//海域
-                appoint_time: 0,//预约沟通时间
+                // giveup_time: [],//放弃时间
                 trace_num: [],//跟进次数
                 last_owner: '',//最近一次负责人
-                if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
                 tags: [],//标签
+
+                // area_code: "",//海域
+                // if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪） //
+                // deadsea_time: [],//进入死海时间
+                // appoint_time: [],//预约沟通时间
 
                 role: [],//选择的角色
             },
@@ -440,27 +367,16 @@ export default {
             // 弹窗
             dialog: {
                 show: false,
-                type: null,//1放弃，2删除，3上传报告
+                type: null,//1放弃，2删除
                 title: '',
                 form: {
                     reason1: '',//放弃
                     reason2: '',//删除
-
-                    form3: {
-                        name: '',
-                        birthday: '',
-                        intype: '',
-                        school: '',
-                        phone: '',
-                        address: '',
-                        studentid: "",
-                        type: '',
-                        filepath: []
-                    }
+                    leadsid: '',
                 },
                 rules: {
-                    reason1: {required: true, message: '请输入放弃愿意', trigger: 'blur'},
-                    reason2: {required: true, message: '请输入删除愿意', trigger: 'blur'},
+                    reason1: {required: true, message: '请输入放弃原因', trigger: 'blur'},
+                    reason2: {required: true, message: '请输入删除原因', trigger: 'blur'},
                 }
             }
         }
@@ -493,35 +409,36 @@ export default {
                 smallclass: paramMap.smallChannelId,
                 created_start: $utils.convertTime(paramMap.createdDate, 0),
                 created_end: $utils.convertTime(paramMap.createdDate, 1),
-                deptid: $utils.underscore.last(paramMap.deptid) || '',
+                // deptid: $utils.underscore.last(paramMap.deptid) || '',
                 leads_status: paramMap.leads_status.join(','),
                 intension: paramMap.intension.join(','),
                 isvalid: paramMap.isvalid.join(','),
                 last_trace_status: paramMap.last_trace_status.join(','),
                 last_trace_time_start: $utils.convertTime(paramMap.last_trace_time, 0),
                 last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
-                next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
-                next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
+                next_trace_time_start: $utils.convertTime(paramMap.next_trace_time, 0),
+                next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 1),
                 no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
                 gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
                 gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
-                giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
-                giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
-                deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
-                deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
-                appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
-                appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
+                // giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
+                // giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
                 trace_num: paramMap.trace_num.join(','),
                 last_owner: paramMap.last_owner,
-                if_trace: paramMap.if_trace.join(','),
-                tags: paramMap.tags.join(',')
+                tags: paramMap.tags.join(','),
+
+                // deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
+                // deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
+                // appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
+                // appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
+                // if_trace: paramMap.if_trace.join(','),
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
                     pageIndex: request.pageindex || 1,
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = list;
+                this.tableData = [{}];
             }).catch(err => {
             })
         },
@@ -572,12 +489,31 @@ export default {
         },
 
         /**
+         *@desc 上传报告-打开弹窗
+         */
+        async customerUpload(obj) {
+            this.dialog.form.leadsid = obj.leadsid;
+            this.$nextTick(() => {
+                this.$refs['uploadReportRef'].openDialog();
+            })
+        },
+
+        /**
+         *@desc 上传报告-提交弹窗
+         */
+        submitUploadReport(param) {
+            console.log(param,11)
+            this.$message.success('上传成功');
+            this.refreshPage();
+        },
+
+        /**
          *@desc 跟进
          */
         customerFollow(obj) {
             this.$router.push({
                 path: '/customer/customer-follow',
-                query: {id:obj.leadsid}
+                query: {id: obj.leadsid}
             })
         },
 
@@ -589,7 +525,7 @@ export default {
                 this.$message.success('呼叫用户')
                 this.$router.push({
                     path: '/customer/customer-follow',
-                    query: {id:obj.leadsid}
+                    query: {id: obj.leadsid}
                 })
             })
         },
@@ -600,7 +536,7 @@ export default {
         customerDetail(obj) {
             this.$router.push({
                 path: '/customer/customer-detail',
-                query: {id:obj.leadsid}
+                query: {id: obj.leadsid}
             })
         },
 
@@ -631,27 +567,6 @@ export default {
             }
             Object.assign(this.paramMap, target);
             this.refreshPage();
-        },
-
-
-        /**
-         *@desc 上传报告
-         */
-        async customerUpload(obj) {
-            this.dialog.type = 3;
-            this.dialog.title = '上传报告';
-            let student = await this.$api.customer.detail({leadsid: obj.leadsid});
-            if(student){
-                Object.assign(this.dialog.form.form3, {
-                    ...student,
-                    "studentid": student.leadsid,
-                    "type": '',
-                    "filepath": ""
-                })
-                this.dialog.show = true;
-            }else {
-                console.error('无法找到数据详情')
-            }
         },
 
         /**
@@ -732,77 +647,29 @@ export default {
 
 
         /**
-         *@desc 放弃/删除/上传报告-关闭弹窗
+         *@desc 放弃/删除-关闭弹窗
          */
         closeDialog() {
             this.dialog.show = false;
         },
 
         /**
-         *@desc 放弃/删除/上传报告-提交
+         *@desc 放弃/删除-提交
          */
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
+                    if (this.dialog.type === 1) {
+                        this.$message.success('放弃成功')
+                    } else if (this.dialog.type === 2) {
+                        this.$message.success('删除成功')
+                    }
+                    this.refreshPage();
                     this.closeDialog();
                 } else {
                     return false;
                 }
             })
-        },
-
-        /**
-         *@desc 上传-文件超出个数
-         */
-        onFileExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        },
-
-        /**
-         *@desc 上传-上传函数
-         */
-        onFileUpload(fileObj) {
-            let paramMap = this.paramMap;
-            let linkage = this.$refs.linkage;
-            let formData = new FormData();
-
-            formData.append('leads_file', fileObj.file);
-            formData.append('org_code', linkage.org_code);
-            formData.append('school_code', linkage.school_code);
-            formData.append('charge_person', paramMap.charge_person.value);
-
-            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
-                this.refreshPage().then(() => {
-                    this.$message.success(res.data.msg);
-                });
-            })
-        },
-
-        /**
-         *@desc 上传-上传前验证
-         */
-        onBeforeFile(file) {
-            if (!file.name.includes('xls')) {
-                this.$message.error('只能上传excel!');
-                return false;
-            } else {
-                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
-                return true;
-            }
-        },
-
-        /**
-         *@desc 上传-点击已上传文件
-         */
-        onFilePreview(file) {
-            console.log('点击文件列表中已上传的文件时的钩子\t')
-        },
-
-        /**
-         *@desc 上传-移除上传文件
-         */
-        onFileRemove(file, fileList) {
-            console.log('文件列表移除文件时的钩子\t')
         },
     }
 }
