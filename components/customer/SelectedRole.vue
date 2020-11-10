@@ -26,25 +26,16 @@
                    :append-to-body="true" custom-class="jr-dialog" width="500px" class="jr-customer-selected-role">
             <!--弹窗内容-->
             <div class="dialog-body">
-                <el-form class="jr-form" size="mini" label-width="90px" label-position="left">
-                    <el-form-item label="学习中心">
-                        <el-cascader
-                                v-model="dialog.form.deptid"
-                                :options="dic.hrcodedepts"
-                                :props="$utils.leaningCenterProps"
-                                :show-all-levels="false"
-                                collapse-tags
-                                placeholder="请选择"
-                                filterable
-                                clearable></el-cascader>
-                    </el-form-item>
-                </el-form>
-                <div style="max-height: 300px;overflow-y: scroll;">
+                <el-input v-model="dialog.filter" placeholder="请输入姓名，手机号" clearable/>
+                <div class="box">
                     <el-radio-group v-model="dialog.radio">
-                        <el-radio v-for="item in dialog.roleList" :label="item.id" :key="item.id">
+                        <el-radio v-for="item in salesList" :label="item.id" :key="item.id">
                             {{ item.name }}
                         </el-radio>
                     </el-radio-group>
+                </div>
+                <div v-if="salesList.length===0" class="p-4 text-center">
+                    暂无数据
                 </div>
             </div>
             <!--弹窗尾部-->
@@ -62,24 +53,19 @@ export default {
         return {
             dialog: {
                 show: false,//是否显示弹窗
-                form: {
-                    filter: '',//筛选内容
-                    deptid: '',//学习中心
-                },
-                roleList: [],//角色列表数据
+                filter: '',//筛选内容
                 radio: '',
             },
             showList: [],//用来展示的结果数据
+            salesList: [],
         }
     },
     watch: {
-        //筛选
-        'dialog.form.deptid': {
-            async handler(val) {
-                let deptids = this.$utils.underscore.last(val);
-                this.dialog.roleList = await this.$api.common.deptsales({
-                    "deptids": deptids ? deptids + '' : ''
-                }) || []; //拉取角色列表数据
+        'dialog.filter': {
+            handler(val) {
+                this.salesList = val ? this.dic.sales.filter(item => {
+                    return item.name.includes(val);
+                }) : this.dic.sales;
             },
         },
         //设置选中的数据;
@@ -100,7 +86,7 @@ export default {
         },
     },
     async mounted() {
-        this.dialog.roleList = await this.$api.common.sales() || []; //拉取树数据
+        this.salesList = await this.$api.common.sales() || [];
         this.setShowValue();
     },
     methods: {
@@ -108,7 +94,7 @@ export default {
          *@desc 设置初始显示的value
          */
         setShowValue() {
-            let target = this.dialog.roleList.find(item => {
+            let target = this.salesList.find(item => {
                 return item.id == this.model;
             })
             this.showList = target ? [target] : [];
@@ -166,6 +152,12 @@ export default {
 <style lang="scss">
 .jr-customer-selected-role {
     $inputHeight: 28px;
+
+    .box {
+        max-height: 300px;
+        overflow-y: scroll;
+        margin-top: 20px;
+    }
 
     .el-radio-group {
         display: flex;

@@ -98,9 +98,8 @@ export default {
             })
             this.tags = res;
             this.setTag()
+        }).catch(err => {
         })
-
-
     },
     methods: {
         /**
