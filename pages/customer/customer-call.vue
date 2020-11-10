@@ -109,40 +109,43 @@
                     </el-col>
                 </el-row>
             </el-form>
-            <!--列表-->
-            <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData"
-                      size="mini">
-                <el-table-column fixed width="50px" type="selection" align="center"/>
-                <el-table-column fixed width="95px" label="姓名" prop="name"/>
-                <el-table-column fixed width="105px" label="手机号" prop="phone">
-                    <template slot-scope="scope">
-                        <el-link type="primary" @click="callCustomer(scope.row)">
-                            <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
-                            <span class="el-icon-phone-outline"></span>
-                        </el-link>
-                    </template>
-                </el-table-column>
-                <el-table-column label="年级" prop="grade" :sortable="false"/>
-                <el-table-column label="坐席" prop="callName"/>
-                <el-table-column label="所属校区" prop="name"/>
-                <el-table-column label="呼入类型" prop="intype"/>
-                <el-table-column label="渠道大类" prop="bigClass"/>
-                <el-table-column label="渠道小类" prop="smallClass"/>
-                <el-table-column label="登记时间" prop="callTime"/>
-                <el-table-column label="确认人" prop="auditUName"/>
-                <el-table-column label="确认时间" prop="auditTime"/>
-                <el-table-column fixed="right" label="操作" align="center" v-if="paramMap.ifok==='3'">
-                    <template slot-scope="scope">
-                        <el-link type="primary" @click="customerConfirm(scope.row)">确认</el-link>
-                    </template>
-                </el-table-column>
-            </el-table>
+            <!--列表-有数据-->
+            <div v-if="tableData.length>0">
+                <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData"
+                          size="mini">
+                    <el-table-column fixed width="50px" type="selection" align="center"/>
+                    <el-table-column fixed width="95px" label="姓名" prop="studentName"/>
+                    <el-table-column fixed width="105px" label="手机号" prop="tel">
+                        <template slot-scope="scope">
+                            <el-link type="primary" @click="callCustomer(scope.row)">
+                                <span class="">{{ $utils.desensitizationPhone(scope.row.tel) }}</span>
+                                <span class="el-icon-phone-outline"></span>
+                            </el-link>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="年级" prop="grade" :sortable="false"/>
+                    <el-table-column label="坐席" prop="callName"/>
+                    <el-table-column label="所属校区" prop="name"/>
+                    <el-table-column label="呼入类型" prop="intype"/>
+                    <el-table-column label="渠道大类" prop="bigClass"/>
+                    <el-table-column label="渠道小类" prop="smallClass"/>
+                    <el-table-column label="登记时间" prop="callTime"/>
+                    <el-table-column label="确认人" prop="auditUName"/>
+                    <el-table-column label="确认时间" prop="auditTime"/>
+                    <el-table-column fixed="right" label="操作" align="center" v-if="paramMap.ifok==='3'">
+                        <template slot-scope="scope">
+                            <el-link type="primary" @click="customerConfirm(scope.row)">确认</el-link>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <!--分页信息-->
+                <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+            </div>
+            <!--列表-没有数据-->
             <div class="jr-table-placeholder" v-if="tableData.length===0">
                 <img src="/images/placeholder.png" alt="placeholder">
                 <span>暂无数据</span>
             </div>
-            <!--分页信息-->
-            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         </div>
         <!--弹窗-->
         <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
@@ -303,6 +306,7 @@ export default {
             dialog: {
                 show: false,
                 form: {
+                    recordId:'',
                     studentName: '',// 姓名
                     tel: '',// 手机号
                     callName: '',// 坐席
@@ -362,7 +366,7 @@ export default {
                 "endAuditTime": $utils.convertTime(paramMap.auditTime, 1),
                 "intype": paramMap.intype.join(','),
                 "callName": paramMap.callName,
-                "smallclassname": paramMap.smallclassname
+                "smallclassname": paramMap.smallclassname,
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
                     pageIndex: request.pageindex || 1,
@@ -456,13 +460,13 @@ export default {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
                     let form = this.dialog.form;
-                    this.$api.customer.leadsCallCenterUpdate({
-                        intype: form.intype,// 呼入类型
-                        ifok: form.ifok,// 是否有效
-                        invalidType: form.invalidType,// 无效类型
-                        sales: form.sales,// 教育顾问
+                    this.$api.customer.comfirm({
+                        "recordid": form.recordid,//记录id
+                        "sales": form.sales,//销售ID
+                        "isvalid":  form.ifok,//是否有效
+                        "reason": form.invalidType,//原因
                     }).then(res => {
-                        this.$message.success('确认成功');
+                        this.$message.success('成功');
                         this.refreshPage();
                         this.closeDialog();
                     })

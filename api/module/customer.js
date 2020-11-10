@@ -53,9 +53,9 @@ export default class Customer extends Request {
         return this.get('/gxh-leads/v1/LeadsCallCenter/detail', data, options)
     }
 
-    // leads呼叫中心更新
-    async leadsCallCenterUpdate(data, options) {
-        return true
+    // leads呼叫中心确认
+    async comfirm(data, options) {
+        return this.post('/gxh-leads/v1/LeadsCallCenter/comfirm',data,options)
     }
 
     // 新增-更新追踪信息
