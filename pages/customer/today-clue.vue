@@ -245,8 +245,8 @@
                             </el-popover>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="95px" label="创建人" prop="creator"/>
                     <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
+                    <el-table-column min-width="95px" label="创建人" prop="creator"/>
                     <el-table-column width="130px" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
@@ -287,7 +287,7 @@ export default {
 
             // tab切换信息
             tabs: [
-                {id: '0', name: '未跟进', num: 6},
+                {id: '0', name: '未跟进'},
                 {id: '1', name: '已跟进'},
                 {id: '2', name: '全部'},
             ],
@@ -421,33 +421,6 @@ export default {
             this.pagesInfo.pageIndex = 1;//重置分页数据
             this.$utils.resetJson(this.paramMap, ['show', "order", "orderfield", "role"]);//重置筛选数据
             this.refreshPage();
-        },
-
-        /**
-         *@desc 分配用户-打开选择负责人弹窗
-         */
-        openAssignCustomerDialog() {
-            let ids = this.$refs['filterTable'].selection;
-            if (ids.length > 0) {
-                if (this.$refs['selectedRole']) {
-                    this.$refs['selectedRole'].openDialog();
-                }
-            } else {
-                this.$message.error("请至少选择一条leads")
-            }
-        },
-
-        /**
-         *@desc 分配用户-确定分配时
-         */
-        submitAssignCustomer() {
-            this.$api.customer.assignCustomer({
-                customerId: this.$refs['filterTable'].selection,
-                roleId: this.paramMap.role,
-            }).then(res => {
-                this.$message.success('分配成功')
-                this.refreshPage();
-            })
         },
 
         /**
