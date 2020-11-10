@@ -3,7 +3,7 @@
     <el-main class="jr-page jr-customer-today-clue">
         <!--tab切换-->
         <div class="jr-page-header">
-            <el-tabs v-model="paramMap.tab" @tab-click="tabsClick">
+            <el-tabs v-model="paramMap.if_trace" @tab-click="tabsClick">
                 <el-tab-pane v-for="item in tabs" :key="item.id" :name="item.id" :path="item.path">
                     <div slot="label">
                         <span>{{ item.name }}</span>
@@ -130,7 +130,8 @@
                         <!--沟通次数-->
                         <el-col :span="6">
                             <el-form-item label="沟通次数">
-                                <el-select v-model="paramMap.trace_num" multiple collapse-tags placeholder="请选择" clearable>
+                                <el-select v-model="paramMap.trace_num" multiple collapse-tags placeholder="请选择"
+                                           clearable>
                                     <el-option
                                             v-for="item in dic.communicate"
                                             :key="item.value"
@@ -170,7 +171,8 @@
                         <!--意向度-->
                         <el-col :span="6">
                             <el-form-item label="意向度">
-                                <el-select v-model="paramMap.intension" multiple collapse-tags placeholder="请选择" clearable>
+                                <el-select v-model="paramMap.intension" multiple collapse-tags placeholder="请选择"
+                                           clearable>
                                     <el-option
                                             v-for="item in dic.intention"
                                             :key="item.value"
@@ -211,7 +213,8 @@
 
             <!--列表-有数据-->
             <div v-if="tableData.length>0">
-                <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
+                <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData"
+                          size="mini">
                     <el-table-column fixed width="50px" type="selection" align="center"/>
                     <el-table-column fixed width="95px" label="姓名" prop="name"/>
                     <el-table-column fixed width="105px" label="手机号" prop="phone">
@@ -244,7 +247,7 @@
                     </el-table-column>
                     <el-table-column min-width="95px" label="创建人" prop="creator"/>
                     <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
-                    <el-table-column fixed="right" label="操作" align="center">
+                    <el-table-column width="130px" fixed="right" label="操作" align="center">
                         <template slot-scope="scope">
                             <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
                             <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
@@ -280,7 +283,7 @@ export default {
     },
     data() {
         return {
-            confirmedNum:0,
+            confirmedNum: 0,
 
             // tab切换信息
             tabs: [
@@ -292,9 +295,9 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                 // order: "",//排序方式
+                // order: "",//排序方式
                 // orderfield: "",//排序字段
-                tab:'0',
+                if_trace: '0',
                 bigChannelId: '',//渠道大类
                 smallChannelId: '',//渠道小类
                 keywords: "",//手机号或姓名
@@ -311,7 +314,6 @@ export default {
                 trace_num: [],//跟进次数
                 last_owner: '',//最近一次负责人
                 tags: [],//标签
-
 
                 role: [],//选择的角色
             },
@@ -373,7 +375,7 @@ export default {
                 // appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
                 trace_num: paramMap.trace_num.join(','),
                 last_owner: paramMap.last_owner,
-                if_trace: paramMap.tab,
+                if_trace: paramMap.if_trace,
                 tags: paramMap.tags.join(','),
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
@@ -383,7 +385,7 @@ export default {
                 })
                 this.tableData = list;
 
-                if (paramMap.ifok === '3') {//如果是待确认数据刷新，更新总数
+                if (paramMap.tab === '0') {//如果是待确认数据刷新，更新总数
                     this.confirmedNum = total;
                 }
             }).catch(err => {
@@ -468,7 +470,7 @@ export default {
         customerFollow(obj) {
             this.$router.push({
                 path: '/customer/customer-follow',
-                query: {id:obj.leadsid}
+                query: {id: obj.leadsid}
             })
         },
 
@@ -480,7 +482,7 @@ export default {
                 this.$message.success('呼叫用户')
                 this.$router.push({
                     path: '/customer/customer-follow',
-                    query: {id:obj.leadsid}
+                    query: {id: obj.leadsid}
                 })
             })
         },
@@ -491,7 +493,7 @@ export default {
         customerDetail(obj) {
             this.$router.push({
                 path: '/customer/customer-detail',
-                query: {id:obj.leadsid}
+                query: {id: obj.leadsid}
             })
         },
 
