@@ -21,7 +21,7 @@
                     <!--姓名-->
                     <el-col :span="6">
                         <el-form-item label="姓名">
-                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--登记时间-->
@@ -86,13 +86,13 @@
                     <!--坐席-->
                     <el-col :span="6">
                         <el-form-item label="坐席" v-show="paramMap.show">
-                            <el-input :maxlength='50' v-model="paramMap.callName" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.callName" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--渠道小类-->
                     <el-col :span="6">
                         <el-form-item label="渠道小类" v-show="paramMap.show">
-                            <el-input :maxlength='50' v-model="paramMap.smallclassname" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.smallclassname" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
 

@@ -19,7 +19,7 @@
                     <!--学生姓名-->
                     <el-col :span="6">
                         <el-form-item label="学生姓名">
-                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--性别-->
@@ -68,7 +68,7 @@
                     <!--就读学校-->
                     <el-col :span="6">
                         <el-form-item label="就读学校">
-                            <el-input :maxlength='50' v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.value4" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--线索来源-->
@@ -87,7 +87,7 @@
                     <!--手机号-->
                     <el-col :span="6">
                         <el-form-item label="手机号">
-                            <el-input :maxlength='50' v-model="paramMap.phone" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.phone" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--教育顾问-->
@@ -108,7 +108,7 @@
                     <!--联系人姓名-->
                     <el-col :span="6">
                         <el-form-item label="联系人姓名">
-                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--推荐类型-->
@@ -127,20 +127,20 @@
                     <!--学员编号-->
                     <el-col :span="6">
                         <el-form-item label="学员编号">
-                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.str" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--推荐码-->
                     <el-col :span="6">
                         <el-form-item label="推荐码">
-                            <el-input :maxlength='50' v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.str" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-form-item label="备注">
                     <el-input
                             type="textarea"
-                            :maxlength='50'
+
                             :rows="2"
                             placeholder="请输入内容"
                             v-model="paramMap.str" clearable>

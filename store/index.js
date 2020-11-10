@@ -262,6 +262,12 @@ export const state = () => ({
             {"value": "3", "name": "公海",},
             {"value": "4", "name": "死海",},
         ],
+        // 审核状态
+        checkStatus:[
+            {"value": "0", "name": "待审批",},
+            {"value": "1", "name": "已审核",},
+            {"value": "2", "name": "驳回",},
+        ],
 
         //年级
         grades: [],

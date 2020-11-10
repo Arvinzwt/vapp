@@ -29,7 +29,7 @@
                 <!--姓名，手机号-->
                 <el-col :span="6">
                     <el-form-item label="姓名、手机号">
-                        <el-input :maxlength='50' v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
+                        <el-input  v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
                 <!--诺到访日期-->

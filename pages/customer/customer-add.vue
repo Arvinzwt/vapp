@@ -11,13 +11,13 @@
                     <!--学生姓名-->
                     <el-col :span="6">
                         <el-form-item label="姓名">
-                            <el-input :maxlength='50' v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--手机号-->
                     <el-col :span="6">
                         <el-form-item label="手机号">
-                            <el-input :maxlength='50' v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
+                            <el-input  v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--性别-->
@@ -65,12 +65,12 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="详细地址">
-                            <el-input :maxlength='50' v-model="paramMap.address" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.address" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="学校">
-                            <el-input :maxlength='50' v-model="paramMap.schoool" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.schoool" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">

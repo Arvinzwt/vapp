@@ -39,14 +39,14 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="详细地址">
-                            <el-input :maxlength='50' v-model="paramMap.address" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.address" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="学校">
-                            <el-input :maxlength='50' v-model="paramMap.school" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.school" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -93,12 +93,12 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="联系电话1">
-                            <el-input :maxlength='50' v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="联系电话2">
-                            <el-input :maxlength='50' v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
+                            <el-input  v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
