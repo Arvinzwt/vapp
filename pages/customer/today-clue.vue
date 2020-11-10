@@ -117,7 +117,7 @@
                         <!--科目-->
                         <el-col :span="6">
                             <el-form-item label="科目">
-                                <el-select v-model="paramMap.subject" multiple collapse-tags placeholder="请选择" clearable>
+                                <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                                     <el-option
                                             v-for="item in dic.subject"
                                             :key="item.dicCode"
@@ -208,58 +208,60 @@
                     </el-link>
                 </el-form-item>
             </el-form>
-            <!--列表-->
+
+            <!--列表-有数据-->
+            <div v-if="tableData.length>0">
+                <el-table @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
+                    <el-table-column fixed width="50px" type="selection" align="center"/>
+                    <el-table-column fixed width="95px" label="姓名" prop="name"/>
+                    <el-table-column fixed width="105px" label="手机号" prop="phone">
+                        <template slot-scope="scope">
+                            <el-link type="primary" @click="callCustomer(scope.row)">
+                                <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
+                                <span class="el-icon-phone-outline"></span>
+                            </el-link>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="意向度" prop="intension"/>
+                    <el-table-column label="标签" prop="tags"/>
+                    <el-table-column label="年级" prop="grade" :sortable="false"/>
+                    <el-table-column label="科目" prop="subjects" :sortable="false"/>
+                    <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
+                    <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
+                    <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
+                    <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
+                    <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
+                    <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
+                    <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
+                        <template slot-scope="scope">
+                            <el-popover placement="top-start" width="200" trigger="hover"
+                                        :content="scope.row.last_trace_record">
+                                <template slot="reference">
+                                    <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
+                                </template>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column min-width="95px" label="创建人" prop="creator"/>
+                    <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
+                    <el-table-column fixed="right" label="操作" align="center">
+                        <template slot-scope="scope">
+                            <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
+                            <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
+                            <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
+                            <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <!--分页信息-->
+                <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
+            </div>
+            <!--列表-没有数据-->
             <div class="jr-table-placeholder" v-if="tableData.length===0">
                 <img src="/images/placeholder.png" alt="placeholder">
                 <span>暂无数据</span>
             </div>
-
-            <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData" size="mini">
-                <el-table-column fixed width="50px" type="selection" align="center"/>
-                <el-table-column fixed width="95px" label="姓名" prop="name"/>
-                <el-table-column fixed width="105px" label="手机号" prop="phone">
-                    <template slot-scope="scope">
-                        <el-link type="primary" @click="callCustomer(scope.row)">
-                            <span class="">{{ $utils.desensitizationPhone(scope.row.phone) }}</span>
-                            <span class="el-icon-phone-outline"></span>
-                        </el-link>
-                    </template>
-                </el-table-column>
-                <el-table-column label="意向度" prop="intension"/>
-                <el-table-column label="标签" prop="tags"/>
-                <el-table-column label="年级" prop="grade" :sortable="false"/>
-                <el-table-column label="科目" prop="subjects" :sortable="false"/>
-                <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
-                <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
-                <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
-                <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
-                <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
-                <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
-                <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
-                    <template slot-scope="scope">
-                        <el-popover placement="top-start" width="200" trigger="hover"
-                                    :content="scope.row.last_trace_record">
-                            <template slot="reference">
-                                <div class="text-ellipsis w-p200">{{ scope.row.last_trace_record }}</div>
-                            </template>
-                        </el-popover>
-                    </template>
-                </el-table-column>
-                <el-table-column min-width="95px" label="创建人" prop="creator"/>
-                <el-table-column min-width="95px" label="获取时间" prop="gain_time"/>
-                <el-table-column fixed="right" label="操作" align="center">
-                    <template slot-scope="scope">
-                        <el-link type="primary" @click="customerFollow(scope.row)">跟进</el-link>
-                        <el-link type="primary" @click="customerDetail(scope.row)">详情</el-link>
-                        <el-link type="primary" @click="customerAudition(scope.row)">试听</el-link>
-                        <el-link type="primary" @click="customerReserve(scope.row)">预约</el-link>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <!--分页信息-->
-            <pagination-template v-model="pagesInfo" @change="onPagesChange"></pagination-template>
         </div>
-
     </el-main>
 </template>
 
@@ -298,7 +300,7 @@ export default {
                 keywords: "",//手机号或姓名
                 leads_status: [],//客户状态(code)
                 grade: [],//年级
-                subject: "",//学科
+                subjects: "",//学科
                 intension: [],//意向度
                 createdDate: [],//创建时间
                 last_trace_status: [],//最近跟进状态
@@ -309,6 +311,8 @@ export default {
                 trace_num: [],//跟进次数
                 last_owner: '',//最近一次负责人
                 tags: [],//标签
+
+
                 role: [],//选择的角色
             },
 
@@ -350,7 +354,7 @@ export default {
                 smallclass: paramMap.smallChannelId,
                 created_start: $utils.convertTime(paramMap.createdDate, 0),
                 created_end: $utils.convertTime(paramMap.createdDate, 1),
-                deptid: $utils.underscore.last(paramMap.deptid) || '',
+                // deptid: $utils.underscore.last(paramMap.deptid) || '',
                 leads_status: paramMap.leads_status.join(','),
                 intension: paramMap.intension.join(','),
                 last_trace_status: paramMap.last_trace_status.join(','),
@@ -358,19 +362,19 @@ export default {
                 last_trace_time_end: $utils.convertTime(paramMap.last_trace_time, 1),
                 next_trace_time_start: $utils.convertTime(paramMap.createdDate, 0),
                 next_trace_time_end: $utils.convertTime(paramMap.next_trace_time, 0),
-                no_trace_time: $utils.convertTime(paramMap.no_trace_time, 2),
+                no_trace_time: $utils.convertTime(paramMap.no_trace_time),
                 gain_time_start: $utils.convertTime(paramMap.gain_time, 0),
                 gain_time_end: $utils.convertTime(paramMap.gain_time, 1),
-                giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
-                giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
-                deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
-                deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
-                appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
-                appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
+                // giveup_time_start: $utils.convertTime(paramMap.giveup_time, 0),
+                // giveup_time_end: $utils.convertTime(paramMap.giveup_time, 1),
+                // deadsea_time_start: $utils.convertTime(paramMap.deadsea_time, 0),
+                // deadsea_time_end: $utils.convertTime(paramMap.deadsea_time, 1),
+                // appoint_time_start: $utils.convertTime(paramMap.appoint_time, 0),
+                // appoint_time_end: $utils.convertTime(paramMap.appoint_time, 1),
                 trace_num: paramMap.trace_num.join(','),
                 last_owner: paramMap.last_owner,
                 if_trace: paramMap.tab,
-                tags: paramMap.tags.join(',')
+                tags: paramMap.tags.join(','),
             }).then(({request = {}, total = 0, list = []} = {}) => {
                 Object.assign(this.pagesInfo, {
                     pageIndex: request.pageindex || 1,
