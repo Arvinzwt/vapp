@@ -88,7 +88,7 @@ export default class Customer extends Request {
         return this.post('/gxh-leads/v1/PreLeads/reccustomer/search', data, options)
     }
 
-    // 查询推荐客户明星
+    // 查询推荐客户明细
     async recommendDetail(data, options) {
         return this.get('/gxh-leads/v1/PreLeads/reccustomer/detail', data, options)
     }
@@ -146,6 +146,11 @@ export default class Customer extends Request {
     // cc约访预约上门-确认上门
     async confirm(data, options) {
         return this.post('/gxh-leads/v1/Visit/confirm', data, options)
+    }
+
+    // cc约访预约上门-取消到访
+    async cancelconfirm(data, options) {
+        return true
     }
 
     // 线索客户管理-上传报告
