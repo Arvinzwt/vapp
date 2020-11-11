@@ -100,7 +100,7 @@ export default class Customer extends Request {
 
     // 审核
     async audit(data, options) {
-        return this.post('/v1/PreLeads/reccustomer/audit', data, options)
+        return this.post('/gxh-leads/v1/PreLeads/reccustomer/audit', data, options)
     }
 
     // 获取标签列表
@@ -146,11 +146,6 @@ export default class Customer extends Request {
     // cc约访预约上门-确认上门
     async confirm(data, options) {
         return this.post('/gxh-leads/v1/Visit/confirm', data, options)
-    }
-
-    // cc约访预约上门-取消到访
-    async cancelconfirm(data, options) {
-        return true
     }
 
     // 线索客户管理-上传报告

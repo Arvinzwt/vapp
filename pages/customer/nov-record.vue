@@ -100,7 +100,7 @@
                 <el-table-column label="是否到访" prop="doorstatus">
                     <template slot-scope="scope">
                         <div @click="switchHandle(scope.row)" class="el-switch"
-                             :class="scope.row.doorstatus?'is-checked':''">
+                             :class="scope.row.doorstatus?'is-checked is-disabled':''">
                             <span class="el-switch__core"></span>
                         </div>
                     </template>
@@ -302,18 +302,18 @@ export default {
          */
         switchHandle(obj) {
             if (obj.doorstatus) {
-                this.$confirm('确认是否取消到访记录？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    this.$api.customer.cancelconfirm().then(res=>{
-                        this.$message.success('取消成功');
-                        this.refreshPage();
-                    })
-                }).catch(() => {
-
-                });
+                // this.$confirm('确认是否取消到访记录？', '提示', {
+                //     confirmButtonText: '确定',
+                //     cancelButtonText: '取消',
+                //     type: 'warning'
+                // }).then(() => {
+                //     this.$api.customer.cancelconfirm().then(res=>{
+                //         this.$message.success('取消成功');
+                //         this.refreshPage();
+                //     })
+                // }).catch(() => {
+                //
+                // });
             } else {
                 this.dialog.form.id = obj.recordid;
                 this.dialog.show = true;

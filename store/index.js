@@ -215,8 +215,8 @@ export const state = () => ({
         ],
         // 性别
         sex: [
-            {"value": "0", "name": "女",},
-            {"value": "1", "name": "男",},
+            {"value": 0, "name": "女",},
+            {"value": 1, "name": "男",},
         ],
         // 报告类型
         reportType: [

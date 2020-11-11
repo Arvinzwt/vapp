@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <!--上传报告-->
+    <div class="jr-customer-uploadReport">
         <slot>
             <!--<el-link type="primary" @click="openDialog">上传报告</el-link>-->
         </slot>

@@ -1,5 +1,5 @@
 <template>
-    <!--选择角色-->
+    <!--选择标签-->
     <div class="jr-customer-selected-tag">
         <!--触发对象-->
         <slot>
