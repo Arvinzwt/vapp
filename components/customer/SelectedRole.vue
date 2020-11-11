@@ -26,7 +26,7 @@
                    :append-to-body="true" custom-class="jr-dialog" width="500px" class="jr-customer-selected-role">
             <!--弹窗内容-->
             <div class="dialog-body">
-                <el-input v-model="dialog.filter" placeholder="请输入姓名，手机号" clearable/>
+                <el-input v-model="dialog.filter" size="mini" placeholder="请输入姓名，手机号" clearable/>
                 <div class="box">
                     <el-radio-group v-model="dialog.radio">
                         <el-radio v-for="item in salesList" :label="item.id" :key="item.id">

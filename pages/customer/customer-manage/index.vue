@@ -185,7 +185,7 @@ export default {
                 // if_trace: [],//是否已跟踪（为空时查全部，0：未跟踪，1：已跟踪）
                 // tags: [],//标签
 
-                role: [],//选择的角色
+                role: '',//选择的角色
             },
 
             // 列表数据
@@ -205,7 +205,9 @@ export default {
         },
     },
     mounted() {
-        this.refreshPage();
+        this.refreshPage().then(total => {
+            this.$emit('update', total)
+        });
     },
     methods: {
         /**
@@ -256,7 +258,7 @@ export default {
                     count: total || 0,//总条数
                 })
                 this.tableData = list;
-                this.$emit('update', total)
+                return total
             }).catch(err => {
             })
         },
@@ -312,7 +314,9 @@ export default {
                 salename: obj.name
             }).then(res => {
                 this.$message.success('分配成功')
-                this.refreshPage();
+                this.refreshPage().then(total => {
+                    this.$emit('update', total)
+                });
             })
         },
 

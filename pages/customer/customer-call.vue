@@ -8,7 +8,7 @@
                     <div slot="label">
                         <span>{{ item.name }}</span>
                         <i v-if="item.id==='3'&&confirmedNum>0"
-                           class="jr-badge">{{ pagesInfo.count }}</i>
+                           class="jr-badge">{{ confirmedNum }}</i>
                     </div>
                 </el-tab-pane>
             </el-tabs>
@@ -21,7 +21,7 @@
                     <!--姓名-->
                     <el-col :span="6">
                         <el-form-item label="姓名">
-                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--登记时间-->
@@ -86,13 +86,13 @@
                     <!--坐席-->
                     <el-col :span="6">
                         <el-form-item label="坐席" v-show="paramMap.show">
-                            <el-input  v-model="paramMap.callName" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.callName" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--渠道小类-->
                     <el-col :span="6">
                         <el-form-item label="渠道小类" v-show="paramMap.show">
-                            <el-input  v-model="paramMap.smallclassname" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.smallclassname" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
 
@@ -111,7 +111,8 @@
             </el-form>
             <!--列表-有数据-->
             <div v-if="tableData.length>0">
-                <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable" :data="tableData"
+                <el-table v-if="tableData.length>0" @sort-change="tableSortChange" class="jr-table" ref="filterTable"
+                          :data="tableData"
                           size="mini">
                     <el-table-column fixed width="50px" type="selection" align="center"/>
                     <el-table-column fixed width="95px" label="姓名" prop="studentName"/>
@@ -306,7 +307,7 @@ export default {
             dialog: {
                 show: false,
                 form: {
-                    recordId:'',
+                    recordId: '',
                     studentName: '',// 姓名
                     tel: '',// 手机号
                     callName: '',// 坐席
@@ -336,7 +337,9 @@ export default {
         }
     },
     async mounted() {
-        this.refreshPage();
+        this.refreshPage().then(total => {
+            this.confirmedNum = total;
+        })
     },
     methods: {
         /**
@@ -351,7 +354,6 @@ export default {
          */
         refreshPage() {
             let {pagesInfo, paramMap, $utils} = this;
-
             return this.$api.customer.search({
                 "pageindex": pagesInfo.pageIndex,
                 "pagesize": pagesInfo.pageSize,
@@ -374,10 +376,7 @@ export default {
                     count: total || 0,//总条数
                 })
                 this.tableData = list;
-
-                if (paramMap.ifok === '3') {//如果是待确认数据刷新，更新总数
-                    this.confirmedNum = total;
-                }
+                return total;
             }).catch(err => {
             })
         },
@@ -461,9 +460,9 @@ export default {
                 if (valid) {//如果验证通过
                     let form = this.dialog.form;
                     this.$api.customer.comfirm({
-                        "recordid": form.recordid,//记录id
+                        "recordid": form.recordId,//记录id
                         "sales": form.sales,//销售ID
-                        "isvalid":  form.ifok,//是否有效
+                        "isvalid": form.ifok,//是否有效
                         "reason": form.invalidType,//原因
                     }).then(res => {
                         this.$message.success('成功');
