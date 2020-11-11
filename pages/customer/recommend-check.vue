@@ -314,7 +314,7 @@
         </el-dialog>
 
         <!--查看图片弹窗-->
-        <PreviewPictureTemplate ref="previewPictureRef"/>
+        <preview-picture-template ref="previewPictureRef"/>
     </el-main>
 </template>
 

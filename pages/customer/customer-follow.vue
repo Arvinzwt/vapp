@@ -479,22 +479,22 @@ export default {
 .jr-customer-customer-follow {
     min-width: 1000px;
 
-    .jr-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        h3 {
-            font-size: 13px;
-        }
-    }
+    //.jr-title {
+    //    display: flex;
+    //    justify-content: space-between;
+    //    align-items: center;
+    //
+    //    h3 {
+    //        font-size: 13px;
+    //    }
+    //}
 
     //块背景
-    .bg-wrap {
+    .bg-wrap{
         background-color: #fafafa; //常规
         padding: 5px 20px 0;
         border-radius: 4px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
     //tabs
@@ -599,63 +599,6 @@ export default {
                     background-color: #e4e7ed;;
                 }
             }
-        }
-    }
-
-    //地图
-    .map-box {
-        display: flex;
-
-        $width: 760px;
-        $height: 380px;
-
-        #map {
-            width: $width*0.7;
-            height: $height;
-            border-right: none;
-        }
-
-
-        $pt: 10px;
-        $pl: 15px;
-
-        .map-list-wrap {
-            padding: $pt 0;
-
-            ul {
-                width: $width*0.3;
-                height: $height - $pt*2;
-                overflow-y: scroll;
-
-                .map-item {
-                    padding: 10px $pl;
-                    cursor: pointer;
-
-                    .title {
-                        font-size: 14px;
-                        font-weight: bold;
-                    }
-
-                    .detail {
-                        font-size: 12px;
-                        margin-top: 4px;
-                    }
-
-                    .title, .detail {
-                        width: $width*0.3 - $pl*2;
-                    }
-
-                    &:hover {
-                        background-color: #F5F7FA;
-                    }
-                }
-            }
-        }
-
-        .map-default {
-            font-size: 13px;
-            text-align: center;
-            padding: 15px 0;
         }
     }
 }

@@ -2,9 +2,14 @@
     <!--客户详情-->
     <el-main class="jr-customer-customer-detail">
         <!--基本信息-->
-        <div class="bg-gray pl-4 pr-4 border-radius-base">
+        <div class="bg-wrap">
             <h3 class="jr-title">基本信息</h3>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
+                <el-form-item label="标签">
+                    <el-tag v-for="item in paramMap.taglist" :key="item.id" type="primary" size="mini" class="mr-3">
+                        {{ item.tag.tagName }}
+                    </el-tag>
+                </el-form-item>
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="姓名">
@@ -13,56 +18,58 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="手机">
-                            <div class="jr-disabled-input">
-                                <span>{{ paramMap.phone }}</span>
-                                <span></span>
-                            </div>
+                            <span v-if="showPhone" class="mr-2">{{ paramMap.phone }}</span>
+                            <span v-else class="mr-2">{{ $utils.desensitizationPhone(paramMap.phone) }}</span>
+                            <span @click="callCustomer"
+                                  class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
+                            <span @click="showPhone=!showPhone"
+                                  class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="渠道大类">
+                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="渠道小类">
+                            <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="性别">
                             <div class="jr-disabled-input">{{ paramMap.sex }}</div>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="家庭住址">
+                        <el-form-item label="省市区">
+                            <div class="jr-disabled-input">
+                                {{ paramMap.cityid }}{{ paramMap.areacityid }}{{ paramMap.streetid }}
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="详细地址">
                             <div class="jr-disabled-input">{{ paramMap.address }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="学校">
+                            <div class="jr-disabled-input">{{ paramMap.school }}</div>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
                     <el-col :span="6">
-                        <el-form-item label="所在学校">
-                            <div class="jr-disabled-input">{{ paramMap.school }}</div>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="所在年级">
+                        <el-form-item label="年级">
                             <div class="jr-disabled-input">{{ paramMap.grade }}</div>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="意向科目">
+                        <el-form-item label="科目">
                             <div class="jr-disabled-input">{{ paramMap.subjects }}</div>
-                        </el-form-item>
-                    </el-col>
-
-
-                    <el-col :span="6">
-                        <el-form-item label="渠道大类">
-                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="渠道小类">
-                            <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="创建时间">
-                            <div class="jr-disabled-input">{{ paramMap.created_at }}</div>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -76,10 +83,31 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-form-item label="备注">
+                    <div class="jr-disabled-input">{{ paramMap.remark }}</div>
+                </el-form-item>
+            </el-form>
+        </div>
+        <!--系统信息-->
+        <div class="bg-wrap">
+            <div class="box">
+                <h3 class="jr-title">系统信息</h3>
+            </div>
+            <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
                 <el-row :gutter="15">
                     <el-col :span="6">
-                        <el-form-item label="备注">
-                            <div class="jr-disabled-input">{{ paramMap.remark }}</div>
+                        <el-form-item label="创建时间">
+                            <div class="jr-disabled-input">{{ paramMap.created_at }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="获取时间">
+                            <div class="jr-disabled-input">{{ paramMap.gain_time }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="负责人">
+                            <div class="jr-disabled-input">{{ paramMap.owner }}</div>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -119,21 +147,15 @@
                     </div>
                 </div>
             </el-tab-pane>
-
             <!--负责人变更记录-->
             <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
-                    <!--留资记录列表-->
+                    <!--负责人变更列表-->
                     <div class="details-timeline_item" v-for="item in chargeRecord.list" :key="item.id">
                         <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
-                        </div>
-                        <div class="details-timeline_content_wrap">
-                            <div class="details-timeline_content">
-                                <div class="details-timeline_remark">
-                                    负责人变更记录：{{ item.creatorId }}=>{{ item.updatorId }}
-                                </div>
-                            </div>
+                            <div class="details-timeline_date text-ellipsis">{{ item.begin_time }}</div>
+                            <div class="details-timeline_user2 text-ellipsis"> CC负责人变更：{{ item.onwerremark }}</div>
+                            <div class="details-timeline_status text-ellipsis">操作人：{{ item.operatorname }}</div>
                         </div>
                     </div>
                     <!--加载更多-->
@@ -147,14 +169,48 @@
                     </div>
                 </div>
             </el-tab-pane>
+            <!--报告中心-->
+            <el-tab-pane label="报告中心">
+                <div class="details-timeline">
+                    <!--报告中心列表-->
+                    <div class="details-timeline_item" v-for="item in reportCenter.list" :key="item.id">
+                        <div class="details-timeline_title text-color-main">
+                            <div class="details-timeline_date text-ellipsis">上传时间{{ item.createTime }}</div>
+                            <div class="details-timeline_date text-ellipsis">上传人：{{ item.createBy }}</div>
+                        </div>
+                        <div class="details-timeline_content_wrap">
+                            <div class="details-timeline_content">
+                                <div class="details-timeline_remark">
+                                    <span v-if="item.type==1">【 CC未签约分析报告 】：</span>
+                                    <span v-if="item.type==2">【 入学测试 】：</span>
+                                    <el-link type="primary" @click="onFilePreview(item)">{{ item.fileUrl }}</el-link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--报告中心列表空-->
+                    <div v-if="reportCenter.list.length===0" class="p-4 bg-gray text-center">
+                        <span>暂无报告</span>
+                    </div>
+                </div>
+            </el-tab-pane>
         </el-tabs>
+        <!--查看图片弹窗-->
+        <preview-picture-template ref="previewPictureRef"/>
     </el-main>
 </template>
 
 <script>
+import PreviewPictureTemplate from "@/components/customer/PreviewPicture";
+
 export default {
+    components: {
+        PreviewPictureTemplate,
+    },
     data() {
         return {
+            showPhone: false,
+
             paramMap: {
                 "leadsid": "",//id
                 "name": "",//姓名
@@ -195,6 +251,16 @@ export default {
                     pagesize: 20
                 },
                 total: 0,
+            },
+
+            // 报告中心
+            reportCenter: {
+                list: [],
+                pages: {
+                    pageindex: 1,
+                    pagesize: 20
+                },
+                total: 0,
             }
 
         }
@@ -226,14 +292,20 @@ export default {
                 leadsid,
                 ...this.chargeRecord.pages
             }) || [];
+            //报告中心
+            let reportCenter = await this.$api.customer.reportList({
+                studentid: leadsid,
+            }) || [];
 
             Object.assign(this.paramMap, paramMap);
 
             followRecord.list = followRecord.list || [];
             chargeRecord.list = chargeRecord.list || [];
+            reportCenter.list = reportCenter.list || [];
 
             this.followRecord.list = this.followRecord.list.concat(followRecord.list);
             this.chargeRecord.list = this.chargeRecord.list.concat(chargeRecord.list);
+            this.reportCenter.list = reportCenter.list;
 
             this.followRecord.total = followRecord.total || 0;
             this.chargeRecord.total = chargeRecord.total || 0;
@@ -250,13 +322,38 @@ export default {
                 this.chargeRecord.pages.pageindex++
             }
             this.refreshPage();
-        }
+        },
+
+        /**
+         *@desc 上传-查看图片
+         */
+        onFilePreview(obj) {
+            this.$refs['previewPictureRef'].open({
+                name: obj.name,
+                url: obj.url
+            });
+        },
+
+        /**
+         *@desc 呼叫用户
+         */
+        callCustomer(obj) {
+            this.$api.customer.callCustomer().then(res => {
+                this.$message.success('呼叫用户')
+            })
+        },
     }
 }
 </script>
 
 <style lang="scss">
 .jr-customer-customer-detail {
+    .bg-wrap{
+        background-color: #fafafa; //常规
+        padding: 5px 20px 0;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
     //tabs
     .details-tabs {
         margin-top: 20px;
@@ -296,14 +393,20 @@ export default {
                 align-items: center;
 
                 .details-timeline_date {
-                    max-width: 200px;
+                    max-width: 220px;
                     margin-right: 20px;
                 }
 
                 .details-timeline_user {
-                    max-width: 120px;
+                    max-width: 220px;
                     margin-right: 20px;
                 }
+
+                .details-timeline_user2 {
+                    max-width: 220px;
+                    margin-right: 20px;
+                }
+
             }
 
             .details-timeline_content {
@@ -360,8 +463,6 @@ export default {
                 }
             }
         }
-
-
     }
 }
 </style>
