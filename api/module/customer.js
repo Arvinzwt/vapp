@@ -18,9 +18,9 @@ export default class Customer extends Request {
         return true
     }
 
-    // 呼叫负责人
+    // 呼叫中心对接
     async callCustomer(data, options) {
-        return true
+        return this.post('/gxh-leads/v1/CallLeads/call', data, options)
     }
 
     // 今日新线索
@@ -43,6 +43,11 @@ export default class Customer extends Request {
         return this.get('/gxh-leads/v1/Leads/detail', data, options)
     }
 
+    // leads新增
+    async addleads(data, options) {
+        return this.post('/gxh-leads/v1/Leads/addleads', data, options)
+    }
+
     // leads呼叫中心查询
     async search(data, options) {
         return this.post('/gxh-leads/v1/LeadsCallCenter/search', data, options)
@@ -55,7 +60,7 @@ export default class Customer extends Request {
 
     // leads呼叫中心确认
     async comfirm(data, options) {
-        return this.post('/gxh-leads/v1/LeadsCallCenter/comfirm',data,options)
+        return this.post('/gxh-leads/v1/LeadsCallCenter/comfirm', data, options)
     }
 
     // 新增-更新追踪信息
@@ -151,5 +156,25 @@ export default class Customer extends Request {
     // 线索客户管理-上传报告
     async uploadReport(data, options) {
         return this.post('/gxh-leads/v1/Visit/UploadReport', data, options)
+    }
+
+    // 我的线索客户-分配
+    async updateSales(data, options) {
+        return this.post('/gxh-leads/v1/Visit/UpdateSales', data, options)
+    }
+
+    // 我的线索客户-放弃
+    async giveUpLeads(data, options) {
+        return this.post('/gxh-leads/v1/Visit/GiveUpLeads', data, options)
+    }
+
+    //我的线索客户-删除
+    async deleteLeads(data, options) {
+        return this.post('/gxh-leads/v1/Visit/DeleteLeads', data, options)
+    }
+
+    // 我的学员-查看报告
+    async reportList(data, options) {
+        return this.post('/gxh-leads/v1/Visit/ReportList', data, options)
     }
 }

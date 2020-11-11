@@ -92,9 +92,13 @@ export default class Common extends Request {
         })
     }
 
-    // 上传图片接口
+    // Base64形式上传文件
     async uploadfile(data, options) {
         return this.post('/gxh-leads/v1/Base/uploadfile', data, options)
     }
 
+    // 市区街道
+    async getCityStreetData(data, options) {
+        return this.post('/gxh-leads/v1/Base/GetCityStreetData', data, options)
+    }
 }
