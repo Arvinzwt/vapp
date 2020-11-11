@@ -84,7 +84,7 @@
                     </el-col>
                 </el-row>
                 <el-form-item label="备注">
-                    <div class="jr-disabled-input">{{ paramMap.remark }}</div>
+                    <el-input v-model="paramMap.remark" disabled type="textarea" :row="2" placeholder="请输入内容" clearable/>
                 </el-form-item>
             </el-form>
         </div>
@@ -353,6 +353,7 @@ export default {
         padding: 5px 20px 0;
         border-radius: 4px;
         margin-bottom: 20px;
+        border: 1px solid transparent;
     }
     //tabs
     .details-tabs {

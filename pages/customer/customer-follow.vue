@@ -3,15 +3,22 @@
     <el-main class="jr-customer-customer-follow">
         <!--基本信息-->
         <div class="bg-wrap">
-            <div class="jr-title">
-                <h3>基本信息</h3>
+            <div class="box">
+                <h3 class="jr-title">基本信息</h3>
+                <el-link type="primary">+ 标签</el-link>
+                <!--<selected-tag-template v-model="paramMap.tags" ref="tagRef" @change="submitSelectedTag"/>-->
+
             </div>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
-
+                <el-form-item label="标签">
+                    <el-tag v-for="item in paramMap.taglist" :key="item.id" type="primary" size="mini" class="mr-3">
+                        {{ item.tag.tagName }}
+                    </el-tag>
+                </el-form-item>
                 <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="姓名">
-                            <div class="jr-disabled-input">{{ paramMap.name }}</div>
+                            <el-input v-model="paramMap.name" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -24,6 +31,18 @@
                                   class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="渠道大类">
+                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="渠道小类">
+                            <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="性别">
                             <el-select v-model="paramMap.sex" placeholder="请选择"
@@ -38,17 +57,24 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
+                        <el-form-item label="省市区">
+                            <div class="jr-disabled-input">
+                                {{ paramMap.cityid }}{{ paramMap.areacityid }}{{ paramMap.streetid }}
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
                         <el-form-item label="详细地址">
-                            <el-input  v-model="paramMap.address" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.address" placeholder="请输入内容" clearable/>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="学校">
+                            <el-input v-model="paramMap.school" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="学校">
-                            <el-input  v-model="paramMap.school" placeholder="请输入内容" clearable/>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="6">
                         <el-form-item label="年级">
                             <el-select v-model="paramMap.grade" placeholder="请选择"
@@ -63,7 +89,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="意向学科">
+                        <el-form-item label="科目">
                             <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.subject"
@@ -75,38 +101,20 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="标签">
-                            <selected-tag-template v-model="paramMap.tags" ref="tagRef" @change="submitSelectedTag"/>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
-                    <el-col :span="6">
-                        <el-form-item label="渠道大类">
-                            <div class="jr-disabled-input">{{ paramMap.bigclass }}</div>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="渠道小类">
-                            <div class="jr-disabled-input">{{ paramMap.smallclass }}</div>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
                         <el-form-item label="联系电话1">
-                            <el-input  v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="联系电话2">
-                            <el-input  v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-col :span="6">
-                    <el-form-item label="备注">
-                        <div class="jr-disabled-input">{{ paramMap.remark }}</div>
-                    </el-form-item>
-                </el-col>
+                <el-form-item label="备注">
+                    <el-input v-model="paramMap.remark" disabled type="textarea" :rows="2" placeholder="请输入内容"
+                              clearable/>
+                </el-form-item>
                 <el-form-item label-width="0" class="text-right">
                     <el-button type="primary" @click="submitBasicMsg">提交</el-button>
                 </el-form-item>
@@ -114,9 +122,7 @@
         </div>
         <!--系统信息-->
         <div class="bg-wrap">
-            <div class="jr-title">
-                <h3>系统信息</h3>
-            </div>
+            <h3 class="jr-title">系统信息</h3>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
                 <el-row :gutter="15">
                     <el-col :span="6">
@@ -140,9 +146,7 @@
         </div>
         <!--添加跟进记录-->
         <div class="bg-wrap">
-            <div class="jr-title">
-                <h3>添加跟进记录</h3>
-            </div>
+            <h3 class="jr-title">添加跟进记录</h3>
             <el-form class="jr-form" size="mini" :model="followParam" :rules="rules" label-width="90px"
                      label-position="left" ref="ruleForm">
                 <el-row :gutter="15">
@@ -176,7 +180,7 @@
                     <el-col :span="6">
                         <el-form-item label="下次跟进时间">
                             <el-date-picker
-                                    v-model="paramMap.last_trace_time"
+                                    v-model="followParam.last_trace_time"
                                     type="date"
                                     placeholder="选择日期" clearable>
                             </el-date-picker>
@@ -185,14 +189,14 @@
                     <el-col :span="6">
                         <el-form-item label="诺到访时间">
                             <el-date-picker
-                                    v-model="paramMap.ntime"
+                                    v-model="followParam.ntime"
                                     type="date"
                                     placeholder="选择日期" clearable>
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-form-item label-width="0">
+                <el-form-item label="跟进记录">
                     <el-input
                             type="textarea"
                             :rows="2"
@@ -238,21 +242,15 @@
                     </div>
                 </div>
             </el-tab-pane>
-
             <!--负责人变更记录-->
             <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
-                    <!--留资记录列表-->
+                    <!--负责人变更列表-->
                     <div class="details-timeline_item" v-for="item in chargeRecord.list" :key="item.id">
                         <div class="details-timeline_title text-color-main">
-                            <div class="details-timeline_date text-ellipsis">负责人变更记录 {{ item.updateAt }}</div>
-                        </div>
-                        <div class="details-timeline_content_wrap">
-                            <div class="details-timeline_content">
-                                <div class="details-timeline_remark">
-                                    负责人变更记录：{{ item.creatorId }}=>{{ item.updatorId }}
-                                </div>
-                            </div>
+                            <div class="details-timeline_date text-ellipsis">{{ item.begin_time }}</div>
+                            <div class="details-timeline_user2 text-ellipsis"> CC负责人变更：{{ item.onwerremark }}</div>
+                            <div class="details-timeline_status text-ellipsis">操作人：{{ item.operatorname }}</div>
                         </div>
                     </div>
                     <!--加载更多-->
@@ -266,7 +264,34 @@
                     </div>
                 </div>
             </el-tab-pane>
+            <!--报告中心-->
+            <el-tab-pane label="报告中心">
+                <div class="details-timeline">
+                    <!--报告中心列表-->
+                    <div class="details-timeline_item" v-for="item in reportCenter.list" :key="item.id">
+                        <div class="details-timeline_title text-color-main">
+                            <div class="details-timeline_date text-ellipsis">上传时间{{ item.createTime }}</div>
+                            <div class="details-timeline_date text-ellipsis">上传人：{{ item.createBy }}</div>
+                        </div>
+                        <div class="details-timeline_content_wrap">
+                            <div class="details-timeline_content">
+                                <div class="details-timeline_remark">
+                                    <span v-if="item.type==1">【 CC未签约分析报告 】：</span>
+                                    <span v-if="item.type==2">【 入学测试 】：</span>
+                                    <el-link type="primary" @click="onFilePreview(item)">{{ item.fileUrl }}</el-link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--报告中心列表空-->
+                    <div v-if="reportCenter.list.length===0" class="p-4 bg-gray text-center">
+                        <span>暂无报告</span>
+                    </div>
+                </div>
+            </el-tab-pane>
         </el-tabs>
+        <!--查看图片弹窗-->
+        <preview-picture-template ref="previewPictureRef"/>
     </el-main>
 </template>
 
@@ -274,12 +299,14 @@
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
 import SelectedTagTemplate from "@/components/customer/SelectedTag";
+import PreviewPictureTemplate from "@/components/customer/PreviewPicture";
 
 export default {
     components: {
         PaginationTemplate,
         SelectedRoleTemplate,
         SelectedTagTemplate,
+        PreviewPictureTemplate,
     },
     computed: {
         dic() {
@@ -342,15 +369,29 @@ export default {
                 total: 0,
             },
 
+            // 报告中心
+            reportCenter: {
+                list: [],
+                pages: {
+                    pageindex: 1,
+                    pagesize: 20
+                },
+                total: 0,
+            },
+
             //必填判定
             rules: {
                 last_trace_status: {required: true, message: '请选择跟进状态', trigger: 'blur'},
                 intention: {required: true, message: '请选择意向度', trigger: 'blur'},
-            }
+            },
+
+            //市区街道
+            city: [],
         }
     },
-    mounted() {
-        this.paramMap.leadsid = this.$route.query.id
+    async mounted() {
+        this.paramMap.leadsid = this.$route.query.id;
+        this.city = await this.$api.common.getCityStreetData({"parentid": 0, "iscity": true}) || [];
         this.refreshPage()
     },
     methods: {
@@ -371,6 +412,10 @@ export default {
                 leadsid,
                 ...this.chargeRecord.pages
             }) || [];
+            //报告中心
+            let reportCenter = await this.$api.customer.reportList({
+                studentid: leadsid,
+            }) || [];
 
             Object.assign(this.paramMap, {
                 ...paramMap,
@@ -379,9 +424,11 @@ export default {
 
             followRecord.list = followRecord.list || [];
             chargeRecord.list = chargeRecord.list || [];
+            reportCenter.list = reportCenter.list || [];
 
             this.followRecord.list = this.followRecord.list.concat(followRecord.list);
             this.chargeRecord.list = this.chargeRecord.list.concat(chargeRecord.list);
+            this.reportCenter.list = reportCenter.list;
 
             this.followRecord.total = followRecord.total || 0;
             this.chargeRecord.total = chargeRecord.total || 0;
@@ -443,21 +490,19 @@ export default {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
                     this.$api.customer.addUpdateTrack({
-                        "id": this.$route.query.callId,
-                        "studentid": this.paramMap.leadsid,
-                        "ztype": this.followParam.last_trace_status,//跟踪结果
-                        "zneirong": this.followParam.last_trace_time,//追踪记录
-                        // "datetime": 0,//登记日期时间戳
-                        "nextdate": this.followParam.ntime,//下次追踪时间时间戳
-                        // "gw": "string",//追踪者
-                        // "zzType": 0,//追踪方式
-                        // "subtype": 0,//子类型：用于区分电话方式的子类型 1： 合力呼叫系统
-                        // "hrcode": "string"//hrcode
+                        "id": this.$route.query.callId || 0,//呼入id不为0时更新
+                        "leadsid": this.paramMap.leadsid,
+                        "ztype": this.followParam.last_trace_status,//跟踪状态
+                        "zneirong": this.followParam.reason1,//追踪记录
+                        "kenengxing": this.followParam.intention,//可能性
+                        "nextdate": this.$utils.convertTime(this.followParam.last_trace_time),//下次追踪时间时间戳
+                        "promisedate": this.$utils.convertTime(this.followParam.ntime),
+                        "ifvalid": 1,//下次有效 1 有效 2 无效
                     }).then(res => {
                         this.$message.success('成功');
                         this.refreshPage();
                     })
-                }else {
+                } else {
                     return false
                 }
             })
@@ -471,6 +516,16 @@ export default {
                 this.$message.success('呼叫用户')
             })
         },
+
+        /**
+         *@desc 上传-查看图片
+         */
+        onFilePreview(obj) {
+            this.$refs['previewPictureRef'].open({
+                name: obj.name,
+                url: obj.url
+            });
+        },
     }
 }
 </script>
@@ -479,22 +534,19 @@ export default {
 .jr-customer-customer-follow {
     min-width: 1000px;
 
-    //.jr-title {
-    //    display: flex;
-    //    justify-content: space-between;
-    //    align-items: center;
-    //
-    //    h3 {
-    //        font-size: 13px;
-    //    }
-    //}
+    .box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
     //块背景
-    .bg-wrap{
+    .bg-wrap {
         background-color: #fafafa; //常规
         padding: 5px 20px 0;
         border-radius: 4px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        border: 1px solid transparent;
     }
 
     //tabs
