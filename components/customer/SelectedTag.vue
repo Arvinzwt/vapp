@@ -7,7 +7,7 @@
                 <div v-if="showList.length>0" class="selected-wrp-main">
                     <div class="selected-wrp-tag">
                         <el-tag @close="deleteHandle" closable size="mini" type="info">
-                            {{ showList[0].tag_Name }}
+                            {{ showList[0].tagName }}
                         </el-tag>
                         <el-tag type="info" v-show="showList.length>1" size="mini">
                             +{{ showList.length - 1 }}
@@ -28,13 +28,13 @@
             <!--弹窗内容-->
             <div class="dialog-body">
                 <el-collapse v-model="activeNames" @change="">
-                    <el-collapse-item v-for="item in tags" :key="item.tag_Id" :title="item.tag_Name"
-                                      :name="item.tag_Id">
+                    <el-collapse-item v-for="item in tags" :key="item.id" :title="item.tagName"
+                                      :name="item.id">
                         <el-tag size="small" class="mr-3 mb-2 cursor-pointer"
-                                v-for="list in item.tag_Items"
-                                :key="list.tag_Id"
+                                v-for="list in item.subTags"
+                                :key="list.id"
                                 :type="isActive(list)"
-                                @click="tagTap(list)">{{ list.tag_Name }}
+                                @click="tagTap(list)">{{ list.tagName }}
                         </el-tag>
                     </el-collapse-item>
                 </el-collapse>
@@ -71,7 +71,7 @@ export default {
     computed: {
         isActive() {
             return list => {
-                return this.dialog.value.includes(list.tag_Id) ? '' : 'info';
+                return this.dialog.value.includes(list.id) ? '' : 'info';
             }
         }
     },
@@ -88,13 +88,9 @@ export default {
         },
     },
     async mounted() {
-        this.$api.customer.getTags({
-            "clientNo": "",
-            // "timeStamp": this.$utils.moment().valueOf(),
-            "tag_parent_Id": 0
-        }).then((res = []) => {
+        this.$api.customer.getTags().then((res = []) => {
             this.activeNames = res.map(item => {
-                return item.tag_Id;
+                return item.id;
             })
             this.tags = res;
             this.setTag()
@@ -108,8 +104,8 @@ export default {
         setTag() {
             this.showList = [];
             this.tags.forEach(item => {
-                item.tag_Items.forEach(list => {
-                    if (this.model.includes(list.tag_Id)) {
+                item.subTags.forEach(list => {
+                    if (this.model.includes(list.id)) {
                         this.showList.push(list)
                     }
                 })
@@ -128,12 +124,11 @@ export default {
          *@desc 选择标签时
          */
         tagTap(obj) {
-            if (this.dialog.value.includes(obj.tag_Id)) {
-                this.dialog.value.splice(this.dialog.value.indexOf(obj.tag_Id), 1)
+            if (this.dialog.value.includes(obj.id)) {
+                this.dialog.value.splice(this.dialog.value.indexOf(obj.id), 1)
             } else {
-                this.dialog.value.push(obj.tag_Id)
+                this.dialog.value.push(obj.id)
             }
-            console.log(this.model)
         },
 
         /**

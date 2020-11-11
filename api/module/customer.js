@@ -20,7 +20,8 @@ export default class Customer extends Request {
 
     // 呼叫中心对接
     async callCustomer(data, options) {
-        return this.post('/gxh-leads/v1/CallLeads/call', data, options)
+        return true;
+        // return this.post('/gxh-leads/v1/CallLeads/call', data, options)
     }
 
     // 今日新线索
