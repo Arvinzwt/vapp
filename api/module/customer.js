@@ -144,9 +144,14 @@ export default class Customer extends Request {
         return this.post('/gxh-leads/v1/Tag/DeleteRegisteredTag', data, options)
     }
 
-    // 绑定标签
+    // 绑定标签-单个
     async bindingTag(data, options) {
         return this.post('/gxh-leads/v1/Tag/BindingTag', data, options)
+    }
+
+    // 绑定标签-多个
+    async updateleadstags(data, options) {
+        return this.post('/gxh-leads/v1/Tag/updateleadstags', data, options)
     }
 
     // 取消绑定

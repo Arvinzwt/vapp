@@ -5,15 +5,16 @@
         <div class="bg-wrap">
             <div class="box">
                 <h3 class="jr-title">基本信息</h3>
-                <el-link type="primary">+ 标签</el-link>
-                <!--<selected-tag-template v-model="paramMap.tags" ref="tagRef" @change="submitSelectedTag"/>-->
-
+                <selected-tag-template v-model="paramMap.tagData" ref="tagRef" @change="submitSelectedTag">
+                    <el-link type="primary" @click="openAddTagDialog">+ 标签</el-link>
+                </selected-tag-template>
             </div>
             <el-form class="jr-form" size="mini" :model="paramMap" label-width="90px" label-position="left">
                 <el-form-item label="标签">
                     <el-tag v-for="item in paramMap.taglist" :key="item.id" type="primary" size="mini" class="mr-3">
                         {{ item.tag.tagName }}
                     </el-tag>
+                    <span v-if="paramMap.taglist.length===0" class="text-color-placeholder">暂无数据</span>
                 </el-form-item>
                 <el-row :gutter="15">
                     <el-col :span="6">
@@ -58,9 +59,7 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="省市区">
-                            <div class="jr-disabled-input">
-                                {{ paramMap.cityid }}{{ paramMap.areacityid }}{{ paramMap.streetid }}
-                            </div>
+                            <el-cascader :props="$utils.cityProps" v-model="paramMap.area"></el-cascader>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -195,6 +194,18 @@
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="是否有效">
+                            <el-select v-model="followParam.ifvalid" placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.isValid2"
+                                        :key="item.value"
+                                        :label="item.name"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-form-item label="跟进记录">
                     <el-input
@@ -319,25 +330,31 @@ export default {
 
             //基础信息
             paramMap: {
-                "leadsid": "",//id
-                "name": "",//姓名
-                "phone": "",//手机号
-                "phone1": "",//联系电话1
-                "phone2": "",//联系电话2
-                "intype": "",//线索来源
-                "address": "",//家庭住址
-                "sex": "",//性别
-                "grade": "",//年级
-                "subjects": "",//学科
-                "bigclass": "",//大类
-                "smallclass": "",//小类
-                "created_at": "",//创建时间
-                "gain_time": "",//获取时间
-                "owner": "",//负责人
-                "remark": "",//备注
-                "birthday": "",//生日
-                "tags": [],//标签
-                "school": "",//学校
+                address: "",//家庭住址
+                areacityid: '',//区县id
+                bigclass: "",//大类
+                birthday: null,//生日
+                cityid: 0,//城市id
+                created_at: "",//创建时间
+                gain_time: "",//获取时间
+                grade: "",//年级
+                intype: "",//线索来源
+                leadsid: 0,
+                name: "",//姓名
+                owner: "",//负责人
+                phone: "",
+                phone1: "",
+                phone2: "",
+                remark: null,
+                school: null,
+                sex: "",
+                smallclass: "",
+                streetid: 0,//街道id
+                subjects: "",//学科
+                taglist: [],//标签
+                tags: null,
+
+                tagData: [],
             },
 
             //添加根基记录
@@ -347,6 +364,7 @@ export default {
                 last_trace_time: '',//下次跟进时间
                 ntime: '',//诺到访时间
                 reason1: '',//请写跟进记录
+                ifvalid: '',//是否有效
             },
 
             // 跟进记录
@@ -384,14 +402,10 @@ export default {
                 last_trace_status: {required: true, message: '请选择跟进状态', trigger: 'blur'},
                 intention: {required: true, message: '请选择意向度', trigger: 'blur'},
             },
-
-            //市区街道
-            city: [],
         }
     },
     async mounted() {
         this.paramMap.leadsid = this.$route.query.id;
-        this.city = await this.$api.common.getCityStreetData({"parentid": 0, "iscity": true}) || [];
         this.refreshPage()
     },
     methods: {
@@ -419,8 +433,11 @@ export default {
 
             Object.assign(this.paramMap, {
                 ...paramMap,
-                tags: paramMap.tags ? paramMap.tags.split(',') : []
-            });
+                tagData: paramMap.taglist.map(item => {
+                    return item.tagId
+                }),
+                area: [paramMap.cityid, paramMap.areacityid, paramMap.streetid]
+            })
 
             followRecord.list = followRecord.list || [];
             chargeRecord.list = chargeRecord.list || [];
@@ -450,26 +467,17 @@ export default {
         /**
          *@desc 打开选择标签弹窗
          */
-        // openAddTagDialog() {
-        //     this.$refs['tagRef'].openDialog();
-        // },
+        openAddTagDialog() {
+            this.$refs['tagRef'].openDialog();
+        },
 
         /**
          *@desc 提交绑定标签
          */
         submitSelectedTag() {
-            this.$api.customer.bindingTag({
-                // "clientNo": "",//客户流水号
-                // "timeStamp": "",//操作时间 时间戳
-                // "tag_Id": 0,//标签ID
-                // "tag_sourceId": "",//标记对象主索引
-                // "tag_sourceName": "",//标记对象名称
-                // "tag_sourceTypeId": "",//标记对象类型ID 1-老师 2-学生 3-员工 4-合同
-                // "tag_sourceTypeName": "",//标记对象类型名称 老师 学生 员工 合同
-                // "marker": "string",//标记者
-                // "mark_time": "",//标记时间
-                // "mark_timeStamp": 0,//标记时间时间戳
-                // "remark": ""//备注
+            this.$api.customer.updateleadstags({
+                tagid: this.paramMap.tagData,
+                leadsid: this.paramMap.leadsid,
             }).then(res => {
                 this.$message.success('添加成功')
                 this.refreshPage();
@@ -497,7 +505,7 @@ export default {
                         "kenengxing": this.followParam.intention,//可能性
                         "nextdate": this.$utils.convertTime(this.followParam.last_trace_time),//下次追踪时间时间戳
                         "promisedate": this.$utils.convertTime(this.followParam.ntime),
-                        "ifvalid": 1,//下次有效 1 有效 2 无效
+                        "ifvalid": this.followParam.ifvalid,//下次有效 1 有效 2 无效
                     }).then(res => {
                         this.$message.success('成功');
                         this.refreshPage();

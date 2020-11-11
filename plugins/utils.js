@@ -180,5 +180,29 @@ export default ({store, $axios, app}, inject) => {
             checkStrictly: true,
         },
 
+        //省市区配置
+        cityProps: {
+            lazy: true,
+            lazyLoad: async (node, resolve) => {
+                let level = node.level;
+                let param = level === 0 ? {parentid: 0, iscity: true} : {parentid: node.data.id,}
+                let nodes = await app.$api.common.getCityStreetData(param) || [];
+
+                if (nodes.length === 0) {
+                    nodes = [{name: "未知", id: 0}]
+                }
+
+                resolve(nodes.map(item => {
+                    return {
+                        name: item.name,
+                        id: item.id,
+                        leaf: level >= 2
+                    }
+                }));
+            },
+            value: 'id',
+            label: 'name',
+            children: 'children',
+        }
     })
 }
