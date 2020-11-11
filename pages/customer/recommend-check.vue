@@ -631,7 +631,7 @@ export default {
                             "tjcode": form.tjcode,//推荐吗
                             "tjstudent": form.tjstudent,//学员编号
                             "id": form.id,
-                            "sales": form.saleid,//教育顾问
+                            "sales": form.saleid || 0,//教育顾问
                             "isaggress": form.ifok,//审核结果：1-通过，2-驳回
                             "whyreject": form.whyreject//驳回理由
                         }).then(res => {

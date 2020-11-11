@@ -471,9 +471,13 @@ export default {
          *@desc 分配用户-确定分配时
          */
         submitAssignCustomer() {
+            let studentids = (this.$refs['filterTable'].selection).map(item => {
+                return item.leadsid
+            })
             this.$api.customer.assignCustomer({
-                customerId: this.$refs['filterTable'].selection,
-                roleId: this.paramMap.role,
+                studentids,
+                salesid: obj.id,
+                salename: obj.name
             }).then(res => {
                 this.$message.success('分配成功')
                 this.refreshPage();

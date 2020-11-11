@@ -122,8 +122,12 @@ export default {
          */
         submitDialog() {
             if (this.dialog.radio) {
+                let target = this.salesList.find(item => {
+                    return item.id == this.dialog.radio;
+                })
+
                 this.$emit('update', this.dialog.radio);//更新数据
-                this.$emit('change', this.dialog.radio);//触发change
+                this.$emit('change', target);//触发change
                 this.dialog.show = false;//关闭弹窗
             } else {
                 this.$message.error("请选择负责人")

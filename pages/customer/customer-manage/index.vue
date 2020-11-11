@@ -158,7 +158,7 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                 // order: "",//排序方式
+                // order: "",//排序方式
                 // orderfield: "",//排序字段
                 keywords: "",//手机号或姓名
                 grade: [],//年级
@@ -302,10 +302,14 @@ export default {
         /**
          *@desc 分配用户-确定分配时
          */
-        submitAssignCustomer() {
+        submitAssignCustomer(obj) {
+            let studentids = (this.$refs['filterTable'].selection).map(item => {
+                return item.leadsid
+            })
             this.$api.customer.assignCustomer({
-                customerId: this.$refs['filterTable'].selection,
-                roleId: this.paramMap.role,
+                studentids,
+                salesid: obj.id,
+                salename: obj.name
             }).then(res => {
                 this.$message.success('分配成功')
                 this.refreshPage();

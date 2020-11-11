@@ -13,9 +13,24 @@ export default class Customer extends Request {
         return this.post('/gxh-leads/v1/Leads/search', data, options)
     }
 
-    // 分配负责人
+    // 我的线索客户-分配
     async assignCustomer(data, options) {
-        return true
+        return this.post('/gxh-leads/v1/Visit/UpdateSales', data, options)
+    }
+
+    // 我的线索客户-放弃
+    async giveUpLeads(data, options) {
+        return this.post('/gxh-leads/v1/Visit/GiveUpLeads', data, options)
+    }
+
+    //我的线索客户-删除
+    async deleteLeads(data, options) {
+        return this.post('/gxh-leads/v1/Visit/DeleteLeads', data, options)
+    }
+
+    // 我的学员-查看报告
+    async reportList(data, options) {
+        return this.post('/gxh-leads/v1/Visit/ReportList', data, options)
     }
 
     // 呼叫中心对接
@@ -157,25 +172,5 @@ export default class Customer extends Request {
     // 线索客户管理-上传报告
     async uploadReport(data, options) {
         return this.post('/gxh-leads/v1/Visit/UploadReport', data, options)
-    }
-
-    // 我的线索客户-分配
-    async updateSales(data, options) {
-        return this.post('/gxh-leads/v1/Visit/UpdateSales', data, options)
-    }
-
-    // 我的线索客户-放弃
-    async giveUpLeads(data, options) {
-        return this.post('/gxh-leads/v1/Visit/GiveUpLeads', data, options)
-    }
-
-    //我的线索客户-删除
-    async deleteLeads(data, options) {
-        return this.post('/gxh-leads/v1/Visit/DeleteLeads', data, options)
-    }
-
-    // 我的学员-查看报告
-    async reportList(data, options) {
-        return this.post('/gxh-leads/v1/Visit/ReportList', data, options)
     }
 }
