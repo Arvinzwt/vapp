@@ -438,7 +438,7 @@ export default {
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = [{}];
+                this.tableData = list;
             }).catch(err => {
             })
         },
