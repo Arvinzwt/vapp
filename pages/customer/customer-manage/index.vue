@@ -261,7 +261,12 @@ export default {
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = list;
+                this.tableData = list.map(item => {
+                    return {
+                        ...item,
+                         tagList: item.tags?item.tags.split(','):[]
+                    }
+                });
                 return total
             }).catch(err => {
             })

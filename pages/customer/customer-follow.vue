@@ -226,7 +226,7 @@
             <el-tab-pane label="跟进记录">
                 <div class="details-timeline">
                     <!--跟进记录列表-->
-                    <div class="details-timeline_item" v-for="item in followRecord.list" :key="item.id">
+                    <div class="details-timeline_item" v-for="(item,index) in followRecord.list" :key="index+'a'">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">跟进记录 {{ item.datetime }}</div>
                             <div class="details-timeline_user text-ellipsis">操作人：{{ item.gw }}</div>
@@ -258,7 +258,7 @@
             <el-tab-pane label="负责人变更记录">
                 <div class="details-timeline">
                     <!--负责人变更列表-->
-                    <div class="details-timeline_item" v-for="item in chargeRecord.list" :key="item.id">
+                    <div class="details-timeline_item" v-for="(item,index) in chargeRecord.list" :key="index+'b'">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">{{ item.begin_time }}</div>
                             <div class="details-timeline_user2 text-ellipsis"> CC负责人变更：{{ item.onwerremark }}</div>
@@ -280,7 +280,7 @@
             <el-tab-pane label="报告中心">
                 <div class="details-timeline">
                     <!--报告中心列表-->
-                    <div class="details-timeline_item" v-for="item in reportCenter.list" :key="item.id">
+                    <div class="details-timeline_item" v-for="(item,index) in reportCenter.list" :key="index+'c'">
                         <div class="details-timeline_title text-color-main">
                             <div class="details-timeline_date text-ellipsis">上传时间{{ item.createTime }}</div>
                             <div class="details-timeline_date text-ellipsis">上传人：{{ item.createBy }}</div>
@@ -290,7 +290,7 @@
                                 <div class="details-timeline_remark">
                                     <span v-if="item.type==1">【 CC未签约分析报告 】：</span>
                                     <span v-if="item.type==2">【 入学测试 】：</span>
-                                    <el-link v-for="(list,ind) in item.fileList" :key="list" type="primary"
+                                    <el-link v-for="(list,ind) in item.fileList" :key="ind+'e'" type="primary"
                                              @click="onFilePreview(list)">报告{{ ind + 1 }}
                                     </el-link>
                                 </div>

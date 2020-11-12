@@ -43,7 +43,7 @@
                 <!--姓名，手机号-->
                 <el-col :span="6">
                     <el-form-item label="姓名、手机号">
-                        <el-input  v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
+                        <el-input v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -431,8 +431,12 @@ export default {
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = list;
-                this.$emit('update', total)
+                this.tableData = list.map(item => {
+                    return {
+                        ...item,
+                        tagList: item.tags?item.tags.split(','):[]
+                    }
+                });
             }).catch(err => {
             })
         },

@@ -477,10 +477,9 @@ export default {
                 this.tableData = list.map(item => {
                     return {
                         ...item,
-                        tagList: item.tags.split(',')
+                        tagList: item.tags ? item.tags.split(',') : []
                     }
                 });
-                console.log(this.tableData,111)
             }).catch(err => {
             })
         },

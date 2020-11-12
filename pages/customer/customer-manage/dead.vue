@@ -431,8 +431,12 @@ export default {
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = list;
-                this.$emit('update', total)
+                this.tableData = list.map(item => {
+                    return {
+                        ...item,
+                        tagList: item.tags?item.tags.split(','):[]
+                    }
+                });
             }).catch(err => {
             })
         },
