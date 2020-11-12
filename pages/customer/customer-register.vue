@@ -118,9 +118,9 @@
                             <el-select v-model="paramMap.smallclassname" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in smallclassList"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        :key="item.classid"
+                                        :label="item.classname"
+                                        :value="item.classid">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -169,8 +169,8 @@
         </div>
         <!--提交按钮-->
         <div class="jr-page-footer text-right">
-            <el-button size="mini" @click="submitCustomer" type="primary">提交</el-button>
             <el-button size="mini" @click="resetCustomer" type="">重置</el-button>
+            <el-button size="mini" @click="submitCustomer" type="primary">提交</el-button>
         </div>
 
         <!--查看图片弹窗-->
@@ -205,7 +205,7 @@ export default {
                 // "creator": "",//登记人姓名
                 // "diffor": "",//审核人用户名
                 "remark": "",
-                "sex": 0,//性别，1-男，0-女
+                "sex": '',//性别，1-男，0-女
                 "contact": "",//联系人姓名
                 // "ifdiff": false,//是否审核（默认0,1已审核）
                 "smallclassname": "",//来源渠道小类
@@ -227,7 +227,7 @@ export default {
     },
     async mounted() {
         let usr = await this.$store.dispatch('user');
-        this.smallclassList = await this.$api.common.smallclass({deptids: usr.deptid}) || [];
+        this.smallclassList = await this.$api.common.smallclass({}) || [];
     },
     computed: {
         dic() {
