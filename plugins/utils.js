@@ -113,6 +113,43 @@ export default ({store, $axios, app}, inject) => {
         },
 
         /**
+         *@desc 更新菜单数据
+         */
+        async updateMenuNum() {
+            return app.$api.common.getremindcount().then(res => {
+                res.forEach(item => {
+                    switch (item.key) {
+                        case "newleads":
+                            store.commit('setMenuNum', {
+                                name: "customer-customer-call",
+                                num: item.count
+                            })
+                            break;
+                        case "callcenterleads":
+                            store.commit('setMenuNum', {
+                                name: "customer-customer-call",
+                                num: item.count
+                            })
+                            break;
+                        case "todayleads":
+                            store.commit('setMenuNum', {
+                                name: "customer-today-clue",
+                                num: item.count
+                            })
+                            break;
+                        case "appointleads":
+                            store.commit('setMenuNum', {
+                                name: "customer-today-reserve",
+                                num: item.count
+                            })
+                            break;
+                    }
+                })
+                return res;
+            });
+        },
+
+        /**
          *@desc 时间区间选择器的快捷筛选
          */
         pickerOptions: {

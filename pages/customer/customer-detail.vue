@@ -20,8 +20,6 @@
                         <el-form-item label="手机">
                             <span v-if="showPhone" class="mr-2">{{ paramMap.phone }}</span>
                             <span v-else class="mr-2">{{ $utils.desensitizationPhone(paramMap.phone) }}</span>
-                            <span @click="callCustomer"
-                                  class="mr-2 el-icon-phone-outline text-color-brand cursor-pointer"></span>
                             <span @click="showPhone=!showPhone"
                                   class="el-icon-view text-color-brand cursor-pointer"></span>
                         </el-form-item>
@@ -340,7 +338,10 @@ export default {
          *@desc 呼叫用户
          */
         callCustomer(obj) {
-            this.$api.customer.callCustomer().then(res => {
+            this.$api.customer.callCustomer({
+                "studentId": this.paramMap.leadsid,
+                "listenphone": this.paramMap.phone
+            }).then(res => {
                 this.$message.success('呼叫用户')
             })
         },

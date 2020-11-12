@@ -101,4 +101,9 @@ export default class Common extends Request {
     async getCityStreetData(data, options) {
         return this.post('/gxh-leads/v1/Base/GetCityStreetData', data, options)
     }
+
+    // 获取提醒数据
+    async getremindcount(data, options) {
+        return this.post('/gxh-leads/v1/Leads/getremindcount', data, options)
+    }
 }

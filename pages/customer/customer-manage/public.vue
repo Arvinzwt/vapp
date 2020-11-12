@@ -500,11 +500,14 @@ export default {
          *@desc 呼叫用户
          */
         callCustomer(obj) {
-            this.$api.customer.callCustomer().then(res => {
+            this.$api.customer.callCustomer({
+                "studentId": obj.leadsid,
+                "listenphone": obj.phone
+            }).then(res => {
                 this.$message.success('呼叫用户')
                 this.$router.push({
                     path: '/customer/customer-follow',
-                    query: {id: obj.leadsid}
+                    query: {id: obj.leadsid,callId:res.id}
                 })
             })
         },

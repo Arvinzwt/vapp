@@ -124,10 +124,7 @@
                     <el-table-column fixed width="95px" label="姓名" prop="studentName"/>
                     <el-table-column fixed width="105px" label="手机号" prop="tel">
                         <template slot-scope="scope">
-                            <el-link type="primary" @click="callCustomer(scope.row)">
-                                <span class="">{{ $utils.desensitizationPhone(scope.row.tel) }}</span>
-                                <span class="el-icon-phone-outline"></span>
-                            </el-link>
+                            <span class="">{{ $utils.desensitizationPhone(scope.row.tel) }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="年级" prop="grade" :sortable="false"/>

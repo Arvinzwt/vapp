@@ -24,6 +24,7 @@ export default {
     },
     async beforeMount() {
         await this.$store.dispatch('dic');//填充字典
+        await this.$utils.updateMenuNum();//填充菜单数据
     },
     components: {
         AsideTemplate,
