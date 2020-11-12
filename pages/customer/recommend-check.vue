@@ -55,7 +55,7 @@
                             <el-option
                                     v-for="item in dic.grades"
                                     :key="item.dicCode"
-                                    :label="item.name"
+                                    :label="item.dicValue"
                                     :value="item.dicCode">
                             </el-option>
                         </el-select>
@@ -161,9 +161,9 @@
                             <el-select v-model="dialog.form.grade" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.grades"
-                                        :key="item.value"
-                                        :label="item.name"
-                                        :value="item.value">
+                                        :key="item.dicCode"
+                                        :label="item.dicValue"
+                                        :value="item.dicCode">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -546,11 +546,16 @@ export default {
          *@desc 上传-上传前验证
          */
         onBeforeFile(file) {
-            if (!file.type.includes('image')) {
-                this.$message.error('只能上传图片!');
+            if (file.size / 1024 > 5) {
+                this.$message.error('每张最大5M!');
                 return false;
             } else {
-                return true;
+                if (!file.type.includes('image')) {
+                    this.$message.error('只能上传图片!');
+                    return false;
+                } else {
+                    return true;
+                }
             }
         },
 

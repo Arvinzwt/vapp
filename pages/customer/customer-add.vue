@@ -62,7 +62,7 @@
                                 <el-option
                                         v-for="item in dic.grades"
                                         :key="item.dicCode"
-                                        :label="item.name"
+                                        :label="item.dicValue"
                                         :value="item.dicCode">
                                 </el-option>
                             </el-select>

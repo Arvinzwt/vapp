@@ -4,6 +4,7 @@
         <!--提示语-->
         <div class="jr-page-header">
             <el-alert
+                    class="mt-2 mb-2"
                     title="注意：本系统用户在本系统中登记上传的信息须来源正规合法，用户个人须对在本系统登记上传的信息负责，因用户上传信息违反法律法规或侵犯第三人的合法权益的，全部法律责任和赔偿责任均应由用户自行承担，与本系统所有者无关。"
                     type="warning"
                     show-icon>
@@ -19,7 +20,7 @@
                     <!--学生姓名-->
                     <el-col :span="6">
                         <el-form-item label="学生姓名">
-                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.truename" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--性别-->
@@ -43,7 +44,7 @@
                                 <el-option
                                         v-for="item in dic.grades"
                                         :key="item.dicCode"
-                                        :label="item.name"
+                                        :label="item.dicValue"
                                         :value="item.dicCode">
                                 </el-option>
                             </el-select>
@@ -53,7 +54,7 @@
                     <el-col :span="6">
                         <el-form-item label="推荐给校区">
                             <el-cascader
-                                    v-model="paramMap.deptId"
+                                    v-model="paramMap.deptid"
                                     :options="dic.hrcodedepts"
                                     :props="$utils.leaningCenterProps"
                                     :show-all-levels="false"
@@ -68,13 +69,13 @@
                     <!--就读学校-->
                     <el-col :span="6">
                         <el-form-item label="就读学校">
-                            <el-input  v-model="paramMap.value4" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.school" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--线索来源-->
                     <el-col :span="6">
                         <el-form-item label="线索来源">
-                            <el-select v-model="paramMap.last_trace_status" placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.intype" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.sourceClues1"
                                         :key="item.value"
@@ -87,13 +88,13 @@
                     <!--手机号-->
                     <el-col :span="6">
                         <el-form-item label="手机号">
-                            <el-input  v-model="paramMap.phone" placeholder="请输入内容" clearable/>
+                            <el-input :maxlength="11" v-model="paramMap.tel" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--教育顾问-->
                     <el-col :span="6">
-                        <el-form-item label="联系人身份" prop="sales">
-                            <el-select v-model="paramMap.sales" placeholder="请选择" clearable>
+                        <el-form-item label="联系人身份" prop="relation">
+                            <el-select v-model="paramMap.relation" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.sales"
                                         :key="item.id"
@@ -108,13 +109,13 @@
                     <!--联系人姓名-->
                     <el-col :span="6">
                         <el-form-item label="联系人姓名">
-                            <el-input  v-model="paramMap.name" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.contact" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--推荐类型-->
                     <el-col :span="6">
                         <el-form-item label="推荐类型">
-                            <el-select v-model="paramMap.str" placeholder="请选择" clearable>
+                            <el-select v-model="paramMap.smallclassname" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.sourceClues1"
                                         :key="item.value"
@@ -127,23 +128,22 @@
                     <!--学员编号-->
                     <el-col :span="6">
                         <el-form-item label="学员编号">
-                            <el-input  v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.tjstudent" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <!--推荐码-->
                     <el-col :span="6">
                         <el-form-item label="推荐码">
-                            <el-input  v-model="paramMap.str" placeholder="请输入内容" clearable/>
+                            <el-input v-model="paramMap.tjcode" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-form-item label="备注">
                     <el-input
                             type="textarea"
-
                             :rows="2"
                             placeholder="请输入内容"
-                            v-model="paramMap.str" clearable>
+                            v-model="paramMap.remark" clearable>
                     </el-input>
                 </el-form-item>
                 <el-form-item label="图片证明">
@@ -153,8 +153,8 @@
                             :multiple="true"
                             list-type="picture-card"
                             :show-file-list="true"
-                            :auto-upload="false"
-                            :file-list="paramMap.arr"
+                            :auto-upload="true"
+
                             :limit="3"
                             :on-preview="onFilePreview"
                             :on-remove="onFileRemove"
@@ -169,61 +169,62 @@
         </div>
         <!--提交按钮-->
         <div class="jr-page-footer text-right">
-            <el-button size="mini" type="primary">提交</el-button>
-            <el-button size="mini" type="">重置</el-button>
+            <el-button size="mini" @click="submitCustomer" type="primary">提交</el-button>
+            <el-button size="mini" @click="resetCustomer" type="">重置</el-button>
         </div>
-        <!--弹窗-->
-        <el-dialog :visible.sync="dialog.show" :close-on-click-modal="false" :append-to-body="true"
-                   :title="dialog.name" custom-class="jr-dialog" width="500px">
-            <!--弹窗内容-->
-            <div class="dialog-body">
-                <img :src="dialog.img" alt="" class="w-100">
-            </div>
-            <!--弹窗尾部-->
-            <div slot="footer" class="dialog-footer">
-                <el-button size="mini" @click="dialog.show=false" type="primary">确 定</el-button>
-            </div>
-        </el-dialog>
+
+        <!--查看图片弹窗-->
+        <preview-picture-template ref="previewPictureRef"/>
     </el-main>
 </template>
 
 <script>
 import PaginationTemplate from "@/components/customer/Pagination";
 import SelectedRoleTemplate from "@/components/customer/SelectedRole";
+import PreviewPictureTemplate from "@/components/customer/PreviewPicture";
 
 export default {
     components: {
         PaginationTemplate,
         SelectedRoleTemplate,
+        PreviewPictureTemplate,
     },
     data() {
         return {
             // 筛选参数信息
             paramMap: {
-                name:''
-            },
-
-            // 列表数据
-            tableData: [
-                {name: '英语', phone: '123123123'}
-            ],
-
-            // 分页参数
-            pagesInfo: {
-                pageIndex: 1,
-                pageSize: 20,
-                count: 0,//总条数
-            },
-
-            dialog: {
-                show: false,
-                img: '',
-                name:'',
+                // "id": 0,//主键ID
+                "tel": "",//学员电话号码
+                "grade": "",//年级
+                // "adminid": 0,//登记人ID
+                "school": "",//就读学校
+                // "studentnumber": "",//进入leads表反写回来的学生编号
+                "deptid": 0,//校区ID
+                // "createdate": 0,//创建时间的时间戳
+                // "diffdate": 0,//审核时间
+                // "creator": "",//登记人姓名
+                // "diffor": "",//审核人用户名
+                "remark": "",
+                "sex": 0,//性别，1-男，0-女
+                "contact": "",//联系人姓名
+                // "ifdiff": false,//是否审核（默认0,1已审核）
+                "smallclassname": "",//来源渠道小类
+                "tjstudent": "",//推荐学员编号（用于计算该学员推荐）
+                // "saleid": 0,//教育顾问ID
+                "intype": "",//线索来源
+                // "tjstudentguid": "",//推荐学员GUID
+                // "ifok": 0,//是否审核通过(1通过2驳回) 认定是否推荐有效
+                // "whyreject": "",//驳回原因
+                "relation": "",//联系人身份
+                "truename": "",//学员姓名
+                "tjcode": "",//推荐码
+                "imgUrl": "",//图片relativename用【;】拼接
+                "images": [],//
             },
         }
     },
     mounted() {
-        this.refreshPage();
+
     },
     computed: {
         dic() {
@@ -232,34 +233,20 @@ export default {
     },
     methods: {
         /**
-         *@desc 刷新页面
+         *@desc 上传-上传前验证
          */
-        refreshPage() {
-            console.log(this.paramMap, this.pagesInfo, 'paramMap')
-        },
-
-        /**
-         *@desc 分页触发时
-         */
-        onPagesChange() {
-            this.refreshPage();
-        },
-
-        /**
-         *@desc 提交筛选时
-         */
-        submitSearch() {
-            this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.refreshPage();
-        },
-
-        /**
-         *@desc 重置筛选时
-         */
-        resetSearch() {
-            this.pagesInfo.pageIndex = 1;//重置分页数据
-            this.$utils.resetJson(this.paramMap, ['show', 'role']);//重置筛选数据
-            this.refreshPage();
+        onBeforeFile(file) {
+            if (file.size / 1024 / 1024 > 5) {
+                this.$message.error('每张最大5M!');
+                return false;
+            } else {
+                if (!file.type.includes('image')) {
+                    this.$message.error('只能上传图片!');
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         },
 
         /**
@@ -273,53 +260,124 @@ export default {
          *@desc 上传-上传函数
          */
         onFileUpload(fileObj) {
-            let paramMap = this.paramMap;
-            let linkage = this.$refs.linkage;
-            let formData = new FormData();
-
-            formData.append('leads_file', fileObj.file);
-            formData.append('org_code', linkage.org_code);
-            formData.append('school_code', linkage.school_code);
-            formData.append('charge_person', paramMap.charge_person.value);
-
-            this.$post('leads-api/v2/leads/importleadsinfo', formData, {isAllParams: true}).then(res => {
-                this.refreshPage().then(() => {
-                    this.$message.success(res.data.msg);
-                });
-            })
+            this.paramMap.images.push(fileObj.file);
         },
 
         /**
-         *@desc 上传-上传前验证
-         */
-        onBeforeFile(file) {
-            if (!file.name.includes('xls')) {
-                this.$message.error('只能上传excel!');
-                return false;
-            } else {
-                this.paramMap.list = [];//清空上传列表，每次只上传最近上传的
-                return true;
-            }
-        },
-
-        /**
-         *@desc 上传-点击上传文件
+         *@desc 上传-预览
          */
         onFilePreview(file) {
-            this.dialog.img = file.url;
-            this.dialog.name = file.name;
-            this.dialog.show = true;
+            this.$refs['previewPictureRef'].open({
+                name: file.name,
+                url: file.url
+            });
         },
 
         /**
          *@desc 上传-移除上传文件
          */
         onFileRemove(file, fileList) {
-            console.log('文件列表移除文件时的钩子\t')
+            this.paramMap.images = fileList;
         },
+
+        /**
+         *@desc 重置
+         */
+        resetCustomer() {
+            this.$utils.resetJson(this.paramMap);//重置筛选数据
+        },
+
+        /**
+         *@desc 提交
+         */
+        submitCustomer() {
+            let paramMap = this.paramMap;
+            if (!paramMap.truename) {
+                this.$message.error('请输入学生姓名')
+                return false;
+            }
+            if (!paramMap.deptid) {
+                this.$message.error('请选择推荐校区')
+                return false;
+            }
+            if (!/^1\d{10}$/.test(paramMap.tel)) {
+                this.$message.error('请输入正确的手机号')
+                return false
+            }
+            if (!paramMap.relation) {
+                this.$message.error('请选择联系人身份')
+                return false;
+            }
+            if (!paramMap.contact) {
+                this.$message.error('请输入联系人姓名')
+                return false;
+            }
+            if (!paramMap.smallclassname) {
+                this.$message.error('请选择推荐人类型')
+                return false;
+            }
+            if (paramMap.images.length === 0) {
+                this.$message.error('请选择证明图片')
+                return false;
+            }
+
+
+            let imgTarget = [];
+            paramMap.images.forEach(file => {
+                let reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    imgTarget.push({
+                        filename: file.name,
+                        fileContent: reader.result,
+                    })
+                })
+                reader.readAsDataURL(file);
+            })
+
+
+            setTimeout(async () => {
+                let fileList = await this.$api.common.uploadfile(imgTarget) || [];
+
+                this.$api.customer.reccustomer({
+                    // "id": 0,//主键ID
+                    "tel": paramMap.tel,//学员电话号码
+                    "grade": paramMap.grade,//年级
+                    // "adminid": 0,//登记人ID
+                    "school": paramMap.school,//就读学校
+                    // "studentnumber": "",//进入leads表反写回来的学生编号
+                    "deptid": this.$utils.underscore.last(paramMap.deptid) || '',//校区ID
+                    // "createdate": 0,//创建时间的时间戳
+                    // "diffdate": 0,//审核时间
+                    // "creator": "",//登记人姓名
+                    // "diffor": "",//审核人用户名
+                    "remark": paramMap.remark,
+                    "sex": paramMap.sex,//性别，1-男，0-女
+                    "contact": paramMap.contact,//联系人姓名
+                    // "ifdiff": false,//是否审核（默认0,1已审核）
+                    "smallclassname": paramMap.smallclassname,//来源渠道小类
+                    "tjstudent": paramMap.tjstudent,//推荐学员编号（用于计算该学员推荐）
+                    // "saleid": 0,//教育顾问ID
+                    "intype": paramMap.intype,//线索来源
+                    // "tjstudentguid": "",//推荐学员GUID
+                    // "ifok": 0,//是否审核通过(1通过2驳回) 认定是否推荐有效
+                    // "whyreject": "",//驳回原因
+                    "relation": paramMap.relation,//联系人身份
+                    "truename": paramMap.truename,//学员姓名
+                    "tjcode": paramMap.tjcode,//推荐码
+                    "imgUrl": (fileList.map(item => {
+                        item.relativeFileName
+                    })).join(','),//图片relativename用【;】拼接
+                    "images": fileList.map(item => {
+                        return item.fileContent
+                    })
+                }).then(res => {
+                    this.resetCustomer();
+                    this.$message.success('登记成功')
+                })
+            }, 300)
+        },
+
     }
-
-
 }
 </script>
 
