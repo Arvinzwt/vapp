@@ -96,10 +96,10 @@
                         <el-form-item label="联系人身份" prop="relation">
                             <el-select v-model="paramMap.relation" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in dic.sales"
-                                        :key="item.id"
+                                        v-for="item in dic.contactIdentity"
+                                        :key="item.value"
                                         :label="item.name"
-                                        :value="item.id">
+                                        :value="item.value">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -117,7 +117,7 @@
                         <el-form-item label="推荐类型">
                             <el-select v-model="paramMap.smallclassname" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in dic.sourceClues1"
+                                        v-for="item in smallclassList"
                                         :key="item.value"
                                         :label="item.label"
                                         :value="item.value">
@@ -221,15 +221,18 @@ export default {
                 "imgUrl": "",//图片relativename用【;】拼接
                 "images": [],//
             },
+
+            smallclassList: [],
         }
     },
-    mounted() {
-
+    async mounted() {
+        let usr = await this.$store.dispatch('user');
+        this.smallclassList = await this.$api.common.smallclass({deptids: usr.deptid}) || [];
     },
     computed: {
         dic() {
             return this.$store.state.dic;
-        }
+        },
     },
     methods: {
         /**
