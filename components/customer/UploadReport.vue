@@ -223,7 +223,7 @@ export default {
                             "studentid": this.dialog.form.leadsid,
                             "type": this.dialog.form.type,
                             "filepath": (fileList.map(item => {
-                                return item.fileContent
+                                return item.relativeFileName
                             })).join(';'),
                         }).then(res => {
                             this.$emit('submit', this.dialog.form)

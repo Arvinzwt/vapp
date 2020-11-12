@@ -534,7 +534,6 @@ export default {
          *@desc 上传报告-提交弹窗
          */
         submitUploadReport(param) {
-            console.log(param,11)
             this.$message.success('上传成功');
             this.refreshPage();
         },

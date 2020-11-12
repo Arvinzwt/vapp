@@ -355,6 +355,8 @@ export default {
                 tags: null,
 
                 tagData: [],
+
+                area: [],
             },
 
             //添加根基记录
@@ -488,7 +490,22 @@ export default {
          *@desc 提交基础信息修改
          */
         submitBasicMsg() {
-            console.log(this.paramMap)
+            let paramMap = this.paramMap;
+            this.$api.customer.updateleads({
+                "leadsid": paramMap.leadsid,
+                "sex": paramMap.sex,
+                "address": paramMap.address,
+                "grade": paramMap.grade,
+                "subjects": paramMap.subjects,
+                "streetid": paramMap.area ? paramMap.area[2] : 0,
+                "areacityid": paramMap.area ? paramMap.area[1] : 0,
+                "phone1": paramMap.phone1,
+                "phone2": paramMap.phone2,
+                "school": paramMap.school,
+            }).then(res => {
+                this.$message.success('成功')
+                this.refreshPage();
+            })
         },
 
         /**

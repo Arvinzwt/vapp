@@ -64,6 +64,11 @@ export default class Customer extends Request {
         return this.post('/gxh-leads/v1/Leads/addleads', data, options)
     }
 
+    // leads更新
+    async updateleads(data, options) {
+        return this.post('/gxh-leads/v1/Leads/updateleads', data, options)
+    }
+
     // leads呼叫中心查询
     async search(data, options) {
         return this.post('/gxh-leads/v1/LeadsCallCenter/search', data, options)
