@@ -56,7 +56,7 @@
                     <!--姓名，手机号-->
                     <el-col :span="6">
                         <el-form-item label="姓名、手机号">
-                            <el-input  v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
+                            <el-input v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -335,7 +335,13 @@ export default {
         }
     },
     mounted() {
-        this.refreshPage();
+        this.refreshPage().then(total => {
+            this.confirmedNum = total;
+            this.$store.commit('setMenuNum', {
+                name: this.$route.name,
+                num: total
+            })
+        });
     },
     methods: {
         /**
@@ -385,9 +391,7 @@ export default {
                 })
                 this.tableData = list;
 
-                if (paramMap.tab === '0') {//如果是待确认数据刷新，更新总数
-                    this.confirmedNum = total;
-                }
+                return total;
             }).catch(err => {
             })
         },

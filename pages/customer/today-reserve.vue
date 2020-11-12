@@ -335,7 +335,13 @@ export default {
         }
     },
     mounted() {
-        this.refreshPage();
+        this.refreshPage().then(total=>{
+            this.confirmedNum = total;
+            this.$store.commit('setMenuNum', {
+                name: this.$route.name,
+                num: total
+            })
+        })
     },
     methods: {
         /**
@@ -385,9 +391,7 @@ export default {
                 })
                 this.tableData = list;
 
-                if (paramMap.tab === '0') {//如果是待确认数据刷新，更新总数
-                    this.confirmedNum = total;
-                }
+                return total
             }).catch(err => {
             })
         },
