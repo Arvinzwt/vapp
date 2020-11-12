@@ -497,7 +497,8 @@ export default {
                     showImageList: imgUrl.map((item, index) => {
                         return {
                             name: item,
-                            url: images[index]
+                            url: images[index],
+                            relativeFileName: item,
                         }
                     }),
                 }
@@ -604,6 +605,7 @@ export default {
             let form = this.dialog.form;
             if (this.dialog.type === 1) {//1修改
                 this.$refs['ruleForm'].validate((valid) => {
+                    console.log(form.showImageList,1111)
                     if (valid) {//如果验证通过
                         this.$api.customer.reccustomer({
                             ...form,
