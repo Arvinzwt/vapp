@@ -113,6 +113,14 @@
                         </el-form-item>
                     </el-col>
                 </el-row>
+                <el-row :gutter="15">
+                    <!--负责人-->
+                    <el-col :span="6">
+                        <el-form-item label="负责人">
+                            <selected-role-template v-model="paramMap.owner"></selected-role-template>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-form-item label="备注" prop="remark">
                     <el-input
                             type="textarea"
@@ -124,7 +132,7 @@
         </div>
         <div class="jr-page-footer text-right">
             <el-button size="mini" type="" @click="cancelCustomer">取消</el-button>
-            <el-button size="mini" type="" @click="resetCustomer">重置</el-button>
+            <!--<el-button size="mini" type="" @click="resetCustomer">重置</el-button>-->
             <el-button size="mini" type="primary" @click="submitCustomer">确定</el-button>
         </div>
     </el-main>
@@ -160,6 +168,7 @@ export default {
                 smallChannelId: '',//渠道小类
                 remark: "",//备注
                 city: [],
+                owner:0,//负责人
             },
 
             // 筛选参数规则
@@ -225,7 +234,6 @@ export default {
                 return false
             }
             this.$api.customer.addleads({
-                "leadsid": "",
                 "name": paramMap.name,
                 "phone": paramMap.phone,
                 "grade": paramMap.grade,
@@ -236,12 +244,14 @@ export default {
                 "address": paramMap.address,
                 "sex": paramMap.sex,
                 "school": paramMap.schoool,
-                "owner": paramMap.phone,
+                "owner": paramMap.owner,
                 "remark": paramMap.remark,
-                "deptid": paramMap.deptId,
-                "studentguid": "",
-                // city: [],
+                "deptid": this.$utils.underscore.last(paramMap.deptId) || '',
+                // "studentguid": "",
+                "street": paramMap.city ? paramMap.city[2] : 0,
+                "areacity": paramMap.city ? paramMap.city[1] : 0,
             }).then(res => {
+                this.resetCustomer();
                 this.$message.success('新增成功')
             }).catch(err => {
             });

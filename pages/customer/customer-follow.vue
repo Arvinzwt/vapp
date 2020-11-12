@@ -476,7 +476,7 @@ export default {
          */
         submitSelectedTag() {
             this.$api.customer.updateleadstags({
-                tagid: this.paramMap.tagData,
+                tagids: this.paramMap.tagData,
                 leadsid: this.paramMap.leadsid,
             }).then(res => {
                 this.$message.success('添加成功')

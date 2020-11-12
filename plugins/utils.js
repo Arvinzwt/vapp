@@ -51,12 +51,12 @@ export default ({store, $axios, app}, inject) => {
             switch (type) {
                 case 0:
                     if (underscore.isArray(date)) {
-                        target = date[type] ? moment(date[type]).unix().valueOf() : 0;
+                        target = date[type] ? moment(date[type]).valueOf() : 0;
                     }
                     break;
                 case 1:
                     if (underscore.isArray(date)) {
-                        target = date[type] ? moment(date[type]).unix().valueOf() : 0;
+                        target = date[type] ? moment(date[type]).valueOf() : 0;
                     }
                     break;
                 case 2:
