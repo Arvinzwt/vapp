@@ -411,6 +411,7 @@ export default {
     },
     async mounted() {
         this.paramMap.leadsid = this.$route.query.id;
+        this.callId = this.$route.query.callId;
         this.refreshPage()
     },
     methods: {

@@ -264,7 +264,7 @@ export default {
                 this.tableData = list.map(item => {
                     return {
                         ...item,
-                         tagList: item.tags?item.tags.split(','):[]
+                        tagList: item.tags ? item.tags.split(',') : []
                     }
                 });
                 return total
@@ -337,14 +337,19 @@ export default {
          *@desc 呼叫用户
          */
         callCustomer(obj) {
-            this.$api.customer.callCustomer().then(res => {
-                this.$message.success('呼叫用户')
+            this.$api.customer.callCustomer({
+                "studentId": obj.leadsid,
+                "listenphone": obj.phone
+            }).then(res => {
                 this.$router.push({
                     path: '/customer/customer-follow',
                     query: {
                         id: obj.leadsid,
+                        callId: res.id,
                     }
                 })
+            }).catch(err => {
+
             })
         },
 
