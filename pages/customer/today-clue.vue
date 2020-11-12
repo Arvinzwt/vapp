@@ -226,7 +226,15 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="意向度" prop="intension"/>
-                    <el-table-column label="标签" prop="tags"/>
+                    <el-table-column label="标签" prop="tags">
+                        <template slot-scope="scope">
+                            <div class="">
+                                <el-tag v-for="item in scope.row.tagList" class="mr-3" :key="item" type="primary"
+                                        size="mini">{{ item }}
+                                </el-tag>
+                            </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="年级" prop="grade" :sortable="false"/>
                     <el-table-column label="科目" prop="subjects" :sortable="false"/>
                     <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>

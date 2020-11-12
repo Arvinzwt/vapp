@@ -243,14 +243,22 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="意向度" prop="intension"/>
-                <el-table-column label="标签" prop="tags"/>
+                <el-table-column label="标签" prop="tags">
+                    <template slot-scope="scope">
+                        <div class="">
+                            <el-tag v-for="item in scope.row.tagList" class="mr-3" :key="item" type="primary"
+                                    size="mini">{{ item }}
+                            </el-tag>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="年级" prop="grade" :sortable="false"/>
                 <el-table-column label="科目" prop="subjects" :sortable="false"/>
                 <el-table-column min-width="95px" label="最新跟进状态" prop="last_trace_status"/>
                 <el-table-column min-width="95px" label="线索客户状态" prop="leads_status"/>
                 <el-table-column min-width="95px" label="渠道大类" prop="bigclass" :sortable="false"/>
                 <el-table-column min-width="95px" label="渠道小类" prop="smallclass" :sortable="false"/>
-                <el-table-column min-width="95px" label="最近负责人" prop="last_owner	"/>
+                <el-table-column min-width="95px" label="最近负责人" prop="last_owner"/>
                 <el-table-column min-width="135px" label="最近跟进时间" prop="last_trace_time"/>
                 <el-table-column width="220px" label="最近跟进记录" prop="last_trace_record">
                     <template slot-scope="scope">
@@ -466,7 +474,13 @@ export default {
                     pageSize: request.pagesize || 20,
                     count: total || 0,//总条数
                 })
-                this.tableData = list;
+                this.tableData = list.map(item => {
+                    return {
+                        ...item,
+                        tagList: item.tags.split(',')
+                    }
+                });
+                console.log(this.tableData,111)
             }).catch(err => {
             })
         },
