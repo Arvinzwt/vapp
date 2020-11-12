@@ -226,7 +226,6 @@ export default {
         }
     },
     async mounted() {
-        let usr = await this.$store.dispatch('user');
         this.smallclassList = await this.$api.common.smallclass({}) || [];
     },
     computed: {

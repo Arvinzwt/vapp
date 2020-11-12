@@ -227,13 +227,13 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="推荐类型" prop="intype">
-                            <el-select v-model="dialog.form.intype" placeholder="请选择" clearable>
+                        <el-form-item label="推荐类型" prop="smallclassname">
+                            <el-select v-model="dialog.form.smallclassname" placeholder="请选择" clearable>
                                 <el-option
-                                        v-for="item in dic.sourceClues1"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        v-for="item in smallclassList"
+                                        :key="item.classid"
+                                        :label="item.classname"
+                                        :value="item.classid">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -407,9 +407,9 @@ export default {
                     },
                     relation: {required: true, message: '请选择联系人身份', trigger: 'blur'},
                     contact: {required: true, message: '请输入联系人姓名', trigger: 'blur'},
-                    intype: {required: true, message: '请选择推荐类型', trigger: 'blur'},
+                    intype: {required: true, message: '请选择线索来源', trigger: 'blur'},
                     showImageList: {required: true, type: 'array', message: '请选择证明图片', trigger: 'blur'},
-
+                    smallclassname: {required: true, message: '请选择推荐类型', trigger: 'blur'},
                     ifok: {
                         required: true, validator(rule, value, callback) {
                             if (!!value) {
@@ -423,6 +423,8 @@ export default {
                     whyreject: {required: true, message: '请填写驳回理由', trigger: 'blur'},
                 }
             },
+
+            smallclassList:[],
         }
     },
     computed: {
@@ -430,8 +432,9 @@ export default {
             return this.$store.state.dic;
         },
     },
-    mounted() {
+    async mounted() {
         this.refreshPage();
+        this.smallclassList = await this.$api.common.smallclass({}) || [];
     },
     methods: {
         /**
