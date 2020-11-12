@@ -57,11 +57,11 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                   <!-- <el-col :span="6">
-                        <el-form-item label="省市区">
-                            <el-cascader :props="$utils.cityProps" v-model="paramMap.area"></el-cascader>
-                        </el-form-item>
-                    </el-col>-->
+                    <!-- <el-col :span="6">
+                         <el-form-item label="省市区">
+                             <el-cascader :props="$utils.cityProps" v-model="paramMap.area"></el-cascader>
+                         </el-form-item>
+                     </el-col>-->
                     <el-col :span="6">
                         <el-form-item label="详细地址">
                             <el-input v-model="paramMap.address" placeholder="请输入内容" clearable/>
@@ -102,12 +102,12 @@
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="联系电话1">
-                            <el-input v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
+                            <el-input :maxlength="11" v-model="paramMap.phone1" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
                         <el-form-item label="联系电话2">
-                            <el-input v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
+                            <el-input :maxlength="11" v-model="paramMap.phone2" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -533,6 +533,14 @@ export default {
                         "ifvalid": this.followParam.ifvalid,//下次有效 1 有效 2 无效
                     }).then(res => {
                         this.$message.success('成功');
+                        Object.assign(this.followRecord, {
+                            list: [],
+                            pages: {
+                                pageindex: 1,
+                                pagesize: 20
+                            },
+                            total: 0,
+                        })
                         this.refreshPage();
                     })
                 } else {
