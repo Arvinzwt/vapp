@@ -27,7 +27,7 @@ export default {
     },
     methods: {
         open(obj) {
-            this.dialog.name = obj.name;
+            this.dialog.name = obj.name||'';
             this.dialog.src = obj.url;
             this.dialog.show = true;
         }

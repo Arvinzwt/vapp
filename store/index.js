@@ -38,7 +38,7 @@ export const state = () => ({
                     "code": "710",
                     "show": true,
                     "title": "今日新线索",
-                    "num": 6,
+                    "num": 0,
                     "path": "/customer/today-clue",
                     "query": {},
                     "child": [],
@@ -263,7 +263,7 @@ export const state = () => ({
             {"value": "4", "name": "死海",},
         ],
         // 审核状态
-        checkStatus:[
+        checkStatus: [
             {"value": "0", "name": "待审批",},
             {"value": "1", "name": "已审核",},
             {"value": "2", "name": "驳回",},
@@ -295,7 +295,20 @@ export const mutations = {
      */
     dic(state, dic) {
         Object.assign(state.dic, dic);
-    }
+    },
+
+    /**
+     *@desc 设置菜单数量
+     */
+    setMenuNum(state, param) {
+        state.menu.forEach(item => {
+            item.child.forEach(list => {
+                if (list.name === param.name) {
+                    list.num = param.num
+                }
+            })
+        })
+    },
 };
 
 export const actions = {
@@ -374,5 +387,5 @@ export const actions = {
             }
         });
         return target
-    }
+    },
 };

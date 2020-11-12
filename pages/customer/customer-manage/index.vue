@@ -49,9 +49,9 @@
                         <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                             <el-option
                                     v-for="item in dic.subject"
-                                    :key="item.dicCode"
+                                    :key="item.name"
                                     :label="item.name"
-                                    :value="item.dicCode">
+                                    :value="item.name">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -206,7 +206,11 @@ export default {
     },
     mounted() {
         this.refreshPage().then(total => {
-            this.$emit('update', total)
+            this.$emit('update', total);
+            this.$store.commit('setMenuNum', {
+                name: this.$route.name,
+                num: total
+            })
         });
     },
     methods: {
@@ -316,6 +320,10 @@ export default {
                 this.$message.success('分配成功')
                 this.refreshPage().then(total => {
                     this.$emit('update', total)
+                    this.$store.commit('setMenuNum', {
+                        name: this.$route.name,
+                        num: total
+                    })
                 });
             })
         },

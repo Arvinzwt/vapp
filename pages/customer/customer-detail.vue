@@ -183,7 +183,7 @@
                                 <div class="details-timeline_remark">
                                     <span v-if="item.type==1">【 CC未签约分析报告 】：</span>
                                     <span v-if="item.type==2">【 入学测试 】：</span>
-                                    <el-link type="primary" @click="onFilePreview(item)">{{ item.fileUrl }}</el-link>
+                                    <el-link type="primary" @click="onFilePreview(item)">报告</el-link>
                                 </div>
                             </div>
                         </div>
@@ -329,8 +329,8 @@ export default {
          */
         onFilePreview(obj) {
             this.$refs['previewPictureRef'].open({
-                name: obj.name,
-                url: obj.url
+                name: '',
+                url: obj.fileUrl
             });
         },
 

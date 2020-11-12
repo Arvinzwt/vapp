@@ -122,9 +122,9 @@
                                        clearable>
                                 <el-option
                                         v-for="item in dic.subject"
-                                        :key="item.dicCode"
+                                        :key="item.name"
                                         :label="item.name"
-                                        :value="item.dicCode">
+                                        :value="item.name">
                                 </el-option>
                             </el-select>
                         </el-form-item>

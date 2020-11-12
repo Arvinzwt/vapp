@@ -339,6 +339,10 @@ export default {
     async mounted() {
         this.refreshPage().then(total => {
             this.confirmedNum = total;
+            this.$store.commit('setMenuNum', {
+                name: this.$route.name,
+                num: total
+            })
         })
     },
     methods: {
