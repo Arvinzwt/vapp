@@ -122,9 +122,9 @@
             <div class="dialog-body">
                 <el-form class="jr-form" size="mini" :model="dialog.form" label-position="left" :rules="dialog.rules"
                          label-width="90px" ref="ruleForm">
-                    <el-form-item label="到访时间" prop="date">
+                    <el-form-item label="到访时间" prop="realdatetime">
                         <el-date-picker
-                                v-model="dialog.form.date"
+                                v-model="dialog.form.realdatetime"
                                 type="datetime"
                                 placeholder="选择日期时间"
                                 :picker-options="{firstDayOfWeek: 1}">
@@ -180,11 +180,14 @@ export default {
             dialog: {
                 show: false,
                 form: {
-                    id: '',
-                    date: ''
+                    recordid: "",
+                    leadsid:"",
+                    gradename:"",
+
+                    realdatetime: '',
                 },
                 rules: {
-                    date: {required: true, message: '请选择时间', trigger: 'blur'},
+                    realdatetime: {required: true, message: '请选择时间', trigger: 'blur'},
                 }
             },
         }
@@ -315,7 +318,7 @@ export default {
                 //
                 // });
             } else {
-                this.dialog.form.id = obj.recordid;
+                Object.assign(this.dialog.form,obj)
                 this.dialog.show = true;
             }
         },
@@ -333,12 +336,12 @@ export default {
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
+                    let form = this.dialog.form;
                     this.$api.customer.confirm({
-                        "vrid": this.dialog.form.id,//记录id
-                        "leadsid": "",//学生id
-                        "doortype": "",//到访类型
-                        "gradename": "",//年级
-                        "realdatetime": this.$utils.convertTime(this.dialog.form.date)
+                        "vrid":  form.recordid,//记录id
+                        "leadsid": form.leadsid,//学生id
+                        "gradename": form.gradename,//学生id
+                        "realdatetime": this.$utils.convertTime(this.dialog.form.realdatetime)
                     }).then(res=>{
                         this.$message.success('成功');
                         this.refreshPage();
