@@ -43,13 +43,13 @@
                             <div class="jr-disabled-input">{{ paramMap.sex }}</div>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="省市区">
-                            <div class="jr-disabled-input">
-                                {{ paramMap.cityid }}{{ paramMap.areacityid }}{{ paramMap.streetid }}
+                    <!-- <el-col :span="6">
+                         <el-form-item label="省市区">
+                             <div class="jr-disabled-input">
+                                 {{ paramMap.cityid }}{{ paramMap.areacityid }}{{ paramMap.streetid }}
                             </div>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                     <el-col :span="6">
                         <el-form-item label="详细地址">
                             <div class="jr-disabled-input">{{ paramMap.address }}</div>
@@ -60,13 +60,14 @@
                             <div class="jr-disabled-input">{{ paramMap.school }}</div>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row :gutter="15">
+
                     <el-col :span="6">
                         <el-form-item label="年级">
                             <div class="jr-disabled-input">{{ paramMap.grade }}</div>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="科目">
                             <div class="jr-disabled-input">{{ paramMap.subjects }}</div>
@@ -84,7 +85,8 @@
                     </el-col>
                 </el-row>
                 <el-form-item label="备注">
-                    <el-input v-model="paramMap.remark" disabled type="textarea" :row="2" placeholder="请输入内容" clearable/>
+                    <el-input v-model="paramMap.remark" disabled type="textarea" :row="2" placeholder="请输入内容"
+                              clearable/>
                 </el-form-item>
             </el-form>
         </div>
@@ -348,13 +350,14 @@ export default {
 
 <style lang="scss">
 .jr-customer-customer-detail {
-    .bg-wrap{
+    .bg-wrap {
         background-color: #fafafa; //常规
         padding: 5px 20px 0;
         border-radius: 4px;
         margin-bottom: 20px;
         border: 1px solid transparent;
     }
+
     //tabs
     .details-tabs {
         margin-top: 20px;

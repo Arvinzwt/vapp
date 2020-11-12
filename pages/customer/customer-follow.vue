@@ -57,11 +57,11 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                   <!-- <el-col :span="6">
                         <el-form-item label="省市区">
                             <el-cascader :props="$utils.cityProps" v-model="paramMap.area"></el-cascader>
                         </el-form-item>
-                    </el-col>
+                    </el-col>-->
                     <el-col :span="6">
                         <el-form-item label="详细地址">
                             <el-input v-model="paramMap.address" placeholder="请输入内容" clearable/>
@@ -72,8 +72,7 @@
                             <el-input v-model="paramMap.school" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row :gutter="15">
+
                     <el-col :span="6">
                         <el-form-item label="年级">
                             <el-select v-model="paramMap.grade" placeholder="请选择"
@@ -87,14 +86,16 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <el-col :span="6">
                         <el-form-item label="科目">
                             <el-select v-model="paramMap.subjects" placeholder="请选择" clearable>
                                 <el-option
                                         v-for="item in dic.subject"
-                                        :key="item.dicCode"
+                                        :key="item.name"
                                         :label="item.name"
-                                        :value="item.dicCode">
+                                        :value="item.name">
                                 </el-option>
                             </el-select>
                         </el-form-item>

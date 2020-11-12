@@ -92,10 +92,16 @@
                     <!--渠道小类-->
                     <el-col :span="6">
                         <el-form-item label="渠道小类" v-show="paramMap.show">
-                            <el-input v-model="paramMap.smallclassname" placeholder="请输入内容" clearable/>
+                            <el-select v-model="paramMap.smallclassname" filterable placeholder="请选择" clearable>
+                                <el-option
+                                        v-for="item in dic.smallclass"
+                                        :key="item.classid"
+                                        :label="item.classname"
+                                        :value="item.classname">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-
                     <!--确定按钮-->
                     <el-col :span="6">
                         <el-form-item label-width="0" class="text-right">
@@ -470,7 +476,12 @@ export default {
                         "reason": form.invalidType,//原因
                     }).then(res => {
                         this.$message.success('成功');
-                        this.refreshPage();
+                        this.refreshPage().then(total => {
+                            this.$store.commit('setMenuNum', {
+                                name: this.$route.name,
+                                num: total
+                            })
+                        });
                         this.closeDialog();
                     })
                 } else {

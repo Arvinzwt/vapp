@@ -273,7 +273,7 @@ export const state = () => ({
         sales: [],
 
         //渠道小类
-        // smallclass: [],
+        smallclass: [],
         // 教育顾问（根据选择校区）
         // deptsales: [],
     },

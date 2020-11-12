@@ -35,19 +35,19 @@
                         </el-form-item>
                     </el-col>
                     <!--省市区-->
-                    <el-col :span="6">
-                        <el-form-item label="省市区">
-                            <el-cascader :props="$utils.cityProps" v-model="paramMap.city"></el-cascader>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="15">
+                    <!-- <el-col :span="6">
+                         <el-form-item label="省市区">
+                             <el-cascader :props="$utils.cityProps" v-model="paramMap.city"></el-cascader>
+                         </el-form-item>
+                     </el-col>-->
                     <!--详细地址-->
                     <el-col :span="6">
                         <el-form-item label="详细地址" prop="address">
                             <el-input v-model="paramMap.address" placeholder="请输入内容" clearable/>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <!--学校-->
                     <el-col :span="6">
                         <el-form-item label="学校" prop="schoool">
@@ -81,8 +81,6 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row :gutter="15">
                     <!--线索来源-->
                     <el-col :span="6">
                         <el-form-item label="线索来源" prop="inType">
@@ -96,6 +94,8 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
+                </el-row>
+                <el-row :gutter="15">
                     <!--渠道-->
                     <selected-channel-template v-model="paramMap"/>
                     <!--校区-->
@@ -112,8 +112,6 @@
                                     clearable></el-cascader>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row :gutter="15">
                     <!--负责人-->
                     <el-col :span="6">
                         <el-form-item label="负责人">
@@ -131,8 +129,7 @@
             </el-form>
         </div>
         <div class="jr-page-footer text-right">
-            <el-button size="mini" type="" @click="cancelCustomer">取消</el-button>
-            <!--<el-button size="mini" type="" @click="resetCustomer">重置</el-button>-->
+            <el-button size="mini" type="" @click="resetCustomer">重置</el-button>
             <el-button size="mini" type="primary" @click="submitCustomer">确定</el-button>
         </div>
     </el-main>
@@ -168,7 +165,7 @@ export default {
                 smallChannelId: '',//渠道小类
                 remark: "",//备注
                 city: [],
-                owner:0,//负责人
+                owner: 0,//负责人
             },
 
             // 筛选参数规则
@@ -194,12 +191,6 @@ export default {
 
     },
     methods: {
-        /**
-         *@desc 刷新页面
-         */
-        cancelCustomer() {
-        },
-
         /**
          *@desc 重置
          */
