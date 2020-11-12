@@ -121,7 +121,7 @@ export default ({store, $axios, app}, inject) => {
                     switch (item.key) {
                         case "newleads":
                             store.commit('setMenuNum', {
-                                name: "customer-customer-call",
+                                name: "customer-customer-manage",
                                 num: item.count
                             })
                             break;
