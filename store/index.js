@@ -143,16 +143,6 @@ export const state = () => ({
                     "query": {},
                     "child": [],
                 },
-                {
-                    "name": "customer-customer-import",
-                    "code": "710",
-                    "show": false,
-                    "title": "导入",
-                    "num": 0,
-                    "path": "/customer/customer-import",
-                    "query": {},
-                    "child": [],
-                },
             ]
         },
     ],

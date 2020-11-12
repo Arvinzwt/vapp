@@ -198,11 +198,6 @@
                 </el-link>
             </el-form-item>
         </el-form>
-        <!--操作栏-->
-        <div class="action-bar text-right">
-            <el-button @click="addCustomer" type="" size="mini">新增</el-button>
-            <el-button @click="importCustomer" type="" size="mini">导入</el-button>
-        </div>
         <!--列表-有数据-->
         <div v-if="tableData.length>0">
             <!--列表-->
@@ -630,25 +625,6 @@ export default {
                 this.dialog.show = true;
             }
         },
-
-        /**
-         *@desc 新增
-         */
-        addCustomer() {
-            this.$router.push({
-                path: '/customer/customer-add'
-            })
-        },
-
-        /**
-         *@desc 导入
-         */
-        importCustomer() {
-            this.$router.push({
-                path: '/customer/customer-import'
-            })
-        },
-
 
         /**
          *@desc 放弃/删除-关闭弹窗

@@ -44,7 +44,7 @@
                 <!--姓名，手机号-->
                 <el-col :span="6">
                     <el-form-item label="姓名、手机号">
-                        <el-input  v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
+                        <el-input v-model="paramMap.keywords" placeholder="请输入姓名，手机号" clearable/>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -225,10 +225,6 @@
                 <el-button @click="quitCustomer" type="warning" size="mini">放弃</el-button>
                 <el-button @click="deleteCustomer" type="warning" size="mini">删除</el-button>
             </div>
-            <div>
-                <el-button @click="addCustomer" type="" size="mini">新增</el-button>
-                <el-button @click="importCustomer" type="" size="mini">导入</el-button>
-            </div>
         </div>
 
         <!--列表-有数据-->
@@ -355,7 +351,7 @@ export default {
             // 筛选参数信息
             paramMap: {
                 show: false,//是否显示筛选
-                 // order: "",//排序方式
+                // order: "",//排序方式
                 // orderfield: "",//排序字段
 
                 keywords: "",//手机号或姓名
@@ -625,7 +621,7 @@ export default {
         /**
          *@desc 分配-提交
          */
-        submitAssignCustomer() {
+        submitAssignCustomer(obj) {
             let studentids = (this.$refs['filterTable'].selection).map(item => {
                 return item.leadsid
             })
@@ -663,25 +659,6 @@ export default {
         },
 
         /**
-         *@desc 新增
-         */
-        addCustomer() {
-            this.$router.push({
-                path: '/customer/customer-add'
-            })
-        },
-
-        /**
-         *@desc 导入
-         */
-        importCustomer() {
-            this.$router.push({
-                path: '/customer/customer-import'
-            })
-        },
-
-
-        /**
          *@desc 放弃/删除-关闭弹窗
          */
         closeDialog() {
@@ -694,10 +671,28 @@ export default {
         submitDialog() {
             this.$refs['ruleForm'].validate((valid) => {
                 if (valid) {//如果验证通过
+                    let ids = this.$refs['filterTable'].selection;
                     if (this.dialog.type === 1) {
-                        this.$message.success('放弃成功')
+                        this.$api.customer.giveUpLeads({
+                            "studentids": ids.map(item => {
+                                return item.leadsid
+                            }),
+                            "reason": this.dialog.form.reason1
+                        }).then(res => {
+                            this.$message.success('放弃成功')
+                            this.refreshPage();
+                        })
+
                     } else if (this.dialog.type === 2) {
-                        this.$message.success('删除成功')
+                        this.$api.customer.deleteLeads({
+                            "studentids": ids.map(item => {
+                                return item.leadsid
+                            }),
+                            "reason": this.dialog.form.reason2
+                        }).then(res => {
+                            this.$message.success('删除成功')
+                            this.refreshPage();
+                        })
                     }
                     this.refreshPage();
                     this.closeDialog();
